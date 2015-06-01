@@ -1,6 +1,6 @@
 <?php
 /**
- * Menu.php
+ * GenesisPHP - Menu
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *
@@ -42,18 +42,9 @@ class Menu extends \Base\Menu {
      */
     public function alimentar_menu_pruebas() {
         // CONSTRUIR EL MENU DE PRUEBAS QUE ES FIJO
-        $this->agregar_principal('tierra_pruebas_detalles',  'Detalles',               'pruebasdetalles.php',          'preferences-desktop.png');
-        $this->agregar('tierra_pruebas_listados',            'Listados',               'pruebaslistados.php',          'menu-editor.png');
-        $this->agregar('tierra_pruebas_formularios',         'Formularios',            'pruebasformularios.php',       'keyboard.png');
-        $this->agregar('tierra_pruebas_leaflet',             'Leaflet (mapas)',        'pruebasleaflet.php',           'applications-internet.png');
-        $this->agregar('tierra_pruebas_lenguetas',           'Lengüetas',              'pruebaslenguetas.php',         'folder.png');
-        $this->agregar('tierra_pruebas_morris',              'Morris (gráficas)',      'pruebasmorris.php',            'applications-office.png');
-        $this->agregar('tierra_pruebas_lenguetas_morris',    'Lengüetas Morris',       'pruebaslenguetasmorris.php',   'folder.png');
-        $this->agregar('tierra_pruebas_newsticker',          'News ticker (noticias)', 'pruebasnewsticker.php',        'transmission.png');
-        $this->agregar('tierra_pruebas_trenes_con_iconos',   'Trenes con iconos',      'pruebastrenesconiconos.php',   'gnome-iagno.png');
-        $this->agregar('tierra_pruebas_trenes_con_imagenes', 'Trenes con imágenes',    'pruebastrenesconimagenes.php', 'system-users.png');
-        $this->agregar('tierra_pruebas_varias',              'Varias',                 'pruebasvarias.php',            'user-info.png');
-        $this->agregar_principal_derecha('tierra_inicio',    '',                       'index.php',                    'glyphicon glyphicon-off');
+        $this->agregar_principal('tierra_pruebas_detalles', '-Tierra',  'index.php', 'preferences-desktop.png');
+        $this->agregar('tierra_pruebas_listados',           'Detalles', 'index.php', 'menu-editor.png');
+        $this->agregar_principal_derecha('tierra_inicio',   '',         'index.php', 'glyphicon glyphicon-off');
     } // alimentar_menu_pruebas
 
 } // Clase Menu

@@ -1,6 +1,6 @@
 <?php
 /**
- * MensajeHTML.php
+ * GenesisPHP - MensajeHTML
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *

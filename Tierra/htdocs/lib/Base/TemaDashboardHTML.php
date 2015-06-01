@@ -1,6 +1,6 @@
 <?php
 /**
- * TemaDashboardHTML.php
+ * GenesisPHP - TemaDashboardHTML
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *

@@ -1,0 +1,238 @@
+/*
+ * Génesis | Tierra
+ *
+ * Plantilla Dashboard
+ */
+
+/* GLOBALES */
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    padding-top:64px;
+    padding-bottom:40px;
+}
+a       { color:#800; }
+a:hover { color:#F00; }
+
+/* MENU SECUNDARIO  */
+.menu-secundario {
+  display: none;
+}
+@media (min-width: 768px) {
+    .menu-secundario {
+        position:fixed;
+        top:51px;
+        bottom:0;
+        left:0;
+        z-index:1000;
+        display:block;
+        padding:20px;
+        overflow-x:hidden;
+        overflow-y:auto;
+        background-color:#DDD;
+        border-right:2px solid #888;
+        line-height:1.0;
+    }
+}
+.nav-menu-secundario {
+    margin-right:-21px;
+    margin-bottom:20px;
+    margin-left:-20px;
+}
+.nav-menu-secundario > li > a {
+    padding-right:20px;
+    padding-left:20px;
+    color:#444;
+}
+.nav-menu-secundario > li > a:hover,
+.nav-menu-secundario > li > a:active {
+    color:#000;
+}
+.nav-menu-secundario > .active > a ,
+.nav-menu-secundario > .active > a:hover,
+.nav-menu-secundario > .active > a:active {
+    background-color:#BBB;
+}
+
+/* CONTENIDO */
+.contenido {
+    padding-left:20px;
+    padding-right:20px;
+}
+.derecha {
+    text-align:right;
+}
+
+/* TITULO */
+.titulo {
+    margin-top:8px;
+    margin-bottom:8px;
+    padding-top:0;
+    padding-bottom:0;
+    line-height:1.0;
+    border-bottom:none;
+}
+
+/* LENGÜETAS */
+.lenguetas > li > a,
+.lenguetas > li > a:link,
+.lenguetas > li > a:visited {
+    color:#444;
+    background-color:#DDD;
+    border-color:#AAA;
+    border-bottom:none;
+}
+.lenguetas > li > a:hover,
+.lenguetas > li > a:active {
+    color:#000;
+    background-color:#EEE;
+    border-color:#000;
+    border-bottom:none;
+}
+
+/* LENGÜETA ACTIVA */
+.lenguetas > li.active > a,
+.lenguetas > li.active > a:link,
+.lenguetas > li.active > a:visited {
+    background-color:#BBB;
+    border-color:#AAA;
+    border-bottom:none;
+}
+.lenguetas > li.active > a:hover,
+.lenguetas > li.active > a:active {
+    background-color:#BBB;
+    border-color:#000;
+    border-bottom:none;
+}
+
+/* COLLAPSE */
+.panel-default {
+    border-color:#BBB;
+}
+.panel-body {
+    padding:0;
+}
+
+/* PIEZAS DE TIERRA */
+.barra {
+    margin-bottom:8px;
+}
+.barra .navbar-right {
+    margin-right:8px;
+}
+.listado-tabla {
+    margin-bottom:8px;
+}
+.detalle,
+.formulario,
+.listado,
+.tren {
+    margin-top:8px;
+    margin-bottom:8px;
+    padding-top:8px;
+    padding-left:8px;
+    padding-right:8px;
+    border:1px solid #CCC;
+    -webkit-border-radius:4px;
+       -moz-border-radius:4px;
+    border-radius:4px;
+}
+.mensaje {
+    margin-top:8px;
+    margin-bottom:8px;
+    padding:8px;
+    border:1px solid #CCC;
+}
+.mapa {
+    height:500px;
+    margin-top:8px;
+    margin-bottom:8px;
+    border:1px solid #CCC;
+    -webkit-border-radius:4px;
+       -moz-border-radius:4px;
+    border-radius:4px;
+}
+.grafica {
+    height:300px;
+    margin-top:8px;
+    margin-bottom:8px;
+    border:1px solid #CCC;
+    -webkit-border-radius:4px;
+       -moz-border-radius:4px;
+    border-radius:4px;
+}
+
+/* PIEZAS DE TIERRA DENTRO DE COLLAPSE */
+.panel-body .detalle,
+.panel-body .formulario,
+.panel-body .listado,
+.panel-body .mensaje,
+.panel-body .mapa,
+.panel-body .grafica,
+.panel-body .tren {
+    border:none;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+/* FORMULARIOS */
+.form-group { margin-bottom:5px; }
+
+/* TABLAS */
+.table th {
+    background-color:#DDD;
+}
+.cantidad,
+.decimal,
+.dinero,
+.entero,
+.flotante,
+.porcentaje {
+    text-align:right;
+    white-space:nowrap;
+}
+.nd {
+    text-align:center;
+    background-color:#EEE;
+}
+
+/* PIE */
+footer {
+    font-size:12px;
+    padding:4px;
+    background-color:#333;
+    color:#CCC;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:1001;
+}
+footer a {
+    font-weight:bold;
+    color:#FFF;
+}
+footer a:hover,
+footer a:active {
+    color:#FFF;
+}
+
+/* COLORES */
+.blanco      { background-color:white; }
+.gris        { background-color:#E5E5E5; }
+.oscuro      { background-color:#BFBFBF; }
+.rosa        { background-color:#EAD4DF; }
+.rosafuerte  { background-color:#EAA4C7; }
+.rojo        { background-color:#FFD3D3; }
+.naranja     { background-color:#FFDAAE; }
+.amarillo    { background-color:#FFFFCC; }
+.verde       { background-color:#D9FFD9; }
+.verdeoscuro { background-color:#95BC95; }
+.azul        { background-color:#DADAFF; }
+.nivel1      { background-color:#FFFFFF; }
+.nivel2      { background-color:#D1FFFF; }
+.nivel3      { background-color:#D1FFEC; }
+.nivel4      { background-color:#D1FFD1; }
+.nivel5      { background-color:#E8FFD1; }
+.nivel6      { background-color:#FFFFD1; }
+.nivel7      { background-color:#FFE8D1; }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PlantillaHTML.php
+ * GenesisPHP - PlantillaHTML
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *
@@ -27,7 +27,7 @@ namespace Base;
 /**
  * Clase PlantillaHTML
  */
-class PlantillaHTML extends \Configuracion\PlantillaConfig {
+class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
 
     // protected $sistema;
     // protected $titulo;

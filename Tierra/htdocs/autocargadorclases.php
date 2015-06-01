@@ -1,6 +1,6 @@
 <?php
 /**
- * autocargadorclases.php
+ * GenesisPHP - Auto Cargador de Clases
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *

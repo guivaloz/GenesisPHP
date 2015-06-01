@@ -1,6 +1,6 @@
 <?php
 /**
- * index.php
+ * GenesisPHP - Página Inicial
  *
  * Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
  *
@@ -77,31 +77,13 @@ class IndexHTML extends \Base\PlantillaHTML {
         $this->contenido[] = $detalle->html('Prueba secciones y datos');
         unset($detalle);
         //
-        // IMAGEN
-        //
-        $imagen = new \Base\ImagenHTML('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
-        $imagen->configurar_para_detalle();
-        $imagen->cargar(1, 'qwerty', 'middle');
-        $imagen->vincular('big');
-        //
-        // PRUEBA DETALLE CON IMAGEN
-        //
-        $detalle = new \Base\DetalleHTML();
-        $detalle->seccion('Datos generales');
-        $detalle->imagen($imagen);
-        $detalle->dato('Nombre', 'Fulana de Tal');
-        $detalle->dato('Sexo', 'Femenino', 'rosa');
-        $detalle->dato('R.F.C.', 'GOOD751220FFA');
-        $this->contenido[] = $detalle->html('Prueba con foto');
-        unset($detalle);
-        //
         // PRUEBA DETALLE CON BOTONES
         //
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = 'Detalle con botones';
         $barra->icono      = 'folder.png';
-        $barra->boton_modificar('pruebasdetalles.php?accion=modificar', 'Modificar');
-        $barra->boton_eliminar_confirmacion('pruebasdetalles.php?accion=eliminar', '¿Está seguro que quiere eliminar este registro?');
+        $barra->boton_modificar('index.php?accion=modificar', 'Modificar');
+        $barra->boton_eliminar_confirmacion('index.php?accion=eliminar', '¿Está seguro que quiere eliminar este registro?');
         $detalle        = new \Base\DetalleHTML();
         $detalle->barra = $barra;
         $detalle->seccion('Datos generales');
