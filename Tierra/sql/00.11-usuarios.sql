@@ -1,5 +1,5 @@
 --
--- Génesis | Tierra
+-- GenesisPHP
 --
 -- Usuarios
 --
@@ -24,11 +24,8 @@ CREATE TABLE usuarios (
 );
 
 -- Sistema
-INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena, contrasena_expira) VALUES ('sistema', 'Sistema', 'A', 'P9qFniXY3nB1l6t7', '2017-12-31'); -- 1
+INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena, contrasena_expira) VALUES ('sistema', 'Sistema', 'A', 'mdx8XVowFpr9LeGb', '2017-12-31'); -- 1
 
--- ADMINISTRADORES
-INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena) VALUES ('gvaldesl',      'GUILLERMO VALDES', 'A', 'qwerty'); -- 2
-INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena) VALUES ('administrador', 'ADMINISTRADOR',    'A', 'qwerty'); -- 3
-
--- USUARIOS
-INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena) VALUES ('usuario', 'USUARIO', 'A', 'qwerty'); -- 4
+-- Administrador y usuario de prueba
+INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena) VALUES ('administrador', 'Administrador', 'A', 'qwerty'); -- 2
+INSERT INTO usuarios (nom_corto, nombre, tipo, contrasena) VALUES ('usuario',       'Usuario',       'A', 'qwerty'); -- 3
