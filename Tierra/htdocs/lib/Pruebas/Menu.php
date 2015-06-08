@@ -22,8 +22,6 @@
  * @package GenesisPHP
  */
 
-
-// NAMESPACE
 namespace Pruebas;
 
 /**
@@ -41,10 +39,12 @@ class Menu extends \Base\Menu {
      * Alimentar Menu Pruebas
      */
     public function alimentar_menu_pruebas() {
-        // CONSTRUIR EL MENU DE PRUEBAS QUE ES FIJO
-        $this->agregar_principal('tierra_pruebas_detalles', '-Tierra',  'index.php', 'preferences-desktop.png');
-        $this->agregar('tierra_pruebas_listados',           'Detalles', 'index.php', 'menu-editor.png');
-        $this->agregar_principal_derecha('tierra_inicio',   '',         'index.php', 'glyphicon glyphicon-off');
+        // Opciones para el menú de pruebas de Tierra
+        $this->agregar_principal('tierra_pruebas_detalle', '-Tierra', 'index.php',         'preferences-desktop.png');
+        $this->agregar('tierra_pruebas_detalle',           'Detalle', 'index.php',         'menu-editor.png');
+        $this->agregar('tierra_pruebas_listado',           'Listado', 'pruebalistado.php', 'folder.png');
+        // Arriba a la derecha
+        $this->agregar_principal_derecha('tierra_inicio',  '',        'index.php',         'glyphicon glyphicon-off');
     } // alimentar_menu_pruebas
 
 } // Clase Menu

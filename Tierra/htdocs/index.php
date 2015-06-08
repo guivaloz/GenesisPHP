@@ -29,21 +29,6 @@ require_once('autocargadorclases.php');
  */
 class IndexHTML extends \Base\PlantillaHTML {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // public $clave;
-    // public $menu;
-    // public $contenido;
-    // public $javascript;
-
     /**
      * Constructor
      */
@@ -60,12 +45,14 @@ class IndexHTML extends \Base\PlantillaHTML {
      * @return string HTML
      */
     public function html() {
-        // MENSAJE DE BIENVENIDA
+        //
+        // Mensaje de bienvenida
+        //
         $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas a DetalleHTML.');
         $mensaje->tipo     = 'tip';
         $this->contenido[] = $mensaje->html('Acerca de esta página');
         //
-        // PRUEBA DETALLE
+        // Prueba Detalle
         //
         $detalle = new \Base\DetalleHTML();
         $detalle->seccion('Datos generales');
@@ -77,7 +64,7 @@ class IndexHTML extends \Base\PlantillaHTML {
         $this->contenido[] = $detalle->html('Prueba secciones y datos');
         unset($detalle);
         //
-        // PRUEBA DETALLE CON BOTONES
+        // Prueba Detalle con Barra y Botones
         //
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = 'Detalle con botones';
@@ -91,7 +78,9 @@ class IndexHTML extends \Base\PlantillaHTML {
         $detalle->dato('Sexo', 'Masculino', 'rojo');
         $this->contenido[] = $detalle->html('Esto no debe salir');
         unset($detalle);
-        // ENTREGAMOS
+        //
+        // Entregar
+        //
         return parent::html();
     } // html
 
