@@ -40,10 +40,10 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
     // protected $modelo_ingreso_logos;
     // protected $modelo_fluido_logos;
     // protected $pie;
-    public $clave;                 // CLAVE UNICA DE LA PAGINA
-    public $menu;                  // INSTANCIA DE MENU
-    public $contenido  = array();  // ARREGLO CON EL CONTENIDO
-    public $javascript = array();  // ARREGLO CON EL JAVASCRIPT A AGREGAR AL FINAL DE LA PAGINA
+    public $clave;                 // Clave única de la página
+    public $menu;                  // Instancia de menú
+    public $contenido  = array();  // Arreglo con el contenido
+    public $javascript = array();  // Arreglo con el Javascript
 
     /**
      * HTML
@@ -51,7 +51,7 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // ENTREGAR SEGUN MODELO DEFINIDO
+        // Definir la plantilla según el modelo de diseño
         switch ($this->modelo) {
             case 'ingreso':
                 $plantilla = new \Base\TemaIngresoHTML();
@@ -81,7 +81,7 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
         }
-        // PASAR PARAMETROS COMUNES A TODAS LAS PLANTILLAS
+        // Pasar parámetros a la plantilla
         $plantilla->sistema     = $this->sistema;
         $plantilla->descripcion = $this->descripcion;
         $plantilla->autor       = $this->autor;
@@ -90,7 +90,7 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
         $plantilla->contenido   = $this->contenido;
         $plantilla->javascript  = $this->javascript;
         $plantilla->pie         = $this->pie;
-        // ENTREGAR
+        // Entregar
         return $plantilla->html();
     } // html
 

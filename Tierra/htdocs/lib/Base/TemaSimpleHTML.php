@@ -22,7 +22,6 @@
  * @package GenesisPHP
  */
 
-// NAMESPACE
 namespace Base;
 
 /**
@@ -37,11 +36,11 @@ class TemaSimpleHTML {
     public $css;
     public $favicon;
     public $menu_principal_logo;
-    public $icono;                 // TEXTO, NOMBRE DEL ARCHIVO CON EL ICONO DE LA PAGINA
-    public $contenido  = array();  // ARREGLO CON EL CONTENIDO
-    public $javascript = array();  // ARREGLO, CODIGO JAVASCRIPT A AGREGAR AL FINAL DE LA PAGINA
+    public $icono;                 // Texto, nombre del archivo con el icono de la página
+    public $contenido  = array();  // Arreglo con el contenido
+    public $javascript = array();  // Arreglo con Javascript
     public $pie;
-    public $menu;                  // INSTACIA DE MENU
+    public $menu;                  // Instancia de Menu
 
     /**
      * Header HTML

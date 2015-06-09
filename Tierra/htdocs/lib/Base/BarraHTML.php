@@ -40,13 +40,13 @@ class BarraHTML {
     protected $opciones           = array();
     protected $javascript         = array();
     static public $botones_clases = array(
-        'default' => '',             // BLANCO
-        'primary' => 'btn-primary',  // AZUL FUERTE
-        'info'    => 'btn-info',     // AZUL CLARO
-        'success' => 'btn-success',  // VERDE
-        'warning' => 'btn-warning',  // AMARILLO
-        'danger'  => 'btn-danger',   // ROJO
-        'inverse' => 'btn-inverse'); // NEGRO
+        'default' => '',             // Blanco
+        'primary' => 'btn-primary',  // Azul fuerte
+        'info'    => 'btn-info',     // Azul claro
+        'success' => 'btn-success',  // Verde
+        'warning' => 'btn-warning',  // Amarillo
+        'danger'  => 'btn-danger',   // Rojo
+        'inverse' => 'btn-inverse'); // Negro
 
     /**
      * Botón
@@ -68,7 +68,7 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_agregar($in_url, $in_etiqueta='Agregar') {
-        $this->boton($in_url, $in_etiqueta, 'success'); // BOTON VERDE
+        $this->boton($in_url, $in_etiqueta, 'success');
     } // boton_agregar
 
     /**
@@ -78,7 +78,7 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_modificar($in_url, $in_etiqueta='Modificar') {
-        $this->boton($in_url, $in_etiqueta, 'warning'); // BOTON AMARILLO
+        $this->boton($in_url, $in_etiqueta, 'warning');
     } // boton_modificar
 
     /**
@@ -89,20 +89,20 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_descargar($in_url, $filtros_param='', $in_etiqueta='') {
-        // ETIQUETA POR DEFECTO
+        // Etiqueta por defecto
         if ($in_etiqueta == '') {
             $in_etiqueta = '<span class="glyphicon glyphicon-floppy-save"></span> Descargar';
         }
-        // SI ES UN ARREGLO
+        // Si filtros_param es un arreglo
         if (is_array($filtros_param)) {
-            // JUNTAR EN UN ARREGLO VARIABLE=VALOR
+            // Juntar de la forma variable=valor
             $a = array();
             foreach ($filtros_param as $var => $valor) {
                 if ($valor != '') {
                     $a[] = $var.'='.urlencode($valor);
                 }
             }
-            // ANEXAR AL FINAL DEL URL
+            // Agregar al final de la URL
             if (strpos($in_url, '?') === false) {
                 $url = $in_url.'?'.implode('&', $a);
             } else {
@@ -111,8 +111,8 @@ class BarraHTML {
         } else {
             $url = $in_url;
         }
-        // BOTON
-        $this->boton($url, $in_etiqueta, 'info'); // BOTON AZUL CLARO
+        // Botón
+        $this->boton($url, $in_etiqueta, 'info');
     } // boton_descargar
 
     /**
@@ -132,7 +132,7 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_imprimir($in_url, $in_etiqueta='Modificar') {
-        $this->boton($in_url, $in_etiqueta, 'success'); // BOTON VERDE
+        $this->boton($in_url, $in_etiqueta, 'success');
     } // boton_imprimir
 
     /**
@@ -162,7 +162,7 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_eliminar_confirmacion($in_url, $in_pregunta, $in_etiqueta='Eliminar') {
-        $this->boton_confirmacion($in_url, $in_etiqueta, 'danger', 'eliminarRegistro', $in_pregunta); // BOTON ROJO
+        $this->boton_confirmacion($in_url, $in_etiqueta, 'danger', 'eliminarRegistro', $in_pregunta);
     } // boton_eliminar_confirmacion
 
     /**
@@ -173,7 +173,7 @@ class BarraHTML {
      * @param string Opcional etiqueta
      */
     public function boton_recuperar_confirmacion($in_url, $in_pregunta, $in_etiqueta='Recuperar') {
-        $this->boton_confirmacion($in_url, $in_etiqueta, 'info', 'recuperarRegistro', $in_pregunta); // BOTON AZUL CLARO
+        $this->boton_confirmacion($in_url, $in_etiqueta, 'info', 'recuperarRegistro', $in_pregunta);
     } // boton_recuperar_confirmacion
 
     /**
@@ -185,7 +185,7 @@ class BarraHTML {
      * @param string Opcional clave de la confirmacion, ya que puede haber más de una forma de imprimir por módulo
      */
     public function boton_imprimir_confirmacion($in_url, $in_pregunta, $in_etiqueta='Imprimir', $in_impresion='impresionRegistro') {
-        $this->boton_confirmacion($in_url, $in_etiqueta, 'success', $in_impresion, $in_pregunta); // BOTON VERDE
+        $this->boton_confirmacion($in_url, $in_etiqueta, 'success', $in_impresion, $in_pregunta);
     } // boton_imprimir_confirmacion
 
     /**
@@ -196,18 +196,18 @@ class BarraHTML {
      * @return string HTML
      */
     public function html($in_encabezado='', $in_icono='') {
-        // PARAMETROS
+        // Parámetros
         if (is_string($in_encabezado) && (trim($in_encabezado) != '')) {
             $this->encabezado = $in_encabezado;
         }
         if (is_string($in_icono) && (trim($in_icono) != '')) {
             $this->icono = $in_icono;
         }
-        // VALIDAR
+        // Validar
         if ($this->encabezado == '') {
             $this->encabezado = 'Falta el encabezado';
         }
-        // NAVBAR INICIA
+        // Navbar inicia
         $a   = array();
         $a[] = '  <div class="navbar navbar-default barra">';
         $a[] = '    <div class="navbar-header">';
@@ -222,7 +222,7 @@ class BarraHTML {
             $a[] = "      <a class=\"navbar-brand\" href=\"#\">{$this->encabezado}</a>";
         }
         $a[] = '    </div>'; // navbar-header
-        // BOTONES
+        // Botones
         $a[] = '    <div class="navbar-right">';
         foreach ($this->botones as $etiqueta => $b) {
             $clase = 'btn '.self::$botones_clases[$b['clase']].' navbar-btn';
@@ -234,16 +234,16 @@ class BarraHTML {
         }
         $a[] = '    </div>'; // navbar-header
         $a[] = '  </div>'; // navbar
-        // NAVBAR TERMINA
-        // DIALOGOS DE CONFIRMACION
+        // Navbar termina
+        // Diálogos de confirmación
         foreach ($this->botones as $etiqueta => $b) {
             if (is_array($this->confirmaciones[$etiqueta])) {
-                // PARA QUE SE VEA BONITO
+                // Variables
                 $accion   = $this->confirmaciones[$etiqueta]['accion'];
                 $pregunta = $this->confirmaciones[$etiqueta]['pregunta'];
                 $clase    = 'btn '.self::$botones_clases[$b['clase']];
                 $url      = $b['url'];
-                // TWITTER BOOTSTRAP MODAL
+                // Twitter Bootstrap Modal
                 $a[] = "  <div class=\"modal fade\" id=\"$accion\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"{$accion}Label\" aria-hidden=\"true\">";
                 $a[] = '    <div class="modal-dialog">';
                 $a[] = '      <div class="modal-content">';
@@ -263,7 +263,7 @@ class BarraHTML {
                 $a[] = '  </div>';
             }
         }
-        // ENTREGAR
+        // Entregar HTML
         return implode("\n", $a);
     } // html
 

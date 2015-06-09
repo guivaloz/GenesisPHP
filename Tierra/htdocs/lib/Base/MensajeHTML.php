@@ -29,10 +29,10 @@ namespace Base;
  */
 class MensajeHTML {
 
-    public $encabezado;                    // OPCIONAL, TEXTO DEL ENCABEZADO
-    public $icono;                         // OPCIONAL, URL AL ICONO
-    public $contenido;                     // TEXTO, CONTENIDO QUE MOSTRAR EN EL MENSAJE
-    public $tipo;                          // CARACTER, ES EL TIPO DE MENSAJE
+    public $encabezado;                    // Opcional, texto para el encabezado
+    public $icono;                         // Opcional, URL al icono
+    public $contenido;                     // Texto del mensaje
+    public $tipo;                          // Opcional, texto con el tipo de mensaje, puede ser aviso, error, info o tip
     protected $pie = array();
     static protected $tipos_colores = array(
         'aviso' => 'amarillo',
@@ -46,13 +46,13 @@ class MensajeHTML {
         'tip'   => 'dialog-information.png');
     static public $icono_tamano = '24x24';
     static public $botones_clases = array(
-        'default' => 'btn',              // GRIS
-        'primary' => 'btn btn-primary',  // AZUL FUERTE
-        'info'    => 'btn btn-info',     // AZUL CLARO
-        'success' => 'btn btn-success',  // VERDE
-        'warning' => 'btn btn-warning',  // AMARILLO
-        'danger'  => 'btn btn-danger',   // ROJO
-        'inverse' => 'btn btn-inverse'); // NEGRO
+        'default' => 'btn',              // Gris
+        'primary' => 'btn btn-primary',  // Azul fuerte
+        'info'    => 'btn btn-info',     // Azul claro
+        'success' => 'btn btn-success',  // Verde
+        'warning' => 'btn btn-warning',  // Amarillo
+        'danger'  => 'btn btn-danger',   // Rojo
+        'inverse' => 'btn btn-inverse'); // Negro
 
     /**
      * Constructor
@@ -60,7 +60,6 @@ class MensajeHTML {
      * @param string Contenido del mensaje
      */
     public function __construct($in_contenido='') {
-        // EL CONTENIDO SE VALIDARA EN EL METODO HTML
         $this->contenido = $in_contenido;
     } // constructor
 
@@ -73,31 +72,31 @@ class MensajeHTML {
      * @param string Clase CSS, color del boton, opcional
      */
     public function boton_url($in_identificador, $in_etiqueta, $in_url, $in_clase='') {
-        // VALIDAR IDENTIFICADOR
+        // Validar identificador
         if (!is_string($in_identificador) || (trim($in_identificador) == '')) {
             return;
         } else {
             $identificador = $in_identificador;
         }
-        // VALIDAR ETIQUETA
+        // Validar etiqueta
         if (!is_string($in_etiqueta) || (trim($in_etiqueta) == '')) {
             return;
         } else {
             $etiqueta = $in_etiqueta;
         }
-        // VALIDAR URL
+        // Validar URL
         if (!is_string($in_url) || (trim($in_url) == '')) {
             $url = '#';
         } else {
             $url = $in_url;
         }
-        // VALIDAR CLASE (ESTILO CSS)
+        // Validar estilo CSS
         if (($in_clase == '') || !array_key_exists($in_clase, self::$botones_clases)) {
             $clase = 'default';
         } else  {
             $clase = self::$botones_clases[$in_clase];
         }
-        // AGREGAR A PIE
+        // Agrgar a pie
         $this->pie[$identificador] = sprintf('<button class="%s" type="button" onclick="location.href=\'%s\'">%s</button>', $clase, $url, $etiqueta);
     } // boton_url
 
@@ -119,7 +118,7 @@ class MensajeHTML {
      * @return string HTML con el mensaje
      */
     public function html($in_encabezado='', $in_tipo='') {
-        // SI NO HAY CONTENIDO, NO SE ENTREGA NADA
+        // Si no hay contenido, no se entrega nada
         if (is_array($this->contenido) && (count($this->contenido) == 0)) {
             return;
         } elseif (is_string($this->contenido) && (trim($this->contenido) == '')) {
@@ -127,24 +126,23 @@ class MensajeHTML {
         } elseif (!is_array($this->contenido) && !is_string($this->contenido)) {
             return;
         }
-        // SI VIENE EL ENCABEZADO COMO PARAMETRO
+        // Si viene el encabezado como parámetro
         if ($in_encabezado != '') {
             $this->encabezado = $in_encabezado;
         } else {
             $this->encabezado = 'Mensaje';
         }
-        // SI VIENE EL TIPO COMO PARAMETRO
+        // Si viene el tipo como parámetro
         if (($in_tipo != '') && array_key_exists($in_tipo, self::$tipos_colores)) {
             $this->tipo = $in_tipo;
-        // SI NO SE HA DEFINIDO EL TIPO
         } elseif ($this->tipo == '') {
-            // SI EL CONTENIDO ES ARREGLO
+            // No está definido el tipo, se va a definir
             if (is_array($this->contenido)) {
                 $muestra = current($this->contenido);
             } else {
                 $muestra = $this->contenido;
             }
-            // DETERMINAMOS EL TIPO CON EL CONTENIDO, SI EMPIEZA CON ERROR O CON AVISO
+            // Si el contenido empieza con error o con aviso
             if (stripos($muestra, 'Error') === 0) {
                 $this->tipo = 'error';
             } elseif (stripos($muestra, 'Aviso') === 0) {
@@ -153,15 +151,15 @@ class MensajeHTML {
                 $this->tipo = 'info';
             }
         }
-        // ICONO
+        // Definir icono
         if (array_key_exists($this->tipo, self::$tipos_iconos)) {
             $this->icono = self::$tipos_iconos[$this->tipo];
         } else {
             $this->icono = 'start-here.png'; // ICONO POR DEFECTO
         }
-        // ACUMULAREMOS EL HTML EN ESTE ARREGLO
+        // En este arreglo se acumulará el código HTML
         $a = array();
-        // TWITTER BOOTSTRAP ALERT INICIA
+        // Twitter Bootstrap Alert inicia
         switch ($this->tipo) {
             case 'error':
                 $a[] = '<div class="alert alert-danger mensaje">';
@@ -175,7 +173,7 @@ class MensajeHTML {
             case 'tip':
                 $a[] = '<div class="alert alert-info mensaje">';
         }
-        // ENCEBEZADO E ICONO
+        // Acumular encabezado
         if ($this->encabezado != '') {
             if ($this->icono != '') {
                 $a[] = sprintf('  <h4><img src="imagenes/%s/%s"> %s</h4>', self::$icono_tamano, $this->icono, $this->encabezado);
@@ -183,23 +181,21 @@ class MensajeHTML {
                 $a[] = "  <h4>{$this->encabezado} {$this->icono}</h4>";
             }
         }
-        // CONTENIDO
+        // Acumular contenido
         if (is_array($this->contenido)) {
-            // ES ARREGLO
             foreach ($this->contenido as $item) {
                 $a[] = "  <p>$item</p>";
             }
         } else {
-            // ES TEXTO
             $a[] = "  <p>{$this->contenido}</p>";
         }
-        // PIE
+        // Acumular pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             $a[] = '  '.implode(' ', $this->pie);
         }
-        // TWITTER BOOTSTRAP ALERT TERMINA
+        // Twitter Bootstrap Alert termnina
         $a[] = '</div>';
-        // ENTREGAR
+        // Entregar HTML
         return implode("\n", $a);
     } // html
 

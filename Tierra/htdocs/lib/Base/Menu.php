@@ -29,11 +29,11 @@ namespace Base;
  */
 class Menu {
 
-    public $clave;                         // TEXTO, CLAVE DE LA PAGINA EN USO, SIRVE PARA SABER CUAL ES LA OPCIÓN ACTIVA
-    public $permisos            = array(); // ARREGLO, clave => permiso
-    protected $principal_actual = null;    // TEXTO, MANTIENE LA CLAVE ULTIMA DEL MENU PRINCIPAL
-    protected $estructura       = array(); // ARREGLO ASOCIATIVO, clave principal => claves de secundarios
-    protected $datos            = array(); // ARREGLO ASOCIATIVO, clave => arreglo asociativo con los datos
+    public $clave;                         // Texto, clave de la página en uso, sirve para saber cuál es la opción activa
+    public $permisos            = array(); // Arreglo, clave => permiso
+    protected $principal_actual = null;    // Texto, mantiene la clave última del menú principal
+    protected $estructura       = array(); // Arreglo asociativo, clave principal => claves de secundarios
+    protected $datos            = array(); // Arreglo asociativo, clave => arreglo asociativo con los datos
 
     /**
      * Agregar Principal
@@ -47,17 +47,17 @@ class Menu {
      * @param integer Opcional, permiso, por defecto es uno
      */
     public function agregar_principal($in_clave, $in_etiqueta, $in_url, $in_icono='folder.png', $in_permiso=1) {
-        // SI EL PRIMER CARACTER DE LA ETIQUETA ES UN GUION
+        // Si el primer caracter de la etiqueta es un guión
         if (strpos($in_etiqueta, '-') === 0) {
-            // ES UNA OPCION OCULTA
+            // Es una opción oculta
             $etiqueta = substr($in_etiqueta, 1);
             $oculto   = true;
         } else {
-            // VA A SER VISIBLE
+            // Va a ser visible
             $etiqueta = $in_etiqueta;
             $oculto   = false;
         }
-        // AGREGAR
+        // Acumular
         $this->principal_actual                    = $in_clave;
         $this->estructura[$this->principal_actual] = array();
         $this->datos[$this->principal_actual]      = array(
@@ -81,17 +81,17 @@ class Menu {
      * @param integer Opcional, permiso, por defecto es uno
      */
     public function agregar_principal_derecha($in_clave, $in_etiqueta, $in_url, $in_icono='folder.png', $in_permiso=1) {
-        // SI EL PRIMER CARACTER DE LA ETIQUETA ES UN GUION
+        // Si el primer caracter de la etiqueta es un guión
         if (strpos($in_etiqueta, '-') === 0) {
-            // ES UNA OPCION OCULTA
+            // Es una opción oculta
             $etiqueta = substr($in_etiqueta, 1);
             $oculto   = true;
         } else {
-            // VA A SER VISIBLE
+            // Va a ser visible
             $etiqueta = $in_etiqueta;
             $oculto   = false;
         }
-        // AGREGAR
+        // Acumular
         $this->principal_actual                    = $in_clave;
         $this->estructura[$this->principal_actual] = array();
         $this->datos[$this->principal_actual]      = array(
@@ -113,11 +113,11 @@ class Menu {
      * @param integer Opcional, permiso, por defecto es uno
      */
     public function agregar($in_clave, $in_etiqueta, $in_url, $in_icono='folder.png', $in_permiso=1) {
-        // VALIDAR QUE SE HAYA AGREGADO UN MENU PRINCIPAL
+        // Validar que se haya agregado un menú principal
         if (!is_string($this->principal_actual) || (trim($this->principal_actual) == '')) {
             throw new \Exception('Error en Menú: No se ha agregado la opción para el menú principal.');
         }
-        // AGREGAR
+        // Acumular
         $this->estructura[$this->principal_actual][] = $in_clave;
         $this->datos[$in_clave]                     = array(
             'etiqueta' => $in_etiqueta,
@@ -135,21 +135,21 @@ class Menu {
      * @return array Arreglo de arreglos asociativos
      */
     public function opciones_menu_principal() {
-        // VALIDAR CLAVE
+        // Validar clave
         if (!is_string($this->clave) || ($this->clave == '')) {
             throw new \Exception("Error en Menú: No está definida la clave de la página en uso.");
         }
-        // EN ESTE ARREGLO ACUMULAREMOS LO QUE SE VA A ENTREGAR
+        // En este arreglo se acumulará
         $a = array();
-        // PARA CADA PRINCIPAL EN ESTRUCTURA
+        // Bucle en estructura
         foreach ($this->estructura as $principal_clave => $arreglo) {
-            // SI LA CLAVE DE LA PAGINA EN USO ES ESTA CLAVE O ESTA EN SUBMENU
+            // Si la clave de la página en uso es ésta clave o alguna del submenú
             if (($this->clave == $principal_clave) || in_array($this->clave, $arreglo)) {
                 $activo = true;
             } else {
                 $activo = false;
             }
-            // ACUMULAR
+            // Acumular
             $a[] = array(
                 'posicion' => $this->datos[$principal_clave]['posicion'],
                 'icono'    => $this->datos[$principal_clave]['icono'],
@@ -158,7 +158,7 @@ class Menu {
                 'oculto'   => $this->datos[$principal_clave]['oculto'],
                 'activo'   => $activo);
         }
-        // ENTREGAR
+        // Entregar
         return $a;
     } // opciones_menu_principal
 
@@ -170,13 +170,13 @@ class Menu {
      * @return array Arreglo de arreglos asociativos
      */
     public function opciones_menu_secundario() {
-        // VALIDAR CLAVE
+        // Validar clave
         if (!is_string($this->clave) || ($this->clave == '')) {
             throw new \Exception("Error en Menú: No está definida la clave de la página en uso.");
         }
-        // EN ESTE ARREGLO ACUMULAREMOS LO QUE SE VA A ENTREGAR
+        // En este arreglo se acumulará
         $a = array();
-        // DETERMINAR LA CLAVE PRINCIPAL
+        // Bucle en estructura, para determinar la opción del menú principal
         foreach ($this->estructura as $principal_clave => $arreglo) {
             if ($this->clave == $principal_clave) {
                 break;
@@ -185,7 +185,7 @@ class Menu {
                 break;
             }
         }
-        // SI NO ESTA OCULTO, APARECE LA OPCION DEL MENU PRINCIPAL EN EL SECUNDARIO
+        // Si no está oculto, aparece la opción del menú principal en el secundario
         if ($this->datos[$principal_clave]['oculto'] == false) {
             $activo = ($this->clave == $principal_clave);
             $a[] = array(
@@ -194,7 +194,7 @@ class Menu {
                 'url'      => $this->datos[$principal_clave]['url'],
                 'activo'   => $activo);
         }
-        // PARA CADA OPCION DEL MENU SECUNDARIO
+        // Bucle en el menú secundario
         foreach ($this->estructura[$principal_clave] as $secundario_clave) {
             if ($this->datos[$secundario_clave]['oculto'] == true) {
                 continue;
@@ -206,7 +206,7 @@ class Menu {
                 'url'      => $this->datos[$secundario_clave]['url'],
                 'activo'   => $activo);
         }
-        // ENTREGAR
+        // Entregar
         return $a;
     } // opciones_menu_secundario
 

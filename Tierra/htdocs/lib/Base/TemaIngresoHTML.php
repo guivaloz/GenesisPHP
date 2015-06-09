@@ -22,7 +22,6 @@
  * @package GenesisPHP
  */
 
-// NAMESPACE
 namespace Base;
 
 /**
@@ -36,8 +35,8 @@ class TemaIngresoHTML {
     public $css;
     public $favicon;
     public $modelo_ingreso_logos;
-    public $contenido  = array();  // ARREGLO CON EL CONTENIDO
-    public $javascript = array();  // ARREGLO, CODIGO JAVASCRIPT A AGREGAR AL FINAL DE LA PAGINA
+    public $contenido  = array();  // Arreglo con el contenido
+    public $javascript = array();  // Arreglo con Javascript
     public $pie;
 
     /**
@@ -46,9 +45,9 @@ class TemaIngresoHTML {
      * @return string HTML
      */
     protected function header_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = '<!DOCTYPE html>';
         $a[] = '<html lang="es">';
         $a[] = '<head>';
@@ -67,7 +66,7 @@ class TemaIngresoHTML {
             $a[] = '  <link rel="shortcut icon" href="favicon.ico">';
         }
         $a[] = "  <title>{$this->sistema}</title>";
-        // ARCHIVOS CSS COMUNES
+        // Archivos CSS comunes
         $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
         // ARCHIVO CSS PROPIO DE ESTA PLANTILLA
         $a[] = '  <link href="css/plantilla-ingreso.css" rel="stylesheet" type="text/css">';

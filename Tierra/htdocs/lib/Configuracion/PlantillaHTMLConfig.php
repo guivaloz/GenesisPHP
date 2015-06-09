@@ -34,7 +34,6 @@ class PlantillaHTMLConfig {
     protected $descripcion          = 'Tierra es un framework hecho con PHP';
     protected $autor                = 'Guillermo Valdés Lozano';
     protected $favicon              = 'imagenes/favicon.png';
- // protected $modelo               = 'fluida';
     protected $modelo               = 'dashboard';
  // protected $menu_principal_logo  = 'imagenes/logo.png';
     protected $modelo_ingreso_logos = array(
@@ -42,7 +41,7 @@ class PlantillaHTMLConfig {
         array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'derecha'));
     protected $modelo_fluido_logos  = array(
         array('url' => 'imagenes/generic_company.png', 'style' => 'position:fixed; bottom:10px; left:10px;'));
-    protected $pie                  = 'Hecho con <a href="http://www.movimientolibre.com/" target="_blank">Génesis</a>';
+    protected $pie                  = 'Hecho con <a href="https://github.com/guivaloz/GenesisPHP" target="_blank">GenesisPHP</a>';
 
 } // Clase PlantillaHTMLConfig
 

@@ -29,14 +29,14 @@ namespace Base;
  */
 class DetalleHTML {
 
-    public $encabezado;                    // OPCIONAL, TEXTO DEL ENCABEZADO
-    public $icono;                         // OPCIONAL, URL AL ICONO
-    public $barra;                         // OPCIONAL, PUEDE RECIBIR UNA INSTACIA DE BarraHTML
+    public $encabezado;                    // Opcional, texto para el encabezado
+    public $icono;                         // Opcional, URL al icono
+    public $barra;                         // Opcional, puede recibir una instancia de BarraHTML
     protected $secciones        = array();
     protected $seccion_actual   = 'Datos';
     protected $imagenes         = array();
-    protected $pie              = array(); // ARREGLO DE OBJETOS O DE CODIGOS HTML A AGREGAR AL FINAL CON EL METODO al_final
-    protected $javascript       = array(); // ARREGLO, JAVASCRIPT A COLOCAR AL FINAL DE LA PAGINA
+    protected $pie              = array(); // Arreglo de objetos o códigos HTML para poner al final con al_final
+    protected $javascript       = array(); // Arreglo con Javascript
     static public $icono_tamano = '24x24';
 
     /**
@@ -57,17 +57,14 @@ class DetalleHTML {
      * @param string Opcional, Color
      */
     public function dato($in_etiqueta, $in_dato, $in_color='') {
-        // SI ES TEXTO, ENTERO
+        // Si es texto, entero o boleano
         if (is_string($in_dato)) {
             $sin_espacios = trim($in_dato);
-          //if (($sin_espacios !== '') && ($sin_espacios != '0')) {
             if ($sin_espacios !== '') {
                 $dato = $sin_espacios;
             }
         } elseif (is_int($in_dato) || is_float($in_dato)) {
-          //if ($in_dato != 0) {
-                $dato = $in_dato;
-          //}
+            $dato = $in_dato;
         } elseif (is_bool($in_dato)) {
             if ($in_dato) {
                 $dato = 'VERDADERO';
@@ -77,7 +74,7 @@ class DetalleHTML {
         } else {
             return;
         }
-        // SI VIENE EL COLOR SE GUARDA COMO ARREGLO ASOCIATIVO
+        // Si viene el color se guarda en arreglo asociativo
         if ($in_color == '') {
             $this->secciones[$this->seccion_actual][$in_etiqueta] = $dato;
         } else {
@@ -117,13 +114,11 @@ class DetalleHTML {
      * @return string HTML
      */
     public function html($in_encabezado='', $in_icono='') {
-        // SI ESTA DEFINIDA LA BARRA
+        // Si está definida la barra, no se usan los parámetros
         if (is_object($this->barra)) {
-            // NO SE CONSIDERAN
             $this->encabezado = '';
             $this->icono      = '';
         } else {
-            // NO HAY BARRA, SE TOMAN LOS PARAMETROS
             if ($in_encabezado != '') {
                 $this->encabezado = $in_encabezado;
             }
@@ -131,9 +126,9 @@ class DetalleHTML {
                 $this->icono = $in_icono;
             }
         }
-        // EN ESTE ARREGLO JUNTAREMOS EL CONTENIDO
+        // En este arreglo se acumulará el código HTML
         $a = array();
-        // ELABORAR EL CONTENIDO
+        // Acumular contenido
         $a[] = '  <dl class="dl-horizontal">';
         foreach ($this->secciones as $seccion_etiqueta => $seccion_datos) {
             foreach ($seccion_datos as $dato_etiqueta => $dato_valor) {
@@ -148,7 +143,7 @@ class DetalleHTML {
             }
         }
         $a[] = '  </dl>';
-        // SI HAY ALGO EN EL PIE SE AGREGARÁ AL CONTENIDO
+        // Acumular pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -160,33 +155,30 @@ class DetalleHTML {
         } elseif (is_string($this->pie) && ($this->pie != '')) {
             $a[] = $this->pie;
         }
-        // LISTO EL CONTENIDO
+        // Definir contenido
         $contenido = implode("\n", $a);
-        // ENCABEZADO
+        // Si hay barra, se usa, de lo contrario se contruye
         if (is_object($this->barra)) {
-            // HAY BARRA, ESE ES EL ENCABEZADO
             $encabezado = $this->barra->html()."\n";
         } elseif ($this->encabezado != '') {
-            // ENCABEZADO HECHO AQUI MISMO
             $barra             = new BarraHTML();
             $barra->encabezado = $this->encabezado;
             $barra->icono      = $this->icono;
             $encabezado        = $barra->html()."\n";
         }
-        // SI TIENE IMAGENES
+        // Si tiene imágenes
         if (count($this->imagenes) > 0) {
-            // SOLO MOSTRAREMOS LA PRIMER IMAGEN
+            // Se toma la primera
             reset($this->imagenes);
             $imagen = current($this->imagenes);
             $imagen->configurar_para_detalle();
-            // SE ESPERA QUE LA INSTANCIA DE LA IMAGEN TENGA CARGADO EL ID Y LOS CARACTERES AL AZAR
             try {
                 $imagen_html = $imagen->html();
             } catch (\Exception $e) {
                 $mensaje = new MensajeHTML($e->getMessage());
                 return $mensaje->html($e->getMessage());
             }
-            // ENTREGAR TWITTER BOOTSTRAP MEDIA OBJECT
+            // Entregar Twitter Bootstrap Media Object
             return <<<FIN
 <div class="media detalle">
   {$imagen_html}
@@ -196,7 +188,7 @@ class DetalleHTML {
 </div>
 FIN;
         } else {
-            // NO TIENE IMAGENES, ENTREGAR CLASE DETALLE
+            // Entregar sin imágenes
             return <<<FIN
 <div class="detalle">
 {$encabezado}{$contenido}
@@ -213,7 +205,7 @@ FIN;
      * @return string Javascript
      */
     public function javascript() {
-        // SI HAY CODIGO JAVASCRIPT EN LOS OBJETOS DEL PIE
+        // Si hay Javascript en los objetos pare el pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -221,7 +213,7 @@ FIN;
                 }
             }
         }
-        // ENTREGAR
+        // Entregar
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {

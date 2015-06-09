@@ -22,7 +22,6 @@
  * @package GenesisPHP
  */
 
-// NAMESPACE
 namespace Base;
 
 /**
@@ -38,11 +37,11 @@ class TemaFluidoHTML {
     public $favicon;
     public $menu_principal_logo;
     public $modelo_fluido_logos;
-    public $icono;                 // TEXTO, NOMBRE DEL ARCHIVO CON EL ICONO DE LA PAGINA
-    public $contenido  = array();  // ARREGLO CON EL CONTENIDO
-    public $javascript = array();  // ARREGLO, CODIGO JAVASCRIPT A AGREGAR AL FINAL DE LA PAGINA
+    public $icono;                 // Texto, nombre del archivo con el icono de la página
+    public $contenido  = array();  // Arreglo con el contenido
+    public $javascript = array();  // Arreglo con Javascript
     public $pie;
-    public $menu;                  // INSTACIA DE MENU
+    public $menu;                  // Instancia de Menu
 
     /**
      * Header HTML
@@ -50,9 +49,9 @@ class TemaFluidoHTML {
      * @return string HTML
      */
     protected function header_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = '<!DOCTYPE html>';
         $a[] = '<html lang="es">';
         $a[] = '<head>';
@@ -75,22 +74,22 @@ class TemaFluidoHTML {
         } else {
             $a[] = "  <title>{$this->sistema}</title>";
         }
-        // ARCHIVOS CSS COMUNES
+        // Acumular Twitter Bootstrap
         $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
+        // Acumular selector de fechas
         $a[] = '  <link href="css/datepicker.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
-        $a[] = '  <link href="css/leaflet.css" rel="stylesheet" type="text/css">';
+        // Acumular graficador morris.js
         $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
-        $a[] = '  <link href="css/li-scroller.css" rel="stylesheet" type="text/css">';
-        // ARCHIVO CSS PROPIO DE ESTA PLANTILLA
+        // Acumular archivo CSS propio de esta plantilla
         $a[] = '  <link href="css/plantilla-fluida.css" rel="stylesheet" type="text/css">';
         if ($this->css != '') {
             $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
         }
         $a[] = '</head>';
-        // INICIA BODY
+        // Acumular inicio de body
         $a[] = '<body>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // header_html
 
@@ -100,9 +99,9 @@ class TemaFluidoHTML {
      * @return string HTML
      */
     protected function footer_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Si el pie es un arreglo o un texto
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             $a[] = '  <!-- PIE -->';
             $a[] = '  <footer>';
@@ -114,19 +113,19 @@ class TemaFluidoHTML {
             $a[] = $this->pie;
             $a[] = '  </footer>';
         }
-        // CARGAR ARCHIVOS EXTERNOS DE JAVASCRIPT
-        $a[] = '  <!-- JAVASCRIPT INICIA -->';
+        // Acumular JQuery
         $a[] = '  <script src="js/jquery.min.js"></script>';
+        // Acumular Twitter Bootstrap
         $a[] = '  <script src="js/bootstrap.min.js"></script>';
+        // Acumular selector de fechas
         $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
         $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        $a[] = '  <script src="js/leaflet.js"></script>';
+        // Acumular graficador morris.js
         $a[] = '  <script src="js/raphael-min.js"></script>';
         $a[] = '  <script src="js/morris.min.js"></script>';
-        $a[] = '  <script src="js/jquery.li-scroller.1.0.js"></script>';
-        // AGREGAR JS QUE SE HAYA AGREGADO DESDE FUERA
+        // Acumular Javascript que se haya agregado desde fuera
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a[] = '<script>';
             $a[] = implode("\n", $this->javascript);
@@ -136,11 +135,10 @@ class TemaFluidoHTML {
             $a[] = $this->javascript;
             $a[] = '</script>';
         }
-        $a[] = '  <!-- JAVASCRIPT TERMINA -->';
-        // CIERRA BODY Y HTML
+        // Acumular cierre de body y html
         $a[] = '</body>';
         $a[] = '</html>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // footer_html
 
@@ -150,9 +148,9 @@ class TemaFluidoHTML {
      * @return string HTML
      */
     protected function menu_principal_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // SI NO SE HA DEFINIDO EL MENU, ENTONCES ENTREGARÁ UN MENÚ CON MENSAJE DE ERROR
+        // Si no se ha definido el menu, entonces entregará un menú con mensaje de error
         if (!is_object($this->menu)) {
             $a[] = '<!-- MENU PRINCIPAL INICIA -->';
             $a[] = '<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu-principal">';
@@ -165,13 +163,13 @@ class TemaFluidoHTML {
             $a[] = '<!-- MENU PRINCIPAL TERMINA -->';
             return implode("\n", $a);
         }
-        // DE INICIO NO HAY OPCIONES DEL LADO DERECHO
+        // De inicio no hay opciones del lado derecho
         $hay_en_la_derecha = false;
-        // ACUMULAR
+        // Acumular
         $a[] = '<!-- MENU PRINCIPAL INICIA -->';
         $a[] = '<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu-principal">';
         $a[] = '  <div class="container-fluid">';
-        // NAVBAR-HEADER / BRAND / COLLAPSE
+        // Navbar-header / brand / collapse
         $a[] = '    <div class="navbar-header">';
         $a[] = '      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-principal-collapse">';
         $a[] = '        <span class="sr-only">Toggle navigation</span>';
@@ -185,7 +183,7 @@ class TemaFluidoHTML {
             $a[] = "      <a class=\"navbar-brand\" href=\"index.php\">{$this->sistema}</a>";
         }
         $a[] = '    </div>';
-        // MENU
+        // Menu
         $a[] = '    <div class="navbar-collapse collapse" id="menu-principal-collapse">';
         $a[] = '      <ul class="nav navbar-nav">';
         foreach ($this->menu->opciones_menu_principal() as $opcion) {
@@ -231,11 +229,11 @@ class TemaFluidoHTML {
             $a[] = '      </ul>';
         }
         $a[] = '    </div>';
-        // CERRAR TAGS
+        // Cerrar tags
         $a[] = '  </div>';
         $a[] = '</nav>';
         $a[] = '<!-- MENU PRINCIPAL TERMINA -->';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // menu_principal_html
 
@@ -288,32 +286,30 @@ class TemaFluidoHTML {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // SI ESTA DEFINIDO EL MENU
+        // Si esta definido el menu, se toma el título y el ícono de éste
         if (is_object($this->menu)) {
-            // SI EL TITULO NO ESTA DEFINIDO SE TOMA DEL MENU
             if ($this->titulo == '') {
                 $this->titulo = $this->menu->titulo_en();
             }
-            // SI EL ICONO NO ESTA DEFINIDO SE TOMA DEL MENU
             if ($this->icono == '') {
                 $this->icono = $this->menu->icono_en();
             }
         }
-        // EVITAR QUE SE GUARDE EN EL CACHE DEL NAVEGADOR
+        // Evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();
         $a[] = '<!-- CONTENIDO PLANTILLA FLUIDA INICIA -->';
         $a[] = '  <div class="container-fluid">';
         $a[] = '    <div class="row">';
-        $a[] = '      <div class="col-md-3">'; // col-sm-3
+        $a[] = '      <div class="col-md-3">';
         $a[] = $this->menu_secundario_html();
         $a[] = '      </div>';
-        $a[] = '      <div class="col-md-9">'; // col-sm-9 col-sm-offset-3 col-md-offset-2
+        $a[] = '      <div class="col-md-9">';
         if ($this->icono != '') {
             $a[] = "        <h1 class=\"page-header titulo\"><img src=\"imagenes/48x48/{$this->icono}\"> {$this->titulo}</h1>";
         } else {
@@ -331,7 +327,7 @@ class TemaFluidoHTML {
         $a[] = '  </div>'; // container-fluid
         $a[] = '<!-- CONTENIDO PLANTILLA FLUIDA TERMINA -->';
         $a[] = $this->footer_html();
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // html
 
