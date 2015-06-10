@@ -22,18 +22,14 @@
 require_once('autocargadorclases.php');
 
 /**
- * Clase PruebaListado
+ * Clase PruebaDetalle
  */
-class PruebaListado extends \Base\PaginaHTML {
+class PruebaDetalle extends \Base\PaginaHTML {
 
     /**
      * Constructor
      */
     public function __construct() {
-        // MENU
-        $this->menu = new \Pruebas\Menu();
-        $this->menu->alimentar_menu_pruebas();
-        $this->menu->clave = 'tierra_pruebas_detalles';
     } // constructor
 
     /**
@@ -42,30 +38,14 @@ class PruebaListado extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
-        //
-        // Mensaje de bienvenida
-        //
-        $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas a ListadoHTML.');
-        $mensaje->tipo     = 'tip';
-        $this->contenido[] = $mensaje->html('Acerca de esta página');
-        //
-        // Prueba Listado
-        //
-        $listado             = new \Pruebas\EntidadesListadoHTML();
-     // $listado->estructura = ;
-     // $listado->listado    = ;
-        $this->contenido[]   = $listado->html('Entedades Federativas de México');
-        $this->javascript[]  = $listado->javascript();
-        //
+        // Acumularemos la entrega en este arreglo
+        $a = array();
+        // Acumular
+        $a[] = '';
         // Entregar
-        //
-        return parent::html();
+        return implode("\n", $a)."\n";
     } // html
 
-} // Clase PruebaListado
-
-// EJECUTAR Y MOSTRAR
-$pagina = new PruebaListado();
-echo $pagina->html();
+} // Clase PruebaDetalle
 
 ?>

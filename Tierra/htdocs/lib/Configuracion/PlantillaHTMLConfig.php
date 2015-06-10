@@ -35,7 +35,7 @@ class PlantillaHTMLConfig {
     protected $autor                = 'Guillermo Valdés Lozano';
     protected $favicon              = 'imagenes/favicon.png';
     protected $modelo               = 'dashboard';
- // protected $menu_principal_logo  = 'imagenes/logo.png';
+    protected $menu_principal_logo  = '';
     protected $modelo_ingreso_logos = array(
         array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'izquierda'),
         array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'derecha'));
