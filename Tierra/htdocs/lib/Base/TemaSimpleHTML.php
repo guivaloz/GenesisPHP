@@ -48,9 +48,9 @@ class TemaSimpleHTML {
      * @return string HTML
      */
     protected function header_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = '<!DOCTYPE html>';
         $a[] = '<html lang="es">';
         $a[] = '<head>';
@@ -73,22 +73,22 @@ class TemaSimpleHTML {
         } else {
             $a[] = "  <title>{$this->sistema}</title>";
         }
-        // ARCHIVOS CSS COMUNES
+        // Acumular Twitter Bootstrap
         $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
+        // Acumular selector de fechas
         $a[] = '  <link href="css/datepicker.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
-        $a[] = '  <link href="css/leaflet.css" rel="stylesheet" type="text/css">';
+        // Acumular graficador morris.js
         $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
-        $a[] = '  <link href="css/li-scroller.css" rel="stylesheet" type="text/css">';
-        // ARCHIVO CSS PROPIO DE ESTA PLANTILLA
-        $a[] = '  <link href="css/plantilla-simple.css" rel="stylesheet" type="text/css">';
+        // Acumular archivo CSS propio de esta plantilla
+        $a[] = '  <link href="css/plantilla-fluida.css" rel="stylesheet" type="text/css">';
         if ($this->css != '') {
             $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
         }
         $a[] = '</head>';
-        // INICIA BODY
+        // Acumular inicio de body
         $a[] = '<body>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // header_html
 
@@ -98,9 +98,9 @@ class TemaSimpleHTML {
      * @return string HTML
      */
     protected function footer_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             $a[] = '  <!-- PIE -->';
             $a[] = '  <footer>';
@@ -112,19 +112,19 @@ class TemaSimpleHTML {
             $a[] = $this->pie;
             $a[] = '  </footer>';
         }
-        // CARGAR ARCHIVOS EXTERNOS DE JAVASCRIPT
-        $a[] = '  <!-- JAVASCRIPT INICIA -->';
+        // Acumular JQuery
         $a[] = '  <script src="js/jquery.min.js"></script>';
+        // Acumular Twitter Bootstrap
         $a[] = '  <script src="js/bootstrap.min.js"></script>';
+        // Acumular selector de fechas
         $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
         $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        $a[] = '  <script src="js/leaflet.js"></script>';
+        // Acumular graficador morris.js
         $a[] = '  <script src="js/raphael-min.js"></script>';
         $a[] = '  <script src="js/morris.min.js"></script>';
-        $a[] = '  <script src="js/jquery.li-scroller.1.0.js"></script>';
-        // AGREGAR JS QUE SE HAYA AGREGADO DESDE FUERA
+        // Acumular Javascript que se haya agregado desde fuera
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a[] = '<script>';
             $a[] = implode("\n", $this->javascript);
@@ -134,11 +134,10 @@ class TemaSimpleHTML {
             $a[] = $this->javascript;
             $a[] = '</script>';
         }
-        $a[] = '  <!-- JAVASCRIPT TERMINA -->';
-        // CIERRA BODY Y HTML
+        // Acumular cierre de body y html
         $a[] = '</body>';
         $a[] = '</html>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // footer_html
 
@@ -148,15 +147,15 @@ class TemaSimpleHTML {
      * @return string HTML
      */
     protected function menu_principal_html() {
-        // DE INICIO NO HAY OPCIONES DEL LADO DERECHO
+        // De inicio no hay opciones del lado derecho
         $hay_en_la_derecha = false;
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = '<!-- MENU PRINCIPAL INICIA -->';
         $a[] = '<nav class="navbar navbar-static-top" role="navigation" id="menu-principal">';
         $a[] = '  <div class="container-fluid">';
-        // NAVBAR-HEADER / BRAND / COLLAPSE
+        // Navbar-header / brand / collapse
         $a[] = '    <div class="navbar-header">';
         $a[] = '      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-principal-collapse">';
         $a[] = '        <span class="sr-only">Toggle navigation</span>';
@@ -170,7 +169,7 @@ class TemaSimpleHTML {
             $a[] = "      <a class=\"navbar-brand\" href=\"index.php\">{$this->sistema}</a>";
         }
         $a[] = '    </div>';
-        // MENU
+        // Menu
         $a[] = '    <div class="navbar-collapse collapse" id="menu-principal-collapse">';
         $a[] = '      <ul class="nav navbar-nav">';
         foreach ($this->menu->opciones_menu_principal() as $opcion) {
@@ -216,11 +215,11 @@ class TemaSimpleHTML {
             $a[] = '      </ul>';
         }
         $a[] = '    </div>';
-        // CERRAR TAGS
+        // Cerrar tags
         $a[] = '  </div>';
         $a[] = '</nav>';
         $a[] = '<!-- MENU PRINCIPAL TERMINA -->';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // menu_principal_html
 
@@ -230,23 +229,21 @@ class TemaSimpleHTML {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // SI ESTA DEFINIDO EL MENU
+        // Si esta definido el menu, se toma el título y el ícono de éste
         if (is_object($this->menu)) {
-            // SI EL TITULO NO ESTA DEFINIDO SE TOMA DEL MENU
             if ($this->titulo == '') {
                 $this->titulo = $this->menu->titulo_en();
             }
-            // SI EL ICONO NO ESTA DEFINIDO SE TOMA DEL MENU
             if ($this->icono == '') {
                 $this->icono = $this->menu->icono_en();
             }
         }
-        // EVITAR QUE SE GUARDE EN EL CACHE DEL NAVEGADOR
+        // evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();
         $a[] = '<!-- CONTENIDO PLANTILLA SIMPLE INICIA -->';
@@ -261,7 +258,7 @@ class TemaSimpleHTML {
         $a[] = '</div>';
         $a[] = '<!-- CONTENIDO PLANTILLA SIMPLE TERMINA -->';
         $a[] = $this->footer_html();
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // html
 

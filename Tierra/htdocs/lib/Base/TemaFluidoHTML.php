@@ -243,9 +243,9 @@ class TemaFluidoHTML {
      * @return string HTML
      */
     protected function menu_secundario_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // SI NO SE HA DEFINIDO EL MENU, ENTONCES ENTREGARÁ UN MENÚ CON MENSAJE DE ERROR
+        // Si no se ha definido el menu, entonces entregará un menú con mensaje de error
         if (!is_object($this->menu)) {
             $a[] = '<!-- MENU SECUNDARIO INICIA -->';
             $a[] = '<div class="well" id="menu-secundario">';
@@ -254,7 +254,7 @@ class TemaFluidoHTML {
             $a[] = '<!-- MENU SECUNDARIO TERMINA -->';
             return implode("\n", $a);
         }
-        // ACUMULAR
+        // Acumular
         $a[] = '<!-- MENU SECUNDARIO INICIA -->';
         $a[] = '<div class="well" id="menu-secundario">';
         $a[] = '  <ul class="nav">';
@@ -276,7 +276,7 @@ class TemaFluidoHTML {
         $a[] = '  </ul>';
         $a[] = '</div>';
         $a[] = '<!-- MENU SECUNDARIO TERMINA -->';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // menu_secundario_html
 

@@ -66,17 +66,17 @@ class TemaIngresoHTML {
             $a[] = '  <link rel="shortcut icon" href="favicon.ico">';
         }
         $a[] = "  <title>{$this->sistema}</title>";
-        // Archivos CSS comunes
+        // Acumular Twitter Bootstrap
         $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
-        // ARCHIVO CSS PROPIO DE ESTA PLANTILLA
+        // Archivo CSS propio de esta plantilla
         $a[] = '  <link href="css/plantilla-ingreso.css" rel="stylesheet" type="text/css">';
         if ($this->css != '') {
             $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
         }
         $a[] = '</head>';
-        // INICIA BODY
+        // Inicia body
         $a[] = '<body>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // header_html
 
@@ -86,9 +86,9 @@ class TemaIngresoHTML {
      * @return string HTML
      */
     protected function footer_html() {
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR
+        // Acumular
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             $a[] = '  <!-- PIE -->';
             $a[] = '  <footer>';
@@ -100,11 +100,11 @@ class TemaIngresoHTML {
             $a[] = $this->pie;
             $a[] = '  </footer>';
         }
-        // CARGAR ARCHIVOS EXTERNOS DE JAVASCRIPT
-        $a[] = '  <!-- JAVASCRIPT INICIA -->';
+        // Acumular JQuery
         $a[] = '  <script src="js/jquery.min.js"></script>';
+        // Acumular Twitter Bootstrap
         $a[] = '  <script src="js/bootstrap.min.js"></script>';
-        // AGREGAR JS QUE SE HAYA AGREGADO DESDE FUERA
+        // Acumular Javascript que se haya agregado desde fuera
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a[] = '<script>';
             $a[] = implode("\n", $this->javascript);
@@ -114,11 +114,10 @@ class TemaIngresoHTML {
             $a[] = $this->javascript;
             $a[] = '</script>';
         }
-        $a[] = '  <!-- JAVASCRIPT TERMINA -->';
-        // CIERRA BODY Y HTML
+        // Acumular cierre de body y html
         $a[] = '</body>';
         $a[] = '</html>';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // footer_html
 
@@ -128,18 +127,18 @@ class TemaIngresoHTML {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // EVITAR QUE SE GUARDE EN EL CACHE DEL NAVEGADOR
+        // Evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // EN ESTE ARREGLO ACUMULAMOS
+        // En este arreglo acumulamos
         $a = array();
-        // ACUMULAR HEADER
+        // Acumular header
         $a[] = $this->header_html();
-        // ACUMULAR INTERIOR
+        // Acumular interior
         $a[] = '<!-- CONTENIDO PLANTILLA INGRESO INICIA -->';
         $a[] = '  <div class="container">';
         $a[] = '    <div class="row">';
-        // PRIMER COLUMNA
+        // Primer columna
         $a[] = '      <div class="col-md-4">';
         if (is_array($this->modelo_ingreso_logos)) {
             foreach ($this->modelo_ingreso_logos as $datos) {
@@ -158,7 +157,7 @@ class TemaIngresoHTML {
             }
         }
         $a[] = '      </div>';
-        // SEGUNDA COLUMNA
+        // Segunda columna
         $a[] = '      <div class="col-md-4">';
         $a[] = '        <form name="form" class="form-signin" method="post" action="index.php">';
         $a[] = "          <h2 class=\"form-signin-heading\">{$this->sistema}</h2>";
@@ -174,7 +173,7 @@ class TemaIngresoHTML {
         $a[] = '          <button class="btn btn-large btn-primary" type="submit">Iniciar sesión</button>';
         $a[] = '        </form>';
         $a[] = '      </div>';
-        // TERCER COLUMNA
+        // Tercer columna
         $a[] = '      <div class="col-md-4">';
         if (is_array($this->modelo_ingreso_logos)) {
             foreach ($this->modelo_ingreso_logos as $datos) {
@@ -193,13 +192,13 @@ class TemaIngresoHTML {
             }
         }
         $a[] = '      </div>';
-        // TERMINAN COLUMNAS
+        // Cerrar columnas
         $a[] = '    </div>';
         $a[] = '  </div>';
         $a[] = '<!-- CONTENIDO PLANTILLA INGRESO TERMINA -->';
-        // ACUMULAR FOOTER
+        // Acumular footer
         $a[] = $this->footer_html();
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // html
 
