@@ -29,12 +29,13 @@ namespace Base;
  */
 abstract class Listado {
 
-    public $listado;                // Arreglo de arreglos asociativos columna => valor
-    public $panal;                  // Arreglo de arreglos con instancias columna => Celda
+    protected $sesion;                  // Instancia de \Inicio\Sesion
+    public $listado;                    // Arreglo de arreglos asociativos columna => valor
+    public $panal;                      // Arreglo de arreglos con instancias columna => Celda
     public $cantidad_registros = 0;
     public $limit              = 0;
     public $offset             = 0;
-    protected $sesion;
+    protected $consultado      = false; // Verdadero si ya fue consultado
 
     /**
      * Constructor

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DESCRIPCION
+ * GenesisPHP - CactusRegistro
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -55,7 +55,7 @@ class CactusRegistro extends \Base\Registro {
         $this->tribu       = 'Cacteae';
         $this->genero      = 'Mammillaria';
         $this->descripcion = 'Mammillaria es uno de los géneros de cactus más grandes de la familia Cactaceae, contiene más de 350 especies y variedades reconocidas. Su especie tipo fue descrita por vez primera por Carolus Linnaeus como Cactus mammillaris en 1753, nombre derivado del latín mammilla = tubérculo, en alusión a los tubérculos que son una de las características del género.';
-        // Bandera
+        // Ya fue consultado
         $this->consultado = true;
     } // consultar
 

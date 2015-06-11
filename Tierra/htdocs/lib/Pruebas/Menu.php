@@ -36,16 +36,16 @@ class Menu extends \Base\Menu {
     // protected $datos;
 
     /**
-     * Alimentar Menu Pruebas
+     * Consultar
      */
-    public function alimentar_menu_pruebas() {
+    public function consultar() {
         // Opciones para el menú de pruebas de Tierra
-        $this->agregar_principal('tierra_prueba_detalle', '-Tierra', 'index.php',         'preferences-desktop.png');
-        $this->agregar('tierra_prueba_detalle',           'Detalle', 'pruebadeatlle.php', 'menu-editor.png');
-        $this->agregar('tierra_prueba_listado',           'Listado', 'pruebalistado.php', 'folder.png');
+        $this->agregar_principal('tierra_prueba', '-Pruebas',  'index.php',         'preferences-desktop.png');
+        $this->agregar('tierra_prueba_detalle',   'Detalle',   'pruebadetalle.php', 'menu-editor.png');
+        $this->agregar('tierra_prueba_listado',   'Listado',   'pruebalistado.php', 'folder.png');
         // Arriba a la derecha
-        $this->agregar_principal_derecha('tierra_inicio',  '',        'index.php',         'glyphicon glyphicon-off');
-    } // alimentar_menu_pruebas
+        $this->agregar_principal_derecha('tierra_inicio',  '', 'index.php',         'glyphicon glyphicon-off');
+    } // consultar
 
 } // Clase Menu
 

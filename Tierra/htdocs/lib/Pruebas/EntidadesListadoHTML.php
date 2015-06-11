@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DESCRIPCION
+ * GenesisPHP - EntidadesListadoHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -26,29 +26,14 @@ namespace Pruebas;
  */
 class EntidadesListadoHTML extends EntidadesListado {
 
-    protected $estructura;
-    protected $listado_controlado;
+    // protected $sesion;
+    // public $listado;
+    // public $panal;
+    // public $cantidad_registros;
+    // public $limit;
+    // public $offset;
+    // protected $consultado;
     protected $javascript = array();
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        // Definir estructura
-        $this->estructura = array(
-            'nombre'    => array('enca' => 'Estado'),
-            'capital'   => array('enca' => 'Capital'),
-            'poblacion' => array('enca' => 'Población', 'formato' => 'entero'),
-            'fundacion' => array('enca' => 'Fecha de fundación'));
-        // Definir el listado controlado
-        $this->listado_controlado = new \Base\ListadoControladoHTML();
-        // Estos parámetros pueden venir por el URL
-        $this->limit              = $this->listado_controlado->limit;
-        $this->offset             = $this->listado_controlado->offset;
-        $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
-        // Ejecutar este método en el padre
-        parent::__construct($in_sesion);
-    } // constructor
 
     /**
      * HTML
@@ -56,20 +41,27 @@ class EntidadesListadoHTML extends EntidadesListado {
      * @return string Código HTML
      */
     public function html() {
-        // Consultar
-        $this->consultar();
+        // Si no se ha consultado
+        if (!$this->consultado) {
+            $this->consultar();
+        }
         // Definir la instancia de BarraHTML
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->encabezado();
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_pruebas_listado');
-        // Definir propiedades de listado controlado
-        $this->listado_controlado->estructura = $this->estructura;
-        $this->listado_controlado->listado    = $this->listado;
-        $this->listado_controlado->barra      = $barra;
+        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
+        // Definir la instancia de ListadoHTML
+        $listado             = new \Base\ListadoHTML();
+        $listado->barra      = $barra;
+        $listado->estructura = array(
+            'nombre'    => array('enca' => 'Estado'),
+            'capital'   => array('enca' => 'Capital'),
+            'poblacion' => array('enca' => 'Población'),
+            'fundacion' => array('enca' => 'Fecha de fundación'));
+        $listado->listado    = $this->listado; // Observe que es la propiedad que trae desde EntidadesListado los datos
         // Acumular código Javascript
-        $this->javascript[] = $this->listado_controlado->javascript();
+        $this->javascript[]  = $listado->javascript();
         // Entregar código HTML
-        return $this->listado_controlado->html();
+        return $listado->html();
     } // html
 
     /**

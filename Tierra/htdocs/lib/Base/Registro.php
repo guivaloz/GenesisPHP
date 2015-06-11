@@ -29,8 +29,8 @@ namespace Base;
  */
 abstract class Registro {
 
-    protected $sesion;             // Instancia con la sesión
-    protected $consultado = false;
+    protected $sesion;             // Instancia de \Inicio\Sesion
+    protected $consultado = false; // Verdadero si ya fue consultado
 
     /**
      * Constructor

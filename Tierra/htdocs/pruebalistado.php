@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DESCRIPCION
+ * GenesisPHP - Prueba Listado
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -24,13 +24,37 @@ require_once('autocargadorclases.php');
 /**
  * Clase PruebaListado
  */
-class PruebaListado extends \Base\PaginaHTML {
+class PruebaListado extends \Base\PlantillaHTML {
+
+    // protected $sistema;
+    // protected $titulo;
+    // protected $descripcion;
+    // protected $autor;
+    // protected $css;
+    // protected $favicon;
+    // protected $modelo;
+    // protected $menu_principal_logo;
+    // protected $modelo_ingreso_logos;
+    // protected $modelo_fluido_logos;
+    // protected $pie;
+    // public $clave;
+    // public $menu;
+    // public $contenido;
+    // public $javascript;
+    protected $sesion; // Instancia de \Inicio\Sesion
 
     /**
      * Constructor
      */
     public function __construct() {
-        parent::__construct('tierra_prueba_listado');
+        // Definir la clave de esta página
+        $this->clave = 'tierra_prueba_listado';
+        // Definir el menú que es fijo
+        $this->menu  = new \Pruebas\Menu();
+        $this->menu->consultar();
+        $this->menu->clave = $this->clave;
+        // Definir la sesión, porque es requerida desde \Base\Listado; con el usuario sistema para no usar la BD y le pasamos el menu
+        $this->sesion = new \Inicio\Sesion('sistema', $this->menu);
     } // constructor
 
     /**
@@ -39,11 +63,10 @@ class PruebaListado extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
-        // Acumularemos la entrega en este arreglo
-        $a = array();
-        // Acumular
-        $listado = new \Pruebas\EntidadesListadoHTML($this->sesion);
-        $a[]     = $listado->html();
+        // Listado de entidades
+        $entidades          = new \Pruebas\EntidadesListadoHTML($this->sesion);
+        $this->contenido[]  = $entidades->html();
+        $this->javascript[] = $entidades->javascript();
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html

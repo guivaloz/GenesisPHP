@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DESCRIPCION
+ * GenesisPHP - EntidadesListado
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -26,12 +26,13 @@ namespace Pruebas;
  */
 class EntidadesListado extends \Base\Listado {
 
+    // protected $sesion;
     // public $listado;
     // public $panal;
     // public $cantidad_registros;
     // public $limit;
     // public $offset;
-    // protected $sesion;
+    // protected $consultado;
 
     /**
      * Encabezado
@@ -82,6 +83,8 @@ class EntidadesListado extends \Base\Listado {
             array('nombre' => 'Zacatecas',                       'capital' => 'Zacatecas',                 'poblacion' =>  1490668, 'fundacion' => '1823-12-23'));
         // Definir la cantidad de registros
         $this->cantidad_registros = count($this->listado);
+        // Ya fue consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase EntidadesListado

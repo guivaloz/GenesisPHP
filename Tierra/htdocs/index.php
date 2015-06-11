@@ -29,14 +29,32 @@ require_once('autocargadorclases.php');
  */
 class IndexHTML extends \Base\PlantillaHTML {
 
+    // protected $sistema;
+    // protected $titulo;
+    // protected $descripcion;
+    // protected $autor;
+    // protected $css;
+    // protected $favicon;
+    // protected $modelo;
+    // protected $menu_principal_logo;
+    // protected $modelo_ingreso_logos;
+    // protected $modelo_fluido_logos;
+    // protected $pie;
+    // public $clave;
+    // public $menu;
+    // public $contenido;
+    // public $javascript;
+
     /**
      * Constructor
      */
     public function __construct() {
-        // MENU
-        $this->menu = new \Pruebas\Menu();
-        $this->menu->alimentar_menu_pruebas();
-        $this->menu->clave = 'tierra_pruebas_detalles';
+        // Definir la clave de esta página
+        $this->clave = 'tierra_prueba';
+        // Definir el menú que es fijo
+        $this->menu  = new \Pruebas\Menu();
+        $this->menu->consultar();
+        $this->menu->clave = $this->clave;
     } // constructor
 
     /**
@@ -46,7 +64,7 @@ class IndexHTML extends \Base\PlantillaHTML {
      */
     public function html() {
         // Mensaje de bienvenida
-        $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas.');
+        $mensaje           = new \Base\MensajeHTML('Este conjunto de páginas realiza una serie de pruebas a las librerías básicas de GenesisPHP.');
         $mensaje->tipo     = 'tip';
         $this->contenido[] = $mensaje->html('Acerca de esta página');
         // Ejecutar el padre y entregar su resultado

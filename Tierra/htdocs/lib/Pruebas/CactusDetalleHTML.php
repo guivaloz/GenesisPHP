@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DESCRIPCION
+ * GenesisPHP - CactusDetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -47,10 +47,14 @@ class CactusDetalleHTML extends CactusRegistro {
      * @return string Código HTML
      */
     public function html() {
+        // Si no se ha consultado
+        if (!$this->consultado) {
+            $this->consultar();
+        }
         // Definir la barra
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_pruebas_detalle');
+        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle');
         // Definir la instacia de DetalleHTML con los datos del registro
         $detalle = new \Base\DetalleHTML();
         $detalle->seccion('Clasificación científica');
