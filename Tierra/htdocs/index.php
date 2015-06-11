@@ -45,48 +45,17 @@ class IndexHTML extends \Base\PlantillaHTML {
      * @return string HTML
      */
     public function html() {
-        //
         // Mensaje de bienvenida
-        //
-        $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas a DetalleHTML.');
+        $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas.');
         $mensaje->tipo     = 'tip';
         $this->contenido[] = $mensaje->html('Acerca de esta página');
-        //
-        // Prueba Detalle
-        //
-        $detalle = new \Base\DetalleHTML();
-        $detalle->seccion('Datos generales');
-        $detalle->dato('Nombre', 'Fulano de Tal');
-        $detalle->dato('Sexo', 'Masculino', 'rojo');
-        $detalle->seccion('Institucionales');
-        $detalle->dato('Número de nómina', '33000');
-        $detalle->dato('Fecha de ingreso', '2012-12-15');
-        $this->contenido[] = $detalle->html('Prueba secciones y datos');
-        unset($detalle);
-        //
-        // Prueba Detalle con Barra y Botones
-        //
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = 'Detalle con botones';
-        $barra->icono      = 'folder.png';
-        $barra->boton_modificar('index.php?accion=modificar', 'Modificar');
-        $barra->boton_eliminar_confirmacion('index.php?accion=eliminar', '¿Está seguro que quiere eliminar este registro?');
-        $detalle        = new \Base\DetalleHTML();
-        $detalle->barra = $barra;
-        $detalle->seccion('Datos generales');
-        $detalle->dato('Nombre', 'Fulano de Tal');
-        $detalle->dato('Sexo', 'Masculino', 'rojo');
-        $this->contenido[] = $detalle->html('Esto no debe salir');
-        unset($detalle);
-        //
-        // Entregar
-        //
+        // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
 } // Clase IndexHTML
 
-// EJECUTAR Y MOSTRAR
+// Ejecutar y mostrar
 $pagina = new IndexHTML();
 echo $pagina->html();
 

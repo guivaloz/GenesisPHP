@@ -30,6 +30,7 @@ class PruebaDetalle extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
+        parent::__construct('tierra_prueba_detalle');
     } // constructor
 
     /**
@@ -41,11 +42,16 @@ class PruebaDetalle extends \Base\PaginaHTML {
         // Acumularemos la entrega en este arreglo
         $a = array();
         // Acumular
-        $a[] = '';
-        // Entregar
-        return implode("\n", $a)."\n";
+        $detalle = new \Pruebas\CactusDetalleHTML($this->sesion);
+        $a[]     = $detalle->html();
+        // Ejecutar el padre y entregar su resultado
+        return parent::html();
     } // html
 
 } // Clase PruebaDetalle
+
+// Ejecutar y mostrar
+$pagina = new PruebaDetalle();
+echo $pagina->html();
 
 ?>

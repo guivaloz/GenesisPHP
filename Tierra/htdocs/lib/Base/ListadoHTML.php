@@ -146,34 +146,34 @@ class ListadoHTML {
      * Elaborar Tabla Contenido con Listado
      */
     protected function elaborar_tabla_contenido_con_listado() {
-        // ACUMULAREMOS LA ENTREGA EN ESTE ARREGLO
+        // Acumularemos la entrega en este arreglo
         $a = array();
-        // BUCLE POR FILAS
+        // Bucle por filas
         foreach ($this->listado as $fila) {
             $a[] = '    <tr>';
-            // BUCLE POR ESTRUCTURA
+            // Bucle por estructura
             foreach ($this->estructura as $columna => $parametros) {
-                // CLASE CSS
+                // Clase CSS
                 $c = array();
                 if ($parametros['clase'] != '') {
-                    $c[] = $parametros['clase']; // DEFINA EL ESTILO CSS EN plantilla-fluida.css
+                    $c[] = $parametros['clase']; // Defina el estilo CSS en plantilla-fluida.css
                 }
                 if ($parametros['formato'] != '') {
-                    $c[] = $parametros['formato']; // DEFINA EL ESTILO CSS EN plantilla-fluida.css
+                    $c[] = $parametros['formato']; // Defina el estilo CSS en plantilla-fluida.css
                 }
                 if (is_array($parametros['colores']) && array_key_exists($parametros['color'], $fila)) {
-                    $c[] = $parametros['colores'][$fila[$parametros['color']]]; // O ES EL COLOR O EL FORMATO
+                    $c[] = $parametros['colores'][$fila[$parametros['color']]]; // O es el color o el formato
                 }
                 if (count($c) > 0) {
                     $celda_clase = sprintf(' class="%s"', implode(' ', $c));
                 } else {
                     $celda_clase = '';
                 }
-                // VALOR DE LA CELDA, SI USA UN sprintf
+                // Valor de la celda, si usa un sprintf
                 if (($parametros['sprintf'] != '') && ($fila[$columna] !== '')) {
-                    $valor = sprintf($parametros['sprintf'], $fila[$columna]); // EJECUTA UN sprintf
+                    $valor = sprintf($parametros['sprintf'], $fila[$columna]);
                 } elseif ($parametros['formato'] != '') {
-                    // SI USA UN FORMATO
+                    // Si usa un formato
                     switch ($parametros['formato']) {
                         case 'fecha':
                             $valor = formato_fecha($fila[$columna]);
@@ -191,13 +191,13 @@ class ListadoHTML {
                             $valor = formato_porcentaje($fila[$columna]);
                             break;
                         default:
-                            $valor = $fila[$columna]; // PASA IGUAL
+                            $valor = $fila[$columna]; // Pasa igual
                     }
                 } else {
-                    // PASA IGUAL
+                    // Pasa igual
                     $valor = $fila[$columna];
                 }
-                // CAMBIAR UN CARACTER POR UNA DESCRIPCION O CORTAR LA CADENA DE TEXTO
+                // Cambiar un carácter por una descripción o cortar la cadena de texto
                 if (is_array($parametros['cambiar']) && ($valor != '')) {
                     $mostrar = $parametros['cambiar'][$valor];
                 } elseif (($parametros['cortar'] > 0) && (strlen($valor) > $parametros['cortar'])) {
@@ -205,56 +205,56 @@ class ListadoHTML {
                 } else {
                     $mostrar = $valor;
                 }
-                // AGREGAMOS LA CELDA DE ACUERDO A...
+                // Agregamos la celda de acuerdo a...
                 if ($mostrar == '') {
-                    // SI HAY QUE A ELABORAR UN VINCULO PERO SIN CONTENIDO
+                    // Si hay que a elaborar un vínculo pero sin contenido
                     if ($parametros['pag'] != '') {
-                        // SI SE USO PARAM
+                        // Si se uso param
                         if (is_array($parametros['param']) && (count($parametros['param']) > 0)) {
-                            // VINCULO CON MUCHOS PARAMETROS, EJEMPLO pagina.php?param=123&var=567
+                            // Vínculo con muchos parametros, ejemplo pagina.php?param=123&var=567
                             $b = array();
                             foreach ($parametros['param'] as $param_var => $param_col) {
                                 $b[] = sprintf('%s=%s', $param_var, urlencode($fila[$param_col]));
                             }
                             $a[] = sprintf('      <td%s><a href="%s?%s">VACIO</a></td>', $celda_clase, $parametros['pag'], implode('&', $b));
                         } elseif (($parametros['id'] != '') && array_key_exists($parametros['id'], $fila)) {
-                            // VINCULO CON UN ID, EJEMPLO pagina.php?usuario=123
+                            // Vínculo con un id, ejemplo pagina.php?usuario=123
                             $a[] = sprintf('      <td%s><a href="%s?id=%s">VACIO</a></td>', $celda_clase, $parametros['pag'], $fila[$parametros['id']]);
                         } else {
-                            // FALTARON LOS DATOS PARA HACER EL VINCULO
+                            // Faltaron los datos para hacer el vínculo
                             $a[] = "      <td{$celda_clase}>FALTO</td>";
                         }
                     } else {
-                        // NO HAY QUE MOSTRAR, SERA UNA CELDA VACIA
+                        // No hay que mostrar, sera una celda vacia
                         $a[] = "      <td{$celda_clase}>&nbsp;</td>";
                     }
                 } elseif ($parametros['pag'] != '') {
-                    // HAY QUE A ELABORAR UN VINCULO
+                    // Hay que a elaborar un vinculo
                     if (is_array($parametros['param']) && (count($parametros['param']) > 0)) {
-                        // VINCULO CON MUCHOS PARAMETROS, EJEMLO pagina.php?param=123&var=567
+                        // Vínculo con muchos parametros, ejemplo pagina.php?param=123&var=567
                         $b = array();
                         foreach ($parametros['param'] as $param_var => $param_col) {
                             $b[] = sprintf('%s=%s', $param_var, urlencode($fila[$param_col]));
                         }
                         $a[] = sprintf('      <td%s><a href="%s?%s">%s</a></td>', $celda_clase, $parametros['pag'], implode('&', $b), $mostrar);
                     } elseif (($parametros['id'] != '') && array_key_exists($parametros['id'], $fila)) {
-                        // VINCULO CON UN ID, EJEMPLO pagina.php?usuario=123
+                        // Vínculo con un id, ejemplo pagina.php?usuario=123
                         $a[] = sprintf('      <td%s><a href="%s?id=%s">%s</a></td>', $celda_clase, $parametros['pag'], $fila[$parametros['id']], $mostrar);
                     } elseif (array_key_exists('id', $fila)) {
-                        // VINCULO CON ID, EJEMPLO pagina.php?id=123
+                        // Vínculo con id, ejemplo pagina.php?id=123
                         $a[] = sprintf('      <td%s><a href="%s?id=%s">%s</a></td>', $celda_clase, $parametros['pag'], $fila['id'], $mostrar);
                     } else {
-                        // NO ESTA DEFINIDO EL ID, SALE SIN VINCULO
+                        // No esta definido el id, sale sin vínculo
                         $a[] = "      <td{$celda_clase}>{$mostrar}</td>";
                     }
                 } else {
-                    // LA CELDA SOLO MUESTRA EL CONTENIDO
+                    // La celda sólo muestra el contenido
                     $a[] = "      <td{$celda_clase}>{$mostrar}</td>";
                 }
             }
             $a[] = '    </tr>';
         }
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // elaborar_tabla_contenido_con_listado
 
@@ -262,20 +262,20 @@ class ListadoHTML {
      * Elaborar Tabla Contenido con Panal
      */
     protected function elaborar_tabla_contenido_con_panal() {
-        // ACUMULAREMOS LA ENTREGA EN ESTE ARREGLO
+        // Acumularemos la entrega en este arreglo
         $a = array();
-        // BUCLE POR FILAS
+        // Bucle por filas
         foreach ($this->panal as $fila) {
             $a[] = '    <tr>';
-            // BUCLE POR ESTRUCTURA
+            // Bucle por estructura
             $fila_celdas = array();
             foreach ($this->estructura as $clave => $parametros) {
-                // SI ES INTANCIA DE Celda
+                // Si es intancia de Celda
                 if (is_object($fila[$clave]) && ($fila[$clave] instanceof Celda)) {
-                    // PASA IGUAL
+                    // Pasa igual
                     $fila_celdas[$clave] = $fila[$clave];
                 } else {
-                    // CONVERTIR A INSTANCIA DE Celda
+                    // Convertir a instancia de Celda
                     $celda = new Celda($fila[$clave]);
                     switch ($parametros['formato']) {
                         case 'cantidad':
@@ -301,15 +301,15 @@ class ListadoHTML {
                     $fila_celdas[$clave] = $celda;
                 }
             }
-            // BUCLE POR ESTRUCTURA
+            // Bucle por estructura
             foreach ($this->estructura as $clave => $parametros) {
-                // CELDA EN USO
+                // Celda en uso
                 $celda = $fila_celdas[$clave];
-                // SI HAY PAGINA DE DESTINO EN LA ESTRUCTURA
+                // Si hay página de destino en la estructura
                 if ($parametros['pag'] != '') {
-                    // SI HAY PARAMETROS
+                    // Si hay parámetros
                     if (is_array($parametros['param']) && (count($parametros['param']) > 0)) {
-                        // VINCULO COMO pagina.php?param1=col1&param2=col2
+                        // Vínculo como pagina.php?param1=col1&param2=col2
                         $b = array();
                         foreach ($parametros['param'] as $param_var => $param_col) {
                             if (isset($fila_celdas[$param_col])) {
@@ -321,7 +321,7 @@ class ListadoHTML {
                         }
                         $vinculo = sprintf('%s?%s', $parametros['pag'], implode('&', $b));
                     } elseif (($parametros['id'] != '') && array_key_exists($parametros['id'], $fila)) {
-                        // VINCULO CON UN ID, EJEMPLO pagina.php?id=456 DONDE 456 NO ES LA COLUMNA 'id'
+                        // Vínculo con un id, ejemplo pagina.php?id=456 donde 456 no es la columna 'id'
                         if (isset($fila_celdas[$parametros['id']])) {
                             $valor = $fila_celdas[$parametros['id']]->valor;
                         } else {
@@ -329,7 +329,7 @@ class ListadoHTML {
                         }
                         $vinculo = sprintf('%s?id=%s', $parametros['pag'], $valor);
                     } elseif (array_key_exists('id', $fila)) {
-                        // VINCULO CON UN ID, EJEMPLO pagina.php?id=123
+                        // Vínculo con un id, ejemplo pagina.php?id=123
                         if (isset($fila_celdas['id'])) {
                             $valor = $fila_celdas['id']->valor;
                         } else {
@@ -342,34 +342,34 @@ class ListadoHTML {
                 } else {
                     $vinculo = '';
                 }
-                // LO QUE SE VA A MOSTRAR
+                // Lo que se va a mostrar
                 if ($vinculo != '') {
                     $mostrar = sprintf('<a href="%s">%s</a>', $vinculo, $celda->formatear());
                 } else {
                     $mostrar = $celda->formatear();
                 }
-                // ACUMULAREMOS LAS CLASES CSS EN ESTE ARREGLO
+                // Acumularemos las clases CSS en este arreglo
                 $clases = array();
-                // EL FORMATO ES UNA CLASE CSS
+                // El formato es una clase CSS
                 if ($celda->formato != '') {
                     $clases[] = $celda->formato;
                 }
-                // SI HAY OTRO FORMATO EN LA ESTRUCTURA, SE ACUMULA
+                // Si hay otro formato en la estructura, se acumula
                 if (($parametros['formato'] != '') && !in_array($parametros['formato'], $clases)) {
                     $clases[] = $parametros['formato'];
                 }
-                // JUNTAR CLASES CSS
+                // Juntar clases CSS
                 if (count($clases) > 0) {
                     $td_clase = sprintf(' class="%s"', implode(' ', $clases));
                 } else {
                     $td_clase = '';
                 }
-                // ACUMULAR CODIGO HTML
+                // Acumular código HTML
                 $a[] = sprintf('      <td%s>%s</td>', $td_clase, $mostrar);
             }
             $a[] = '    </tr>';
         }
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // elaborar_tabla_contenido_con_panal
 
@@ -377,11 +377,11 @@ class ListadoHTML {
      * Elaborar Tabla Final
      */
     protected function elaborar_tabla_final() {
-        // ACUMULAREMOS LA ENTREGA EN ESTE ARREGLO
+        // Acumularemos la entrega en este arreglo
         $a   = array();
         $a[] = '  </tbody>';
         $a[] = '</table>';
-        // SI HAY ALGO EN EL PIE SE AGREGARÁ AL CONTENIDO
+        // Si hay algo en el pie se agregará al contenido
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -393,10 +393,10 @@ class ListadoHTML {
         } elseif (is_string($this->pie) && ($this->pie != '')) {
             $a[] = $this->pie;
         }
-        // CIERRE
+        // Cierre
         $a[] = '</div>';
         $a[] = '<!-- LISTADO TERMINA -->';
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // elaborar_tabla_final
 
@@ -408,31 +408,31 @@ class ListadoHTML {
      * @return string HTML
      */
     public function html($in_encabezado='', $in_icono='') {
-        // PARAMETROS
+        // Parámetros
         if ($in_encabezado != '') {
             $this->encabezado = $in_encabezado;
         }
         if ($in_icono != '') {
             $this->icono = $in_icono;
         }
-        // VALIDAR
+        // Validar
         try {
             $this->validar();
         } catch (\Exception $e) {
             $mensaje = new MensajeHTML($e->getMessage());
             return $mensaje->html($this->encabezado);
         }
-        // ACUMULAREMOS LA ENTREGA EN ESTE ARREGLO
+        // Acumularemos la entrega en este arreglo
         $a   = array();
         $a[] = $this->elaborar_tabla_inicio();
-        // PREFERIR PANAL SOBRE LISTADO
+        // Preferir panal sobre listado
         if (count($this->panal) > 0) {
             $a[] = $this->elaborar_tabla_contenido_con_panal();
         } else {
             $a[] = $this->elaborar_tabla_contenido_con_listado();
         }
         $a[] = $this->elaborar_tabla_final();
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // html
 
@@ -442,7 +442,7 @@ class ListadoHTML {
      * @return string Javascript, si no hay entrega falso
      */
     public function javascript() {
-        // SI HAY CODIGO JAVASCRIPT EN LOS OBJETOS DE LA CABEZA
+        // Si hay codigo Javascript en los objetos de la cabeza
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {
             foreach ($this->cabeza as $p) {
                 if (is_object($p)) {
@@ -450,7 +450,7 @@ class ListadoHTML {
                 }
             }
         }
-        // SI HAY CODIGO JAVASCRIPT EN LOS OBJETOS DEL PIE
+        // Si hay codigo Javascript en los objetos del pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -458,7 +458,7 @@ class ListadoHTML {
                 }
             }
         }
-        // ENTREGAR
+        // Entregar
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {

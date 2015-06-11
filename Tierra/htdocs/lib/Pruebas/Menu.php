@@ -40,9 +40,9 @@ class Menu extends \Base\Menu {
      */
     public function alimentar_menu_pruebas() {
         // Opciones para el menú de pruebas de Tierra
-        $this->agregar_principal('tierra_pruebas_detalle', '-Tierra', 'index.php',         'preferences-desktop.png');
-        $this->agregar('tierra_pruebas_detalle',           'Detalle', 'index.php',         'menu-editor.png');
-        $this->agregar('tierra_pruebas_listado',           'Listado', 'pruebalistado.php', 'folder.png');
+        $this->agregar_principal('tierra_prueba_detalle', '-Tierra', 'index.php',         'preferences-desktop.png');
+        $this->agregar('tierra_prueba_detalle',           'Detalle', 'pruebadeatlle.php', 'menu-editor.png');
+        $this->agregar('tierra_prueba_listado',           'Listado', 'pruebalistado.php', 'folder.png');
         // Arriba a la derecha
         $this->agregar_principal_derecha('tierra_inicio',  '',        'index.php',         'glyphicon glyphicon-off');
     } // alimentar_menu_pruebas

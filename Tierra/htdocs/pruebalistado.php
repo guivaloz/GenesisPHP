@@ -30,10 +30,7 @@ class PruebaListado extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
-        // MENU
-        $this->menu = new \Pruebas\Menu();
-        $this->menu->alimentar_menu_pruebas();
-        $this->menu->clave = 'tierra_pruebas_detalles';
+        parent::__construct('tierra_prueba_listado');
     } // constructor
 
     /**
@@ -42,29 +39,18 @@ class PruebaListado extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
-        //
-        // Mensaje de bienvenida
-        //
-        $mensaje           = new \Base\MensajeHTML('Esta página realiza una serie de pruebas a ListadoHTML.');
-        $mensaje->tipo     = 'tip';
-        $this->contenido[] = $mensaje->html('Acerca de esta página');
-        //
-        // Prueba Listado
-        //
-        $listado             = new \Pruebas\EntidadesListadoHTML();
-     // $listado->estructura = ;
-     // $listado->listado    = ;
-        $this->contenido[]   = $listado->html('Entedades Federativas de México');
-        $this->javascript[]  = $listado->javascript();
-        //
-        // Entregar
-        //
+        // Acumularemos la entrega en este arreglo
+        $a = array();
+        // Acumular
+        $listado = new \Pruebas\EntidadesListadoHTML($this->sesion);
+        $a[]     = $listado->html();
+        // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
 } // Clase PruebaListado
 
-// EJECUTAR Y MOSTRAR
+// Ejecutar y mostrar
 $pagina = new PruebaListado();
 echo $pagina->html();
 

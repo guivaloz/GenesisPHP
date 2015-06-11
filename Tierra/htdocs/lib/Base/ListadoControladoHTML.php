@@ -42,16 +42,16 @@ class ListadoControladoHTML extends ListadoHTML {
     public $offset;
     public $cantidad_registros;
     public $variables;
-    public $viene_listado;       // SE USA EN LA PAGINA, SI ES VERDADERO DEBE MOSTRAR EL LISTADO
+    public $viene_listado;       // Se usa en la página, si es verdadero debe mostrar el listado
     protected $controlado_html;
 
     /**
      * Constructor
      */
     public function __construct() {
-        // INICIAMOS CONTROLADO HTML
+        // Iniciamos controlado html
         $this->controlado_html = new ControladoHTML();
-        // TOMAMOS ESTOS VALORES QUE PUEDEN VENIR POR EL URL
+        // Tomamos estos valores que pueden venir por el url
         $this->limit              = $this->controlado_html->limit;
         $this->offset             = $this->controlado_html->offset;
         $this->cantidad_registros = $this->controlado_html->cantidad_registros;
@@ -66,13 +66,13 @@ class ListadoControladoHTML extends ListadoHTML {
      * @return string HTML
      */
     public function html($in_encabezado='', $in_icono='') {
-        // LE ENTREGAMOS A CONTROLADO HTML
+        // Le entregamos a controlado HTML
         $this->controlado_html->cantidad_registros = $this->cantidad_registros;
         $this->controlado_html->variables          = $this->variables;
         $this->controlado_html->limit              = $this->limit; // PUEDE PONERSE EN CERO PARA QUE NO TENGA BOTONES
-        // DEFINIMOS EL PIE DE LA LISTA
+        // Definimos el pie de la lista
         $this->pie = $this->controlado_html->html();
-        // EJECUTAR PADRE
+        // Ejecutar padre
         return parent::html($in_encabezado, $in_icono);
     } // html
 

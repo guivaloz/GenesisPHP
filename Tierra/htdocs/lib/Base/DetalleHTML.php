@@ -133,7 +133,7 @@ class DetalleHTML {
         foreach ($this->secciones as $seccion_etiqueta => $seccion_datos) {
             foreach ($seccion_datos as $dato_etiqueta => $dato_valor) {
                 if (is_array($dato_valor)) {
-                    $valor = $dato_valor['dato']; // FALTA USAR EL $dato_valor['color']
+                    $valor = $dato_valor['dato']; // Falta usar el $dato_valor['color']
                 } else {
                     $valor = $dato_valor;
                 }
