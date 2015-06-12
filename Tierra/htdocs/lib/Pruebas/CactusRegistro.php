@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - CactusRegistro
+ * GenesisPHP - Cactus Registro
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package GenesisPHP
  */
 
 // Namespace
@@ -44,7 +45,7 @@ class CactusRegistro extends \Base\Registro {
      * Consultar
      */
     public function consultar() {
-        // Datos
+        // Definir datos del registro
         $this->nombre      = 'Mammillaria';
         $this->reino       = 'Plantae';
         $this->division    = 'Magnoliophyta';

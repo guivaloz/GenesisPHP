@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Prueba Detalle
+ * GenesisPHP - Prueba Formulario
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 require_once('autocargadorclases.php');
 
 /**
- * Clase PaginaPruebaDetalle
+ * Clase PaginaPruebaFormulario
  */
-class PaginaPruebaDetalle extends \Base\PlantillaHTML {
+class PaginaPruebaFormulario extends \Base\PlantillaHTML {
 
     // protected $sistema;
     // protected $titulo;
@@ -49,12 +49,12 @@ class PaginaPruebaDetalle extends \Base\PlantillaHTML {
      */
     public function __construct() {
         // Definir la clave de esta página
-        $this->clave = 'tierra_prueba_detalle';
+        $this->clave = 'tierra_prueba_formulario';
         // Definir el menú que es fijo
         $this->menu  = new \Pruebas\Menu();
         $this->menu->consultar();
         $this->menu->clave = $this->clave;
-        // Definir la sesión, porque es requerida desde \Base\Registro; con el usuario sistema para no usar la BD y le pasamos el menu
+        // Definir la sesión, porque es requerida desde \Base\Listado; con el usuario sistema para no usar la BD y le pasamos el menu
         $this->sesion = new \Inicio\Sesion('sistema', $this->menu);
     } // constructor
 
@@ -64,18 +64,18 @@ class PaginaPruebaDetalle extends \Base\PlantillaHTML {
      * @return string Código HTML
      */
     public function html() {
-        // Detalle del cactus
-        $cactus             = new \Pruebas\CactusDetalleHTML($this->sesion);
-        $this->contenido[]  = $cactus->html();
-        $this->javascript[] = $cactus->javascript();
+        // Formulario de disco
+        $disco              = new \Pruebas\DiscoFormularioHTML($this->sesion);
+        $this->contenido[]  = $entidades->html();
+        $this->javascript[] = $entidades->javascript();
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
-} // Clase PaginaPruebaDetalle
+} // Clase PaginaPruebaFormulario
 
 // Ejecutar y mostrar
-$pagina = new PaginaPruebaDetalle();
+$pagina = new PaginaPruebaFormulario();
 echo $pagina->html();
 
 ?>

@@ -17,14 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package GenesisPHP
  */
 
 require_once('autocargadorclases.php');
 
 /**
- * Clase PruebaListado
+ * Clase PaginaPruebaListado
  */
-class PruebaListado extends \Base\PlantillaHTML {
+class PaginaPruebaListado extends \Base\PlantillaHTML {
 
     // protected $sistema;
     // protected $titulo;
@@ -71,10 +72,10 @@ class PruebaListado extends \Base\PlantillaHTML {
         return parent::html();
     } // html
 
-} // Clase PruebaListado
+} // Clase PaginaPruebaListado
 
 // Ejecutar y mostrar
-$pagina = new PruebaListado();
+$pagina = new PaginaPruebaListado();
 echo $pagina->html();
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Entidades ListadoHTML
+ * GenesisPHP - Disco DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,17 +23,21 @@
 namespace Pruebas;
 
 /**
- * Clase EntidadesListadoHTML
+ * Clase DiscoDetalleHTML
  */
-class EntidadesListadoHTML extends EntidadesListado {
+class DiscoDetalleHTML extends DiscoRegistro {
 
     // protected $sesion;
-    // public $listado;
-    // public $panal;
-    // public $cantidad_registros;
-    // public $limit;
-    // public $offset;
     // protected $consultado;
+    // public $titulo;
+    // public $lanzamiento;
+    // public $artista;
+    // public $genero;
+    // public $canciones_cantidad;
+    // public $origen;
+    // public $origen_descrito;
+    // static public $origen_descripciones;
+    // static public $origen_colores;
     protected $javascript = array();
 
     /**
@@ -46,23 +50,24 @@ class EntidadesListadoHTML extends EntidadesListado {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Definir la instancia de BarraHTML
+        // Definir la barra
         $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->encabezado();
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
-        // Definir la instancia de ListadoHTML
-        $listado             = new \Base\ListadoHTML();
-        $listado->barra      = $barra;
-        $listado->estructura = array(
-            'nombre'    => array('enca' => 'Estado'),
-            'capital'   => array('enca' => 'Capital'),
-            'poblacion' => array('enca' => 'Población'),
-            'fundacion' => array('enca' => 'Fecha de fundación'));
-        $listado->listado    = $this->listado; // Observe que es la propiedad que trae desde EntidadesListado los datos
+        $barra->encabezado = $this->nombre;
+        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
+        // Definir la instacia de DetalleHTML con los datos del registro
+        $detalle = new \Base\DetalleHTML();
+        $detalle->seccion('Disco');
+        $detalle->dato('Título',                $this->titulo);
+        $detalle->dato('Lanzamiento',           $this->lanzamiento);
+        $detalle->dato('Artista',               $this->artista);
+        $detalle->dato('Género',                $this->genero);
+        $detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
+        $detalle->dato('Origen',                $this->origen_descrito);
+        $detalle->barra = $barra;
         // Acumular código Javascript
-        $this->javascript[]  = $listado->javascript();
+        $this->javascript[] = $detalle->javascript();
         // Entregar código HTML
-        return $listado->html();
+        return $detalle->html();
     } // html
 
     /**
@@ -74,6 +79,6 @@ class EntidadesListadoHTML extends EntidadesListado {
         return implode('', $this->javascript);
     } // javascript
 
-} // Clase EntidadesListadoHTML
+} // Clase DiscoDetalleHTML
 
 ?>

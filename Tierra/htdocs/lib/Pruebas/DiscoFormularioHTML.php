@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - ListadoExceptionValidacion
+ * GenesisPHP - Disco FormularioHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,15 +20,35 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace Pruebas;
 
 /**
- * Clase ListadoExceptionValidacion
+ * Clase DiscoFormularioHTML
  */
-class ListadoExceptionValidacion extends \Exception {
+class DiscoFormularioHTML extends DiscoDetalleHTML {
 
+    /**
+     * Formulario
+     *
+     * @return string  HTML del Formulario
+     */
+    protected function formulario() {
+    } // formulario
 
+    /**
+     * Recibir los valores del formulario
+     */
+    protected function recibir_formulario() {
+    } // recibir_formulario
 
-} // Clase ListadoExceptionValidacion
+    /**
+     * HTML
+     *
+     * @return string HTML
+     */
+    public function html() {
+    } // html
+
+} // Clase DiscoFormularioHTML
 
 ?>

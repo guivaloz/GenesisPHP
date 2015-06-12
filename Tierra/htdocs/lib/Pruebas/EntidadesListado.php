@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - EntidadesListado
+ * GenesisPHP - Entidades Listado
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package GenesisPHP
  */
 
 namespace Pruebas;
