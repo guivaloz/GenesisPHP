@@ -50,7 +50,7 @@ class DiscoRegistro extends \Base\Registro {
         // Definir datos del registro
         $this->titulo             = 'Rubber Soul';
         $this->lanzamiento        = '1966-08-05';
-        $this->artista            = 'The Beatles'
+        $this->artista            = 'The Beatles';
         $this->genero             = 'Pop Rock';
         $this->canciones_cantidad = 12;
         $this->origen             = 'E';
@@ -58,6 +58,33 @@ class DiscoRegistro extends \Base\Registro {
         // Ya fue consultado
         $this->consultado = true;
     } // consultar
+
+    /**
+     * Validar
+     */
+    public function validar() {
+        // Validar
+        if (!$this->validar_nombre($this->titulo)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Título incorrecto.');
+        }
+        if (!$this->validar_fecha($this->lanzamiento)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Lanzamiento incorrecto.');
+        }
+        if (!$this->validar_nombre($this->artista)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Artista incorrecto.');
+        }
+        if (!$this->validar_nombre($this->genero)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Género incorrecto.');
+        }
+        if (!$this->validar_entero($this->canciones_cantidad)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Cantidad de canciones incorrecto.');
+        }
+        if (!array_key_exists($this->origen, self::$origen_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Origen incorrecto.');
+        }
+        // Definir los descritos
+        $this->origen_descrito = self::$origen_descripciones[$this->origen];
+    } // validar
 
 } // Clase DiscoRegistro
 

@@ -203,7 +203,7 @@ FIN;
      * @return string Javascript
      */
     public function javascript() {
-        // Si hay Javascript en los objetos pare el pie
+        // Si hay Javascript en los objetos del pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -211,7 +211,7 @@ FIN;
                 }
             }
         }
-        // Entregar
+        // Entregar sólo código, sin renglones en blanco
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {

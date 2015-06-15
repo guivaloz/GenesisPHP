@@ -66,8 +66,8 @@ class PaginaPruebaFormulario extends \Base\PlantillaHTML {
     public function html() {
         // Formulario de disco
         $disco              = new \Pruebas\DiscoFormularioHTML($this->sesion);
-        $this->contenido[]  = $entidades->html();
-        $this->javascript[] = $entidades->javascript();
+        $this->contenido[]  = $disco->html();
+        $this->javascript[] = $disco->javascript();
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html

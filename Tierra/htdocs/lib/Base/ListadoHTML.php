@@ -440,7 +440,7 @@ class ListadoHTML {
      * @return string Javascript, si no hay entrega falso
      */
     public function javascript() {
-        // Si hay codigo Javascript en los objetos de la cabeza
+        // Si hay Javascript en los objetos de la cabeza
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {
             foreach ($this->cabeza as $p) {
                 if (is_object($p)) {
@@ -448,7 +448,7 @@ class ListadoHTML {
                 }
             }
         }
-        // Si hay codigo Javascript en los objetos del pie
+        // Si hay Javascript en los objetos del pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
@@ -456,7 +456,7 @@ class ListadoHTML {
                 }
             }
         }
-        // Entregar
+        // Entregar sólo código, sin renglones en blanco
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {
