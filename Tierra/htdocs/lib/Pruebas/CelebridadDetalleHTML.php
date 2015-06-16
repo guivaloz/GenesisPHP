@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Cactus DetalleHTML
+ * GenesisPHP - Celebridad DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,22 +23,18 @@
 namespace Pruebas;
 
 /**
- * Clase CactusDetalleHTML
+ * Clase CelebridadDetalleHTML
  */
-class CactusDetalleHTML extends CactusRegistro {
+class CelebridadDetalleHTML extends CelebridadRegistro {
 
     // protected $sesion;
     // protected $consultado;
     // public $nombre;
-    // public $reino;
-    // public $division;
-    // public $clase;
-    // public $orden;
-    // public $familia;
-    // public $subfamilia;
-    // public $tribu;
-    // public $genero;
-    // public $descripcion;
+    // public $sexo;
+    // public $sexo_descrito;
+    // public $nacimiento_fecha;
+    // public $nacimiento_lugar;
+    // public $nacionalidad;
     protected $javascript = array();
 
     /**
@@ -54,20 +50,22 @@ class CactusDetalleHTML extends CactusRegistro {
         // Definir la barra
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle');
+        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
         // Definir la instacia de DetalleHTML con los datos del registro
         $detalle = new \Base\DetalleHTML();
         $detalle->seccion('Clasificación científica');
-        $detalle->dato('Reino',       $this->reino);
-        $detalle->dato('División',    $this->division);
-        $detalle->dato('Clase',       $this->clase);
-        $detalle->dato('Orden',       $this->orden);
-        $detalle->dato('Familia',     $this->familia);
-        $detalle->dato('Subfamilia',  $this->subfamilia);
-        $detalle->dato('Tribu',       $this->tribu);
-        $detalle->dato('Género',      $this->genero);
-        $detalle->dato('Descripción', $this->descripcion);
+        $detalle->dato('Nombre',              $this->nombre);
+        $detalle->dato('Sexo',                $this->sexo_descrito);
+        $detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
+        $detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
+        $detalle->dato('Nacionalidad',        $this->nacionalidad);
         $detalle->barra = $barra;
+        // Definir imagen
+        $imagen = new \Base\ImagenHTML('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
+        $imagen->configurar_para_detalle();
+        $imagen->cargar(1, 'qwerty', 'middle');
+        $imagen->vincular('big');
+        $detalle->imagen($imagen);
         // Acumular código Javascript
         $this->javascript[] = $detalle->javascript();
         // Entregar código HTML
@@ -83,6 +81,6 @@ class CactusDetalleHTML extends CactusRegistro {
         return implode('', $this->javascript);
     } // javascript
 
-} // Clase CactusDetalleHTML
+} // Clase CelebridadDetalleHTML
 
 ?>

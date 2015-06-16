@@ -38,10 +38,11 @@ class Menu extends \Base\Menu {
      */
     public function consultar() {
         // Opciones para el menú de pruebas de Tierra
-        $this->agregar_principal('tierra_prueba',  '-Pruebas',   'index.php',            'preferences-desktop.png');
-        $this->agregar('tierra_prueba_detalle',    'Detalle',    'pruebadetalle.php',    'supertux.png');
-        $this->agregar('tierra_prueba_listado',    'Listado',    'pruebalistado.php',    'accessories-dictionary.png');
-        $this->agregar('tierra_prueba_formulario', 'Formulario', 'pruebaformulario.php', 'menu-editor.png');
+        $this->agregar_principal('tierra_prueba',    '-Pruebas',         'index.php',             'preferences-desktop.png');
+        $this->agregar('tierra_prueba_detalle',      'Detalle',          'pruebadetalle.php',     'supertux.png');
+        $this->agregar('tierra_prueba_detalle_foto', 'Detalle con foto', 'pruebadetallefoto.php', 'user-info.png');
+        $this->agregar('tierra_prueba_listado',      'Listado',          'pruebalistado.php',     'accessories-dictionary.png');
+        $this->agregar('tierra_prueba_formulario',   'Formulario',       'pruebaformulario.php',  'menu-editor.png');
         // Arriba a la derecha
         $this->agregar_principal_derecha('tierra_inicio',  '', 'index.php',         'glyphicon glyphicon-off');
     } // consultar

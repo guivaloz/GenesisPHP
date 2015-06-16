@@ -20,7 +20,6 @@
  * @package GenesisPHP
  */
 
-// Namespace
 namespace Pruebas;
 
 /**

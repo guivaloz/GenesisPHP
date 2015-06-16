@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Pruebas Página Inicial
+ * GenesisPHP - PaginaPruebaDetalleFoto
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 require_once('autocargadorclases.php');
 
 /**
- * Clase PaginaInicial
+ * Clase PaginaPruebaDetalleFoto
  */
-class PaginaInicial extends \Base\PlantillaHTML {
+class PaginaPruebaDetalleFoto extends \Base\PlantillaHTML {
 
     // protected $sistema;
     // protected $titulo;
@@ -42,37 +42,40 @@ class PaginaInicial extends \Base\PlantillaHTML {
     // public $menu;
     // public $contenido;
     // public $javascript;
+    protected $sesion; // Instancia de \Inicio\Sesion
 
     /**
      * Constructor
      */
     public function __construct() {
         // Definir la clave de esta página
-        $this->clave = 'tierra_prueba';
+        $this->clave = 'tierra_prueba_detalle_foto';
         // Definir el menú que es fijo
         $this->menu  = new \Pruebas\Menu();
         $this->menu->consultar();
         $this->menu->clave = $this->clave;
+        // Definir la sesión, porque es requerida desde \Base\Registro; con el usuario sistema para no usar la BD y le pasamos el menu
+        $this->sesion = new \Inicio\Sesion('sistema', $this->menu);
     } // constructor
 
     /**
      * HTML
      *
-     * @return string HTML
+     * @return string Código HTML
      */
     public function html() {
-        // Mensaje de bienvenida
-        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
-        $mensaje->tipo     = 'tip';
-        $this->contenido[] = $mensaje->html('Acerca de estas páginas');
+        // Detalle del cactus
+        $celebridad         = new \Pruebas\CelebridadDetalleHTML($this->sesion);
+        $this->contenido[]  = $celebridad->html();
+        $this->javascript[] = $celebridad->javascript();
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
-} // Clase PaginaInicial
+} // Clase PaginaPruebaDetalleFoto
 
 // Ejecutar y mostrar
-$pagina = new PaginaInicial();
+$pagina = new PaginaPruebaDetalleFoto();
 echo $pagina->html();
 
 ?>
