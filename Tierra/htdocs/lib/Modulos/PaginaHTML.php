@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos
+ * GenesisPHP - Módulos Página HTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,10 +20,30 @@
  * @package GenesisPHP
  */
 
-require_once('autocargadorclases.php');
+namespace Modulos;
 
-// Mostrar la página HTML
-$pagina_html = new Departamentos\PaginaHTML();
-echo $pagina_html->html();
+/**
+ * Clase PaginaHTML
+ */
+class PaginaHTML extends \Base\PaginaHTML {
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct('modulos');
+    } // constructor
+
+    /**
+     * HTML
+     *
+     * @return string Código HTML
+     */
+    public function html() {
+        // Ejecutar este método en el padre
+        return parent::html();
+    } // html
+
+} // Clase PaginaHTML
 
 ?>

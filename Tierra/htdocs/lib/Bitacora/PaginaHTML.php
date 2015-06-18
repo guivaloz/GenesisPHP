@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Bitacora
+ * GenesisPHP - Bitacora Página HTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *

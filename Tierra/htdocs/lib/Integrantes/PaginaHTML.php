@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Integrantes
+ * GenesisPHP - Integrantes Página HTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *

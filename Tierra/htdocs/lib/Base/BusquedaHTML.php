@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos
+ * GenesisPHP - BusquedaHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,10 +20,15 @@
  * @package GenesisPHP
  */
 
-require_once('autocargadorclases.php');
+namespace Base;
 
-// Mostrar la página HTML
-$pagina_html = new Departamentos\PaginaHTML();
-echo $pagina_html->html();
+/**
+ * Clase BusquedaHTML
+ */
+class BusquedaHTML {
+
+
+
+} // Clase BusquedaHTML
 
 ?>

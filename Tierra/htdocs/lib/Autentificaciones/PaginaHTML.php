@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Autentificaciones
+ * GenesisPHP - Autentificaciones Página HTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *

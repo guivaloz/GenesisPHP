@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos
+ * GenesisPHP - Departamentos DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,10 +20,15 @@
  * @package GenesisPHP
  */
 
-require_once('autocargadorclases.php');
+namespace Departamentos;
 
-// Mostrar la página HTML
-$pagina_html = new Departamentos\PaginaHTML();
-echo $pagina_html->html();
+/**
+ * Clase DetalleHTML
+ */
+class DetalleHTML extends Registro {
+
+
+
+} // Clase DetalleHTML
 
 ?>
