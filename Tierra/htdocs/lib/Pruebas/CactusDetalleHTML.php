@@ -39,7 +39,19 @@ class CactusDetalleHTML extends CactusRegistro {
     // public $tribu;
     // public $genero;
     // public $descripcion;
-    protected $javascript = array();
+    protected $detalle; // Instancia de DetalleHTML
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar DetalleHTML
+        $this->detalle = new \Base\DetalleHTML();
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * HTML
@@ -51,27 +63,20 @@ class CactusDetalleHTML extends CactusRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Definir la barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->nombre;
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle');
-        // Definir la instacia de DetalleHTML con los datos del registro
-        $detalle = new \Base\DetalleHTML();
-        $detalle->seccion('Clasificación científica');
-        $detalle->dato('Reino',       $this->reino);
-        $detalle->dato('División',    $this->division);
-        $detalle->dato('Clase',       $this->clase);
-        $detalle->dato('Orden',       $this->orden);
-        $detalle->dato('Familia',     $this->familia);
-        $detalle->dato('Subfamilia',  $this->subfamilia);
-        $detalle->dato('Tribu',       $this->tribu);
-        $detalle->dato('Género',      $this->genero);
-        $detalle->dato('Descripción', $this->descripcion);
-        $detalle->barra = $barra;
-        // Acumular código Javascript
-        $this->javascript[] = $detalle->javascript();
-        // Entregar código HTML
-        return $detalle->html();
+        // Cargar a detalle lo que se va a mostrar
+        $this->detalle->seccion('Clasificación científica');
+        $this->detalle->dato('Reino',       $this->reino);
+        $this->detalle->dato('División',    $this->division);
+        $this->detalle->dato('Clase',       $this->clase);
+        $this->detalle->dato('Orden',       $this->orden);
+        $this->detalle->dato('Familia',     $this->familia);
+        $this->detalle->dato('Subfamilia',  $this->subfamilia);
+        $this->detalle->dato('Tribu',       $this->tribu);
+        $this->detalle->dato('Género',      $this->genero);
+        $this->detalle->dato('Descripción', $this->descripcion);
+        $this->detalle->barra = $barra;
+        // Entregar
+        return $this->detalle->html($this->nombre, $this->sesion->menu->icono_en('tierra_prueba_detalle'));
     } // html
 
     /**
@@ -80,7 +85,7 @@ class CactusDetalleHTML extends CactusRegistro {
      * @return string Javascript
      */
     public function javascript() {
-        return implode('', $this->javascript);
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase CactusDetalleHTML

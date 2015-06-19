@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Registro
+ * GenesisPHP - BusquedaHTMLExceptionVacio
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,36 +23,12 @@
 namespace Base;
 
 /**
- * Clase Registro
+ * Clase BusquedaHTMLExceptionVacio
  */
-abstract class Registro extends UtileriasParaDatos {
+class BusquedaHTMLExceptionVacio extends \Exception {
 
-    protected $sesion;             // Instancia de \Inicio\Sesion
-    protected $consultado = false; // Verdadero si ya fue consultado
 
-    /**
-     * Constructor
-     *
-     * @param mixed Sesion
-     */
-    public function __construct(\Inicio\Sesion $in_sesion) {
-        $this->sesion = $in_sesion;
-    } // constructor
 
-    /**
-     * Consultar
-     */
-    abstract function consultar();
-
-    /**
-     * Consulta exitosa
-     *
-     * @return boolean Verdadero si ha sido consultado con éxito
-     */
-    public function consulta_exitosa() {
-        return $this->consultado;
-    } // consulta_exitosa
-
-} // Clase Registro
+} // Clase BusquedaHTMLExceptionVacio
 
 ?>

@@ -38,7 +38,19 @@ class DiscoDetalleHTML extends DiscoRegistro {
     // public $origen_descrito;
     // static public $origen_descripciones;
     // static public $origen_colores;
-    protected $javascript = array();
+    protected $detalle; // Instancia de DetalleHTML
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar DetalleHTML
+        $this->detalle = new \Base\DetalleHTML();
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * HTML
@@ -52,22 +64,19 @@ class DiscoDetalleHTML extends DiscoRegistro {
         }
         // Definir la barra
         $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->nombre;
+        $barra->encabezado = $this->titulo;
         $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
-        // Definir la instacia de DetalleHTML con los datos del registro
-        $detalle = new \Base\DetalleHTML();
-        $detalle->seccion('Disco');
-        $detalle->dato('Título',                $this->titulo);
-        $detalle->dato('Lanzamiento',           $this->lanzamiento);
-        $detalle->dato('Artista',               $this->artista);
-        $detalle->dato('Género',                $this->genero);
-        $detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
-        $detalle->dato('Origen',                $this->origen_descrito);
-        $detalle->barra = $barra;
-        // Acumular código Javascript
-        $this->javascript[] = $detalle->javascript();
-        // Entregar código HTML
-        return $detalle->html();
+        // Cargar a detalle lo que se va a mostrar
+        $this->detalle->seccion('Disco');
+        $this->detalle->dato('Título',                $this->titulo);
+        $this->detalle->dato('Lanzamiento',           $this->lanzamiento);
+        $this->detalle->dato('Artista',               $this->artista);
+        $this->detalle->dato('Género',                $this->genero);
+        $this->detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
+        $this->detalle->dato('Origen',                $this->origen_descrito);
+        $this->detalle->barra = $barra;
+        // Entregar
+        return $this->detalle->html();
     } // html
 
     /**
@@ -76,7 +85,7 @@ class DiscoDetalleHTML extends DiscoRegistro {
      * @return string Javascript
      */
     public function javascript() {
-        return implode('', $this->javascript);
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase DiscoDetalleHTML

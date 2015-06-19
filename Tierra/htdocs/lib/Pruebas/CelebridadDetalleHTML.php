@@ -35,7 +35,19 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
     // public $nacimiento_fecha;
     // public $nacimiento_lugar;
     // public $nacionalidad;
-    protected $javascript = array();
+    protected $detalle; // Instancia de DetalleHTML
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar DetalleHTML
+        $this->detalle = new \Base\DetalleHTML();
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * HTML
@@ -51,25 +63,22 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
         $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
-        // Definir la instacia de DetalleHTML con los datos del registro
-        $detalle = new \Base\DetalleHTML();
-        $detalle->seccion('Clasificación científica');
-        $detalle->dato('Nombre',              $this->nombre);
-        $detalle->dato('Sexo',                $this->sexo_descrito);
-        $detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
-        $detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
-        $detalle->dato('Nacionalidad',        $this->nacionalidad);
-        $detalle->barra = $barra;
         // Definir imagen
         $imagen = new \Base\ImagenHTML('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
         $imagen->configurar_para_detalle();
         $imagen->cargar(1, 'qwerty', 'middle');
         $imagen->vincular('big');
-        $detalle->imagen($imagen);
-        // Acumular código Javascript
-        $this->javascript[] = $detalle->javascript();
-        // Entregar código HTML
-        return $detalle->html();
+        // Cargar a detalle lo que se va a mostrar
+        $this->detalle->seccion('Clasificación científica');
+        $this->detalle->dato('Nombre',              $this->nombre);
+        $this->detalle->dato('Sexo',                $this->sexo_descrito);
+        $this->detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
+        $this->detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
+        $this->detalle->dato('Nacionalidad',        $this->nacionalidad);
+        $this->detalle->barra = $barra;
+        $this->detalle->imagen($imagen);
+        // Entregar
+        return $this->detalle->html();
     } // html
 
     /**
@@ -78,7 +87,7 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
      * @return string Javascript
      */
     public function javascript() {
-        return implode('', $this->javascript);
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase CelebridadDetalleHTML

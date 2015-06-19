@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Registro
+ * GenesisPHP - Base Datos Configuración
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,39 +20,18 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace Configuracion;
 
 /**
- * Clase Registro
+ * Clase BaseDatosConfig
  */
-abstract class Registro extends UtileriasParaDatos {
+class BaseDatosConfig {
 
-    protected $sesion;             // Instancia de \Inicio\Sesion
-    protected $consultado = false; // Verdadero si ya fue consultado
+    protected $bd_nombre  = 'genesisphp_demo';
+    protected $servidor   = 'localhost';
+    protected $usuario    = 'postgres';
+    protected $password   = '';
 
-    /**
-     * Constructor
-     *
-     * @param mixed Sesion
-     */
-    public function __construct(\Inicio\Sesion $in_sesion) {
-        $this->sesion = $in_sesion;
-    } // constructor
-
-    /**
-     * Consultar
-     */
-    abstract function consultar();
-
-    /**
-     * Consulta exitosa
-     *
-     * @return boolean Verdadero si ha sido consultado con éxito
-     */
-    public function consulta_exitosa() {
-        return $this->consultado;
-    } // consulta_exitosa
-
-} // Clase Registro
+} // Clase BaseDatosConfig
 
 ?>

@@ -27,7 +27,43 @@ namespace Departamentos;
  */
 class BusquedaHTML extends \Base\BusquedaHTML {
 
+    // public $hay_resultados;
+    // public $entrego_detalle;
+    // public $hay_mensaje;
+    // public $resultado;
+    // protected $sesion;
+    // protected $consultado;
+    // protected $javascript;
+    //
+    static public $form_name = 'departamentos_busqueda';
 
+    /**
+     * Validar
+     */
+    public function validar() {
+    } // validar
+
+    /**
+     * Elaborar formulario
+     *
+     * @return string HTML del Formulario
+     */
+    protected function elaborar_formulario() {
+    } // elaborar_formulario
+
+    /**
+     * Recibir los valores del formulario
+     */
+    protected function recibir_formulario() {
+    } // recibir_formulario
+
+    /**
+     * Consultar
+     *
+     * @return mixed Objeto con el Listado_HTML o Detalle_HTML, falso si no se encontró nada
+     */
+    public function consultar() {
+    } // consultar
 
 } // Clase BusquedaHTML
 

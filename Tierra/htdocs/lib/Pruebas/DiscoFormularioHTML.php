@@ -38,31 +38,40 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
     // public $origen_descrito;
     // static public $origen_descripciones;
     // static public $origen_colores;
-    // protected $javascript;
-    protected $html_elaborado;
-    static public $form_name = 'discoformulario';
+    // protected $detalle;
+    protected $formulario;                        // Instancia de FormularioHTML
+    static public $form_name = 'discoformulario'; // Name del formulario
 
     /**
-     * Formulario
+     * Constructor
      *
-     * @return string  HTML del Formulario
+     * @param mixed Sesion
      */
-    protected function formulario() {
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar FormularioHTML
+        $this->formulario = new \Base\FormularioHTML(self::$form_name);
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
+
+    /**
+     * Elaborar formulario
+     *
+     * @return string HTML del Formulario
+     */
+    protected function elaborar_formulario() {
         // Elaborar formulario
-        $form = new \Base\FormularioHTML(self::$form_name);
-        $form->mensaje = '(*) Campos obligatorios.';
-        $form->texto_nombre('titulo', 'Título', $this->titulo);
-        $form->fecha('lanzamiento', 'Lanzamiento', $this->lanzamiento);
-        $form->texto_nombre('artista', 'Artista', $this->artista);
-        $form->texto_nombre('genero', 'Género', $this->genero);
-        $form->texto_entero('canciones_cantidad', 'Cantidad de canciones', $this->canciones_cantidad);
-        $form->select('origen', 'Origen', parent::$origen_descripciones, $this->origen);
-        $form->boton_guardar();
-        // Acumular Javascript de este formulario
-        $this->javascript[] = $form->javascript();
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
+        $this->formulario->texto_nombre('titulo', 'Título', $this->titulo);
+        $this->formulario->fecha('lanzamiento', 'Lanzamiento', $this->lanzamiento);
+        $this->formulario->texto_nombre('artista', 'Artista', $this->artista);
+        $this->formulario->texto_nombre('genero', 'Género', $this->genero);
+        $this->formulario->texto_entero('canciones_cantidad', 'Cantidad de canciones', $this->canciones_cantidad);
+        $this->formulario->select('origen', 'Origen', parent::$origen_descripciones, $this->origen);
+        $this->formulario->boton_guardar();
         // Entregar
-        return $form->html('Editar disco', $this->sesion->menu->icono_en('tierra_prueba_formulario'));
-    } // formulario
+        return $this->formulario->html($this->titulo, $this->sesion->menu->icono_en('tierra_prueba_formulario'));
+    } // elaborar_formulario
 
     /**
      * Recibir los valores del formulario
@@ -82,10 +91,6 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
      * @return string HTML
      */
     public function html() {
-        // Si ya se elaboro el HTML, solo se entrega y se termina
-        if ($this->html_elaborado != '') {
-            return $this->html_elaborado;
-        }
         // En este arreglo juntaremos la salida
         $a = array();
         // Si viene el formulario
@@ -105,7 +110,7 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
                 // Entregar detalle y mensaje
                 return implode("\n", $a);
             } catch (\Base\RegistroExceptionValidacion $e) {
-                // Falló la validación, mostrar mensaje
+                // Falló la validación, mostrar mensaje y el formulario de nuevo
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
                 $a[]     = $mensaje->html('Respuesta del formulario');
             }
@@ -114,12 +119,21 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
             $this->consultar();
         }
         // Acumular el formulario
-        $a[] = $this->formulario();
-        // Guardar el HTML elaborado
-        $this->html_elaborado = implode("\n", $a);
-        // Entregar formulario
-        return $this->html_elaborado;
+        $a[] = $this->elaborar_formulario();
+        // Entregar
+        return implode("\n", $a);
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return implode("\n", array(
+            $this->detalle->javascript(),
+            $this->formulario->javascript()));
+    } // javascript
 
 } // Clase DiscoFormularioHTML
 

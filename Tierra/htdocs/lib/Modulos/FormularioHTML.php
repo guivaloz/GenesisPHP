@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos FormularioHTML
+ * GenesisPHP - Modulos FormularioHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Modulos;
 
 /**
  * Clase FormularioHTML
@@ -34,8 +34,8 @@ class FormularioHTML extends DetalleHTML {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     // protected $detalle;
-    protected $formulario;                     // Instancia de FormularioHTML
-    static public $form_name = 'departamento'; // Name del formulario
+    protected $formulario;               // Instancia de FormularioHTML
+    static public $form_name = 'modulo'; // Name del formulario
 
     /**
      * Elaborar formulario

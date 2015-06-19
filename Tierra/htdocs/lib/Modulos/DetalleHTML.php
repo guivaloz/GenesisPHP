@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos DetalleHTML
+ * GenesisPHP - Modulos DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Modulos;
 
 /**
  * Clase DetalleHTML
@@ -31,9 +31,9 @@ class DetalleHTML extends Registro {
     // protected $consultado;
     //
     protected $detalle;
-    static public $accion_modificar = 'departamentoModificar';
-    static public $accion_eliminar  = 'departamentoEliminar';
-    static public $accion_recuperar = 'departamentoRecuperar';
+    static public $accion_modificar = 'moduloModificar';
+    static public $accion_eliminar  = 'moduloEliminar';
+    static public $accion_recuperar = 'moduloRecuperar';
 
     /**
      * HTML

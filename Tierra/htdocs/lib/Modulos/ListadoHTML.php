@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Entidades ListadoHTML
+ * GenesisPHP - Modulos ListadoHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Pruebas;
+namespace Modulos;
 
 /**
- * Clase EntidadesListadoHTML
+ * Clase ListadoHTML
  */
-class EntidadesListadoHTML extends EntidadesListado {
+class ListadoHTML extends Listado {
 
     // protected $sesion;
     // public $listado;
@@ -34,6 +34,10 @@ class EntidadesListadoHTML extends EntidadesListado {
     // public $limit;
     // public $offset;
     // protected $consultado;
+    //
+    // public $filtros_param;
+    public $viene_listado = false; // Sirve para que en PaginaHTML se de cuenta de que viene el listado
+    protected $estructura;         // Estructura del listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
     /**
@@ -45,11 +49,8 @@ class EntidadesListadoHTML extends EntidadesListado {
         // Iniciar ListadoControladoHTML
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
-        $this->listado_controlado->estructura = array(
-            'nombre'    => array('enca' => 'Estado'),
-            'capital'   => array('enca' => 'Capital'),
-            'poblacion' => array('enca' => 'Población'),
-            'fundacion' => array('enca' => 'Fecha de fundación'));
+        // Tomar parámetros que pueden venir en el URL
+        // Si algún filtro tiene valor, entonces viene_listado será verdadero
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -57,22 +58,17 @@ class EntidadesListadoHTML extends EntidadesListado {
     /**
      * HTML
      *
-     * @return string Código HTML
+     * @return string HTML
      */
     public function html() {
         // Si no se ha consultado
         if (!$this->consultado) {
             $this->consultar();
         }
+        // Eliminar columnas de la estructura que sean filtros aplicados
         // Definir la barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->encabezado();
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
         // Cargar a listado_controlado lo que se va a mostrar
-        $this->listado_controlado->barra   = $barra;
-        $this->listado_controlado->listado = $this->listado;
         // Entregar
-        return $this->listado_controlado->html();
     } // html
 
     /**
@@ -84,6 +80,6 @@ class EntidadesListadoHTML extends EntidadesListado {
         return $this->listado_controlado->javascript();
     } // javascript
 
-} // Clase EntidadesListadoHTML
+} // Clase ListadoHTML
 
 ?>

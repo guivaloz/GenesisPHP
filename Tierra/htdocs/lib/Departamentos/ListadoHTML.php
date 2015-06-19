@@ -27,7 +27,58 @@ namespace Departamentos;
  */
 class ListadoHTML extends Listado {
 
+    // protected $sesion;
+    // public $listado;
+    // public $panal;
+    // public $cantidad_registros;
+    // public $limit;
+    // public $offset;
+    // protected $consultado;
+    //
+    // public $filtros_param;
+    public $viene_listado = false; // Sirve para que en PaginaHTML se de cuenta de que viene el listado
+    protected $estructura;         // Estructura del listado
+    protected $listado_controlado; // Instancia de ListadoControladoHTML
 
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar ListadoControladoHTML
+        $this->listado_controlado = new \Base\ListadoControladoHTML();
+        // Cargar la estructura
+        // Tomar parámetros que pueden venir en el URL
+        // Si algún filtro tiene valor, entonces viene_listado será verdadero
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
+
+    /**
+     * HTML
+     *
+     * @return string HTML
+     */
+    public function html() {
+        // Si no se ha consultado
+        if (!$this->consultado) {
+            $this->consultar();
+        }
+        // Eliminar columnas de la estructura que sean filtros aplicados
+        // Definir la barra
+        // Cargar a listado_controlado lo que se va a mostrar
+        // Entregar
+    } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return $this->listado_controlado->javascript();
+    } // javascript
 
 } // Clase ListadoHTML
 

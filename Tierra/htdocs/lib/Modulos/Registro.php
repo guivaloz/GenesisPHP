@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos Registro
+ * GenesisPHP - Modulos Registro
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Modulos;
 
 /**
  * Clase Registro

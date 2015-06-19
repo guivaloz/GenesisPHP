@@ -157,12 +157,14 @@ class DetalleHTML {
         $contenido = implode("\n", $a);
         // Si hay barra, se usa, de lo contrario se contruye
         if (is_object($this->barra)) {
-            $encabezado = $this->barra->html()."\n";
+            $encabezado         = $this->barra->html();
+            $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
-            $barra             = new BarraHTML();
-            $barra->encabezado = $this->encabezado;
-            $barra->icono      = $this->icono;
-            $encabezado        = $barra->html()."\n";
+            $barra              = new BarraHTML();
+            $barra->encabezado  = $this->encabezado;
+            $barra->icono       = $this->icono;
+            $encabezado         = $barra->html();
+            $this->javascript[] = $barra->javascript();
         }
         // Si tiene imágenes
         if (count($this->imagenes) > 0) {
@@ -181,7 +183,8 @@ class DetalleHTML {
 <div class="media detalle">
   {$imagen_html}
   <div class="media-body">
-{$encabezado}{$contenido}
+{$encabezado}
+{$contenido}
   </div>
 </div>
 FIN;
@@ -189,7 +192,8 @@ FIN;
             // Entregar sin imágenes
             return <<<FIN
 <div class="detalle">
-{$encabezado}{$contenido}
+{$encabezado}
+{$contenido}
 </div>
 FIN;
         }

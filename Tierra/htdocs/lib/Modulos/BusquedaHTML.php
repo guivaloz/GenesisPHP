@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos Listado
+ * GenesisPHP - Modulos BusquedaHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,57 +20,51 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Modulos;
 
 /**
- * Clase Listado
+ * Clase BusquedaHTML
  */
-class Listado extends \Base\Listado {
+class BusquedaHTML extends \Base\BusquedaHTML {
 
+    // public $hay_resultados;
+    // public $entrego_detalle;
+    // public $hay_mensaje;
+    // public $resultado;
     // protected $sesion;
-    // public $listado;
-    // public $panal;
-    // public $cantidad_registros;
-    // public $limit;
-    // public $offset;
     // protected $consultado;
+    // protected $javascript;
     //
-    public $filtros_param;
+    static public $form_name = 'modulos_busqueda';
 
     /**
      * Validar
      */
     public function validar() {
-        // Validar permiso
-        // Validar filtros
-        // Iniciamos el arreglo para los filtros
-        // Pasar los filtros como parámetros de los botones
-        // Ejecutar vaidar en el padre
     } // validar
 
     /**
-     * Encabezado
+     * Elaborar formulario
      *
-     * @return string Texto del encabezado
+     * @return string HTML del Formulario
      */
-    public function encabezado() {
-        // En este arreglo juntaremos lo que se va a entregar
-        // Juntar elementos
-        // Entregar
-    } // encabezado
+    protected function elaborar_formulario() {
+    } // elaborar_formulario
+
+    /**
+     * Recibir los valores del formulario
+     */
+    protected function recibir_formulario() {
+    } // recibir_formulario
 
     /**
      * Consultar
+     *
+     * @return mixed Objeto con el Listado_HTML o Detalle_HTML, falso si no se encontró nada
      */
     public function consultar() {
-        // Validar
-        // Filtros
-        // Consultar
-        // Provocar excepción si no hay resultados
-        // Pasar la consulta a la propiedad listado
-        // Consultar la cantidad de registros
     } // consultar
 
-} // Clase Listado
+} // Clase BusquedaHTML
 
 ?>
