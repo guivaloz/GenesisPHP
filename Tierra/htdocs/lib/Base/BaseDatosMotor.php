@@ -93,6 +93,20 @@ class BaseDatosMotor extends \Configuracion\BaseDatosConfig {
         }
     } // comando
 
+    /**
+     * SQL Texto
+     *
+     * @parem  string Texto
+     * @return string Texto para usarse dentro de un comando SQL
+     */
+    static public function sql_texto($texto) {
+        if (trim($texto) == '') {
+            return 'NULL';
+        } else {
+            return "'".pg_escape_string(trim($texto))."'";
+        }
+    } // sql_texto
+
 } // Clase BaseDatosMotor
 
 ?>

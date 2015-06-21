@@ -52,8 +52,8 @@ class Registro extends \Base\Registro {
      * Validar
      */
     public function validar() {
-        // Validamos las propiedades
-        // Definimos el estatus descrito
+        // Validar las propiedades
+        // Definir el estatus descrito
     } // validar
 
     /**
