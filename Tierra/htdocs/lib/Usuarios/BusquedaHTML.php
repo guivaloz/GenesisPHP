@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Módulos BusquedaHTML
+ * GenesisPHP - Usuarios BusquedaHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Modulos;
+namespace Usuarios;
 
 /**
  * Clase BusquedaHTML

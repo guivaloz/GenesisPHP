@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Módulos FormularioHTML
+ * GenesisPHP - Usuarios FormularioHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Modulos;
+namespace Usuarios;
 
 /**
  * Clase FormularioHTML
@@ -29,30 +29,7 @@ class FormularioHTML extends DetalleHTML {
 
     // protected $sesion;
     // protected $consultado;
-    // public $id;
-    // public $orden;
-    // public $clave;
-    // public $nombre;
-    // public $pagina;
-    // public $icono;
-    // public $padre;
-    // public $padre_nombre;
-    // public $permiso_maximo;
-    // public $permiso_maximo_descrito;
-    // public $poder_minimo;
-    // public $poder_minimo_descrito;
-    // public $estatus;
-    // public $estatus_descrito;
-    // static public $permiso_maximo_descripciones;
-    // static public $permiso_maximo_colores;
-    // static public $poder_minimo_descripciones;
-    // static public $poder_minimo_colores;
-    // static public $estatus_descripciones;
-    // static public $estatus_colores;
-    // protected $detalle;
-    // static public $accion_modificar;
-    // static public $accion_eliminar;
-    // static public $accion_recuperar;
+    //
     protected $formulario;               // Instancia de FormularioHTML
     protected $es_nuevo;                 // Bandera, si es verdadero es para agregar, falso es para modificar
     static public $form_name = 'modulo'; // Name del formulario
@@ -76,34 +53,11 @@ class FormularioHTML extends DetalleHTML {
      */
     protected function elaborar_formulario() {
         // Elaborar formulario
-        $this->formulario->mensaje = '(*) Campos obligatorios.';
-        $this->formulario->texto_nombre('nombre',            'Nombre *',         $this->nombre, 48, 'Texto como aparecerá en el menú.');
-        $this->formulario->texto_entero('orden',             'Orden *',          $this->orden,   6, 'Número entero, determina su posición.');
-        $this->formulario->texto_nombre('clave',             'Clave *',          $this->clave,  48, 'Texto identificador, debe ser único.');
-        $this->formulario->texto_nombre('pagina',            'Página *',         $this->pagina, 48, 'Nombre del archivo PHP con la página.');
-        $this->formulario->texto_nombre('icono',             'Ícono *',          $this->icono,  48, 'Nombre del archivo PNG.');
-        $modulos = new OpcionesSelect();
-        $this->formulario->select_con_nulo('padre',          'Padre',            $modulos->opciones_padre(),            $this->padre,          1, 'Deje en blanco para ser padre.');
-        $this->formulario->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Máximo permiso de este módulo.');
-        $this->formulario->select_con_nulo('poder_minimo',   'Poder mínimo *',   parent::$poder_minimo_descripciones,   $this->poder_minimo,   1, 'Aparecerá a los que tengan igual o mayor a éste.');
-        $this->formulario->boton_guardar();
-        if ($this->es_nuevo) {
-            $this->formulario->oculto('accion', 'agregar');
-            $this->formulario->boton_cancelar(sprintf('modulos.php?id=%d', $this->id));
-        } else {
-            $this->formulario->oculto('id', $this->id);
-        }
         // Agregar cadenero
     //~ $cadenero = new \Base\Cadenero($this->sesion);
     //~ $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Elaborar encabezado
-        if ($this->es_nuevo) {
-            $encabezado = "Nuevo módulo";
-        } else {
-            $encabezado = $this->nombre;
-        }
         // Entregar
-        return $this->formulario->html($encabezado, $this->sesion->menu->icono_en('departamentos'));
     } // elaborar_formulario
 
     /**
@@ -120,14 +74,6 @@ class FormularioHTML extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Recibir valores
-        $this->nombre         = $this->post_texto($_POST['nombre']);
-        $this->orden          = $_POST['orden'];
-        $this->clave          = $this->post_texto($_POST['clave']);
-        $this->pagina         = $this->post_texto($_POST['pagina']);
-        $this->icono          = $this->post_texto($_POST['icono']);
-        $this->padre          = $this->post_select($_POST['padre']);
-        $this->permiso_maximo = $_POST['permiso_maximo'];
-        $this->poder_minimo   = $_POST['poder_minimo'];
     } // recibir_formulario
 
     /**

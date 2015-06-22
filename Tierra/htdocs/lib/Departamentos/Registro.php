@@ -36,8 +36,8 @@ class Registro extends \Base\Registro {
     public $estatus;
     public $estatus_descrito;
     static public $estatus_descripciones = array(
-        'A' => 'EN USO',
-        'B' => 'ELIMINADO');
+        'A' => 'En uso',
+        'B' => 'Eliminado');
     static public $estatus_colores = array(
         'A' => 'blanco',
         'B' => 'gris');
@@ -259,7 +259,7 @@ class Registro extends \Base\Registro {
             throw new \Exception('Aviso: No tiene permiso para eliminar departamentos.');
         }
         // Consultar si no lo esta
-        if ($this->consultado == false) {
+        if (!$this->consultado) {
             $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
         }
         // Validar el estatus
@@ -284,7 +284,7 @@ class Registro extends \Base\Registro {
             throw new \Exception('Aviso: No tiene permiso para recuperar departamentos.');
         }
         // Consultar si no lo esta
-        if ($this->consultado == false) {
+        if (!$this->consultado) {
             $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
         }
         // Validar el estatus

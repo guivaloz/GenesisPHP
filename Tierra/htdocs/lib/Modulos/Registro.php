@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Modulos Registro
+ * GenesisPHP - Módulos Registro
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -29,7 +29,92 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
-    //
+    public $id;
+    public $orden;
+    public $clave;
+    public $nombre;
+    public $pagina;
+    public $icono;
+    public $padre;
+    public $padre_nombre;
+    public $permiso_maximo;
+    public $permiso_maximo_descrito;
+    public $poder_minimo;
+    public $poder_minimo_descrito;
+    public $estatus;
+    public $estatus_descrito;
+    static public $permiso_maximo_descripciones = array(
+        '1' => '1) Ver',
+        '2' => '2) Modificar',
+        '3' => '3) Agregar',
+        '4' => '4) Eliminar',
+        '5' => '5) Recuperar');
+    static public $permiso_maximo_colores = array(
+        '1' => 'nivel1',
+        '2' => 'nivel2',
+        '3' => 'nivel3',
+        '4' => 'nivel4',
+        '5' => 'nivel5');
+    static public $poder_minimo_descripciones = array(
+        '1' => 'Desde 1',
+        '2' => 'Desde 2',
+        '3' => 'Desde 3',
+        '4' => 'Desde 4',
+        '5' => 'Desde 5',
+        '6' => 'Directores',
+        '7' => 'Webmasters');
+    static public $poder_minimo_colores = array(
+        '1' => 'nivel1',
+        '2' => 'nivel2',
+        '3' => 'nivel3',
+        '4' => 'nivel4',
+        '5' => 'nivel5',
+        '6' => 'nivel6',
+        '7' => 'nivel7');
+    static public $estatus_descripciones = array(
+        'A' => 'En uso',
+        'B' => 'Eliminado');
+    static public $estatus_colores = array(
+        'A' => 'blanco',
+        'B' => 'gris');
+
+    /**
+     * Consultar padre
+     *
+     * @param  integer ID del registro
+     * @return string  Nombre del padre del módulo, si no lo tiene entrega un texto vacío
+     */
+    protected function consultar_padre($in_id) {
+        // Si no tiene padre, terminar entregando texto vacio
+        if ($in_id == '') {
+            return '';
+        }
+        // Validar
+        if (!$this->validar_entero($in_id)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el padre del módulo por ID incorrecto.');
+        }
+        // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando(sprintf("
+                SELECT
+                    nombre
+                FROM
+                    modulos
+                WHERE
+                    id = %u", $in_id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el padre del módulo.', $e->getMessage());
+        }
+        // Si la consulta no entregó nada
+        if ($consulta->cantidad_registros() < 1) {
+            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al padre del módulo.');
+        }
+        // Definir propiedades
+        $a = $consulta->obtener_registro();
+        // Entregar el nombre del padre
+        return $a['nombre'];
+    } // consultar_padre
 
     /**
      * Consultar
@@ -38,14 +123,56 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
+        if (!$this->sesion->puede_ver('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para consultar los módulos.');
+        }
         // Parámetro ID
+        if ($in_id !== false) {
+            $this->id = $in_id;
+        }
         // Validar
+        if (!$this->validar_entero($this->id)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el módulo por ID incorrecto.');
+        }
         // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando(sprintf("
+                SELECT
+                    orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo, estatus
+                FROM
+                    modulos
+                WHERE
+                    id = %u", $this->id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar módulo.', $e->getMessage());
+        }
         // Si la consulta no entregó nada
+        if ($consulta->cantidad_registros() < 1) {
+            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al módulo.');
+        }
         // Obtener resultado de la consulta
+        $a = $consulta->obtener_registro();
         // Si esta eliminado, debe tener permiso para consultarlo
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('modulos')) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
+        }
         // Definir propiedades
+        $this->orden                   = intval($a['orden']);
+        $this->clave                   = $a['clave'];
+        $this->nombre                  = $a['nombre'];
+        $this->pagina                  = $a['pagina'];
+        $this->icono                   = $a['icono'];
+        $this->padre                   = $a['padre'];
+        $this->padre_nombre            = $this->consultar_padre($this->padre); // PUEDE PROVOCAR UNA EXCEPCION
+        $this->permiso_maximo          = intval($a['permiso_maximo']);
+        $this->permiso_maximo_descrito = self::$permiso_maximo_descripciones[$this->permiso_maximo];
+        $this->poder_minimo            = intval($a['poder_minimo']);
+        $this->poder_minimo_descrito   = self::$poder_minimo_descripciones[$this->poder_minimo];
+        $this->estatus                 = $a['estatus'];
+        $this->estatus_descrito        = self::$estatus_descripciones[$this->estatus];
         // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
     /**
@@ -53,7 +180,39 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validar las propiedades
+        if (!$this->validar_entero($this->orden)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Número de orden incorrecto.');
+        }
+        if (!$this->validar_nombre($this->clave)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Clave incorrecta.');
+        }
+        if (!$this->validar_nombre($this->nombre)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
+        }
+        if (!$this->validar_nombre($this->pagina)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Página incorrecta.');
+        }
+        if (!$this->validar_nombre($this->icono)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Icono incorrecto.');
+        }
+        if ($this->padre != '') {
+            $this->padre_nombre = $this->consultar_padre($this->padre); // PODRIA PROVOCAR UNA EXCEPCION
+        } else {
+            $this->padre_nombre = '';
+        }
+        if (!array_key_exists($this->permiso_maximo, self::$permiso_maximo_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+        }
+        if (!array_key_exists($this->poder_minimo, self::$poder_minimo_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Poder mínimo incorrecto.');
+        }
+        if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+        }
         // Definir el estatus descrito
+        $this->permiso_maximo_descrito = self::$permiso_maximo_descripciones[$this->permiso_maximo];
+        $this->poder_minimo_descrito   = self::$poder_minimo_descripciones[$this->poder_minimo];
+        $this->estatus_descrito        = self::$estatus_descripciones[$this->estatus];
     } // validar
 
     /**
@@ -61,8 +220,25 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
+        if (!$this->sesion->puede_agregar('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para agregar módulos.');
+        }
         // Definir propiedades
+        $this->id                      = 'agregar';
+        $this->orden                   = '';
+        $this->clave                   = '';
+        $this->nombre                  = '';
+        $this->pagina                  = '';
+        $this->icono                   = '';
+        $this->padre                   = '';
+        $this->permiso_maximo          = '';
+        $this->permiso_maximo_descrito = '';
+        $this->poder_minimo            = '';
+        $this->poder_minimo_descrito   = '';
+        $this->estatus                 = 'A';
+        $this->estatus_descrito        = self::$estatus_descripciones[$this->estatus];
         // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // nuevo
 
     /**
@@ -72,13 +248,50 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
+        if (!$this->sesion->puede_agregar('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para agregar módulos.');
+        }
         // Verificar que NO haya sido consultado
+        if ($this->consultado == true) {
+            throw new \Exception('Error: Ha sido consultado el módulo, no debe estarlo.');
+        }
         // Validar
+        $this->validar();
         // Insertar registro en la base de datos
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                INSERT INTO modulos
+                    (orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo)
+                VALUES
+                    (%d, %s, %s, %s, %s, %s, %d, %d)",
+                $this->sql_entero($this->orden),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->pagina),
+                $this->sql_texto($this->icono),
+                $this->sql_texto($this->padre),
+                $this->sql_entero($this->permiso_maximo),
+                $this->sql_entero($this->poder_minimo)));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el módulo. ', $e->getMessage());
+        }
         // Obtener el ID del registro recién insertado
+        try {
+            $consulta = $base_datos->comando("SELECT last_value AS id FROM modulos_id_seq");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del módulo. ', $e->getMessage());
+        }
+        $a        = $consulta->obtener_registro();
+        $this->id = intval($a['id']);
         // Después de insertar se considera como consultado
+        $this->consultado = true;
         // Agregar a la bitácora que hay un nuevo registro
+        $msg      = "Nuevo módulo {$this->nombre}.";
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
+        return $msg;
     } // agregar
 
     /**
@@ -88,13 +301,84 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
+        if (!$this->sesion->puede_modificar('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para modificar módulos.');
+        }
         // Verificar que haya sido consultado
+        if ($this->consultado == false) {
+            throw new \Exception('Error: No ha sido consultado el módulo para modificarlo.');
+        }
         // Validar
+        $this->validar();
         // Hay que determinar que va cambiar, para armar el mensaje
+        $original = new Registro($this->sesion);
+        try {
+            $original->consultar($this->id);
+        } catch (\Exception $e) {
+            die('Esto no debería pasar. Error al consultar registro original del módulo.');
+        }
+        $a = array();
+        if ($this->orden != $original->orden) {
+            $a[] = "orden {$this->orden}";
+        }
+        if ($this->clave != $original->clave) {
+            $a[] = "clave {$this->clave}";
+        }
+        if ($this->nombre != $original->nombre) {
+            $a[] = "nombre {$this->nombre}";
+        }
+        if ($this->pagina != $original->pagina) {
+            $a[] = "pagina {$this->pagina}";
+        }
+        if ($this->icono != $original->icono) {
+            $a[] = "ícono {$this->icono}";
+        }
+        if ($this->padre != $original->padre) {
+            $a[] = "padre {$this->padre}";
+        }
+        if ($this->permiso_maximo != $original->permiso_maximo) {
+            $a[] = "permiso máximo {$this->permiso_maximo}";
+        }
+        if ($this->poder_minimo != $original->poder_minimo) {
+            $a[] = "poder mínimo {$this->poder_minimo}";
+        }
+        if ($this->estatus != $original->estatus) {
+            $a[] = "estatus {$this->estatus_descrito}";
+        }
         // Si no hay cambios, provoca excepcion de validacion
+        if (count($a) == 0) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+        } else {
+            $msg = "Modificado el módulo {$this->nombre} con ".implode(', ', $a);
+        }
         // Actualizar registro en la base de datos
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                UPDATE
+                    modulos
+                SET
+                    orden=%d, clave=%s, nombre=%s, pagina=%s, icono=%s, padre=%s, permiso_maximo=%d, poder_minimo=%d, estatus=%s
+                WHERE
+                    id=%u",
+                $this->sql_entero($this->orden),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->pagina),
+                $this->sql_texto($this->icono),
+                $this->sql_texto($this->padre),
+                $this->sql_entero($this->permiso_maximo),
+                $this->sql_entero($this->poder_minimo),
+                $this->sql_texto($this->estatus),
+                $this->id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el módulo. ', $e->getMessage());
+        }
         // Agregar a la bitácora que se modificó el registro
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
+        return $msg;
     } // modificar
 
     /**
@@ -104,10 +388,22 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
+        if (!$this->sesion->puede_eliminar('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para eliminar el módulo.');
+        }
         // Consultar si no lo esta
+        if (!$this->consultado) {
+            $this->consultar();
+        }
         // Validar el estatus
+        if ($this->estatus == 'B') {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el módulo porque ya lo está.');
+        }
         // Cambiar el estatus
+        $this->estatus = 'B';
+        $this->modificar();
         // Entregar mensaje
+        return "Se ha eliminado el módulo {$this->nombre}";
     } // eliminar
 
     /**
@@ -117,10 +413,22 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
+        if (!$this->sesion->puede_recuperar('modulos')) {
+            throw new \Exception('Aviso: No tiene permiso para recuperar el módulo.');
+        }
         // Consultar si no lo esta
+        if (!$this->consultado) {
+            $this->consultar();
+        }
         // Validar el estatus
+        if ($this->estatus == 'A') {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el módulo porque ya lo está.');
+        }
         // Cambiar el estatus
+        $this->estatus = 'A';
+        $this->modificar();
         // Entregar mensaje
+        return "Se ha recuperado el módulo {$this->nombre}";
     } // recuperar
 
 } // Clase Registro

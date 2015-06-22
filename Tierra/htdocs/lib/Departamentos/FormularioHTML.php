@@ -38,9 +38,9 @@ class FormularioHTML extends DetalleHTML {
     // static public $estatus_descripciones;
     // static public $estatus_colores;
     // protected $detalle;
-    // static public $accion_modificar = 'departamentoModificar';
-    // static public $accion_eliminar  = 'departamentoEliminar';
-    // static public $accion_recuperar = 'departamentoRecuperar';
+    // static public $accion_modificar;
+    // static public $accion_eliminar;
+    // static public $accion_recuperar;
     protected $formulario;                     // Instancia de FormularioHTML
     protected $es_nuevo;                       // Bandera, si es verdadero es para agregar, falso es para modificar
     static public $form_name = 'departamento'; // Name del formulario

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Módulos BusquedaHTML
+ * GenesisPHP - Usuarios Listado
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,51 +20,57 @@
  * @package GenesisPHP
  */
 
-namespace Modulos;
+namespace Usuarios;
 
 /**
- * Clase BusquedaHTML
+ * Clase Listado
  */
-class BusquedaHTML extends \Base\BusquedaHTML {
+class Listado extends \Base\Listado {
 
-    // public $hay_resultados;
-    // public $entrego_detalle;
-    // public $hay_mensaje;
-    // public $resultado;
     // protected $sesion;
+    // public $listado;
+    // public $panal;
+    // public $cantidad_registros;
+    // public $limit;
+    // public $offset;
     // protected $consultado;
-    // protected $javascript;
     //
-    static public $form_name = 'modulos_busqueda';
+    public $filtros_param;
 
     /**
      * Validar
      */
     public function validar() {
+        // Validar permiso
+        // Validar filtros
+        // Iniciamos el arreglo para los filtros
+        // Pasar los filtros como parámetros de los botones
+        // Ejecutar validar en el padre
     } // validar
 
     /**
-     * Elaborar formulario
+     * Encabezado
      *
-     * @return string HTML del Formulario
+     * @return string Texto del encabezado
      */
-    protected function elaborar_formulario() {
-    } // elaborar_formulario
-
-    /**
-     * Recibir los valores del formulario
-     */
-    protected function recibir_formulario() {
-    } // recibir_formulario
+    public function encabezado() {
+        // En este arreglo juntaremos lo que se va a entregar
+        // Juntar elementos
+        // Entregar
+    } // encabezado
 
     /**
      * Consultar
-     *
-     * @return mixed Objeto con el Listado_HTML o Detalle_HTML, falso si no se encontró nada
      */
     public function consultar() {
+        // Validar
+        // Filtros
+        // Consultar
+        // Provocar excepción si no hay resultados
+        // Pasar la consulta a la propiedad listado
+        // Consultar la cantidad de registros
     } // consultar
 
-} // Clase BusquedaHTML
+} // Clase Listado
 
 ?>
