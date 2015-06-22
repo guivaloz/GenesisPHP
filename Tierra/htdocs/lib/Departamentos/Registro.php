@@ -63,13 +63,13 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     nombre, clave, notas, estatus
                 FROM
                     departamentos
                 WHERE
-                    id = {$this->id}");
+                    id = %u", $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el departamento.', $e->getMessage());
         }
@@ -98,13 +98,13 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validar las propiedades
-        if (!validar_nombre($this->nombre)) {
+        if (!$this->validar_nombre($this->nombre)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo nombre es incorrecto.');
         }
-        if (!validar_nombre($this->clave)) {
+        if (!$this->validar_nombre($this->clave)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo clave es incorrecto.');
         }
-        if (($this->notas != '') && !validar_notas($this->notas)) {
+        if (($this->notas != '') && !$this->validar_notas($this->notas)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo notas es incorrecto.');
         }
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
@@ -174,7 +174,7 @@ class Registro extends \Base\Registro {
         // Después de insertar se considera como consultado
         $this->consultado = true;
         // Agregar a la bitácora que hay un nuevo registro
-        $msg = "Nuevo departamento {$this->nombre}.";
+        $msg      = "Nuevo departamento {$this->nombre}.";
         $bitacora = new \Bitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
@@ -232,7 +232,7 @@ class Registro extends \Base\Registro {
                 SET
                     nombre=%s, clave=%s, notas=%s, estatus=%s
                 WHERE
-                    id=%d",
+                    id=%u",
                 $this->sql_texto($this->nombre),
                 $this->sql_texto($this->clave),
                 $this->sql_texto($this->notas),

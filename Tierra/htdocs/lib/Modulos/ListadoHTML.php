@@ -66,8 +66,7 @@ class ListadoHTML extends Listado {
             $this->consultar();
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
-        // Definir la barra
-        // Cargar a listado_controlado lo que se va a mostrar
+        // Cargar en listado_controlado
         // Entregar
     } // html
 

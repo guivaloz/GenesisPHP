@@ -43,6 +43,18 @@ class DetalleHTML extends Registro {
     static public $accion_recuperar = 'departamentoRecuperar';
 
     /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar DetalleHTML
+        $this->detalle = new \Base\DetalleHTML();
+        // Ejecutar constructor en el padre
+        parent::__construct($in_sesion);
+    } // constructor
+
+    /**
      * HTML
      *
      * @return string HTML

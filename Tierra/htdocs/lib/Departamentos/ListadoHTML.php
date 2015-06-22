@@ -34,10 +34,12 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    //
+    // public $nombre;
+    // public $estatus;
     // public $filtros_param;
-    public $viene_listado = false; // Sirve para que en PaginaHTML se de cuenta de que viene el listado
-    protected $estructura;         // Estructura del listado
+    // static public $param_nombre;
+    // static public $param_estatus;
+    public $viene_listado = false; // Boleano, para que en PaginaHTML se de cuenta de que viene el listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
     /**
@@ -49,8 +51,33 @@ class ListadoHTML extends Listado {
         // Iniciar ListadoControladoHTML
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
+        $this->listado_controlado->estructura = array(
+            'nombre'  => array(
+                'enca'    => 'Nombre',
+                'pag'     => 'departamentos.php',
+                'color'   => 'estatus',
+                'colores' => Registro::$estatus_colores),
+            'clave' => array(
+                'enca'    => 'Clave',
+                'color'   => 'estatus',
+                'colores' => Registro::$estatus_colores),
+            'estatus' => array(
+                'enca'    => 'Estatus',
+                'cambiar' => Registro::$estatus_descripciones,
+                'color'   => 'estatus',
+                'colores' => Registro::$estatus_colores));
         // Tomar parámetros que pueden venir en el URL
+        $this->nombre             = $_GET[parent::$param_nombre];
+        $this->estatus            = $_GET[parent::$param_estatus];
+        $this->limit              = $this->listado_controlado->limit;
+        $this->offset             = $this->listado_controlado->offset;
+        $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Si algún filtro tiene valor, entonces viene_listado será verdadero
+        if ($this->listado_controlado->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->nombre != '') || ($this->estatus != '');
+        }
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -62,13 +89,24 @@ class ListadoHTML extends Listado {
      */
     public function html() {
         // Si no se ha consultado
-        if (!$this->consultado) {
-            $this->consultar();
+        try {
+            if (!$this->consultado) {
+                $this->consultar();
+            }
+        } catch (\Exception $e) {
+            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            return $mensaje->html($in_encabezado);
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
-        // Definir la barra
-        // Cargar a listado_controlado lo que se va a mostrar
+        if ($this->estatus != '') {
+            unset($this->listado_controlado->estructura['estatus']);
+        }
+        // Cargar en listado_controlado
+        $this->listado_controlado->listado            = $this->listado;
+        $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
+        $this->listado_controlado->variables          = $this->filtros_param;
         // Entregar
+        return $this->listado_html->html($this->encabezado, $this->sesion->menu->icono_en('departamentos'));
     } // html
 
     /**

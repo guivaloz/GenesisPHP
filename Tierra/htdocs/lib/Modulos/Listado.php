@@ -45,7 +45,7 @@ class Listado extends \Base\Listado {
         // Validar filtros
         // Iniciamos el arreglo para los filtros
         // Pasar los filtros como parámetros de los botones
-        // Ejecutar vaidar en el padre
+        // Ejecutar validar en el padre
     } // validar
 
     /**

@@ -106,13 +106,13 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
                 $a[] = parent::html();
                 // Acumular mensaje
                 $mensaje = new \Base\MensajeHTML("Se recibió el formulario satisfactoriamente");
-                $a[]     = $mensaje->html('Respuesta del formulario');
+                $a[]     = $mensaje->html('Éxito');
                 // Entregar detalle y mensaje
                 return implode("\n", $a);
             } catch (\Base\RegistroExceptionValidacion $e) {
                 // Falló la validación, mostrar mensaje y el formulario de nuevo
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                $a[]     = $mensaje->html('Respuesta del formulario');
+                $a[]     = $mensaje->html('Validación');
             }
         } else {
             // Consultar porque se va a modificar

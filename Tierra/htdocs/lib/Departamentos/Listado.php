@@ -36,10 +36,9 @@ class Listado extends \Base\Listado {
     // protected $consultado;
     public $nombre;                      // Filtro, texto
     public $estatus;                     // Filtro, caracter
+    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
     static public $param_nombre  = 'dn';
     static public $param_estatus = 'dt';
-    public $filtros_param;
-    public $filtros_param;
 
     /**
      * Validar
@@ -65,7 +64,7 @@ class Listado extends \Base\Listado {
         if ($this->estatus != '') {
             $this->filtros_param[self::$param_estatus] = $this->estatus;
         }
-        // Ejecutar vaidar en el padre
+        // Ejecutar validar en el padre
         parent::validar();
     } // validar
 
