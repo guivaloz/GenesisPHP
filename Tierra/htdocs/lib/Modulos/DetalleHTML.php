@@ -78,7 +78,7 @@ class DetalleHTML extends Registro {
                 $this->consultar();
             } catch (\Exception $e) {
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html($in_encabezado);
+                return $mensaje->html('Error');
             }
         }
         // Detalle
@@ -97,7 +97,7 @@ class DetalleHTML extends Registro {
         }
         // Encabezado/Barra
         $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $encabezado;
+        $barra->encabezado = $this->nombre;
         $barra->icono      = $this->sesion->menu->icono_en('modulos');
         if (($this->estatus != 'B') && $this->sesion->puede_modificar('modulos')) {
             $barra->boton_modificar(sprintf('modulos.php?id=%d&accion=%s', $this->id, self::$accion_modificar));

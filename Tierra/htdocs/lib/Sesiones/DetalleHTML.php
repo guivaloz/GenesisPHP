@@ -29,18 +29,8 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
-    // public $id;
-    // public $nombre;
-    // public $clave;
-    // public $notas;
-    // public $estatus;
-    // public $estatus_descrito;
-    // static public $estatus_descripciones;
-    // static public $estatus_colores;
+    //
     protected $detalle;
-    static public $accion_modificar = 'departamentoModificar';
-    static public $accion_eliminar  = 'departamentoEliminar';
-    static public $accion_recuperar = 'departamentoRecuperar';
 
     /**
      * Constructor
@@ -66,33 +56,11 @@ class DetalleHTML extends Registro {
                 $this->consultar();
             } catch (\Exception $e) {
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html($in_encabezado);
+                return $mensaje->html('Error');
             }
         }
         // Detalle
-        $this->detalle->seccion('Departamento');
-        $this->detalle->dato('Nombre', $this->nombre);
-        $this->detalle->dato('Clave',  $this->clave);
-        $this->detalle->seccion('Registro');
-        $this->detalle->dato('Notas',  $this->notas);
-        if ($this->sesion->puede_eliminar('departamentos')) {
-            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
-        }
         // Encabezado/Barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $encabezado;
-        $barra->icono      = $this->sesion->menu->icono_en('departamentos');
-        if (($this->estatus != 'B') && $this->sesion->puede_modificar('departamentos')) {
-            $barra->boton_modificar(sprintf('departamentos.php?id=%d&accion=%s', $this->id, self::$accion_modificar));
-        }
-        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('departamentos')) {
-            $barra->boton_eliminar_confirmacion(sprintf('departamentos.php?id=%d&accion=%s', $this->id, self::$accion_eliminar),
-                "¿Está seguro de querer <strong>eliminar</strong> a el departamento {$this->nombre}?");
-        }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('departamentos')) {
-            $barra->boton_recuperar_confirmacion(sprintf('departamentos.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
-                "¿Está seguro de querer <strong>recuperar</strong> a el departamento {$this->nombre}?");
-        }
         $this->detalle->barra = $barra;
         // Entregar
         return $this->detalle->html();

@@ -25,7 +25,7 @@ namespace Usuarios;
 /**
  * Clase RecuperarHTML
  */
-class RecuperarHTML {
+class RecuperarHTML extends DetalleHTML {
 
     /**
      * HTML

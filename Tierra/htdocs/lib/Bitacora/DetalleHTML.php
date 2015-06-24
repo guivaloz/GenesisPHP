@@ -56,7 +56,7 @@ class DetalleHTML extends Registro {
                 $this->consultar();
             } catch (\Exception $e) {
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html($in_encabezado);
+                return $mensaje->html('Error');
             }
         }
         // Detalle

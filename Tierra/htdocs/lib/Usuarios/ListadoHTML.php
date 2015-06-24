@@ -72,7 +72,11 @@ class ListadoHTML extends Listado {
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         // Cargar en listado_controlado
+        $this->listado_controlado->listado            = $this->listado;
+        $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
+        $this->listado_controlado->variables          = $this->filtros_param;
         // Entregar
+        return $this->listado_html->html();
     } // html
 
     /**

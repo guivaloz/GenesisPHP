@@ -106,7 +106,7 @@ class ListadoHTML extends Listado {
         $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
         $this->listado_controlado->variables          = $this->filtros_param;
         // Entregar
-        return $this->listado_html->html($this->encabezado, $this->sesion->menu->icono_en('departamentos'));
+        return $this->listado_html->html();
     } // html
 
     /**

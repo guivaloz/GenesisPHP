@@ -25,7 +25,7 @@ namespace Integrantes;
 /**
  * Clase RecuperarHTML
  */
-class RecuperarHTML {
+class RecuperarHTML extends DetalleHTML {
 
     /**
      * HTML

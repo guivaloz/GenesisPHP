@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Modulos RecuperarHTML
+ * GenesisPHP - Usuarios DesbloquearHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Modulos;
+namespace Usuarios;
 
 /**
- * Clase RecuperarHTML
+ * Clase DesbloquearHTML
  */
-class RecuperarHTML extends DetalleHTML {
+class DesbloquearHTML extends DetalleHTML {
 
     /**
      * HTML
@@ -37,15 +37,15 @@ class RecuperarHTML extends DetalleHTML {
     public function html() {
         // Recuperar, si tiene éxito se muestra el mensaje y el detalle
         try {
-            $msg     = $this->recuperar();
+            $msg     = $this->desbloquear();
             $mensaje = new \Base\MensajeHTML($msg);
-            return $mensaje->html()."\n".$this->html();
+            return $mensaje->html()."\n".parent::html();
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             return $mensaje->html('Error');
         }
     } // html
 
-} // Clase RecuperarHTML
+} // Clase DesbloquearHTML
 
 ?>

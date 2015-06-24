@@ -25,7 +25,7 @@ namespace Modulos;
 /**
  * Clase EliminarHTML
  */
-class EliminarHTML {
+class EliminarHTML extends DetalleHTML {
 
     /**
      * HTML
