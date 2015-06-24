@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos DetalleHTML
+ * GenesisPHP - Sesiones DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Sesiones;
 
 /**
  * Clase DetalleHTML

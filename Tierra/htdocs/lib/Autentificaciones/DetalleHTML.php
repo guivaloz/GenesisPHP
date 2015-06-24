@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos DetalleHTML
+ * GenesisPHP - Autentificaciones DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Autentificaciones;
 
 /**
  * Clase DetalleHTML

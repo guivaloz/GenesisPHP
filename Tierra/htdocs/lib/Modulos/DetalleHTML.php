@@ -116,40 +116,6 @@ class DetalleHTML extends Registro {
     } // html
 
     /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-        // Eliminar, si tiene éxito se muestra el mensaje y el detalle
-        try {
-            $msg     = $this->eliminar();
-            $mensaje = new \Base\MensajeHTML($msg);
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-        // Recuperar, si tiene éxito se muestra el mensaje y el detalle
-        try {
-            $msg     = $this->recuperar();
-            $mensaje = new \Base\MensajeHTML($msg);
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // recuperar_html
-
-    /**
      * Javascript
      *
      * @return string Javascript

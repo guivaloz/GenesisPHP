@@ -52,16 +52,14 @@ class PaginaHTML extends \Base\PaginaHTML {
                 $lenguetas->agregar_activa('modulosModificar', 'Modificar', $formulario);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleHTML::$accion_eliminar)) {
                 // Eliminar
-                $eliminar     = new DetalleHTML($this->sesion);
+                $eliminar     = new EliminarHTML($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('modulosEliminar', 'Eliminar', $eliminar->eliminar_html());
-                $lenguetas->agregar_javascript($eliminar->javascript());
+                $lenguetas->agregar_activa('modulosEliminar', 'Eliminar', $eliminar);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleHTML::$accion_recuperar)) {
                 // Recuperar
-                $recuperar     = new DetalleHTML($this->sesion);
+                $recuperar     = new RecuperarHTML($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('modulosRecuperar', 'Recuperar', $recuperar->recuperar_html());
-                $lenguetas->agregar_javascript($recuperar->javascript());
+                $lenguetas->agregar_activa('modulosRecuperar', 'Recuperar', $recuperar);
             } elseif ($_GET['id'] != '') {
                 // Detalle
                 $detalle     = new DetalleHTML($this->sesion);
