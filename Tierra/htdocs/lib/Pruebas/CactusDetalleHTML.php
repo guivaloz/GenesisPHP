@@ -63,7 +63,9 @@ class CactusDetalleHTML extends CactusRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Cargar a detalle lo que se va a mostrar
+        // Cargar Detalle
+        $this->detalle->encabezado = $this->nombre;
+        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle');
         $this->detalle->seccion('Clasificación científica');
         $this->detalle->dato('Reino',       $this->reino);
         $this->detalle->dato('División',    $this->division);
@@ -74,9 +76,8 @@ class CactusDetalleHTML extends CactusRegistro {
         $this->detalle->dato('Tribu',       $this->tribu);
         $this->detalle->dato('Género',      $this->genero);
         $this->detalle->dato('Descripción', $this->descripcion);
-        $this->detalle->barra = $barra;
         // Entregar
-        return $this->detalle->html($this->nombre, $this->sesion->menu->icono_en('tierra_prueba_detalle'));
+        return $this->detalle->html();
     } // html
 
     /**

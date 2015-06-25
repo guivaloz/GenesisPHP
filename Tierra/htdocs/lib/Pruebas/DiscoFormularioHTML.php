@@ -61,7 +61,8 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
      */
     protected function elaborar_formulario() {
         // Elaborar formulario
-        $this->formulario->mensaje = '(*) Campos obligatorios.';
+        $this->formulario->encabezado = 'Disco';
+        $this->formulario->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
         $this->formulario->texto_nombre('titulo', 'Título', $this->titulo);
         $this->formulario->fecha('lanzamiento', 'Lanzamiento', $this->lanzamiento);
         $this->formulario->texto_nombre('artista', 'Artista', $this->artista);
@@ -69,8 +70,8 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
         $this->formulario->texto_entero('canciones_cantidad', 'Cantidad de canciones', $this->canciones_cantidad);
         $this->formulario->select('origen', 'Origen', parent::$origen_descripciones, $this->origen);
         $this->formulario->boton_guardar();
-        // Entregar
-        return $this->formulario->html($this->titulo, $this->sesion->menu->icono_en('tierra_prueba_formulario'));
+        // Entregar $this->titulo, $this->sesion->menu->icono_en('tierra_prueba_formulario')
+        return $this->formulario->html();
     } // elaborar_formulario
 
     /**
@@ -113,6 +114,10 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
                 // Falló la validación, mostrar mensaje y el formulario de nuevo
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
                 $a[]     = $mensaje->html('Validación');
+            } catch (\Exception $e) {
+                // Error fatal
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $a[]     = $mensaje->html('Error');
             }
         } else {
             // Consultar porque se va a modificar

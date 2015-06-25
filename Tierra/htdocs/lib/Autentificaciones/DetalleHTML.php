@@ -62,8 +62,8 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Detalle
-        // Encabezado/Barra
+        // Elaborar Barra
+        // Cargar Detalle
         // Entregar
         return $this->detalle->html();
     } // html

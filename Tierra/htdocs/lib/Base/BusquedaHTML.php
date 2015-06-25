@@ -50,12 +50,12 @@ abstract class BusquedaHTML {
     abstract protected function validar();
 
     /**
-     * Formulario
+     * Elaborar formulario
      */
-    abstract protected function formulario();
+    abstract protected function elaborar_formulario();
 
     /**
-     * Recibir los valores del formulario
+     * Recibir formulario
      */
     abstract protected function recibir_formulario();
 
@@ -71,15 +71,14 @@ abstract class BusquedaHTML {
      * una con los resultados y otra con el formulario. Este método es
      * para lo segundo.
      *
-     * @param  string Encabezado opcional
      * @return string HTML
      */
-    public function formulario_html($in_encabezado='Buscar') {
+    public function formulario_html() {
         // Recibir el formulario carga las propiedades con los valores de la búsqueda ya realizada
         $this->recibir_formulario();
         // Entregar el formulario de búsqueda
         try {
-            return $this->formulario($in_encabezado);
+            return $this->elaborar_formulario();
         } catch (\Exception $e) {
             $mensaje = new MensajeHTML($e->getMessage());
             return $mensaje->html('Error');
@@ -89,10 +88,9 @@ abstract class BusquedaHTML {
     /**
      * HTML
      *
-     * @param  string Encabezado opcional
      * @return string HTML
      */
-    public function html($in_encabezado='Buscar') {
+    public function html() {
         // Si se envió el formulario
         if ($this->recibir_formulario()) {
             try {
@@ -109,12 +107,12 @@ abstract class BusquedaHTML {
                 // Falló la validación, mostrar mensaje y el formulario de nuevo
                 $this->hay_mensaje = true;
                 $mensaje = new MensajeHTML($e->getMessage());
-                return $mensaje->html('Validación').$this->formulario($in_encabezado);
+                return $mensaje->html('Validación').$this->elaborar_formulario();
             } catch (BusquedaHTMLExceptionVacio $e) {
                 // La búsqueda no arrojó resultados, mostrar mensaje y el formulario de nuevo
                 $this->hay_mensaje = true;
                 $mensaje = new MensajeHTML('Aviso: La búsqueda no encontró resultados.');
-                return $mensaje->html().$this->formulario($in_encabezado);
+                return $mensaje->html('Sin resultados').$this->elaborar_formulario();
             } catch (\Exception $e) {
                 // Error fatal, mostrar mensaje
                 $this->hay_mensaje = true;
@@ -124,11 +122,11 @@ abstract class BusquedaHTML {
         } else {
             try {
                 // No se recibió, mostrar el formulario listo para buscar
-                return $this->formulario($in_encabezado);
+                return $this->formulario();
             } catch (\Exception $e) {
                 // Error fatal, mostrar mensaje
                 $mensaje = new MensajeHTML($e->getMessage());
-                return $mensaje->html('Buscar');
+                return $mensaje->html('Error fatal');
             }
         }
     } // html

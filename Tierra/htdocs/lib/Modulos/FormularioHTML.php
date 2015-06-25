@@ -75,6 +75,8 @@ class FormularioHTML extends DetalleHTML {
      * @return string HTML del Formulario
      */
     protected function elaborar_formulario() {
+        // Consultar los módulos para el select que elije el módulo padre
+        $modulos = new OpcionesSelect();
         // Elaborar formulario
         $this->formulario->mensaje = '(*) Campos obligatorios.';
         $this->formulario->texto_nombre('nombre',            'Nombre *',         $this->nombre, 48, 'Texto como aparecerá en el menú.');
@@ -82,7 +84,6 @@ class FormularioHTML extends DetalleHTML {
         $this->formulario->texto_nombre('clave',             'Clave *',          $this->clave,  48, 'Texto identificador, debe ser único.');
         $this->formulario->texto_nombre('pagina',            'Página *',         $this->pagina, 48, 'Nombre del archivo PHP con la página.');
         $this->formulario->texto_nombre('icono',             'Ícono *',          $this->icono,  48, 'Nombre del archivo PNG.');
-        $modulos = new OpcionesSelect();
         $this->formulario->select_con_nulo('padre',          'Padre',            $modulos->opciones_padre(),            $this->padre,          1, 'Deje en blanco para ser padre.');
         $this->formulario->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Máximo permiso de este módulo.');
         $this->formulario->select_con_nulo('poder_minimo',   'Poder mínimo *',   parent::$poder_minimo_descripciones,   $this->poder_minimo,   1, 'Aparecerá a los que tengan igual o mayor a éste.');
@@ -103,7 +104,7 @@ class FormularioHTML extends DetalleHTML {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $this->formulario->html($encabezado, $this->sesion->menu->icono_en('departamentos'));
+        return $this->formulario->html();
     } // elaborar_formulario
 
     /**

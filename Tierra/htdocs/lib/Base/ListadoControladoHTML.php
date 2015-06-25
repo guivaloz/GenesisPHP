@@ -59,19 +59,17 @@ class ListadoControladoHTML extends ListadoHTML {
     /**
      * HTML
      *
-     * @param  string Encabezado opcional
-     * @param  string Icono opcional
      * @return string HTML
      */
-    public function html($in_encabezado='', $in_icono='') {
+    public function html() {
         // Le entregamos a controlado HTML
         $this->controlado_html->cantidad_registros = $this->cantidad_registros;
         $this->controlado_html->variables          = $this->variables;
-        $this->controlado_html->limit              = $this->limit; // PUEDE PONERSE EN CERO PARA QUE NO TENGA BOTONES
+        $this->controlado_html->limit              = $this->limit; // Puede ponerse en cero para que no tenga botones
         // Definimos el pie de la lista
         $this->pie = $this->controlado_html->html();
         // Ejecutar padre
-        return parent::html($in_encabezado, $in_icono);
+        return parent::html();
     } // html
 
 } // Clase ListadoControladoHTML

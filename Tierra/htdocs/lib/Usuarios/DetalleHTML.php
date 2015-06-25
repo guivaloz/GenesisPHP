@@ -98,29 +98,7 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Detalle
-        $this->detalle->seccion('General');
-        $this->detalle->dato('Nombre corto',            $this->nom_corto);
-        $this->detalle->dato('Nombre',                  sprintf('<a href="usuarios.php?id=%d">%s</a>', $this->id, $this->nombre));
-        $this->detalle->dato('Puesto',                  $this->puesto);
-        $this->detalle->dato('Tipo',                    $this->tipo_descrito);
-        $this->detalle->dato('e-mail',                  ($this->email != '') ? sprintf('<a href="mailto:%s">%s</a>', $this->email, $this->email) : '');
-        $this->detalle->seccion('Contraseña');
-        $this->detalle->dato('Estado',                  $this->contrasena_descrito);
-        $this->detalle->dato('No cifrada',              $this->contrasena_no_cifrada_descrito,   'amarillo');
-        $this->detalle->dato('Bloqueada porque expiró', $this->bloqueada_porque_expiro_descrito, 'rojo');
-        $this->detalle->dato('Bloqueada por fallas',    $this->bloqueada_porque_fallas_descrito, 'rojo');
-        $this->detalle->seccion('Sesión');
-        $this->detalle->dato('Estado',                  $this->sesiones_descrito);
-        $this->detalle->dato('Bloqueada por sesiones',  $this->bloqueada_porque_sesiones_descrito, 'rojo');
-        $this->detalle->dato('Último ingreso',          $this->sesiones_ultima);
-        $this->detalle->dato('Listados',                "Con {$this->listado_renglones} renglones.");
-        $this->detalle->seccion('Registro');
-        $this->detalle->dato('Notas',                   $this->notas);
-        if ($this->sesion->puede_eliminar('usuarios')) {
-            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
-        }
-        // Encabezado/Barra
+        // Elaborar Barra
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
         $barra->icono      = $this->sesion->menu->icono_en('usuarios');
@@ -146,8 +124,29 @@ class DetalleHTML extends Registro {
                 'desbloquearRegistro',
                 "¿Está seguro de querer <strong>desbloquear</strong> a el usuario {$this->nombre}?");
         }
-        // Pasar la barra al detalle html
+        // Cargar Detalle
         $this->detalle->barra = $barra;
+        $this->detalle->seccion('General');
+        $this->detalle->dato('Nombre corto',            $this->nom_corto);
+        $this->detalle->dato('Nombre',                  sprintf('<a href="usuarios.php?id=%d">%s</a>', $this->id, $this->nombre));
+        $this->detalle->dato('Puesto',                  $this->puesto);
+        $this->detalle->dato('Tipo',                    $this->tipo_descrito);
+        $this->detalle->dato('e-mail',                  ($this->email != '') ? sprintf('<a href="mailto:%s">%s</a>', $this->email, $this->email) : '');
+        $this->detalle->seccion('Contraseña');
+        $this->detalle->dato('Estado',                  $this->contrasena_descrito);
+        $this->detalle->dato('No cifrada',              $this->contrasena_no_cifrada_descrito,   'amarillo');
+        $this->detalle->dato('Bloqueada porque expiró', $this->bloqueada_porque_expiro_descrito, 'rojo');
+        $this->detalle->dato('Bloqueada por fallas',    $this->bloqueada_porque_fallas_descrito, 'rojo');
+        $this->detalle->seccion('Sesión');
+        $this->detalle->dato('Estado',                  $this->sesiones_descrito);
+        $this->detalle->dato('Bloqueada por sesiones',  $this->bloqueada_porque_sesiones_descrito, 'rojo');
+        $this->detalle->dato('Último ingreso',          $this->sesiones_ultima);
+        $this->detalle->dato('Listados',                "Con {$this->listado_renglones} renglones.");
+        $this->detalle->seccion('Registro');
+        $this->detalle->dato('Notas',                   $this->notas);
+        if ($this->sesion->puede_eliminar('usuarios')) {
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+        }
         // Entregar
         return $this->detalle->html();
     } // html

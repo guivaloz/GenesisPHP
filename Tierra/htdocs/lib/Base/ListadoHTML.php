@@ -27,9 +27,9 @@ namespace Base;
  */
 class ListadoHTML {
 
-    public $encabezado          = false;   // Si es falso no habra encabezado
-    public $icono;                         // Opcional, archivo de icono en el directorio imagenes
-    public $barra;                         // Opcional, instacia de BarraHTML
+    public $encabezado;                    // Opcional, texto para el encabezado
+    public $icono;                         // Opcional, URL al icono
+    public $barra;                         // Opcional, instancia de BarraHTML
     public $estructura;                    // Arreglo asociativo con la estructura del listado
     public $listado             = array(); // Arreglo, resultado de la consulta
     public $panal               = array();
@@ -97,16 +97,16 @@ class ListadoHTML {
         $a   = array();
         $a[] = '<!-- LISTADO INICIA -->';
         $a[] = '<div class="listado">';
-        // Si la barra esta definida
-        if (is_object($this->barra)) {
+        // Elaborar Barra
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
             $a[]                = $this->barra->html();
             $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
-            // No esta definida la barra, entonces hacemos una
-            $barra             = new BarraHTML();
-            $barra->encabezado = $this->encabezado;
-            $barra->icono      = $this->icono;
-            $a[]               = $barra->html();
+            $barra              = new BarraHTML();
+            $barra->encabezado  = $this->encabezado;
+            $barra->icono       = $this->icono;
+            $a[]                = $barra->html();
+            $this->javascript[] = $barra->javascript();
         }
         // Si hay algo en la cabeza se agregará al contenido
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {
@@ -401,17 +401,13 @@ class ListadoHTML {
     /**
      * HTML
      *
-     * @param  string Encabezado opcional
-     * @param  string Icono opcional
      * @return string HTML
      */
-    public function html($in_encabezado='', $in_icono='') {
-        // Parámetros
-        if ($in_encabezado != '') {
-            $this->encabezado = $in_encabezado;
-        }
-        if ($in_icono != '') {
-            $this->icono = $in_icono;
+    public function html() {
+        // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+            $this->encabezado = '';
+            $this->icono      = '';
         }
         // Validar
         try {

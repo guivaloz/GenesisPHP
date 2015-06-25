@@ -66,7 +66,7 @@ class LenguetasHTML {
      *
      * @param string Clave. Si contiene el texto 'Mapa' se agregará javascript para tal.
      * @param string Etiqueta
-     * @param mixed  Contenido. Puede ser texto o una instancia con html(), javascript() e identificador
+     * @param mixed  Contenido, puede ser texto HTML o una instancia con métodos html y javascript
      */
     public function agregar($in_clave, $in_etiqueta, $in_contenido) {
         // Definir la última clave como la dada

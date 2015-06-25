@@ -57,6 +57,11 @@ class FormularioHTML extends DetalleHTML {
     //~ $cadenero = new \Base\Cadenero($this->sesion);
     //~ $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Elaborar encabezado
+        if ($this->es_nuevo) {
+            $encabezado = "Nuevo integrante";
+        } else {
+            $encabezado = $this->nombre;
+        }
         // Entregar
         return $this->formulario->html();
     } // elaborar_formulario

@@ -27,8 +27,9 @@ namespace Base;
  */
 class FormularioHTML {
 
-    public $encabezado;                              // Opcional, texto del encabezado
+    public $encabezado;                              // Opcional, texto para el encabezado
     public $icono;                                   // Opcional, URL al icono
+    public $barra;                                   // Opcional, instancia de BarraHTML
     public $name;                                    // Texto, nombre del formulario
     public $action;                                  // Texto, acción a tomar, es decir, URL de destino
     public $method                       = 'post';   // Texto, método post o get
@@ -775,31 +776,31 @@ RANGO;
     /**
      * HTML
      *
-     * @param  string Opcional, encabezado
-     * @param  string Opcional, ícono
      * @return string HTML
      */
-    public function html($in_encabezado='', $in_icono='') {
+    public function html() {
+        // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+            $this->encabezado = '';
+            $this->icono      = '';
+        }
         // Si ya se elaboro el HTML, sólo se entrega y se termina
         if ($this->html_elaborado != '') {
             return $this->html_elaborado;
         }
-        // Parámetros
-        if ($in_encabezado !== '') {
-            $this->encabezado = $in_encabezado;
-        }
-        if ($in_icono !== '') {
-            $this->icono = $in_icono;
-        }
         // Acumularemos el HTML en este arreglo
         $a   = array();
         $a[] = '<div class="formulario">';
-        // Encebezado e ícono
-        if (is_string($this->encabezado) && ($this->encabezado != '')) {
-            $barra             = new BarraHTML();
-            $barra->encabezado = $this->encabezado;
-            $barra->icono      = $this->icono;
-            $a[]               = $barra->html();
+        // Elaborar Barra
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+            $a[]                = $this->barra->html();
+            $this->javascript[] = $this->barra->javascript();
+        } elseif ($this->encabezado != '') {
+            $barra              = new BarraHTML();
+            $barra->encabezado  = $this->encabezado;
+            $barra->icono       = $this->icono;
+            $a[]                = $barra->html();
+            $this->javascript[] = $barra->javascript();
         }
         // Form
         if ($this->subir_archivo) {

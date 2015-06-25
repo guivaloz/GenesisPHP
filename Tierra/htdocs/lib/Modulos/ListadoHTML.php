@@ -46,7 +46,6 @@ class ListadoHTML extends Listado {
     // static public $param_estatus;
     // public $filtros_param;
     public $viene_listado = false; // Sirve para que en PaginaHTML se de cuenta de que viene el listado
-    protected $estructura;         // Estructura del listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
     /**
@@ -55,7 +54,7 @@ class ListadoHTML extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
-        // Iniciar ListadoControladoHTML
+        // Iniciar Listado Controlado
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
         $this->listado_controlado->estructura = array(
@@ -116,7 +115,7 @@ class ListadoHTML extends Listado {
             }
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html($in_encabezado);
+            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         if ($this->permiso_maximo != '') {
@@ -128,12 +127,14 @@ class ListadoHTML extends Listado {
         if ($this->estatus != '') {
             unset($this->listado_controlado->estructura['estatus']);
         }
-        // Cargar en listado_controlado
+        // Cargar Listado Controlado
+        $this->listado_controlado->encabezado         = $this->encabezado();
+        $this->listado_controlado->icono              = $this->sesion->menu->icono_en('modulos');
         $this->listado_controlado->listado            = $this->listado;
         $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
         $this->listado_controlado->variables          = $this->filtros_param;
         // Entregar
-        return $this->listado_html->html();
+        return $this->listado_controlado->html();
     } // html
 
     /**

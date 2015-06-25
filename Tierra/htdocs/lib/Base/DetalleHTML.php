@@ -29,7 +29,7 @@ class DetalleHTML {
 
     public $encabezado;                    // Opcional, texto para el encabezado
     public $icono;                         // Opcional, URL al icono
-    public $barra;                         // Opcional, puede recibir una instancia de BarraHTML
+    public $barra;                         // Opcional, instancia de BarraHTML
     protected $secciones        = array();
     protected $seccion_actual   = 'Datos';
     protected $imagenes         = array();
@@ -107,22 +107,13 @@ class DetalleHTML {
     /**
      * HTML
      *
-     * @param  string Encabezado opcional
-     * @param  string Icono opcional
      * @return string HTML
      */
-    public function html($in_encabezado='', $in_icono='') {
-        // Si está definida la barra, no se usan los parámetros
-        if (is_object($this->barra)) {
+    public function html() {
+        // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
             $this->encabezado = '';
             $this->icono      = '';
-        } else {
-            if ($in_encabezado != '') {
-                $this->encabezado = $in_encabezado;
-            }
-            if ($in_icono != '') {
-                $this->icono = $in_icono;
-            }
         }
         // En este arreglo se acumulará el código HTML
         $a = array();
@@ -145,7 +136,8 @@ class DetalleHTML {
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
                 if (is_object($p)) {
-                    $a[] = $p->html();
+                    $a[]                = $p->html();
+                    $this->javascript[] = $p->javascript();
                 } elseif (is_string($p)) {
                     $a[] = $p;
                 }
@@ -155,15 +147,15 @@ class DetalleHTML {
         }
         // Definir contenido
         $contenido = implode("\n", $a);
-        // Si hay barra, se usa, de lo contrario se contruye
-        if (is_object($this->barra)) {
-            $encabezado         = $this->barra->html();
+        // Elaborar Barra
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+            $titulo             = $this->barra->html();
             $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
             $barra              = new BarraHTML();
             $barra->encabezado  = $this->encabezado;
             $barra->icono       = $this->icono;
-            $encabezado         = $barra->html();
+            $titulo             = $barra->html();
             $this->javascript[] = $barra->javascript();
         }
         // Si tiene imágenes
@@ -176,14 +168,14 @@ class DetalleHTML {
                 $imagen_html = $imagen->html();
             } catch (\Exception $e) {
                 $mensaje = new MensajeHTML($e->getMessage());
-                return $mensaje->html($e->getMessage());
+                return $mensaje->html('Error');
             }
             // Entregar Twitter Bootstrap Media Object
             return <<<FIN
 <div class="media detalle">
   {$imagen_html}
   <div class="media-body">
-{$encabezado}
+{$titulo}
 {$contenido}
   </div>
 </div>
@@ -192,7 +184,7 @@ FIN;
             // Entregar sin imágenes
             return <<<FIN
 <div class="detalle">
-{$encabezado}
+{$titulo}
 {$contenido}
 </div>
 FIN;

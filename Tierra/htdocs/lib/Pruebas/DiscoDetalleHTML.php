@@ -62,11 +62,9 @@ class DiscoDetalleHTML extends DiscoRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Definir la barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->titulo;
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
-        // Cargar a detalle lo que se va a mostrar
+        // Cargar Detalle
+        $this->detalle->encabezado = $this->titulo;
+        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
         $this->detalle->seccion('Disco');
         $this->detalle->dato('Título',                $this->titulo);
         $this->detalle->dato('Lanzamiento',           $this->lanzamiento);
@@ -74,7 +72,6 @@ class DiscoDetalleHTML extends DiscoRegistro {
         $this->detalle->dato('Género',                $this->genero);
         $this->detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
         $this->detalle->dato('Origen',                $this->origen_descrito);
-        $this->detalle->barra = $barra;
         // Entregar
         return $this->detalle->html();
     } // html

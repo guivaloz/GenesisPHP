@@ -25,14 +25,12 @@ namespace Base;
 /**
  * Clase BarraHTML
  *
- * Crea una barra (navbar) con Twitter Bootstrap
- * Se usa en DetalleHTML y ListadoHTML para mostrar el encabezado y
- * los botones con las acciones, por ejemplo, Agregar.
+ * Crea una barra (navbar) de Twitter Bootstrap
  */
 class BarraHTML {
 
-    public $encabezado;
-    public $icono;
+    public $encabezado;                      // Texto con el encabezado
+    public $icono;                           // Opcional, nombre del archivo del icono o nombre del font awsome
     protected $botones            = array();
     protected $confirmaciones     = array();
     protected $opciones           = array();
@@ -189,21 +187,12 @@ class BarraHTML {
     /**
      * HTML
      *
-     * @param  string Encabezado opcional
-     * @param  string Icono opcional
      * @return string HTML
      */
-    public function html($in_encabezado='', $in_icono='') {
-        // Parámetros
-        if (is_string($in_encabezado) && (trim($in_encabezado) != '')) {
-            $this->encabezado = $in_encabezado;
-        }
-        if (is_string($in_icono) && (trim($in_icono) != '')) {
-            $this->icono = $in_icono;
-        }
-        // Validar
+    public function html() {
+        // Si no hay encabezado
         if ($this->encabezado == '') {
-            $this->encabezado = 'Falta el encabezado';
+            $this->encabezado = 'Sin encabezado';
         }
         // Navbar inicia
         $a   = array();

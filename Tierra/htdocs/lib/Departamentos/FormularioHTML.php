@@ -86,7 +86,7 @@ class FormularioHTML extends DetalleHTML {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $this->formulario->html($encabezado, $this->sesion->menu->icono_en('departamentos'));
+        return $this->formulario->html();
     } // elaborar_formulario
 
     /**

@@ -81,21 +81,7 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Detalle
-        $this->detalle->seccion('Módulo');
-        $this->detalle->dato('Ícono',          sprintf('<img src="imagenes/32x32/%s" />', $this->icono));
-        $this->detalle->dato('Nombre',         $this->nombre);
-        $this->detalle->dato('Orden',          $this->orden);
-        $this->detalle->dato('Clave',          $this->clave);
-        $this->detalle->dato('Página',         sprintf('<a href="%s">%s</a>', $this->pagina, $this->pagina));
-        $this->detalle->dato('Padre',          $this->padre_nombre);
-        $this->detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
-        $this->detalle->dato('Poder mínimo',   $this->poder_minimo_descrito, parent::$poder_minimo_colores[$this->poder_minimo]);
-        if ($this->sesion->puede_eliminar('modulos')) {
-            $this->detalle->seccion('Registro');
-            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
-        }
-        // Encabezado/Barra
+        // Elaborar Barra
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
         $barra->icono      = $this->sesion->menu->icono_en('modulos');
@@ -110,7 +96,21 @@ class DetalleHTML extends Registro {
             $barra->boton_recuperar_confirmacion(sprintf('modulos.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> al módulo {$this->nombre}?");
         }
+        // Cargar Detalle
         $this->detalle->barra = $barra;
+        $this->detalle->seccion('Módulo');
+        $this->detalle->dato('Ícono',          sprintf('<img src="imagenes/32x32/%s" />', $this->icono));
+        $this->detalle->dato('Nombre',         $this->nombre);
+        $this->detalle->dato('Orden',          $this->orden);
+        $this->detalle->dato('Clave',          $this->clave);
+        $this->detalle->dato('Página',         sprintf('<a href="%s">%s</a>', $this->pagina, $this->pagina));
+        $this->detalle->dato('Padre',          $this->padre_nombre);
+        $this->detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
+        $this->detalle->dato('Poder mínimo',   $this->poder_minimo_descrito, parent::$poder_minimo_colores[$this->poder_minimo]);
+        if ($this->sesion->puede_eliminar('modulos')) {
+            $this->detalle->seccion('Registro');
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+        }
         // Entregar
         return $this->detalle->html();
     } // html

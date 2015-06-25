@@ -64,13 +64,10 @@ class EntidadesListadoHTML extends EntidadesListado {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Definir la barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->encabezado();
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
-        // Cargar a listado_controlado lo que se va a mostrar
-        $this->listado_controlado->barra   = $barra;
-        $this->listado_controlado->listado = $this->listado;
+        // Cargar Listado Controlado
+        $this->listado_controlado->encabezado = $this->encabezado();
+        $this->listado_controlado->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
+        $this->listado_controlado->listado    = $this->listado;
         // Entregar
         return $this->listado_controlado->html();
     } // html

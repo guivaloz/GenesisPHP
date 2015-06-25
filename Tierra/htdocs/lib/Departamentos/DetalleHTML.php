@@ -69,16 +69,7 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Detalle
-        $this->detalle->seccion('Departamento');
-        $this->detalle->dato('Nombre', $this->nombre);
-        $this->detalle->dato('Clave',  $this->clave);
-        $this->detalle->seccion('Registro');
-        $this->detalle->dato('Notas',  $this->notas);
-        if ($this->sesion->puede_eliminar('departamentos')) {
-            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
-        }
-        // Encabezado/Barra
+        // Elaborar Barra
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->nombre;
         $barra->icono      = $this->sesion->menu->icono_en('departamentos');
@@ -93,7 +84,16 @@ class DetalleHTML extends Registro {
             $barra->boton_recuperar_confirmacion(sprintf('departamentos.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> a el departamento {$this->nombre}?");
         }
+        // Cargar Detalle
         $this->detalle->barra = $barra;
+        $this->detalle->seccion('Departamento');
+        $this->detalle->dato('Nombre', $this->nombre);
+        $this->detalle->dato('Clave',  $this->clave);
+        $this->detalle->seccion('Registro');
+        $this->detalle->dato('Notas',  $this->notas);
+        if ($this->sesion->puede_eliminar('departamentos')) {
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+        }
         // Entregar
         return $this->detalle->html();
     } // html

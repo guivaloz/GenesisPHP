@@ -44,7 +44,7 @@ class ListadoHTML extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
-        // Iniciar ListadoControladoHTML
+        // Iniciar Listado Controlado
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
         // Tomar parámetros que pueden venir en el URL
@@ -69,15 +69,17 @@ class ListadoHTML extends Listado {
             }
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html($in_encabezado);
+            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
-        // Cargar en listado_controlado
+        // Cargar Listado Controlado
+        $this->listado_controlado->encabezado         = $this->encabezado();
+        $this->listado_controlado->icono              = $this->sesion->menu->icono_en('integrantes');
         $this->listado_controlado->listado            = $this->listado;
         $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
         $this->listado_controlado->variables          = $this->filtros_param;
         // Entregar
-        return $this->listado_html->html();
+        return $this->listado_controlado->html();
     } // html
 
     /**

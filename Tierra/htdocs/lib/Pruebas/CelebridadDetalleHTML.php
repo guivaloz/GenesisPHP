@@ -59,23 +59,20 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Definir la barra
-        $barra             = new \Base\BarraHTML();
-        $barra->encabezado = $this->nombre;
-        $barra->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
-        // Definir imagen
+        // Elaborar Imagen
         $imagen = new \Base\ImagenHTML('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
         $imagen->configurar_para_detalle();
         $imagen->cargar(1, 'qwerty', 'middle');
         $imagen->vincular('big');
-        // Cargar a detalle lo que se va a mostrar
+        // Cargar Detalle
+        $this->detalle->encabezado = $this->nombre;
+        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
         $this->detalle->seccion('Clasificación científica');
         $this->detalle->dato('Nombre',              $this->nombre);
         $this->detalle->dato('Sexo',                $this->sexo_descrito);
         $this->detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
         $this->detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
         $this->detalle->dato('Nacionalidad',        $this->nacionalidad);
-        $this->detalle->barra = $barra;
         $this->detalle->imagen($imagen);
         // Entregar
         return $this->detalle->html();
