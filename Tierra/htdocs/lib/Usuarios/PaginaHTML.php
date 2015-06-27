@@ -27,6 +27,25 @@ namespace Usuarios;
  */
 class PaginaHTML extends \Base\PaginaHTML {
 
+    // protected $sistema;
+    // protected $titulo;
+    // protected $descripcion;
+    // protected $autor;
+    // protected $favicon;
+    // protected $modelo;
+    // protected $menu_principal_logo;
+    // protected $modelo_ingreso_logos;
+    // protected $modelo_fluido_logos;
+    // protected $pie;
+    // public $clave;
+    // public $menu;
+    // public $contenido;
+    // public $javascript;
+    // protected $sesion;
+    // protected $sesion_exitosa;
+    // protected $usuario;
+    // protected $usuario_nombre;
+
     /**
      * Constructor
      */
