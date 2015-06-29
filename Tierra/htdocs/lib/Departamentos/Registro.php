@@ -260,7 +260,7 @@ class Registro extends \Base\Registro {
         }
         // Consultar si no lo esta
         if (!$this->consultado) {
-            $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
+            $this->consultar();
         }
         // Validar el estatus
         if ($this->estatus == 'B') {
@@ -285,7 +285,7 @@ class Registro extends \Base\Registro {
         }
         // Consultar si no lo esta
         if (!$this->consultado) {
-            $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
+            $this->consultar();
         }
         // Validar el estatus
         if ($this->estatus == 'A') {

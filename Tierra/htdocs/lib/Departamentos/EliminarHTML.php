@@ -27,15 +27,27 @@ namespace Departamentos;
  */
 class EliminarHTML extends DetalleHTML {
 
+    // protected $sesion;
+    // protected $consultado;
+    // public $id;
+    // public $nombre;
+    // public $clave;
+    // public $notas;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
+    // protected $detalle;
+    // static public $accion_modificar;
+    // static public $accion_eliminar;
+    // static public $accion_recuperar;
+
     /**
      * HTML
-     *
-     * Debe definir el ID o haberlo consultado antes de ejecutar
      *
      * @return string Código HTML
      */
     public function html() {
-        // Eliminar, si tiene éxito se muestra el mensaje y el detalle
         try {
             $msg     = $this->eliminar();
             $mensaje = new \Base\MensajeHTML($msg);

@@ -44,15 +44,6 @@ abstract class Registro extends UtileriasParaDatos {
      */
     abstract function consultar();
 
-    /**
-     * Consulta exitosa
-     *
-     * @return boolean Verdadero si ha sido consultado con éxito
-     */
-    public function consulta_exitosa() {
-        return $this->consultado;
-    } // consulta_exitosa
-
 } // Clase Registro
 
 ?>

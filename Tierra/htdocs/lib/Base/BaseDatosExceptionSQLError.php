@@ -35,7 +35,7 @@ class BaseDatosExceptionSQLError extends UtileriasParaDatos {
      * @param string Mensaje del motor de la base de datos
      */
     public function __construct(\Inicio\Sesion $sesion, $mensaje_humano, $mensaje_motor) {
-        // AGREGAR EVENTO A LA BITACORA
+        // Agregar evento a la bitacora
         $base_datos = new BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("INSERT INTO bitacora (usuario, pagina, tipo, url, notas) VALUES (%s, %s, %s, %s, %s)",
@@ -43,11 +43,11 @@ class BaseDatosExceptionSQLError extends UtileriasParaDatos {
                 $this->sql_texto($sesion->pagina),
                 $this->sql_texto('X'),
                 $this->sql_texto($_SESION['PHP_SELF']),
-                $this->sql_texto("$mensaje_humano $mensaje_motor")), true); // TIENE EL TRUE PARA TRONAR EN CASO DE ERROR
+                $this->sql_texto("$mensaje_humano $mensaje_motor")), true); // Tiene el true para tronar en caso de error
         } catch (\Exception $e) {
             die("Error: Al agregar a la bitácora.");
         }
-        // EJECUTAR CONSTRUCTOR DEL PADRE
+        // Ejecutar constructor del padre
         parent::__construct($mensaje_humano);
     } // constructor
 

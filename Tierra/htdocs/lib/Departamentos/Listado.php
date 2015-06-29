@@ -36,9 +36,9 @@ class Listado extends \Base\Listado {
     // protected $consultado;
     public $nombre;                      // Filtro, texto
     public $estatus;                     // Filtro, caracter
-    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
     static public $param_nombre  = 'dn';
     static public $param_estatus = 'dt';
+    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
@@ -154,6 +154,8 @@ class Listado extends \Base\Listado {
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);
         }
+        // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase Listado

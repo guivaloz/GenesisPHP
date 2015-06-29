@@ -44,7 +44,7 @@ class Listado extends \Base\Listado {
     static public $param_permiso_maximo = 'mp';
     static public $param_poder_minimo   = 'mo';
     static public $param_estatus        = 'mt';
-    public $filtros_param;
+    public $filtros_param;                      // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
@@ -196,6 +196,8 @@ class Listado extends \Base\Listado {
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);
         }
+        // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase Listado

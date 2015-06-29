@@ -29,6 +29,46 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
+    public $id;
+    public $usuario;
+    public $usuario_nombre;
+    public $fecha;
+    public $pagina;
+    public $pagina_id;
+    public $tipo;
+    public $tipo_descrito;
+    static public $tipo_descripciones = array(
+        'A' => 'Agregó',
+        'B' => 'Buscó',
+        'D' => 'Vio detalle',
+        'E' => 'Exportó',
+        'F' => 'Sin Fotografía',
+        'J' => 'Formulario ya recibido',
+        'K' => 'Formulario no válido',
+        'L' => 'Eliminó',
+        'M' => 'Modificó',
+        'P' => 'Cambió su contraseña',
+        'R' => 'Recuperó',
+        'S' => 'Sistema',
+        'X' => 'Error SQL',
+        'Y' => 'No encontrado',
+        'Z' => 'Dado de baja');
+    static public $tipo_colores = array(
+        'A' => 'verde',
+        'B' => 'oscuro',
+        'D' => 'naranja',
+        'E' => 'naranja',
+        'F' => 'rosa',
+        'J' => 'amarillo',
+        'K' => 'amarillo',
+        'L' => 'rojo',
+        'M' => 'azul',
+        'P' => 'rosa',
+        'R' => 'amarillo',
+        'S' => 'gris',
+        'X' => 'rojo',
+        'Y' => 'amarillo',
+        'Z' => 'rojo');
 
     /**
      * Consultar
@@ -37,6 +77,9 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
+        if (!$this->sesion->puede_ver('bitacora')) {
+            throw new \Exception('Aviso: No tiene permiso para consultar la bitácora.');
+        }
         // Parámetro ID
         if ($in_id !== false) {
             $this->id = $in_id;
@@ -61,19 +104,7 @@ class Registro extends \Base\Registro {
     } // validar
 
     /**
-     * Nuevo
-     */
-    public function nuevo() {
-        // Que tenga permiso para agregar
-        // Definir propiedades
-        // Poner como verdadero el flag de consultado
-        $this->consultado = true;
-    } // nuevo
-
-    /**
      * Agregar
-     *
-     * @return string Mensaje
      */
     public function agregar() {
         // Que tenga permiso para agregar
@@ -90,121 +121,159 @@ class Registro extends \Base\Registro {
     } // agregar
 
     /**
-     * Modificar
+     * Agregar No Encontrado
      *
-     * @return string Mensaje
+     * @param string Notas
      */
-    public function modificar() {
-        // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('departamentos')) {
-            throw new \Exception('Aviso: No tiene permiso para modificar departamentos.');
-        }
-        // Verificar que haya sido consultado
-        if ($this->consultado == false) {
-            throw new \Exception('Error: No ha sido consultado el departamento para modificarlo.');
-        }
-        // Validar
-        $this->validar();
-        // Hay que determinar que va cambiar, para armar el mensaje
-        $original = new Registro($this->sesion);
-        try {
-            $original->consultar($this->id);
-        } catch (\Exception $e) {
-            die('Esto no debería pasar. Error al consultar registro original del departamento.');
-        }
-        $a = array();
-        if ($this->nombre != $original->nombre) {
-            $a[] = "nombre \"{$this->nombre}\"";
-        }
-        if ($this->clave != $original->clave) {
-            $a[] = "clave \"{$this->clave}\"";
-        }
-        if ($this->notas != $original->notas) {
-            $a[] = "notas \"{$this->notas}\"";
-        }
-        if ($this->estatus != $original->estatus) {
-            $a[] = "estatus \"{$this->estatus_descrito}\"";
-        }
-        // Si no hay cambios, provoca excepcion de validacion
-        if (count($a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
-        } else {
-            $msg = "Modificado el departamento {$this->nombre} con ".implode(', ', $a);
-        }
-        // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
-        try {
-            $base_datos->comando(sprintf("
-                UPDATE
-                    departamentos
-                SET
-                    nombre=%s, clave=%s, notas=%s, estatus=%s
-                WHERE
-                    id=%u",
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->clave),
-                $this->sql_texto($this->notas),
-                $this->sql_texto($this->estatus),
-                $this->id));
-        } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el departamento. ', $e->getMessage());
-        }
-        // Agregar a la bitácora que se modificó el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
-        $bitacora->agregar_modificado($this->id, $msg);
-        // Entregar mensaje
-        return $msg;
-    } // modificar
+    public function agregar_no_encontrado($in_notas) {
+        $this->pagina_id = '';
+        $this->notas     = $in_notas;
+        $this->tipo      = 'Y'; // 'No encontrado'
+        $this->agregar();
+    } // agregar_no_encontrado
 
     /**
-     * Eliminar
+     * Agregar Dado de Baja
      *
-     * @return string Mensaje
+     * @param string Notas
      */
-    public function eliminar() {
-        // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('departamentos')) {
-            throw new \Exception('Aviso: No tiene permiso para eliminar departamentos.');
-        }
-        // Consultar si no lo esta
-        if (!$this->consultado) {
-            $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
-        }
-        // Validar el estatus
-        if ($this->estatus == 'B') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el departamento porque ya lo está.');
-        }
-        // Cambiar el estatus
-        $this->estatus = 'B';
-        $this->modificar();
-        // Entregar mensaje
-        return "Se ha eliminado el departamento {$this->nombre}";
-    } // eliminar
+    public function agregar_dado_de_baja($in_notas) {
+        $this->pagina_id = '';
+        $this->notas     = $in_notas;
+        $this->tipo      = 'Z'; // 'Dado de baja'
+        $this->agregar();
+    } // agregar_dado_de_baja
 
     /**
-     * Recuperar
+     * Agregar Sin Fotografía
      *
-     * @return string Mensaje
+     * @param string Notas
      */
-    public function recuperar() {
-        // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('departamentos')) {
-            throw new \Exception('Aviso: No tiene permiso para recuperar departamentos.');
-        }
-        // Consultar si no lo esta
-        if (!$this->consultado) {
-            $this->consultar(); // PUEDE PROVOCAR UNA EXCEPCION
-        }
-        // Validar el estatus
-        if ($this->estatus == 'A') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el departamento porque ya lo está.');
-        }
-        // Cambiar el estatus
-        $this->estatus = 'A';
-        $this->modificar();
-        // Entregar mensaje
-        return "Se ha recuperado el departamento {$this->nombre}";
-    } // recuperar
+    public function agregar_sin_fotografia($in_notas) {
+        $this->pagina_id = '';
+        $this->notas     = $in_notas;
+        $this->tipo      = 'F'; // 'Sin Fotografía'
+        $this->agregar();
+    } // agregar_sin_fotografia
+
+    /**
+     * Agregar nuevo
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_nuevo($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'A'; // 'Agregó'
+        $this->agregar();
+    } // agregar_nuevo
+
+    /**
+     * Agregar Modificado
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_modificado($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'M'; // 'Modificó'
+        $this->agregar();
+    } // agregar_modificado
+
+    /**
+     * Agregar Eliminó
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_elimino($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'L'; // 'Eliminó'
+        $this->agregar();
+    } // agregar_elimino
+
+    /**
+     * Agregar Recuperó
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_recupero($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'R'; // 'Recuperó'
+        $this->agregar();
+    } // agregar_recupero
+
+    /**
+     * Agregar Buscó
+     * @param string  Notas
+     */
+    public function agregar_busco($in_notas) {
+        $this->notas     = $in_notas;
+        $this->tipo      = 'B'; // 'Buscó'
+        $this->agregar();
+    } // agregar_busco
+
+    /**
+     * Agregar Vio Detalle
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_vio_detalle($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'D'; // 'Vio detalle'
+        $this->agregar();
+    } // agregar_vio_detalle
+
+    /**
+     * Agregar Exportó
+     *
+     * @param integer ID del registro
+     * @param string  Notas
+     */
+    public function agregar_exporto($in_id, $in_notas) {
+        $this->pagina_id = $in_id;
+        $this->notas     = $in_notas;
+        $this->tipo      = 'E'; // 'Exportó'
+        $this->agregar();
+    } // agregar_exporto
+
+    /**
+     * Agregar Cambió Contraseña
+     */
+    public function agregar_cambio_contrasena() {
+        $this->notas = "{$this->sesion->nombre} cambió su contraseña.";
+        $this->tipo  = 'P'; // 'Cambió su contraseña'
+        $this->agregar();
+    } // agregar_cambio_contrasena
+
+    /**
+     * Agregar Sistema
+     *
+     * @param string Notas
+     */
+    public function agregar_sistema($in_notas) {
+        $this->notas = $in_notas;
+        $this->tipo  = 'S'; // 'Sistema'
+        $this->agregar();
+    } // agregar_sistema
+
+    /**
+     * Agregar Error SQL
+     *
+     * @param string Notas
+     */
+    public function agregar_error_sql($in_notas) {
+        $this->notas = $in_notas;
+        $this->tipo  = 'X'; // 'Error SQL'
+        $this->agregar();
+    } // agregar_error_sql
 
 } // Clase Registro
 

@@ -29,90 +29,91 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
+    public $usuario;
+    public $usuario_nombre;
+    public $fecha;
+    public $nom_corto;
+    public $tipo;
+    public $tipo_descrito;
+    public $ip;
+    static public $tipo_descripciones = array(
+        'I' => 'Datos incorrectos',
+        'N' => 'Usuario no encontrado',
+        'X' => 'Usuario inactivo',
+        'B' => 'Contraseña bloqueda',
+        'E' => 'Contraseña equivocada',
+        'S' => 'Sesiones máximo',
+        'P' => 'No tiene permiso',
+        'A' => 'Ingresó',
+        'T' => 'Salió');
+    static public $tipo_colores = array(
+        'I' => 'blanco',
+        'N' => 'blanco',
+        'X' => 'oscuro',
+        'B' => 'naranja',
+        'E' => 'rojo',
+        'S' => 'amarillo',
+        'P' => 'gris',
+        'A' => 'verde',
+        'T' => 'azul');
 
     /**
      * Consultar
      *
-     * @param integer ID del registro
+     * @param integer ID del usuario
+     * @param integer Timestamp con la fecha y hora
      */
-    public function consultar($in_id=false) {
+    public function consultar($in_usuario=false, $in_fecha=false) {
         // Que tenga permiso para consultar
+        if (!$this->sesion->puede_ver('autentificaciones')) {
+            throw new \Exception('Aviso: No tiene permiso para consultar las autentificaciones.');
+        }
         // Parámetro ID
-        if ($in_id !== false) {
-            $this->id = $in_id;
+        if ($in_usuario !== false) {
+            $this->usuario = $in_usuario;
+        }
+        if ($in_fecha !== false) {
+            $this->fecha = $in_fecha;
         }
         // Validar
+        if (is_null($this->usuario) || is_null($this->fecha)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar un registro de la bitácora porque falta el usuario o la fecha y hora.');
+        }
+        if (!$this->validar_entero($this->usuario)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar un registro de la bitácora porque es incorrecto el usuario.');
+        }
+        if (!$this->validar_fecha_hora($this->fecha)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar un registro de la bitácora porque es incorrecta la fecha.');
+        }
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando(sprintf("
+                SELECT
+                    nom_corto, tipo, ip
+                FROM
+                    autentificaciones
+                WHERE
+                    usuario = %u AND fecha = %s",
+                $this->usuario,
+                $this->sql_tiempo($this->fecha)));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la bitácora.', $e->getMessage());
+        }
         // Si la consulta no entregó nada
+        if ($consulta->cantidad_registros() < 1) {
+            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró el registro en la bitácora.');
+        }
         // Obtener resultado de la consulta
         $a = $consulta->obtener_registro();
-        // Si esta eliminado, debe tener permiso para consultarlo
         // Definir propiedades
+        $this->nom_corto     = $a['nom_corto'];
+        $this->tipo          = $a['tipo'];
+        $this->tipo_descrito = self::$tipo_descripciones[$this->tipo];
+        $this->ip            = $a['ip'];
         // Poner como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
-
-    /**
-     * Validar
-     */
-    public function validar() {
-        // Validar las propiedades
-        // Definir el estatus descrito
-        $this->estatus_descrito = self::$estatus_descripciones[$this->estatus];
-    } // validar
-
-    /**
-     * Nuevo
-     */
-    public function nuevo() {
-        // Que tenga permiso para agregar
-        // Definir propiedades
-        // Poner como verdadero el flag de consultado
-        $this->consultado = true;
-    } // nuevo
-
-    /**
-     * Agregar
-     *
-     * @return string Mensaje
-     */
-    public function agregar() {
-        // Que tenga permiso para agregar
-        // Verificar que NO haya sido consultado
-        // Validar
-        $this->validar();
-        // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
-        // Obtener el ID del registro recién insertado
-        // Después de insertar se considera como consultado
-        $this->consultado = true;
-        // Agregar a la bitácora que hay un nuevo registro
-        // Entregar mensaje
-        return $msg;
-    } // agregar
-
-    /**
-     * Modificar
-     *
-     * @return string Mensaje
-     */
-    public function modificar() {
-        // Que tenga permiso para modificar
-        // Verificar que haya sido consultado
-        // Validar
-        $this->validar();
-        // Hay que determinar que va cambiar, para armar el mensaje
-        $original = new Registro($this->sesion);
-        // Si no hay cambios, provoca excepcion de validacion
-        // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
-        // Agregar a la bitácora que se modificó el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
-        $bitacora->agregar_modificado($this->id, $msg);
-        // Entregar mensaje
-        return $msg;
-    } // modificar
 
 } // Clase Registro
 

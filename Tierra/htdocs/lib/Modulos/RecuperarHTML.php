@@ -27,19 +27,43 @@ namespace Modulos;
  */
 class RecuperarHTML extends DetalleHTML {
 
+    // protected $sesion;
+    // protected $consultado;
+    // public $id;
+    // public $orden;
+    // public $clave;
+    // public $nombre;
+    // public $pagina;
+    // public $icono;
+    // public $padre;
+    // public $padre_nombre;
+    // public $permiso_maximo;
+    // public $permiso_maximo_descrito;
+    // public $poder_minimo;
+    // public $poder_minimo_descrito;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $permiso_maximo_descripciones;
+    // static public $permiso_maximo_colores;
+    // static public $poder_minimo_descripciones;
+    // static public $poder_minimo_colores;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
+    // protected $detalle;
+    // static public $accion_modificar;
+    // static public $accion_eliminar;
+    // static public $accion_recuperar;
+
     /**
      * HTML
-     *
-     * Debe definir el ID o haberlo consultado antes de ejecutar
      *
      * @return string Código HTML
      */
     public function html() {
-        // Recuperar, si tiene éxito se muestra el mensaje y el detalle
         try {
             $msg     = $this->recuperar();
             $mensaje = new \Base\MensajeHTML($msg);
-            return $mensaje->html()."\n".$this->html();
+            return $mensaje->html()."\n".parent::html();
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             return $mensaje->html('Error');

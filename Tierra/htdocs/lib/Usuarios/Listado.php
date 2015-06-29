@@ -34,15 +34,15 @@ class Listado extends \Base\Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    public $nom_corto;  // Filtro, fragmento de texto
-    public $nombre;     // Filtro, fragmento de texto
-    public $tipo;       // Filtro, carácter
-    public $estatus;    // Filtro, carácter
+    public $nom_corto;                      // Filtro, fragmento de texto
+    public $nombre;                         // Filtro, fragmento de texto
+    public $tipo;                           // Filtro, carácter
+    public $estatus;                        // Filtro, carácter
     static public $param_nom_corto = 'unc';
     static public $param_nombre    = 'un';
     static public $param_tipo      = 'ut';
     static public $param_estatus   = 'us';
-    public $filtros_param;
+    public $filtros_param;                  // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
@@ -241,6 +241,8 @@ class Listado extends \Base\Listado {
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);
         }
+        // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase Listado

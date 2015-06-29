@@ -28,6 +28,69 @@ namespace Base;
 abstract class UtileriasParaDatos {
 
     /**
+     * SQL Texto
+     *
+     * @parem string Texto
+     */
+    function sql_texto($texto) {
+        if (trim($texto) == '') {
+            return 'NULL';
+        } else {
+            return "'".pg_escape_string(trim($texto))."'";
+        }
+    } // sql_texto
+
+    /**
+     * SQL Entero
+     *
+     * @parem mixed Texto o número entero
+     */
+    function sql_entero($dato) {
+        if (is_string($dato)) {
+            if (trim($dato) == '') {
+                return 'NULL';
+            } elseif (trim($dato) == '0') {
+                return '0';
+            } else {
+                return $dato;
+            }
+        } elseif (is_int($dato)) {
+            if ($dato == 0) {
+                return 0;
+            } else {
+                return $dato;
+            }
+        } else {
+            return intval($dato);
+        }
+    } // sql_entero
+
+    /**
+     * SQL Tiempo
+     *
+     * @parem mixed Texto o número entero
+     */
+    function sql_tiempo($dato) {
+        if (is_string($dato)) {
+            if ($dato == '') {
+                return 'NULL';
+            } elseif (preg_match('/^[0-9]+$/', $dato)) {
+                return "'".date('Y-m-d H:i:s', $dato)."'";
+            } else {
+                return "'$dato'";
+            }
+        } elseif (is_integer($dato)) {
+            if ($dato == 0) {
+                return 'NULL';
+            } else {
+                return "'".date('Y-m-d H:i:s', $dato)."'";
+            }
+        } else {
+            return 'NULL';
+        }
+    } // sql_tiempo
+
+    /**
      * Validar nombre
      *
      * @param  string  Nombre a validar

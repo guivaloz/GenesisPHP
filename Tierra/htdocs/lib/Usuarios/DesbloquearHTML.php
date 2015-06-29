@@ -35,7 +35,6 @@ class DesbloquearHTML extends DetalleHTML {
      * @return string Código HTML
      */
     public function html() {
-        // Recuperar, si tiene éxito se muestra el mensaje y el detalle
         try {
             $msg     = $this->desbloquear();
             $mensaje = new \Base\MensajeHTML($msg);

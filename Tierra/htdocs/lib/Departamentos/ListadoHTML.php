@@ -36,9 +36,9 @@ class ListadoHTML extends Listado {
     // protected $consultado;
     // public $nombre;
     // public $estatus;
-    // public $filtros_param;
     // static public $param_nombre;
     // static public $param_estatus;
+    // public $filtros_param;
     public $viene_listado = false; // Boleano, para que en PaginaHTML se de cuenta de que viene el listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 

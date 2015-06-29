@@ -27,15 +27,56 @@ namespace Usuarios;
  */
 class RecuperarHTML extends DetalleHTML {
 
+    // protected $sesion;
+    // protected $consultado;
+    // public $id;
+    // public $nom_corto;
+    // public $nombre;
+    // public $puesto;
+    // public $tipo;
+    // public $tipo_descrito;
+    // public $email;
+    // public $contrasena_fallas;
+    // public $contrasena_expira;
+    // public $contrasena_descrito;
+    // public $sesiones_maximas;
+    // public $sesiones_contador;
+    // public $sesiones_ultima;
+    // public $sesiones_descrito;
+    // public $listado_renglones;
+    // public $notas;
+    // public $estatus;
+    // public $estatus_descrito;
+    // public $contrasena_no_cifrada;
+    // public $esta_bloqueada;
+    // public $bloqueada_porque_fallas;
+    // public $bloqueada_porque_expiro;
+    // public $bloqueada_porque_sesiones;
+    // public $contrasena_no_cifrada_descrito;
+    // public $bloqueada_porque_fallas_descrito;
+    // public $bloqueada_porque_expiro_descrito;
+    // public $bloqueada_porque_sesiones_descrito;
+    // protected $contrasena;
+    // static public $contrasena_colores;
+    // static public $expira_en_colores;
+    // static public $sesiones_contador_colores;
+    // static public $tipo_descripciones;
+    // static public $tipo_colores;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
+    // static public $dias_expira_contrasena;
+    // protected $detalle;
+    // static public $accion_modificar;
+    // static public $accion_eliminar;
+    // static public $accion_recuperar;
+    // static public $accion_desbloquear;
+
     /**
      * HTML
-     *
-     * Debe definir el ID o haberlo consultado antes de ejecutar
      *
      * @return string Código HTML
      */
     public function html() {
-        // Recuperar, si tiene éxito se muestra el mensaje y el detalle
         try {
             $msg     = $this->recuperar();
             $mensaje = new \Base\MensajeHTML($msg);

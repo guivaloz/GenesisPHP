@@ -27,15 +27,33 @@ namespace Integrantes;
  */
 class RecuperarHTML extends DetalleHTML {
 
+    // protected $sesion;
+    // protected $consultado;
+    // public $id;
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $usuario_nom_corto;
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $poder;
+    // public $poder_descrito;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $poder_descripciones;
+    // static public $poder_colores;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
+    // protected $detalle;
+    // static public $accion_modificar;
+    // static public $accion_eliminar;
+    // static public $accion_recuperar;
+
     /**
      * HTML
-     *
-     * Debe definir el ID o haberlo consultado antes de ejecutar
      *
      * @return string Código HTML
      */
     public function html() {
-        // Recuperar, si tiene éxito se muestra el mensaje y el detalle
         try {
             $msg     = $this->recuperar();
             $mensaje = new \Base\MensajeHTML($msg);

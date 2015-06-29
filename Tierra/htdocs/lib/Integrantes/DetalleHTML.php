@@ -29,8 +29,24 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
-    //
+    // public $id;
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $usuario_nom_corto;
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $poder;
+    // public $poder_descrito;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $poder_descripciones;
+    // static public $poder_colores;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
     protected $detalle;
+    static public $accion_modificar = 'integranteModificar';
+    static public $accion_eliminar  = 'integranteEliminar';
+    static public $accion_recuperar = 'integranteRecuperar';
 
     /**
      * Constructor
@@ -60,8 +76,30 @@ class DetalleHTML extends Registro {
             }
         }
         // Elaborar Barra
+        $barra             = new \Base\BarraHTML();
+        $barra->encabezado = $this->nombre;
+        $barra->icono      = $this->sesion->menu->icono_en('integrantes');
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('integrantes')) {
+            $barra->boton_modificar(sprintf('integrantes.php?id=%d&accion=%s', $this->id, self::$accion_modificar));
+        }
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('integrantes')) {
+            $barra->boton_eliminar_confirmacion(sprintf('integrantes.php?id=%d&accion=%s', $this->id, self::$accion_eliminar),
+                "¿Está seguro de querer <strong>eliminar</strong> a el integrante {$this->usuario_nombre} del departamento {$this->departamento_nombre}?");
+        }
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('integrantes')) {
+            $barra->boton_recuperar_confirmacion(sprintf('integrantes.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
+                "¿Está seguro de querer <strong>recuperar</strong> a el integrante {$this->usuario_nombre} del departamento {$this->departamento_nombre}?");
+        }
         // Cargar Detalle
         $this->detalle->barra = $barra;
+        $this->detalle->seccion('Integrante');
+        $this->detalle->dato('Usuario',      sprintf('<a href="integrantes.php?%s=%d">%s (%s)</a>', Listado::$param_usuario, $this->usuario, $this->usuario_nombre, $this->usuario_nom_corto));
+        $this->detalle->dato('Departamento', sprintf('<a href="integrantes.php?%s=%d">%s</a>', Listado::$param_departamento, $this->departamento, $this->departamento_nombre));
+        $this->detalle->dato('Poder',        $this->poder_descrito, parent::$poder_colores[$this->poder]);
+        if ($this->sesion->puede_eliminar('integrantes')) {
+            $this->detalle->seccion('Registro');
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+        }
         // Entregar
         return $this->detalle->html();
     } // html

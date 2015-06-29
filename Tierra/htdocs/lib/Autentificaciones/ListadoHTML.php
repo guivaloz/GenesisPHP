@@ -34,7 +34,13 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    //
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $tipo;
+    // public $tipo_descrito;
+    // static public $param_usuario;
+    // static public $param_tipo;
+    // public $filtros_param;
     public $viene_listado = false; // Boleano, para que en PaginaHTML se de cuenta de que viene el listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
@@ -47,12 +53,34 @@ class ListadoHTML extends Listado {
         // Iniciar Listado Controlado
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
-        $this->listado_controlado->estructura = array();
+        $this->listado_controlado->estructura = array(
+            'fecha' => array(
+                'enca'    => 'Fecha'),
+            'tipo' => array(
+                'enca'    => 'Tipo',
+                'cambiar' => Registro::$tipo_descripciones,
+                'color'   => 'tipo',
+                'colores' => Registro::$tipo_colores),
+            'nom_corto' => array(
+                'enca'    => 'Login'),
+            'usuario_nom_corto' => array(
+                'enca'    => 'Usuario',
+                'pag'     => 'usuarios.php',
+                'id'      => 'usuario'),
+            'ip' => array(
+                'enca'    => 'IP'));
         // Tomar parámetros que pueden venir en el URL
+        $this->usuario            = $_GET[parent::$param_usuario];
+        $this->tipo               = $_GET[parent::$param_tipo];
         $this->limit              = $this->listado_controlado->limit;
         $this->offset             = $this->listado_controlado->offset;
         $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Si algún filtro tiene valor, entonces viene_listado será verdadero
+        if ($this->listado_controlado->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->usuario != '') || ($this->tipo != '');
+        }
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -73,6 +101,12 @@ class ListadoHTML extends Listado {
             return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
+        if ($this->usuario != '') {
+            unset($this->listado_controlado->estructura['usuario_nom_corto']);
+        }
+        if ($this->tipo != '') {
+            unset($this->listado_controlado->estructura['tipo']);
+        }
         // Cargar Listado Controlado
         $this->listado_controlado->encabezado         = $this->encabezado();
         $this->listado_controlado->icono              = $this->sesion->menu->icono_en('autentificaciones');

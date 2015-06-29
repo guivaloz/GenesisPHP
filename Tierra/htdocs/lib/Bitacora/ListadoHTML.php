@@ -34,7 +34,17 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    //
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $tipo;
+    // public $tipo_descrito;
+    // public $fecha_desde;
+    // public $fecha_hasta;
+    // static public $param_usuario;
+    // static public $param_tipo;
+    // static public $param_fecha_desde;
+    // static public $param_fecha_hasta;
+    // public $filtros_param;
     public $viene_listado = false; // Boleano, para que en PaginaHTML se de cuenta de que viene el listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
@@ -47,11 +57,40 @@ class ListadoHTML extends Listado {
         // Iniciar Listado Controlado
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
+        $this->listado_controlado->estructura = array(
+            'fecha' => array(
+                'enca'    => 'Fecha',
+                'pag'     => 'bitacora.php',
+                'id'      => 'id'),
+            'usuario_nom_corto' => array(
+                'enca'    => 'Usuario',
+                'pag'     => 'usuarios.php',
+                'id'      => 'usuario'),
+            'pagina' => array(
+                'enca'    => 'Página',
+                'pag'     => 'bitacora.php',
+                'param'   => array('pagina' => 'pagina', 'id' => 'pagina_id')),
+            'tipo' => array(
+                'enca'    => 'Tipo',
+                'cambiar' => Registro::$tipo_descripciones,
+                'color'   => 'tipo',
+                'colores' => Registro::$tipo_colores),
+            'notas' => array(
+                'enca'    => 'Notas'));
         // Tomar parámetros que pueden venir en el URL
+        $this->usuario            = $_GET[parent::$param_usuario];
+        $this->tipo               = $_GET[parent::$param_tipo];
+        $this->fecha_desde        = $_GET[parent::$param_fecha_desde];
+        $this->fecha_hasta        = $_GET[parent::$param_fecha_hasta];
         $this->limit              = $this->listado_controlado->limit;
         $this->offset             = $this->listado_controlado->offset;
         $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Si algún filtro tiene valor, entonces viene_listado será verdadero
+        if ($this->listado_controlado->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->usuario != '') || ($this->tipo != '') || ($this->fecha_desde != '') || ($this->fecha_hasta != '');
+        }
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -72,6 +111,12 @@ class ListadoHTML extends Listado {
             return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
+        if ($this->usuario != '') {
+            unset($this->listado_controlado->estructura['usuario_nom_corto']);
+        }
+        if ($this->tipo != '') {
+            unset($this->listado_controlado->estructura['tipo']);
+        }
         // Cargar Listado Controlado
         $this->listado_controlado->                   = $this->encabezado();
         $this->listado_controlado->                   = $this->sesion->menu->icono_en('bitacora');

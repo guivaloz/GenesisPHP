@@ -84,7 +84,7 @@ class EntidadesListado extends \Base\Listado {
             array('nombre' => 'Zacatecas',                       'capital' => 'Zacatecas',                 'poblacion' =>  1490668, 'fundacion' => '1823-12-23'));
         // Definir la cantidad de registros
         $this->cantidad_registros = count($this->listado);
-        // Ya fue consultado
+        // Poner como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
 

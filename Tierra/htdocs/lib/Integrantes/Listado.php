@@ -34,6 +34,8 @@ class Listado extends \Base\Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
+    //
+    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
@@ -75,6 +77,8 @@ class Listado extends \Base\Listado {
         // Pasar la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
         // Consultar la cantidad de registros
+        // Poner como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase Listado
