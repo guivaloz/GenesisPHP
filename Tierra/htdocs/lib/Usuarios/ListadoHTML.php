@@ -116,14 +116,14 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html() {
-        // Si no se ha consultado
-        try {
-            if (!$this->consultado) {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
                 $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html('Error');
             }
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         if ($this->tipo != '') {
@@ -133,12 +133,14 @@ class ListadoHTML extends Listado {
             unset($this->listado_controlado->estructura['estatus']);
         }
         // Elaborar Barra
-        $barra             = new \Base\BarraHTML();
+    /*  $barra             = new \Base\BarraHTML();
         $barra->encabezado = $this->encabezado();
         $barra->icono      = $this->sesion->menu->icono_en('usuarios');
-        $barra->boton_descargar('usuarios.csv', $this->filtros_param);
+        $barra->boton_descargar('usuarios.csv', $this->filtros_param); */
         // Cargar Listado Controlado
-        $this->listado_controlado->barra              = $barra;
+    /*  $this->listado_controlado->barra              = $barra; */
+        $this->listado_controlado->encabezado         = $this->encabezado();
+        $this->listado_controlado->icono              = $this->sesion->menu->icono_en('usuarios');
         $this->listado_controlado->listado            = $this->listado;
         $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
         $this->listado_controlado->variables          = $this->filtros_param;

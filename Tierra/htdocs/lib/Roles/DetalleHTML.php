@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Bitacora DetalleHTML
+ * GenesisPHP - Roles DetalleHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Bitacora;
+namespace Roles;
 
 /**
  * Clase DetalleHTML
@@ -29,18 +29,7 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
-    // public $id;
-    // public $usuario;
-    // public $usuario_nombre;
-    // public $fecha;
-    // public $pagina;
-    // public $pagina_id;
-    // public $tipo;
-    // public $tipo_descrito;
-    // public $url;
-    // public $notas;
-    // static public $tipo_descripciones;
-    // static public $tipo_colores;
+    //
     protected $detalle;
 
     /**
@@ -58,21 +47,9 @@ class DetalleHTML extends Registro {
     /**
      * HTML
      *
-     * @return string HTML
+     * @return string Código HTML
      */
     public function html() {
-        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
-        if (!$this->consultado) {
-            try {
-                $this->consultar();
-            } catch (\Exception $e) {
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html('Error');
-            }
-        }
-        // Elaborar Barra
-        // Cargar Detalle
-        $this->detalle->barra = $barra;
         // Entregar
         return $this->detalle->html();
     } // html

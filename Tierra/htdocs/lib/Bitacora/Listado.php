@@ -34,17 +34,17 @@ class Listado extends \Base\Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    public $usuario;        // Filtro, entero
+    public $usuario;                          // Filtro, entero
     public $usuario_nombre;
-    public $tipo;           // Filtro, caracter
+    public $tipo;                             // Filtro, caracter
     public $tipo_descrito;
-    public $fecha_desde;    // Filtro, fecha
-    public $fecha_hasta;    // Filtro, fecha
+    public $fecha_desde;                      // Filtro, fecha
+    public $fecha_hasta;                      // Filtro, fecha
     static public $param_usuario     = 'bu';
     static public $param_tipo        = 'bt';
     static public $param_fecha_desde = 'bfd';
     static public $param_fecha_hasta = 'bfh';
-    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
+    public $filtros_param;                    // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
@@ -195,7 +195,7 @@ class Listado extends \Base\Listado {
             try {
                 $consulta = $base_datos->comando(sprintf("
                     SELECT
-                        COUNT(b.id) AS cantidad
+                        COUNT(*) AS cantidad
                     FROM
                         bitacora AS b,
                         usuarios AS u

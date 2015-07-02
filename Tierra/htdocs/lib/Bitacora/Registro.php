@@ -37,6 +37,8 @@ class Registro extends \Base\Registro {
     public $pagina_id;
     public $tipo;
     public $tipo_descrito;
+    public $url;
+    public $notas;
     static public $tipo_descripciones = array(
         'A' => 'Agregó',
         'B' => 'Buscó',
@@ -85,12 +87,43 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
+        if (!$this->validar_entero($this->id)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar la bitácora por ID incorrecto.');
+        }
         // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando(sprintf("
+                SELECT
+                    b.usuario, u.nom_corto AS usuario_nom_corto,
+                    to_char(b.fecha, 'YYYY-MM-DD, HH24:MI:SS') as fecha,
+                    b.pagina, b.pagina_id, b.tipo, b.url, b.notas
+                FROM
+                    bitacora AS b,
+                    usuarios AS u
+                WHERE
+                    b.usuario = u.id
+                    AND b.id = %u",
+                $this->id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la bitácora.', $e->getMessage());
+        }
         // Si la consulta no entregó nada
+        if ($consulta->cantidad_registros() < 1) {
+            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró el registro en la bitácora.');
+        }
         // Obtener resultado de la consulta
         $a = $consulta->obtener_registro();
-        // Si esta eliminado, debe tener permiso para consultarlo
         // Definir propiedades
+        $this->usuario           = intval($a['usuario']);
+        $this->usuario_nom_corto = $a['usuario_nom_corto'];
+        $this->fecha             = $a['fecha'];
+        $this->pagina            = $a['pagina'];
+        $this->pagina_id         = $a['pagina_id'];
+        $this->tipo              = $a['tipo'];
+        $this->tipo_descrito     = self::$tipo_descripciones[$this->tipo];
+        $this->url               = $a['url'];
+        $this->notas             = $a['notas'];
         // Poner como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
@@ -99,25 +132,57 @@ class Registro extends \Base\Registro {
      * Validar
      */
     public function validar() {
+        // Tomar estos datos de la sesión
+        $this->usuario           = $this->sesion->usuario;
+        $this->usuario_nom_corto = $this->sesion->nom_corto;
+        $this->pagina            = $this->sesion->pagina;
         // Validar las propiedades
-        // Definir el estatus descrito
+        if (($this->pagina_id != null) && !$this->validar_entero($this->pagina_id)) {
+            throw new \Base\RegistroExceptionValidacion('Error en bitácora: Número para pagina_id incorrecto.');
+        }
+        if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Error en bitácora: Tipo incorrecto.');
+        }
+        if (($this->notas != '') && !$this->validar_notas($this->notas)) {
+            $this->notas = 'Las Notas son incorrectas, no fueron guardadas.';
+        }
+        // Si no está definido el URL, se define
+        if ($this->url == '') {
+            if ($this->pagina_id != null) {
+                $this->url = sprintf("%s?id=%u", $_SERVER['PHP_SELF'], $this->pagina_id);
+            } else {
+                $this->url = $_SERVER['PHP_SELF'];
+            }
+        }
+        // Definir el descrito
+        $this->tipo_descrito = self::$tipo_descripciones[$this->tipo];
     } // validar
 
     /**
      * Agregar
      */
-    public function agregar() {
-        // Que tenga permiso para agregar
-        // Verificar que NO haya sido consultado
+    protected function agregar() {
         // Validar
         $this->validar();
         // Insertar registro en la base de datos
-        // Obtener el ID del registro recién insertado
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                INSERT INTO
+                    bitacora (usuario, pagina, pagina_id, tipo, url, notas)
+                VALUES
+                    (%u, %s, %u, %s, %s, %s)",
+                $this->usuario,
+                $this->sql_texto($this->pagina),
+                $this->sql_entero($this->pagina_id),
+                $this->sql_texto($this->tipo),
+                $this->sql_texto($this->url),
+                $this->sql_texto($this->notas)), true); // Tiene el true para tronar en caso de error
+        } catch (\Exception $e) {
+            die("Error en bitácora: Al tratar de insertar un registro.");
+        }
         // Después de insertar se considera como consultado
         $this->consultado = true;
-        // Agregar a la bitácora que hay un nuevo registro
-        // Entregar mensaje
-        return $msg;
     } // agregar
 
     /**

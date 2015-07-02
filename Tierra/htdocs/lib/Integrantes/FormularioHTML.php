@@ -30,8 +30,8 @@ class FormularioHTML extends DetalleHTML {
     // protected $sesion;
     // protected $consultado;
     //
-    protected $formulario;                     // Instancia de FormularioHTML
-    protected $es_nuevo;                       // Bandera, si es verdadero es para agregar, falso es para modificar
+    protected $formulario;         // Instancia de FormularioHTML
+    protected $es_nuevo;           // Bandera, si es verdadero es para agregar, falso es para modificar
     static public $form_name = ''; // Name del formulario
 
     /**

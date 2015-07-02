@@ -37,8 +37,11 @@ class ListadoHTML extends Listado {
     // public $nombre;
     // public $clave;
     // public $permiso_maximo;
+    // public $permiso_maximo_descrito;
     // public $poder_minimo;
+    // public $poder_minimo_descrito;
     // public $estatus;
+    // public $estatus_descrito;
     // static public $param_nombre;
     // static public $param_clave;
     // static public $param_permiso_maximo;
@@ -108,14 +111,14 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html() {
-        // Si no se ha consultado
-        try {
-            if (!$this->consultado) {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
                 $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html('Error');
             }
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         if ($this->permiso_maximo != '') {

@@ -234,7 +234,13 @@ class Listado extends \Base\Listado {
         // Consultar la cantidad de registros
         if (($this->limit > 0) && ($this->cantidad_registros == 0)) {
             try {
-                $consulta = $base_datos->comando(sprintf("SELECT COUNT(id) AS cantidad FROM usuarios %s", $filtros_sql));
+                $consulta = $base_datos->comando(sprintf("
+                    SELECT
+                        COUNT(*) AS cantidad
+                    FROM
+                        usuarios
+                    %s",
+                    $filtros_sql));
             } catch (\Exception $e) {
                 throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los usuarios para determinar la cantidad de registros.', $e->getMessage());
             }

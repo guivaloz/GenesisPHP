@@ -36,6 +36,7 @@ class ListadoHTML extends Listado {
     // protected $consultado;
     // public $nombre;
     // public $estatus;
+    // public $estatus_descrito;
     // static public $param_nombre;
     // static public $param_estatus;
     // public $filtros_param;
@@ -88,14 +89,14 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html() {
-        // Si no se ha consultado
-        try {
-            if (!$this->consultado) {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
                 $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html('Error');
             }
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         if ($this->estatus != '') {

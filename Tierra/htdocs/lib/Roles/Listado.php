@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Departamentos Listado
+ * GenesisPHP - Roles Listado
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Departamentos;
+namespace Roles;
 
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado {
 
     // protected $sesion;
     // public $listado;
@@ -34,25 +34,50 @@ class Listado extends \Base\Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    public $nombre;                      // Filtro, texto
-    public $estatus;                     // Filtro, caracter
+    public $departamento;                     // Filtro, entero
+    public $departamento_nombre;
+    public $modulo;                           // Filtro, entero
+    public $modulo_nombre;
+    public $estatus;                          // Filtro, caracter
     public $estatus_descrito;
-    static public $param_nombre  = 'dn';
-    static public $param_estatus = 'dt';
-    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
+    static public $param_departamento = 'rd';
+    static public $param_modulo       = 'rm';
+    static public $param_estatus      = 'rt';
+    public $filtros_param;                    // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('departamentos')) {
-            throw new \Exception('Aviso: No tiene permiso para ver la bitácora.');
+        if (!$this->sesion->puede_ver('roles')) {
+            throw new \Exception('Aviso: No tiene permiso para ver los roles.');
         }
-        // Validar filtros
-        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
+        // Validar departamento
+        if ($this->departamento != '') {
+            $departamento = new \Departamentos\Registro($this->sesion);
+            try {
+                $departamento->consultar($this->departamento);
+            } catch (\Exception $e) {
+                throw new \Base\ListadoExceptionValidacion('Aviso: Departamento incorrecto.');
+            }
+            $this->departamento_nombre = $departamento->nombre;
+        } else {
+            $this->departamento_nombre = '';
         }
+        // Validar módulo
+        if ($this->modulo != '') {
+            $modulo = new \Modulos\Registro($this->sesion);
+            try {
+                $modulo->consultar($this->modulo);
+            } catch (\Exception $e) {
+                throw new \Base\ListadoExceptionValidacion('Aviso: Módulo incorrecto.');
+            }
+            $this->modulo_nombre = $modulo->nombre;
+        } else {
+            $this->modulo_nombre = '';
+        }
+        // Validar estatus
         if ($this->estatus != '') {
             if (!array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
                 throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
@@ -65,8 +90,11 @@ class Listado extends \Base\Listado {
         // Iniciamos el arreglo para los filtros
         $this->filtros_param = array();
         // Pasar los filtros como parámetros de los botones
-        if ($this->nombre != '') {
-            $this->filtros_param[self::$param_nombre] = $this->nombre;
+        if ($this->departamento != '') {
+            $this->filtros_param[self::$param_departamento] = $this->departamento;
+        }
+        if ($this->modulo != '') {
+            $this->filtros_param[self::$param_modulo] = $this->modulo;
         }
         if ($this->estatus != '') {
             $this->filtros_param[self::$param_estatus] = $this->estatus;
@@ -84,20 +112,23 @@ class Listado extends \Base\Listado {
         // En este arreglo juntaremos lo que se va a entregar
         $e = array();
         // Juntar elementos
-        if ($this->nombre != '') {
-            $e[] = "nombre {$this->nombre}";
+        if ($this->departamento != '') {
+            $e[] = "departamento {$this->departamento_nombre}";
+        }
+        if ($this->modulo != '') {
+            $e[] = "módulo {$this->modulo_nombre}";
         }
         if ($this->estatus != '') {
             $e[] = "estatus {$this->estatus_descrito}";
         }
         if (count($e) > 0) {
             if ($this->cantidad_registros > 0) {
-                $encabezado = sprintf('%d Departamentos con %s', $this->cantidad_registros, implode(", ", $e));
+                $encabezado = sprintf('%d Roles con %s', $this->cantidad_registros, implode(", ", $e));
             } else {
-                $encabezado = sprintf('Departamentos con %s', implode(", ", $e));
+                $encabezado = sprintf('Roles con %s', implode(", ", $e));
             }
         } else {
-            $encabezado = 'Departamentos';
+            $encabezado = 'Roles';
         }
         // Entregar
         return $encabezado;
@@ -111,14 +142,17 @@ class Listado extends \Base\Listado {
         $this->validar();
         // Filtros
         $filtros = array();
-        if ($this->nombre != '') {
-            $filtros[] = "nombre ILIKE '%{$this->nombre}%'";
+        if ($this->departamento != '') {
+            $filtros[] = "r.departamento = {$this->departamento}";
+        }
+        if ($this->modulo != '') {
+            $filtros[] = "r.modulo = {$this->modulo}";
         }
         if ($this->estatus != '') {
-            $filtros[] = "estatus = '{$this->estatus}'";
+            $filtros[] = "r.estatus = '{$this->estatus}'";
         }
         if (count($filtros) > 0) {
-            $filtros_sql = 'WHERE '.implode(' AND ', $filtros);
+            $filtros_sql = 'AND '.implode(' AND ', $filtros);
         } else {
             $filtros_sql = '';
         }
@@ -127,21 +161,30 @@ class Listado extends \Base\Listado {
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
-                    id, nombre, clave, notas, estatus
+                    r.id,
+                    r.departamento, d.nombre AS departamento_nombre,
+                    r.modulo, m.padre AS modulo_padre, m.nombre AS modulo_nombre, m.orden, m.icono,
+                    r.permiso_maximo,
+                    r.estatus
                 FROM
-                    departamentos
-                %s
+                    roles r,
+                    modulos m,
+                    departamentos d
+                WHERE
+                    r.departamento = d.id
+                    AND r.modulo = m.id
+                    %s
                 ORDER BY
-                    nombre ASC
+                    departamento_nombre, orden ASC
                 %s",
                 $filtros_sql,
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar departamentos para hacer listado.', $e->getMessage());
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar roles para hacer listado.', $e->getMessage());
         }
         // Provocar excepción si no hay resultados
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en departamentos.');
+            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en roles.');
         }
         // Pasar la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
@@ -150,13 +193,18 @@ class Listado extends \Base\Listado {
             try {
                 $consulta = $base_datos->comando(sprintf("
                     SELECT
-                        COUNT(*) AS cantidad
+                        COUNT(r.id) AS cantidad
                     FROM
-                        departamentos
-                    %s",
+                        roles r,
+                        modulos m,
+                        departamentos d
+                    WHERE
+                        r.departamento = d.id
+                        AND r.modulo = m.id
+                        %s",
                     $filtros_sql));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los departamentos para determinar la cantidad de registros.', $e->getMessage());
+                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los roles para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

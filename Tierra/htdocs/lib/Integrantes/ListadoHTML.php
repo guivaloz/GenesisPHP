@@ -34,7 +34,16 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    //
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $param_usuario;
+    // static public $param_departamento;
+    // static public $param_estatus;
+    // public $filtros_param;
     public $viene_listado = false; // Boleano, para que en PaginaHTML se de cuenta de que viene el listado
     protected $listado_controlado; // Instancia de ListadoControladoHTML
 
@@ -47,11 +56,40 @@ class ListadoHTML extends Listado {
         // Iniciar Listado Controlado
         $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Cargar la estructura
+        $this->listado_controlado->estructura = array(
+            'usuario_nombre' => array(
+                'enca'    => 'Usuario',
+                'pag'     => 'integrantes.php',
+                'param'   => array(parent::$param_usuario => 'usuario')),
+            'departamento_nombre' => array(
+                'enca'    => 'Departamento',
+                'pag'     => 'integrantes.php',
+                'param'   => array(parent::$param_departamento => 'departamento')),
+            'poder' => array(
+                'enca'    => 'Poder',
+                'pag'     => 'integrantes.php',
+                'id'      => 'id',
+                'cambiar' => Registro::$poder_descripciones,
+                'color'   => 'poder',
+                'colores' => Registro::$poder_colores),
+            'estatus' => array(
+                'enca'    => 'Estatus',
+                'cambiar' => Registro::$estatus_descripciones,
+                'color'   => 'estatus',
+                'colores' => Registro::$estatus_colores));
         // Tomar parámetros que pueden venir en el URL
+        $this->usuario            = $_GET[parent::$param_usuario];
+        $this->departamento       = $_GET[parent::$param_departamento];
+        $this->estatus            = $_GET[parent::$param_estatus];
         $this->limit              = $this->listado_controlado->limit;
         $this->offset             = $this->listado_controlado->offset;
         $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Si algún filtro tiene valor, entonces viene_listado será verdadero
+        if ($this->listado_html->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->usuario != '') || ($this->departamento != '') || ($this->estatus != '');
+        }
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -62,16 +100,25 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html() {
-        // Si no se ha consultado
-        try {
-            if (!$this->consultado) {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
                 $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html('Error');
             }
-        } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
-            return $mensaje->html('Error');
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
+        if ($this->usuario != '') {
+            unset($this->listado_controlado->estructura['usuario_nom_corto']);
+        }
+        if ($this->departamento != '') {
+            unset($this->listado_controlado->estructura['departamento_nombre']);
+        }
+        if ($this->estatus != '') {
+            unset($this->listado_controlado->estructura['estatus']);
+        }
         // Cargar Listado Controlado
         $this->listado_controlado->encabezado         = $this->encabezado();
         $this->listado_controlado->icono              = $this->sesion->menu->icono_en('integrantes');

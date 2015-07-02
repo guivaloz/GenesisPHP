@@ -40,7 +40,7 @@ class Listado extends \Base\Listado {
     public $tipo_descrito;
     static public $param_usuario = 'au';
     static public $param_tipo    = 'at';
-    public $filtros_param; // Arreglo asociativo, filtros para pasar por el URL
+    public $filtros_param;               // Arreglo asociativo, filtros para pasar por el URL
 
     /**
      * Validar

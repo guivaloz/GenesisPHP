@@ -37,8 +37,11 @@ class Listado extends \Base\Listado {
     public $nombre;                             // Filtro, texto
     public $clave;                              // Filtro, texto
     public $permiso_maximo;                     // Filtro, entero
+    public $permiso_maximo_descrito;
     public $poder_minimo;                       // Filtro, entero
+    public $poder_minimo_descrito;
     public $estatus;                            // Filtro, caracter
+    public $estatus_descrito;
     static public $param_nombre         = 'mn';
     static public $param_clave          = 'mc';
     static public $param_permiso_maximo = 'mp';
@@ -61,14 +64,32 @@ class Listado extends \Base\Listado {
         if (($this->clave != '') && !$this->validar_nombre($this->clave)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Clave incorrecta.');
         }
-        if (($this->permiso_maximo != '') && !array_key_exists($this->permiso_maximo, Registro::$permiso_maximo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+        if ($this->permiso_maximo != '') {
+            if (!array_key_exists($this->permiso_maximo, Registro::$permiso_maximo_descripciones)) {
+                throw new \Base\ListadoExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+            } else {
+                $this->permiso_maximo_descrito = Registro::$permiso_maximo_descripciones[$this->permiso_maximo];
+            }
+        } else {
+            $this->permiso_maximo_descrito = '';
         }
-        if (($this->poder_minimo != '') && !array_key_exists($this->poder_minimo, Registro::$poder_minimo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Poder mínimo incorrecto.');
+        if ($this->poder_minimo != '') {
+            if (!array_key_exists($this->poder_minimo, Registro::$poder_minimo_descripciones)) {
+                throw new \Base\ListadoExceptionValidacion('Aviso: Poder mínimo incorrecto.');
+            } else {
+                $this->poder_minimo_descrito = Registro::$poder_minimo_descripciones[$this->poder_minimo];
+            }
+        } else {
+            poder_minimo_descrito = '';
         }
-        if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
+        if ($this->estatus != '') {
+            if (!array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
+                throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
+            } else {
+                $this->estatus_descrito = Registro::$estatus_descripciones[$this->estatus];
+            }
+        } else {
+            $this->estatus_descrito = '';
         }
         // Iniciamos el arreglo para los filtros
         $this->filtros_param = array();
@@ -108,13 +129,13 @@ class Listado extends \Base\Listado {
             $e[] = "clave {$this->clave}";
         }
         if ($this->permiso_maximo != '') {
-            $e[] = "permiso máximo ".Registro::$permiso_maximo_descripciones[$this->permiso_maximo];
+            $e[] = "permiso máximo {$this->permiso_maximo_descrito}";
         }
         if ($this->poder_minimo != '') {
-            $e[] = "poder mínimo ".Registro::$poder_minimo_descripciones[$this->poder_minimo];
+            $e[] = "poder mínimo {$this->poder_minimo_descrito}";
         }
         if ($this->estatus != '') {
-            $e[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];
+            $e[] = "estatus {$this->estatus_descrito}";
         }
         if (count($e) > 0) {
             if ($this->cantidad_registros > 0) {
@@ -185,7 +206,7 @@ class Listado extends \Base\Listado {
             try {
                 $consulta = $base_datos->comando(sprintf("
                     SELECT
-                        COUNT(id) AS cantidad
+                        COUNT(*) AS cantidad
                     FROM
                         modulos
                     %s",
