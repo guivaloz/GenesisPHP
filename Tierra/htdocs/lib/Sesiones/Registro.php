@@ -29,88 +29,61 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
-    //
+    public $nombre;
+    public $nom_corto;
+    public $tipo;
+    public $ingreso;
+    public $listado_renglones;
 
     /**
      * Consultar
      *
-     * @param integer ID del registro
+     * @param integer ID del usuario
      */
-    public function consultar($in_id=false) {
+    public function consultar($in_usuario=false) {
         // Que tenga permiso para consultar
+        if (!$this->sesion->puede_ver('sesiones')) {
+            throw new \Exception('Aviso: No tiene permiso para consultar la sesión.');
+        }
         // Parámetro ID
-        if ($in_id !== false) {
-            $this->id = $in_id;
+        if ($in_usuario !== false) {
+            $this->usuario = $in_usuario;
         }
         // Validar
+        if (!$this->validar_entero($this->usuario)) {
+            throw new \Base\RegistroExceptionValidacion('Error: Al consultar la sesión por ID de usuario incorrecto.');
+        }
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando(sprintf("
+                SELECT
+                    nombre, nom_corto, tipo,
+                    to_char(ingreso, 'YYYY-MM-DD, HH24:MI') as ingreso,
+                    listado_renglones
+                FROM
+                    sesiones
+                WHERE
+                    usuario = %u",
+                $this->id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la sesión.', $e->getMessage());
+        }
         // Si la consulta no entregó nada
+        if ($consulta->cantidad_registros() < 1) {
+            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró la sesión.');
+        }
         // Obtener resultado de la consulta
         $a = $consulta->obtener_registro();
-        // Si esta eliminado, debe tener permiso para consultarlo
         // Definir propiedades
+        $this->nombre            = $a['nombre'];
+        $this->nom_corto         = $a['nom_corto'];
+        $this->tipo              = $a['tipo'];
+        $this->ingreso           = $a['ingreso'];
+        $this->listado_renglones = $a['listado_renglones'];
         // Poner como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
-
-    /**
-     * Validar
-     */
-    public function validar() {
-        // Validar las propiedades
-        // Definir el estatus descrito
-    } // validar
-
-    /**
-     * Nuevo
-     */
-    public function nuevo() {
-        // Que tenga permiso para agregar
-        // Definir propiedades
-        // Poner como verdadero el flag de consultado
-        $this->consultado = true;
-    } // nuevo
-
-    /**
-     * Agregar
-     *
-     * @return string Mensaje
-     */
-    public function agregar() {
-        // Que tenga permiso para agregar
-        // Verificar que NO haya sido consultado
-        // Validar
-        $this->validar();
-        // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
-        // Obtener el ID del registro recién insertado
-        // Después de insertar se considera como consultado
-        $this->consultado = true;
-        // Agregar a la bitácora que hay un nuevo registro
-        // Entregar mensaje
-        return $msg;
-    } // agregar
-
-    /**
-     * Modificar
-     *
-     * @return string Mensaje
-     */
-    public function modificar() {
-        // Que tenga permiso para modificar
-        // Verificar que haya sido consultado
-        // Validar
-        $this->validar();
-        // Hay que determinar que va cambiar, para armar el mensaje
-        $original = new Registro($this->sesion);
-        // Si no hay cambios, provoca excepcion de validacion
-        // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
-        // Agregar a la bitácora que se modificó el registro
-        // Entregar mensaje
-        return $msg;
-    } // modificar
 
 } // Clase Registro
 
