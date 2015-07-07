@@ -29,6 +29,7 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
+    public $usuario;
     public $nombre;
     public $nom_corto;
     public $tipo;
@@ -65,7 +66,7 @@ class Registro extends \Base\Registro {
                     sesiones
                 WHERE
                     usuario = %u",
-                $this->id));
+                $this->usuario));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la sesión.', $e->getMessage());
         }

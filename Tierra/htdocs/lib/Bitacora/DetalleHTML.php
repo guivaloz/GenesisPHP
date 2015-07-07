@@ -70,9 +70,17 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Elaborar Barra
         // Cargar Detalle
-        $this->detalle->barra = $barra;
+        $this->detalle->encabezado = sprintf('%s %s', $this->fecha, $this->usuario_nombre);
+        $this->detalle->icono      = $this->sesion->menu->icono_en('bitacora');
+        $this->detalle->seccion('Bitácora');
+        $this->detalle->dato('Usuario',   $this->usuario_nombre);
+        $this->detalle->dato('Fecha',     $this->fecha);
+        $this->detalle->dato('Página',    $this->pagina);
+        $this->detalle->dato('Página ID', $this->pagina_id);
+        $this->detalle->dato('Tipo',      $this->tipo_descrito);
+        $this->detalle->dato('URL',       $this->url);
+        $this->detalle->dato('Notas',     $this->notas);
         // Entregar
         return $this->detalle->html();
     } // html

@@ -29,7 +29,12 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
-    //
+    // public $usuario;
+    // public $nombre;
+    // public $nom_corto;
+    // public $tipo;
+    // public $ingreso;
+    // public $listado_renglones;
     protected $detalle;
 
     /**
@@ -59,9 +64,15 @@ class DetalleHTML extends Registro {
                 return $mensaje->html('Error');
             }
         }
-        // Elaborar Barra
         // Cargar Detalle
-        $this->detalle->barra = $barra;
+        $this->detalle->encabezado = $this->nombre;
+        $this->detalle->icono      = $this->sesion->menu->icono_en('sesiones');
+        $this->detalle->seccion('Sesión');
+        $this->detalle->dato('Nombre',                $this->nombre);
+        $this->detalle->dato('Nombre corto',          $this->nom_corto);
+        $this->detalle->dato('Tipo',                  $this->tipo);
+        $this->detalle->dato('Ingreso',               $this->ingreso);
+        $this->detalle->dato('Renglones en listados', $this->listado_renglones);
         // Entregar
         return $this->detalle->html();
     } // html
