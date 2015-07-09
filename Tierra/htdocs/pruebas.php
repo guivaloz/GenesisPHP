@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Bitacora Página HTML
+ * GenesisPHP - PaginaPruebas
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -20,17 +20,18 @@
  * @package GenesisPHP
  */
 
-namespace Bitacora;
+require_once('autocargadorclases.php');
 
 /**
- * Clase PaginaHTML
+ * Clase PaginaPruebas
  */
-class PaginaHTML extends \Base\PaginaHTML {
+class PaginaPruebas extends \Base\PlantillaHTML {
 
     // protected $sistema;
     // protected $titulo;
     // protected $descripcion;
     // protected $autor;
+    // protected $css;
     // protected $favicon;
     // protected $modelo;
     // protected $menu_principal_logo;
@@ -41,39 +42,37 @@ class PaginaHTML extends \Base\PaginaHTML {
     // public $menu;
     // public $contenido;
     // public $javascript;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
 
     /**
      * Constructor
      */
     public function __construct() {
-        parent::__construct('bitacora');
+        // Definir la clave de esta página
+        $this->clave = 'tierra_prueba';
+        // Definir el menú que es fijo
+        $this->menu  = new \Pruebas\Menu();
+        $this->menu->consultar();
+        $this->menu->clave = $this->clave;
     } // constructor
 
     /**
      * HTML
      *
-     * @return string Código HTML
+     * @return string HTML
      */
     public function html() {
-        // Sólo si se carga con éxito la sesión
-        if ($this->sesion_exitosa) {
-            // Lengüetas
-            $lenguetas = new \Base\LenguetasHTML('lenguetasBitacora');
-            // Listados
-            $listado = new ListadoHTML($this->sesion);
-            $lenguetas->agregar('bitacoraListado', 'Listado', $listado);
-            // Pasar el HTML y el Javascript de las lengüetas al contenido
-            $this->contenido[]  = $lenguetas->html();
-            $this->javascript[] = $lenguetas->javascript();
-        }
-        // Ejecutar este método en el padre
+        // Mensaje de bienvenida
+        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
+        $mensaje->tipo     = 'tip';
+        $this->contenido[] = $mensaje->html('Acerca de estas páginas');
+        // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
-} // Clase PaginaHTML
+} // Clase PaginaPruebas
+
+// Ejecutar y mostrar
+$pagina = new PaginaPruebas();
+echo $pagina->html();
 
 ?>

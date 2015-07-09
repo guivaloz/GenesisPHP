@@ -59,6 +59,17 @@ class PaginaHTML extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
+        // Sólo si se carga con éxito la sesión
+        if ($this->sesion_exitosa) {
+            // Lengüetas
+            $lenguetas = new \Base\LenguetasHTML('lenguetasAutentificaciones');
+            // Listados
+            $listado = new ListadoHTML($this->sesion);
+            $lenguetas->agregar('autentificacionesListado', 'Listado', $listado);
+            // Pasar el HTML y el Javascript de las lengüetas al contenido
+            $this->contenido[]  = $lenguetas->html();
+            $this->javascript[] = $lenguetas->javascript();
+        }
         // Ejecutar este método en el padre
         return parent::html();
     } // html
