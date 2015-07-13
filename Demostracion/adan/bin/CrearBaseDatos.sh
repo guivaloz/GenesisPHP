@@ -41,17 +41,17 @@ PROPIETARIO="genesis"
 # PostgreSQL
 export PGHOST=localhost
 export PGPORT=5432
-#export PGUSER=privilegiado
+#export PGUSER=superusuario
 
 # Constantes que definen los tipos de errores
 EXITO=0
 E_FATAL=99
 
-# Si estoy en servidor principal, cancelo la ejecución
-if [ $HOSTNAME == 'servidor' ]; then
-    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
-    exit $E_FATAL
-fi
+# Si estoy en servidor, cancelo la ejecución de este script
+#if [ $HOSTNAME == 'servidor' ]; then
+#    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
+#    exit $E_FATAL
+#fi
 
 # Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
 # Cambiarse al directorio sql

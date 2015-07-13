@@ -21,11 +21,15 @@
 # MA 02110-1301, USA.
 #
 
-#### Constantes ####
+#
+# Ruta a la capeta donde está GenesisPHP
+#
+GENESISPHP="$HOME/Documentos/GenesisPHP/GitHub/GenesisPHP"
 
-# Para todos los sistemas creados con Génesis
-GENESIS="$HOME/Documentos/GenesisPHP/GitHub/GenesisPHP"
-JARDIN="$GENESIS/Tierra/htdocs"
+#
+# Constantes
+#
+JARDIN="$GENESISPHP/Tierra/htdocs"
 SOBREESCRIBIR="htdocs-sobreescribir"
 HTDOCS="htdocs"
 
@@ -33,13 +37,27 @@ HTDOCS="htdocs"
 EXITO=0
 E_FATAL=99
 
-#### Validaciones ####
+#
+# Validaciones
+#
 
-# Si no está el directorio adán puede que se haya ejecutado este script desde adan/bin
+# Validar GenesisPHP
+if [ ! -d "$GENESISPHP" ]; then
+    echo "ERROR: No se encuentra $GENESISPHP"
+    echo "Revise que en CrearComun.sh la variable GENESISPHP tenga la ruta correcta."
+    exit $E_FATAL
+fi
+if [ ! -d "$JARDIN" ]; then
+    echo "ERROR: No se encuentra $JARDIN"
+    echo "Revise que en CrearComun.sh la variable JARDIN tenga la ruta correcta."
+    exit $E_FATAL
+fi
+
+# Debe ejecutarse en el directorio base del sistema o desde adan/bin
 if [ ! -d adan ]; then
     cd ../../
     if [ ! -d adan ]; then
-        echo "ERROR: No se encuentra el directorio adan. Este sistema no es para Génesis."
+        echo "ERROR: No se encuentra el directorio adan."
         exit $E_FATAL
     fi
 fi
@@ -51,12 +69,9 @@ if [ ! -d "$SOBREESCRIBIR" ]; then
     exit $E_FATAL
 fi
 
-# Si no existe htdocs será creado
-if [ ! -d "$HTDOCS" ]; then
-    mkdir $HTDOCS
-fi
-
-#### Proceso principal ####
+#
+# Proceso principal
+#
 
 #
 # Inicia lo Exclusivo
@@ -71,63 +86,55 @@ fi
 # Termina lo exclusivo
 #
 
-echo "COPIANDO los archivos de la raiz..."
-for ARCH in index.php autentificaciones.php bitacora.php departamentos.php integrantes.php modulos.php personalizar.php roles.php sesiones.php sistema.php usuarios.php
+# Si no existe htdocs será creado
+if [ ! -d "$HTDOCS" ]; then
+    mkdir $HTDOCS
+    cd $HTDOCS
+else
+    echo "Presione ENTER para DESTRUIR todo el contenido de $HTDOCS"
+    read
+    cd $HTDOCS
+    echo "DESTRUYENDO..."
+    rm -rf *
+fi
+
+echo "Copiando los archivos PHP de la raiz..."
+for ARCH in index.php autentificaciones.php bitacora.php departamentos.php integrantes.php modulos.php personalizar.php roles.php sesiones.php usuarios.php
 do
-    cp $JARDIN/$ARCH $HTDOCS/
+    cp $JARDIN/$ARCH ./
 done
-if [ -e $SOBREESCRIBIR/favicon.ico ]; then
-    cp $SOBREESCRIBIR/favicon.ico $HTDOCS/
-fi
-cp $SOBREESCRIBIR/*.php $HTDOCS/
+cp ../$SOBREESCRIBIR/*.php ./
 
-echo "COPIANDO los archivos y directorios del directorio bin..."
-mkdir $HTDOCS/bin
-cp -r $JARDIN/bin/* $HTDOCS/bin/
-cp -r $SOBREESCRIBIR/bin/*.php $HTDOCS/bin/
-
-echo "COPIANDO los archivos y directorios del directorio css..."
-mkdir $HTDOCS/css
-cp -r $JARDIN/css/* $HTDOCS/css/
-cp -r $SOBREESCRIBIR/css/*.css $HTDOCS/css/
-
-echo "COPIANDO los archivos y directorios del directorio fonts..."
-mkdir $HTDOCS/fonts
-cp -r $JARDIN/fonts/* $HTDOCS/fonts/
-
-echo "COPIANDO los archivos y directorios del directorio img..."
-mkdir $HTDOCS/img
-cp -r $JARDIN/img/* $HTDOCS/img/
-
-echo "COPIANDO los archivos y directorios del directorio imagenes..."
-mkdir $HTDOCS/imagenes
-cp -r $JARDIN/imagenes/* $HTDOCS/imagenes/
-cp -r $SOBREESCRIBIR/imagenes/* $HTDOCS/imagenes/
-
-echo "COPIANDO los archivos y directorios del directorio js..."
-mkdir $HTDOCS/js
-cp -r $JARDIN/js/* $HTDOCS/js/
-
-if [ -d "$JARDIN/leaflet" ]; then
-    echo "COPIANDO los archivos y directorios del directorio leaflet..."
-    mkdir $HTDOCS/leaflet
-    cp -r $JARDIN/leaflet/* $HTDOCS/leaflet/
+if [ -e ../$SOBREESCRIBIR/favicon.ico ]; then
+    echo "Copiando favicon..."
+    cp ../$SOBREESCRIBIR/favicon.ico ./
 fi
 
-mkdir $HTDOCS/lib
+for DIR in bin css fonts img imagenes js
+do
+    echo "Copiando $DIR..."
+    mkdir ./$DIR
+    cp -r $JARDIN/$DIR/* ./$DIR/
+    if [ -d ../$SOBREESCRIBIR/$DIR ]; then
+        echo "Copiando de $SOBREESCRIBIR a $DIR..."
+        cp -r ../$SOBREESCRIBIR/$DIR/* ./$DIR/
+    fi
+done
+
+mkdir ./lib
 for DIR in `ls $JARDIN/lib/`
 do
-    echo "COPIANDO los archivos de lib/$DIR..."
-    mkdir $HTDOCS/lib/$DIR
-    cp -r $JARDIN/lib/$DIR/* $HTDOCS/lib/$DIR/
+    echo "Copiando $DIR..."
+    mkdir ./lib/$DIR
+    cp -r $JARDIN/lib/$DIR/* ./lib/$DIR/
 done
-for DIR in `ls $SOBREESCRIBIR/lib/`
+for DIR in `ls ../$SOBREESCRIBIR/lib/`
 do
-    echo "COPIANDO los archivos de lib/$DIR..."
-    if [ ! -d "$HTDOCS/lib/$DIR" ]; then
-        mkdir $HTDOCS/lib/$DIR
+    echo "Copiando de $SOBREESCRIBIR a $DIR..."
+    if [ ! -d "./lib/$DIR" ]; then
+        mkdir ./lib/$DIR
     fi
-    cp -r $SOBREESCRIBIR/lib/$DIR/* $HTDOCS/lib/$DIR/
+    cp -r ../$SOBREESCRIBIR/lib/$DIR/* ./lib/$DIR/
 done
 
 #
@@ -148,7 +155,7 @@ done
 # Termina lo exclusivo
 #
 
-cd $HTDOCS/bin
+cd ./bin
 echo "Creando enlaces de lib en el directorio bin..."
 ln -s ../lib .
 echo "Creando enlaces de imagenes en el directorio bin..."
