@@ -22,14 +22,8 @@
 
 require_once('autocargadorclases.php');
 
-// Si se solicita la descarga de CSV
-if ($_GET['csv'] == 'descargar') {
-    $pagina_csv = new Usuarios\PaginaCSV();
-    echo $pagina_csv->csv();
-} else {
-    // Mostrar la página HTML
-    $pagina_html = new Usuarios\PaginaHTML();
-    echo $pagina_html->html();
-}
+// Mostrar la página HTML
+$pagina_csv = new Usuarios\PaginaCSV();
+echo $pagina_csv->csv();
 
 ?>
