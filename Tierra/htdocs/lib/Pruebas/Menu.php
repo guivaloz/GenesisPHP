@@ -44,7 +44,7 @@ class Menu extends \Base\Menu {
         $this->agregar('tierra_prueba_listado',      'Listado',          'pruebalistado.php',     'accessories-dictionary.png');
         $this->agregar('tierra_prueba_formulario',   'Formulario',       'pruebaformulario.php',  'menu-editor.png');
         // Arriba a la derecha
-        $this->agregar_principal_derecha('tierra_inicio',  '', 'index.php',         'glyphicon glyphicon-off');
+        $this->agregar_principal_derecha('tierra_inicio', '', 'index.php', 'glyphicon glyphicon-off');
     } // consultar
 
 } // Clase Menu

@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('autocargadorclases.php');
+require_once('lib/Base/AutocargadorClases.php');
 
 /**
  * Clase PaginaInicial
@@ -47,6 +47,12 @@ class PaginaInicial extends \Base\PlantillaHTML {
      * Constructor
      */
     public function __construct() {
+        // Definir la clave de esta página
+        $this->clave = 'tierra_prueba';
+        // Definir el menú que es fijo
+        $this->menu  = new \Pruebas\Menu();
+        $this->menu->consultar();
+        $this->menu->clave = $this->clave;
     } // constructor
 
     /**
@@ -55,6 +61,10 @@ class PaginaInicial extends \Base\PlantillaHTML {
      * @return string HTML
      */
     public function html() {
+        // Mensaje de bienvenida
+        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
+        $mensaje->tipo     = 'tip';
+        $this->contenido[] = $mensaje->html('Acerca de estas páginas');
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
