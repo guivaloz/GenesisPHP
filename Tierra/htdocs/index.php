@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('autocargadorclases.php');
+require_once('lib/Base/AutocargadorClases.php');
 
 /**
  * Clase PaginaInicial
