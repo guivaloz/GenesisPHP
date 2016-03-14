@@ -1,0 +1,72 @@
+/*
+ * Génesis | Tierra
+ *
+ * Plantilla Ingreso
+ */
+
+/* GLOBALES */
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    padding-top:40px;
+    padding-bottom:40px;
+    background-color:#CCC;
+    background-image:url(../imagenes/sandpaper.png);
+    /* background-size: 1440px 900px; */
+    /* background-repeat:no-repeat; */
+    display: compact;
+}
+
+/* FORMULARIO DE INGRESO */
+.form-signin {
+    padding:15px 20px 20px 15px;
+    margin:0 auto 20px;
+    background-color:#fff;
+    border:2px solid #888;
+    -webkit-border-radius:5px;
+       -moz-border-radius:5px;
+    border-radius:5px;
+    -webkit-box-shadow:0 1px 2px rgba(0,0,0,.05);
+       -moz-box-shadow:0 1px 2px rgba(0,0,0,.05);
+    box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom:10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+    font-size:16px;
+    height:auto;
+    margin-bottom:15px;
+    padding:7px 9px;
+}
+
+/* COLORES DE LOS BOTONES */
+.btn-primary {
+    border-color:#A00000;
+    background-color:#CC0000;
+    background-image:linear-gradient(to bottom, #AA0000, #EE0000);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:disabled {
+    border-color:#7E0000;
+    background-color:#FF0000;
+    background-image:linear-gradient(to bottom, #BB0000, #FF0000);
+}
+
+/* PARA CENTRAR LOS LOGOTIPOS */
+.centrado {
+    text-align:center;
+}
+
+/* PIE */
+footer {
+    font-size:12px;
+    padding:4px;
+    background-color:#333;
+    color:#CCC;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:1001;
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - TemaDashboardHTML
+ * GenesisPHP - TemaFluidoHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Base;
 
 /**
- * Clase TemaDashboardHTML
+ * Clase TemaFluidoHTML
  */
-class TemaDashboardHTML {
+class TemaFluidoHTML {
 
     public $sistema;
     public $titulo;
@@ -34,41 +34,12 @@ class TemaDashboardHTML {
     public $css;
     public $favicon;
     public $menu_principal_logo;
+    public $modelo_fluido_logos;
     public $icono;                 // Texto, nombre del archivo con el icono de la página
     public $contenido  = array();  // Arreglo con el contenido
     public $javascript = array();  // Arreglo con Javascript
     public $pie;
     public $menu;                  // Instancia de Menu
-
-    /**
-     * Bloque HTML
-     *
-     * @param  mixed  Arreglo o texto con el contenido
-     * @param  string Tag a poner antes y después del contenido
-     * @return string Código HTML
-     */
-    protected function bloque_html($in_contenido, $in_tag) {
-        // Si es arreglo o es texto
-        if (is_array($in_contenido)) {
-            $a = array();
-            // Bucle para evitar los valores vacios
-            foreach ($in_contenido as $c) {
-                if (is_string($c) && ($c != '')) {
-                    $a[] = $c;
-                }
-            }
-            // Entregar
-            if (count($a)) {
-                return "<$in_tag>\n".implode("\n", $a)."\n</$in_tag>";
-            } else {
-                return '';
-            }
-        } elseif (is_string($in_contenido) && ($in_contenido != '')) {
-            return "<$in_tag>\n$in_contenido\n</$in_tag>";
-        } else {
-            return '';
-        }
-    } // bloque_html
 
     /**
      * Header HTML
@@ -109,7 +80,7 @@ class TemaDashboardHTML {
         // Acumular graficador morris.js
         $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
         // Acumular archivo CSS propio de esta plantilla
-        $a[] = '  <link href="css/plantilla-dashboard.css" rel="stylesheet" type="text/css">';
+        $a[] = '  <link href="css/plantilla-fluida.css" rel="stylesheet" type="text/css">';
         if ($this->css != '') {
             $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
         }
@@ -128,8 +99,18 @@ class TemaDashboardHTML {
     protected function footer_html() {
         // En este arreglo acumulamos
         $a = array();
-        // Acumular pie
-        $a[] = $this->bloque_html($this->pie, 'footer');
+        // Si el pie es un arreglo o un texto
+        if (is_array($this->pie) && (count($this->pie) > 0)) {
+            $a[] = '  <!-- PIE -->';
+            $a[] = '  <footer>';
+            $a[] = implode("\n", $this->pie);
+            $a[] = '  </footer>';
+        } elseif (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = '  <!-- PIE -->';
+            $a[] = '  <footer>';
+            $a[] = $this->pie;
+            $a[] = '  </footer>';
+        }
         // Acumular JQuery
         $a[] = '  <script src="js/jquery.min.js"></script>';
         // Acumular Twitter Bootstrap
@@ -143,7 +124,15 @@ class TemaDashboardHTML {
         $a[] = '  <script src="js/raphael-min.js"></script>';
         $a[] = '  <script src="js/morris.min.js"></script>';
         // Acumular Javascript que se haya agregado desde fuera
-        $a[] = $this->bloque_html($this->javascript, 'script');
+        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
+            $a[] = '<script>';
+            $a[] = implode("\n", $this->javascript);
+            $a[] = '</script>';
+        } elseif (is_string($this->javascript) && ($this->javascript != '')) {
+            $a[] = '<script>';
+            $a[] = $this->javascript;
+            $a[] = '</script>';
+        }
         // Acumular cierre de body y html
         $a[] = '</body>';
         $a[] = '</html>';
@@ -157,11 +146,25 @@ class TemaDashboardHTML {
      * @return string HTML
      */
     protected function menu_principal_html() {
-        // De inicio no hay opciones del lado derecho
-        $hay_en_la_derecha = false;
         // En este arreglo acumulamos
         $a = array();
+        // Si no se ha definido el menu, entonces entregará un menú con mensaje de error
+        if (!is_object($this->menu)) {
+            $a[] = '<!-- MENU PRINCIPAL INICIA -->';
+            $a[] = '<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu-principal">';
+            $a[] = '  <div class="container-fluid">';
+            $a[] = '    <div class="navbar-header">';
+            $a[] = "      <a class=\"navbar-brand\" href=\"index.php\">ERROR: No hay menú.</a>";
+            $a[] = '    </div>';
+            $a[] = '  </div>';
+            $a[] = '</nav>';
+            $a[] = '<!-- MENU PRINCIPAL TERMINA -->';
+            return implode("\n", $a);
+        }
+        // De inicio no hay opciones del lado derecho
+        $hay_en_la_derecha = false;
         // Acumular
+        $a[] = '<!-- MENU PRINCIPAL INICIA -->';
         $a[] = '<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu-principal">';
         $a[] = '  <div class="container-fluid">';
         // Navbar-header / brand / collapse
@@ -181,7 +184,6 @@ class TemaDashboardHTML {
         // Menu
         $a[] = '    <div class="navbar-collapse collapse" id="menu-principal-collapse">';
         $a[] = '      <ul class="nav navbar-nav">';
-        // Menu opciones del lado izquierdo
         foreach ($this->menu->opciones_menu_principal() as $opcion) {
             if ($opcion['posicion'] == 'izquierda') {
                 if (strpos($opcion['icono'], 'glyphicon') === 0) {
@@ -203,7 +205,6 @@ class TemaDashboardHTML {
             }
         }
         $a[] = '      </ul>';
-        // Menu opciones del lado derecho
         if ($hay_en_la_derecha) {
             $a[] = '      <ul class="nav navbar-nav navbar-right">';
             foreach ($this->menu->opciones_menu_principal() as $opcion) {
@@ -229,6 +230,7 @@ class TemaDashboardHTML {
         // Cerrar tags
         $a[] = '  </div>';
         $a[] = '</nav>';
+        $a[] = '<!-- MENU PRINCIPAL TERMINA -->';
         // Entregar
         return implode("\n", $a);
     } // menu_principal_html
@@ -239,10 +241,21 @@ class TemaDashboardHTML {
      * @return string HTML
      */
     protected function menu_secundario_html() {
-        // En este arreglo acumularemos la salida
-        $a   = array();
+        // En este arreglo acumulamos
+        $a = array();
+        // Si no se ha definido el menu, entonces entregará un menú con mensaje de error
+        if (!is_object($this->menu)) {
+            $a[] = '<!-- MENU SECUNDARIO INICIA -->';
+            $a[] = '<div class="well" id="menu-secundario">';
+            $a[] = '  <p>ERROR: No hay menú.</p>';
+            $a[] = '</div>';
+            $a[] = '<!-- MENU SECUNDARIO TERMINA -->';
+            return implode("\n", $a);
+        }
         // Acumular
-        $a[] = '<ul class="nav nav-menu-secundario">';
+        $a[] = '<!-- MENU SECUNDARIO INICIA -->';
+        $a[] = '<div class="well" id="menu-secundario">';
+        $a[] = '  <ul class="nav">';
         foreach ($this->menu->opciones_menu_secundario() as $opcion) {
             if (strpos($opcion['icono'], 'glyphicon') === 0) {
                 $icono = "<span class=\"{$opcion['icono']}\"></span>";
@@ -252,18 +265,15 @@ class TemaDashboardHTML {
                 $icono = "<span class=\"glyphicon glyphicon-folder-close\"></span>";
             }
             $mostrar = "$icono {$opcion['etiqueta']}";
-            if ($opcion['url'] != '') {
-                $vinculo = "<a href=\"{$opcion['url']}\">$mostrar</a>";
-            } else {
-                $vinculo = $mostrar;
-            }
             if ($opcion['activo'] == true) {
-                $a[] = "  <li class=\"active\">$vinculo</li>";
+                $a[] = "    <li class=\"active\"><a href=\"{$opcion['url']}\">$mostrar</a></li>";
             } else {
-                $a[] = "  <li>$vinculo</li>";
+                $a[] = "    <li><a href=\"{$opcion['url']}\">$mostrar</a></li>";
             }
         }
-        $a[] = '</ul>';
+        $a[] = '  </ul>';
+        $a[] = '</div>';
+        $a[] = '<!-- MENU SECUNDARIO TERMINA -->';
         // Entregar
         return implode("\n", $a);
     } // menu_secundario_html
@@ -274,7 +284,7 @@ class TemaDashboardHTML {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // Si esta definido el menu, se toman el título e ícono de éste
+        // Si esta definido el menu, se toma el título y el ícono de éste
         if (is_object($this->menu)) {
             if ($this->titulo == '') {
                 $this->titulo = $this->menu->titulo_en();
@@ -286,36 +296,39 @@ class TemaDashboardHTML {
         // Evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // En este arreglo acumularemos la salida
-        $a   = array();
+        // En este arreglo acumulamos
+        $a = array();
         // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();
+        $a[] = '<!-- CONTENIDO PLANTILLA FLUIDA INICIA -->';
         $a[] = '  <div class="container-fluid">';
         $a[] = '    <div class="row">';
-        $a[] = '      <div class="col-sm-3 col-md-2 menu-secundario">';
+        $a[] = '      <div class="col-md-3">';
         $a[] = $this->menu_secundario_html();
         $a[] = '      </div>';
-        $a[] = '      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 contenido">';
+        $a[] = '      <div class="col-md-9">';
         if ($this->icono != '') {
-            if (strpos($this->icono, 'glyphicon') === 0) {
-                $icono = "<span class=\"{$this->icono}\"></span>";
-            } else {
-                $icono = "<img src=\"imagenes/48x48/{$this->icono}\">";
-            }
-            $a[] = "        <h1 class=\"page-header titulo\">$icono {$this->titulo}</h1>";
+            $a[] = "        <h1 class=\"page-header titulo\"><img src=\"imagenes/48x48/{$this->icono}\"> {$this->titulo}</h1>";
         } else {
             $a[] = "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
-        $a[] = $this->bloque_html($this->contenido, 'div');
+        if (is_array($this->contenido) && (count($this->contenido) > 0)) {
+            $a[] = implode("\n", $this->contenido);
+        } elseif (is_string($this->contenido) && ($this->contenido != '')) {
+            $a[] = $this->contenido;
+        } else {
+            $a[] = "No hay contenido.";
+        }
         $a[] = '      </div>';
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid
+        $a[] = '<!-- CONTENIDO PLANTILLA FLUIDA TERMINA -->';
         $a[] = $this->footer_html();
         // Entregar
         return implode("\n", $a);
     } // html
 
-} // Clase TemaDashboardHTML
+} // Clase TemaFluidoHTML
 
 ?>
