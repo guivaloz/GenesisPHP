@@ -20,3 +20,4 @@ CREATE TABLE exp_personas_familiares (
     etapa                character(1)            DEFAULT 'A'::char NOT NULL,
     estatus              character(1)            DEFAULT 'A'::char NOT NULL
 );
+

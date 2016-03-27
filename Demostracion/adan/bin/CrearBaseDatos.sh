@@ -22,21 +22,21 @@
 #
 
 #
-# Para probar que tiene los permisos, haga una simulación de la creación
+# Para probar que tiene los permisos, haga una prueba de la creación
 # con estos comandos...
 #
-#   $ createuser genesis
-#   $ createdb -O genesis genesisphp_demo
+#   $ createuser -d -s genesisphp
+#   $ createdb -O genesisphp genesisphp_demostracion
 #   $ psql -l
 #
-# Si funciona bien, ejecute...
+# Si funciona, ejecute...
 #
 #   $ ./CrearBaseDatos.sh
 #
 
 # Constantes
-BD="genesisphp_demo"
-PROPIETARIO="genesis"
+BD="genesisphp_demostracion"
+PROPIETARIO="genesisphp"
 
 # PostgreSQL
 export PGHOST=localhost
@@ -87,3 +87,4 @@ done
 
 echo "Script terminado."
 exit $EXITO
+

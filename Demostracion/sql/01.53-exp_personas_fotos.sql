@@ -13,3 +13,4 @@ CREATE TABLE exp_personas_fotos (
     creado             timestamp without time zone    DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
     estatus            character(1)                   DEFAULT 'A'::char NOT NULL
 );
+

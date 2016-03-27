@@ -28,3 +28,4 @@ CREATE TABLE exp_personas_domicilios (
 --   I La de la credencial IFE
 --   T Trabajo
 --   O Otro
+

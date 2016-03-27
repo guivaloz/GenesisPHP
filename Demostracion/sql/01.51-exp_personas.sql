@@ -35,3 +35,4 @@ CREATE TABLE exp_personas (
 --   D Divorciado
 --   U Unión libre
 --   V Viudo
+

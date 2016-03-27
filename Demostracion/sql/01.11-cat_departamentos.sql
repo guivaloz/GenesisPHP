@@ -16,3 +16,4 @@ CREATE TABLE cat_departamentos (
 INSERT INTO cat_departamentos (nombre) VALUES ('Departamento Administrativo'); -- 1
 INSERT INTO cat_departamentos (nombre) VALUES ('Departamento Producción');     -- 2
 INSERT INTO cat_departamentos (nombre) VALUES ('Departamento Ventas');         -- 3
+

@@ -239,7 +239,9 @@ class TemaDashboardHTML {
      * @return string HTML
      */
     protected function menu_secundario_html() {
+        // En este arreglo acumularemos la salida
         $a   = array();
+        // Acumular
         $a[] = '<ul class="nav nav-menu-secundario">';
         foreach ($this->menu->opciones_menu_secundario() as $opcion) {
             if (strpos($opcion['icono'], 'glyphicon') === 0) {
@@ -262,6 +264,7 @@ class TemaDashboardHTML {
             }
         }
         $a[] = '</ul>';
+        // Entregar
         return implode("\n", $a);
     } // menu_secundario_html
 
@@ -283,8 +286,9 @@ class TemaDashboardHTML {
         // Evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        // En este arreglo acumulamos
+        // En este arreglo acumularemos la salida
         $a   = array();
+        // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();
         $a[] = '  <div class="container-fluid">';
@@ -308,6 +312,7 @@ class TemaDashboardHTML {
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid
         $a[] = $this->footer_html();
+        // Entregar
         return implode("\n", $a);
     } // html
 
