@@ -4,6 +4,7 @@
 
 CREATE TABLE adm_modulos (
     id              serial                 PRIMARY KEY,
+
     orden           smallint               UNIQUE NOT NULL,
     clave           character varying(48)  UNIQUE NOT NULL,
     nombre          character varying(48)  NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE adm_modulos (
     padre           integer,
     permiso_maximo  smallint               DEFAULT 5 NOT NULL,
     poder_minimo    smallint               DEFAULT 1 NOT NULL,
+
     estatus         character(1)           DEFAULT 'A'::bpchar NOT NULL
 );
 

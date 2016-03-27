@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Inicio Sesión
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ class Sesion extends Cookie {
                 SELECT
                     nombre, nom_corto, tipo, listado_renglones
                 FROM
-                    sesiones
+                    adm_sesiones
                 WHERE
                     usuario = {$this->usuario}");
         } catch (\Exception $e) {

@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Pruebas Página Inicial
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,18 +42,59 @@ class PaginaInicial extends \Base\PlantillaHTML {
     // public $menu;
     // public $contenido;
     // public $javascript;
+    protected $sesion;
 
     /**
      * Constructor
      */
     public function __construct() {
-        // Definir la clave de esta página
-        $this->clave = 'tierra_prueba';
-        // Definir el menú que es fijo
-        $this->menu  = new \Pruebas\Menu();
-        $this->menu->consultar();
-        $this->menu->clave = $this->clave;
+        $this->clave = 'inicio';
     } // constructor
+
+    /**
+     * Contenido de Inicio
+     *
+     * @return string HTML
+     */
+    protected function contenido_inicio_html() {
+        // Titulo
+        $this->titulo = 'Bienvenido';
+        // Usuario
+        $this->usuario        = $this->sesion->usuario;
+        $this->usuario_nombre = $this->sesion->nombre;
+        // Cargar el menu
+        $this->menu        = new Inicio\Menu($this->sesion);
+        $this->menu->clave = $this->clave;
+        try {
+            $this->menu->consultar();
+        } catch (\Exception $e) {
+            $mensaje           = new \Base\MensajeHTML($e->getMessage());
+            $this->contenido[] = $mensaje->html('Error en menú');
+        }
+        // Si viene el formulario del cambio de contraseña
+        $personalizar = new Personalizar\FormularioHTMLContrasena($this->sesion);
+        if ($_POST['formulario'] == Personalizar\FormularioHTMLContrasena::$form_name) {
+            // Mostrar el resultado de recibirlo
+            $this->contenido[] = $personalizar->html();
+        } else {
+            // Mostrar la situacion de la cuenta
+            $situacion_mensaje = $personalizar->situacion_html();
+            // Si se necesita el cambio de contraseña
+            if ($personalizar->contrasena_alerta) {
+                // Pone el mensaje y el formulario para cambiarla
+                $this->contenido[] = $situacion_mensaje;
+                $this->contenido[] = $personalizar->html();
+            } else {
+                // Mensaje de bienvenida
+                $mensaje           = new \Base\MensajeHTML(array(
+                    'En la parte superior tiene el menú principal que siempre es visible.',
+                    'Del lado izquierdo, está el menú secundario el cual cambia según la opción del menú primario elegida.',
+                    'Su nombre, arriba a la derecha, le mostrará los datos de su cuenta.'));
+                $mensaje->tipo     = 'tip';
+                $this->contenido[] = $mensaje->html('Bienvenido');
+            }
+        }
+    } // contenido_inicio_html
 
     /**
      * HTML
@@ -61,12 +102,63 @@ class PaginaInicial extends \Base\PlantillaHTML {
      * @return string HTML
      */
     public function html() {
-        // Mensaje de bienvenida
-        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
-        $mensaje->tipo     = 'tip';
-        $this->contenido[] = $mensaje->html('Acerca de estas páginas');
-        // Ejecutar el padre y entregar su resultado
-        return parent::html();
+        // Si quiere salir
+        if ($_GET['accion'] == 'salir') {
+            try {
+                // Salir de la sesion
+                $this->sesion = new Inicio\SesionSalir();
+                $this->sesion->cargar('inicio');
+                $this->sesion->salir();
+                // Mostramos el ingreso
+                $this->contenido[] = "Ha cerrado su sesión.";
+                $this->modelo      = 'ingreso';
+                return parent::html();
+            } catch (\Exception $e) {
+                // Error, mostramos el ingreso y el mensaje
+                $mensaje           = new \Base\MensajeHTML($e->getMessage());
+                $this->contenido[] = $mensaje->html('Error al salir');
+                $this->modelo      = 'ingreso';
+                return parent::html();
+            }
+        } elseif (($_POST['nom_corto'] != '') && ($_POST['contrasena'] != '')) {
+            // Viene el formulario
+            try {
+                // Entonces trata de ingresar
+                $autentificar = new Inicio\Autentificar();
+                $usuario_id   = $autentificar->usuario_contrasena($_POST['nom_corto'], $_POST['contrasena']);
+                // Conservar el nombre corto en una cookie
+                $hoy = getdate();
+                setcookie('nom_corto', $autentificar->nom_corto, mktime(0, 0, 0, $hoy['mon'], $hoy['mday']+30, $hoy['year']));
+                // Nueva sesion
+                $this->sesion = new Inicio\SesionNueva();
+                $this->sesion->crear($usuario_id);  // Crear la cookie de la sesion
+                $this->sesion->nueva();
+                // Entregamos el contenido de la pagina de inicio
+                $this->contenido_inicio_html();
+                return parent::html();
+            } catch (\Exception $e) {
+                // Error, mostramos el ingreso y el mensaje
+                $mensaje           = new \Base\MensajeHTML($e->getMessage());
+                $this->contenido[] = $mensaje->html('Error al iniciar sesión');
+                $this->modelo      = 'ingreso';
+                return parent::html();
+            }
+        } else {
+            // No viene el formulario
+            try {
+                // Tratamos de cargar la sesion
+                $this->sesion = new Inicio\Sesion();
+                $this->sesion->cargar('inicio');
+                // Entregamos el contenido de la pagina de inicio
+                $this->contenido_inicio_html();
+                return parent::html();
+            } catch (\Exception $e) {
+                // Error o no hay sesion, mostramos el ingreso y el mensaje
+                $this->contenido[] = $e->getMessage();
+                $this->modelo      = 'ingreso';
+                return parent::html();
+            }
+        }
     } // html
 
 } // Clase PaginaInicial

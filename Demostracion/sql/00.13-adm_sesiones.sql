@@ -4,6 +4,7 @@
 
 CREATE TABLE adm_sesiones (
     usuario            integer                      REFERENCES adm_usuarios PRIMARY KEY,
+
     ingreso            timestamp without time zone  NOT NULL,
     nombre             character varying(128)       NOT NULL,
     nom_corto          character varying(16)        NOT NULL,

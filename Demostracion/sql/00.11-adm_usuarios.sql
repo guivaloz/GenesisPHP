@@ -24,7 +24,7 @@ CREATE TABLE adm_usuarios (
 );
 
 -- Desarrolladores
-INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena, contrasena_expira) VALUES ('sistema',       'Sistema',          'A', 'fC7xAHSxU4Xj5uK2', '2020-12-31'); -- 1
+INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena, contrasena_expira) VALUES ('sistema',       'Sistema',          'A', 'BohReipa9ihojai8', '2020-12-31'); -- 1
 INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena)                    VALUES ('guivaloz',      'Guillermo Valdés', 'A', 'datacat'); -- 2
 
 -- Administradores

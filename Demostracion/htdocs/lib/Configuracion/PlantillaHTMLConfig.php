@@ -27,9 +27,9 @@ namespace Configuracion;
  */
 class PlantillaHTMLConfig {
 
-    protected $sistema              = 'Tierra';
+    protected $sistema              = 'GenesisPHP';
     protected $titulo               = '';
-    protected $descripcion          = 'Tierra es un framework hecho con PHP';
+    protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
     protected $autor                = 'Guillermo Valdés Lozano';
     protected $favicon              = 'imagenes/favicon.png';
     protected $modelo               = 'dashboard';
