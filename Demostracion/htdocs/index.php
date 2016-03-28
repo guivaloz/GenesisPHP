@@ -63,7 +63,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
         $this->usuario        = $this->sesion->usuario;
         $this->usuario_nombre = $this->sesion->nombre;
         // Cargar el menu
-        $this->menu        = new Inicio\Menu($this->sesion);
+        $this->menu        = new \Inicio\Menu($this->sesion);
         $this->menu->clave = $this->clave;
         try {
             $this->menu->consultar();
@@ -72,7 +72,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
             $this->contenido[] = $mensaje->html('Error en menú');
         }
         // Si viene el formulario del cambio de contraseña
-        $personalizar = new Personalizar\FormularioHTMLContrasena($this->sesion);
+        $personalizar = new \Personalizar\FormularioHTMLContrasena($this->sesion);
         if ($_POST['formulario'] == Personalizar\FormularioHTMLContrasena::$form_name) {
             // Mostrar el resultado de recibirlo
             $this->contenido[] = $personalizar->html();
@@ -106,7 +106,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
         if ($_GET['accion'] == 'salir') {
             try {
                 // Salir de la sesion
-                $this->sesion = new Inicio\SesionSalir();
+                $this->sesion = new \Inicio\SesionSalir();
                 $this->sesion->cargar('inicio');
                 $this->sesion->salir();
                 // Mostramos el ingreso
@@ -124,13 +124,13 @@ class PaginaInicial extends \Base\PlantillaHTML {
             // Viene el formulario
             try {
                 // Entonces trata de ingresar
-                $autentificar = new Inicio\Autentificar();
+                $autentificar = new \Inicio\Autentificar();
                 $usuario_id   = $autentificar->usuario_contrasena($_POST['nom_corto'], $_POST['contrasena']);
                 // Conservar el nombre corto en una cookie
                 $hoy = getdate();
                 setcookie('nom_corto', $autentificar->nom_corto, mktime(0, 0, 0, $hoy['mon'], $hoy['mday']+30, $hoy['year']));
                 // Nueva sesion
-                $this->sesion = new Inicio\SesionNueva();
+                $this->sesion = new \Inicio\SesionNueva();
                 $this->sesion->crear($usuario_id);  // Crear la cookie de la sesion
                 $this->sesion->nueva();
                 // Entregamos el contenido de la pagina de inicio
@@ -147,7 +147,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
             // No viene el formulario
             try {
                 // Tratamos de cargar la sesion
-                $this->sesion = new Inicio\Sesion();
+                $this->sesion = new \Inicio\Sesion();
                 $this->sesion->cargar('inicio');
                 // Entregamos el contenido de la pagina de inicio
                 $this->contenido_inicio_html();
