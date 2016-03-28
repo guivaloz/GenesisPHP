@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmUsuarios;
 
 /**
  * Clase BusquedaHTML
