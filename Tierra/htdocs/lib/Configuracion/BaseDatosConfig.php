@@ -27,7 +27,7 @@ namespace Configuracion;
  */
 class BaseDatosConfig {
 
-    protected $bd_nombre  = 'genesisphp_demostracion';
+    protected $bd_nombre  = 'genesisphp_tierra';
     protected $servidor   = 'localhost';
     protected $usuario    = 'genesisphp';
     protected $password   = '';

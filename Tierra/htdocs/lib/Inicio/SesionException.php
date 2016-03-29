@@ -55,7 +55,7 @@ class SesionException extends \Exception {
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
-                    autentificaciones (usuario, nom_corto, tipo, ip)
+                    adm_autentificaciones (usuario, nom_corto, tipo, ip)
                 VALUES
                     (%s, %s, %s, %s)",
                 ($in_usuario == false) ? 'NULL' : $in_usuario,

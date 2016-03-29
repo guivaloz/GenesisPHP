@@ -27,7 +27,7 @@ namespace Configuracion;
  */
 class PlantillaHTMLConfig {
 
-    protected $sistema              = 'GenesisPHP';
+    protected $sistema              = 'GenesisPHP Demostración';
     protected $titulo               = '';
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
     protected $autor                = 'Guillermo Valdés Lozano';

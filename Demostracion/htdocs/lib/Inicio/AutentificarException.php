@@ -65,11 +65,11 @@ class AutentificarException extends \Exception {
         // Insertar registro en la tabla de autentificaciones
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $base_datos->comando(sprintf('
+            $base_datos->comando(sprintf("
                 INSERT INTO
                     adm_autentificaciones (usuario, nom_corto, tipo, ip)
                 VALUES
-                    (%s, %s, %s, %s)',
+                    (%s, %s, %s, %s)",
                 ($in_usuario == false) ? 'NULL' : $in_usuario,
                 sql_texto($in_nom_corto),
                 sql_texto($tipo),

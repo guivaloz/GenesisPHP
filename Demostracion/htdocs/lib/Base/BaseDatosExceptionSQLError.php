@@ -38,7 +38,7 @@ class BaseDatosExceptionSQLError extends UtileriasParaDatos {
         // Agregar evento a la bitacora
         $base_datos = new BaseDatosMotor();
         try {
-            $base_datos->comando(sprintf("INSERT INTO bitacora (usuario, pagina, tipo, url, notas) VALUES (%s, %s, %s, %s, %s)",
+            $base_datos->comando(sprintf("INSERT INTO adm_bitacora (usuario, pagina, tipo, url, notas) VALUES (%s, %s, %s, %s, %s)",
                 $sesion->usuario,
                 $this->sql_texto($sesion->pagina),
                 $this->sql_texto('X'),

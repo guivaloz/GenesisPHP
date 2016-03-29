@@ -115,7 +115,7 @@ class Registro extends \Base\Registro {
                     notas,
                     estatus
                 FROM
-                    usuarios
+                    adm_usuarios
                 WHERE
                     id = %d",
                 $this->id));
@@ -210,12 +210,68 @@ class Registro extends \Base\Registro {
      * Validar
      */
     public function validar() {
+        // Validamos las propiedades
+        if (!validar_nom_corto($this->nom_corto)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre corto incorrecto.');
+        }
+        $this->nom_corto = strtolower($this->nom_corto);
+        if (!validar_nombre($this->nombre)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
+        }
+        if (($this->puesto != '') && !validar_nombre($this->puesto)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Puesto incorrecto.');
+        }
+        if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Tipo incorrecto.');
+        }
+        if (!validar_email($this->email)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Correo electrónico incorrecto.');
+        }
+        if (($this->contrasena != '') && !validar_contrasena($this->contrasena)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
+        }
+        if (!validar_entero($this->sesiones_maximas)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de ingresos por día es incorrecta.');
+        }
+        if (!validar_entero($this->listado_renglones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de renglones en los listados es incorrecta.');
+        }
+        if (($this->notas != '') && !validar_nombre($this->notas)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: La nota es incorrecta.');
+        }
+        if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+        }
+        // Definimos los descritos
+        $this->tipo_descrito    = self::$tipo_descripciones[$this->tipo];
+        $this->estatus_descrito = self::$estatus_descripciones[$this->estatus];
     } // validar
 
     /**
      * Nuevo
      */
     public function nuevo() {
+        // Que tenga permiso para agregar
+        if (!$this->sesion->puede_agregar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para agregar usuarios.');
+        }
+        // Definir propiedades
+        $this->id = 'agregar';
+        // General
+        $this->nombre        = '';
+        $this->nom_corto     = '';
+        $this->puesto        = '';
+        $this->tipo          = 'O';
+        $this->tipo_descrito = self::$tipo_descripciones[$this->tipo];
+        $this->email         = '';
+        // Sesion
+        $this->sesiones_maximas  = 10;
+        $this->listado_renglones = 10;
+        $this->notas             = '';
+        $this->estatus           = 'A';
+        $this->estatus_descrito  = self::$estatus_descripciones[$this->estatus];
+        // Ponemos como verdadero el flag de consultado
+        $this->consultado = true;
     } // nuevo
 
     /**
@@ -224,6 +280,55 @@ class Registro extends \Base\Registro {
      * @return string Mensaje
      */
     public function agregar() {
+        // Que tenga permiso para agregar
+        if (!$this->sesion->puede_agregar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para agregar usuarios.');
+        }
+        // Verificar que no haya sido consultado
+        if ($this->consultado == true) {
+            throw new \Exception('Error: Ha sido consultado el usuario, no debe estarlo.');
+        }
+        // Validar
+        $this->validar();
+        // Insertar registro en la base de datos
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                INSERT INTO
+                    adm_usuarios
+                    (nom_corto, nombre, puesto, tipo, email, contrasena, sesiones_maximas, listado_renglones, notas, estatus)
+                VALUES
+                    (%s, %s, %s, %s, %s, %s, %d, %d, %s, %s)",
+                sql_texto($this->nom_corto),
+                sql_texto($this->nombre),
+                sql_texto($this->puesto),
+                sql_texto($this->tipo),
+                sql_texto($this->email),
+                sql_texto($this->contrasena),
+                $this->sesiones_maximas,
+                $this->listado_renglones,
+                sql_texto($this->notas),
+                sql_texto($this->estatus)));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el usuario. ', $e->getMessage());
+        }
+        // Obtener el id del registro recién insertado
+        try {
+            $consulta = $base_datos->comando("SELECT last_value AS id FROM usuarios_id_seq");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del usuario. ', $e->getMessage());
+        }
+        $a        = $consulta->obtener_registro();
+        $this->id = intval($a['id']);
+        // Despues de insertar se considera como consultado
+        $this->consultado = true;
+        // Elborar mensaje
+        $msg = "Nuevo usuario {$this->nombre}.";
+        // Agregar a la bitacora que hay un nuevo registro
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_nuevo($this->id, $msg);
+        // Entregar mensaje
+        return $msg;
     } //agregar
 
     /**
@@ -232,6 +337,109 @@ class Registro extends \Base\Registro {
      * @return string Mensaje
      */
     public function modificar() {
+        // Que tenga permiso para modificar
+        if (!$this->sesion->puede_modificar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para modificar usuarios.');
+        }
+        // Verificar que haya sido consultado
+        if ($this->consultado == false) {
+            throw new \Exception('Error: No ha sido consultado el usuario para modificarlo.');
+        }
+        // Validar
+        $this->validar();
+        // Hay que determinar que va cambiar, para armar el mensaje
+        $original = new Registro($this->sesion);
+        try {
+            $original->consultar($this->id);
+        } catch (\Exception $e) {
+            die('Esto no debería pasar. Error al consultar registro original del usuario.');
+        }
+        $a = array();
+        if ($this->nom_corto != $original->nom_corto) {
+            $a[] = "nombre corto {$this->nom_corto}";
+        }
+        if ($this->nombre != $original->nombre) {
+            $a[] = "nombre {$this->nombre}";
+        }
+        if ($this->puesto != $original->puesto) {
+            $a[] = "puesto {$this->puesto}";
+        }
+        if ($this->tipo != $original->tipo) {
+            $a[] = "tipo {$this->tipo_descrito}";
+        }
+        if ($this->email != $original->email) {
+            $a[] = "e-mail {$this->email}";
+        }
+        if ($this->contrasena != '') {
+            $a[] = "nueva contraseña";
+        }
+        if ($this->sesiones_maximas != $original->sesiones_maximas) {
+            $a[] = "sesiones máximas {$this->sesiones_maximas}";
+        }
+        if ($this->listado_renglones != $original->listado_renglones) {
+            $a[] = "listados renglones {$this->listado_renglones}";
+        }
+        if ($this->notas != $original->notas) {
+            $a[] = "notas {$this->notas}";
+        }
+        if ($this->estatus != $original->estatus) {
+            $a[] = "estatus {$this->estatus_descrito}";
+        }
+        // Si no hay cambios, provoca excepcion de validacion
+        if (count($a) == 0) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+        } else {
+            $msg = "Modificado el usuario {$this->nom_corto} con ".implode(', ', $a);
+        }
+        // Actualizar registro en la base de datos
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                UPDATE
+                    adm_usuarios
+                SET
+                    nom_corto=%s, nombre=%s, puesto=%s, tipo=%s, email=%s,
+                    sesiones_maximas=%d, listado_renglones=%d,
+                    notas=%s, estatus=%s
+                WHERE
+                    id=%d",
+                sql_texto($this->nom_corto),
+                sql_texto($this->nombre),
+                sql_texto($this->puesto),
+                sql_texto($this->tipo),
+                sql_texto($this->email),
+                $this->sesiones_maximas,
+                $this->listado_renglones,
+                sql_texto($this->notas),
+                sql_texto($this->estatus),
+                $this->id));
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
+        }
+        // ACTUALIZAR CONTRASEÑA, SI LA DEFINE
+        if ($this->contrasena != '') {
+            try {
+                $base_datos->comando(sprintf("
+                    UPDATE
+                        usuarios
+                    SET
+                        contrasena=%s,
+                        contrasena_encriptada=NULL,
+                        contrasena_fallas=0,
+                        contrasena_expira=((('now'::text)::date + '30 days'::interval))::date
+                    WHERE
+                        id=%d",
+                    sql_texto($this->contrasena),
+                    $this->id));
+            } catch (\Exception $e) {
+                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
+            }
+        }
+        // AGREGAR A LA BITACORA QUE SE MODIFICO EL REGISTRO
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_modificado($this->id, $msg);
+        // ENTREGAR MENSAJE
+        return $msg;
     } // modificar
 
     /**
@@ -240,6 +448,23 @@ class Registro extends \Base\Registro {
      * @return string Mensaje
      */
     public function eliminar() {
+        // Que tenga permiso para eliminar
+        if (!$this->sesion->puede_eliminar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para eliminar usuarios.');
+        }
+        // Consultar si no lo esta
+        if ($this->consultado == false) {
+            $this->consultar();
+        }
+        // Validar el estatus
+        if ($this->estatus == 'B') {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el usuario porque ya lo está.');
+        }
+        // Cambiar el estatus
+        $this->estatus = 'B';
+        $this->modificar();
+        // Entregar mensaje
+        return "Se ha eliminado el usuario {$this->nombre}";
     } // eliminar
 
     /**
@@ -248,6 +473,23 @@ class Registro extends \Base\Registro {
      * @return string Mensaje
      */
     public function recuperar() {
+        // Que tenga permiso para recuperar
+        if (!$this->sesion->puede_recuperar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para recuperar usuarios.');
+        }
+        // Consultar si no lo esta
+        if ($this->consultado == false) {
+            $this->consultar();
+        }
+        // Validar el estatus
+        if ($this->estatus == 'A') {
+            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el usuario porque ya lo está.');
+        }
+        // Cambiar el estatus
+        $this->estatus = 'A';
+        $this->modificar();
+        // Entregar mensaje
+        return "Se ha recuperado el usuario {$this->nombre}";
     } // recuperar
 
     /**
@@ -256,6 +498,65 @@ class Registro extends \Base\Registro {
      * @return string Mensaje
      */
     public function desbloquear() {
+        // Que tenga permiso para desbloquear
+        if (!$this->sesion->puede_modificar('usuarios')) {
+            throw new \Exception('Aviso: No tiene permiso para desbloquear usuarios.');
+        }
+        // Debe estar consultado el registro
+        if (!$this->consultado) {
+            $this->consultar();
+        }
+        // Debe tener el estatus activo
+        if ($this->estatus != 'A') {
+            throw new \Base\RegistroExceptionValidacion('ERROR: El usuario NO está activo.');
+        }
+        // Que este bloqueado
+        if (!$this->esta_bloqueada) {
+            throw new \Base\RegistroExceptionValidacion('ERROR: El usuario NO está bloqueado.');
+        }
+        // Determinar el comando sql y armar el mensaje
+        if ($this->bloqueada_porque_fallas) {
+            // Vamos a poner la cantidad de fallas en cero
+            $comando_sql = sprintf("UPDATE usuarios SET contrasena_fallas=0 WHERE id=%d", $this->id);
+        }
+        if ($this->bloqueada_porque_expiro) {
+            // Cuando una contraseña esta expirada, viene con el numero de fallas al tope para que se bloquee
+            // vamos a poner la cantidad de fallas en cero
+            // y agregarle tres dias a la fecha de expiracion
+            // debe aparecerle el mensaje al usuario para que cambie su contraseña
+            list($y, $m, $d) = explode('-', date('Y-m-d'));
+            $comando_sql = sprintf("UPDATE usuarios SET contrasena_expira=%s, contrasena_fallas=0 WHERE id=%d", sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)), $this->id);
+        }
+        if ($this->bloqueada_porque_sesiones) {
+            // Vamos a poner el contador de sesiones en cero
+            $comando_sql = sprintf("UPDATE usuarios SET sesiones_contador=0 WHERE id=%d", $this->id);
+        }
+        // Actualizar registro en la base de datos
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $base_datos->comando($comando_sql);
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al tratar de desbloquear el usuario. ', $e->getMessage());
+        }
+        // Bajar banderas y elaborar mensaje
+        if ($this->bloqueada_porque_fallas) {
+            $this->bloqueada_porque_fallas = false;
+            $msg = "Desbloqueado el usuario {$this->nombre}, porque se había equivocado en su contraseña muchas veces.";
+        }
+        if ($this->bloqueada_porque_expiro) {
+            $this->bloqueada_porque_expiro = false;
+            $msg = "Desbloqueado el usuario {$this->nombre}, porque su contraseña había expirado.";
+        }
+        if ($this->bloqueada_porque_sesiones) {
+            $this->bloqueada_porque_sesiones = false;
+            $msg = "Desbloqueado el usuario {$this->nombre}, porque alcanzó su máximo de sesiones por día.";
+        }
+        $this->esta_bloqueada = ($this->bloqueada_porque_fallas || $this->bloqueada_porque_expiro || $this->bloqueada_porque_sesiones);
+        // Agregar a la bitacora que se modifico el registro
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_modificado($this->id, $msg);
+        // Entregar mensaje
+        return $msg;
     } // desbloquear
 
 } // Clase Registro
