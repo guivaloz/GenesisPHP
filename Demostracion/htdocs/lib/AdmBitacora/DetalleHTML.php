@@ -29,6 +29,18 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
+    // public $id;
+    // public $usuario;
+    // public $usuario_nom_corto;
+    // public $fecha;
+    // public $pagina;
+    // public $pagina_id;
+    // public $tipo;
+    // public $tipo_descrito;
+    // public $url;
+    // public $notas;
+    // static public $tipo_descripciones;
+    // static public $tipo_colores;
 
     /**
      * HTML
@@ -37,23 +49,44 @@ class DetalleHTML extends Registro {
      * @return string HTML
      */
     public function html($in_encabezado='') {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
+                $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html($in_encabezado);
+            }
+        }
+        // Detalle
+        $detalle = new \Base\DetalleHTML();
+        // Seccion general
+        $detalle->seccion('General');
+        $detalle->dato('Fecha',     $this->fecha);
+        $detalle->dato('Usuario',   $this->usuario_nom_corto);
+        $detalle->dato('Página',    $this->pagina);
+        $detalle->dato('Página ID', $this->pagina_id);
+        $detalle->dato('URL',       $this->url);
+        $detalle->dato('Tipo',      $this->tipo_descrito);
+        $detalle->dato('Notas',     $this->notas);
+        // Encabezado
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = "{$this->fecha} {$this->usuario_nom_corto}";
+        }
+        // SI HAY ENCABEZADO
+        if ($encabezado != '') {
+            // CREAR LA BARRA
+            $barra             = new \Base\BarraHTML();
+            $barra->encabezado = $encabezado;
+            $barra->icono      = $this->sesion->menu->icono_en('bitacora');
+            // PASAR LA BARRA AL DETALLE HTML
+            $detalle->barra = $barra;
+        }
+        // ENTREGAR HTML
+        return $detalle->html();
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-    } // recuperar_html
 
 } // Clase DetalleHTML
 

@@ -29,6 +29,26 @@ class Registro extends \Base\Registro {
 
     // protected $sesion;
     // protected $consultado;
+    static public $tipo_descripciones = array(
+        'I' => 'Datos incorrectos',
+        'N' => 'Usuario no encontrado',
+        'X' => 'Usuario inactivo',
+        'B' => 'Contraseña bloqueda',
+        'E' => 'Contraseña equivocada',
+        'S' => 'Sesiones máximo',
+        'P' => 'No tiene permiso',
+        'A' => 'Ingresó',
+        'T' => 'Salió');
+    static public $tipo_colores = array(
+        'I' => 'blanco',
+        'N' => 'blanco',
+        'X' => 'oscuro',
+        'B' => 'naranja',
+        'E' => 'rojo',
+        'S' => 'amarillo',
+        'P' => 'gris',
+        'A' => 'verde',
+        'T' => 'azul');
 
     /**
      * Consultar
@@ -36,59 +56,15 @@ class Registro extends \Base\Registro {
      * @param integer ID del registro
      */
     public function consultar($in_id=false) {
+        // Que tenga permiso para consultar
+        if (!$this->sesion->puede_ver('autentificaciones')) {
+            throw new \Exception('Aviso: No tiene permiso para consultar autentificaciones.');
+        }
+        // Parametros
+        if ($in_id !== false) {
+            $this->id = $in_id;
+        }
     } // consultar
-
-    /**
-     * Validar
-     */
-    public function validar() {
-    } // validar
-
-    /**
-     * Nuevo
-     */
-    public function nuevo() {
-    } // nuevo
-
-    /**
-     * Agregar
-     *
-     * @return string Mensaje
-     */
-    public function agregar() {
-    } //agregar
-
-    /**
-     * Modificar
-     *
-     * @return string Mensaje
-     */
-    public function modificar() {
-    } // modificar
-
-    /**
-     * Eliminar
-     *
-     * @return string Mensaje
-     */
-    public function eliminar() {
-    } // eliminar
-
-    /**
-     * Recuperar
-     *
-     * @return string Mensaje
-     */
-    public function recuperar() {
-    } // recuperar
-
-    /**
-     * Desbloquear
-     *
-     * @return string Mensaje
-     */
-    public function desbloquear() {
-    } // desbloquear
 
 } // Clase Registro
 

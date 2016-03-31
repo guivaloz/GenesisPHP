@@ -38,6 +38,7 @@ class PaginaCSV extends \Base\PaginaCSV {
      * Constructor
      */
     public function __construct() {
+        parent::__construct('bitacora');
     } // constructor
 
     /**
@@ -46,6 +47,16 @@ class PaginaCSV extends \Base\PaginaCSV {
      * @return string CSV
      */
     public function csv() {
+        // Solo si se carga con éxito la sesión
+        if ($this->sesion_exitosa) {
+            if ($_GET['csv'] == 'descargar') {
+                $listado          = new ListadoCSV($this->sesion);
+                $listado->estatus = 'A';
+                $this->contenido  = $listado->csv();
+            }
+        }
+        // Ejecutar el padre y entregar su resultado
+        return parent::csv();
     } // csv
 
 } // Clase PaginaCSV

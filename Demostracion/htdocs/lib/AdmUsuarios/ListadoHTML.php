@@ -149,7 +149,7 @@ class ListadoHTML extends Listado {
         $this->listado_html->listado            = $this->listado;
         $this->listado_html->cantidad_registros = $this->cantidad_registros;
         $this->listado_html->variables          = $this->filtros_param;
-    //  $this->listado_html->limit              = $this->limit; // Pasamos el limit, porque desde la pagina se puede pedir sin botones
+    //  $this->listado_html->limit              = $this->limit;
         $this->listado_html->barra              = $barra;
         // Entregar
         return $this->listado_html->html();

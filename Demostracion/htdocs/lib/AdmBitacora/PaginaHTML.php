@@ -50,6 +50,7 @@ class PaginaHTML extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
+        parent::__construct('bitacora');
     } // constructor
 
     /**
@@ -58,6 +59,48 @@ class PaginaHTML extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
+        // Solo si se carga con éxito la sesión
+        if ($this->sesion_exitosa) {
+            // Lenguetas
+            $lenguetas = new \Base\LenguetasHTML('lenguetasBitacora');
+            // Acciones para un registro
+            if ($_GET['id'] != '') {
+                // Detalle
+                $detalle = new DetalleHTML($this->sesion);
+                $detalle->id = $_GET['id'];
+                $lenguetas->agregar_activa('bitacoraDetalle', 'Detalle', $detalle);
+            }
+            // Busqueda, crea dos lenguetas si hay resultados
+            $busqueda        = new BusquedaHTML($this->sesion);
+            $resultados_html = $busqueda->html();
+            if ($busqueda->hay_resultados) {
+                $lenguetas->agregar('bitacoraBuscar', 'Buscar', $busqueda->formulario_html());
+                $lenguetas->agregar_activa('bitacoraResultado',  'Resultado',  $resultados_html);
+            } elseif ($busqueda->hay_mensaje) {
+                $lenguetas->agregar_activa('bitacoraBuscar', 'Buscar', $resultados_html);
+            } else {
+                $lenguetas->agregar('bitacoraBuscar', 'Buscar', $resultados_html);
+            }
+            $lenguetas->agregar_javascript($busqueda->javascript());
+            // Listados
+            $listado = new ListadoHTML($this->sesion);
+            if ($listado->viene_listado) {
+                // Viene un listado previo
+                $lenguetas->agregar_activa('bitacoraListado', 'Listado', $listado);
+            } else {
+                // Listado bitacora
+                $bitacora = new ListadoHTML($this->sesion);
+                $lenguetas->agregar('bitacoraListado', 'Listado', $bitacora);
+                if ($lenguetas->activa == '') {
+                    $lenguetas->definir_activa();
+                }
+            }
+            // Pasar el html y el javascript de las lenguetas al contenido
+            $this->contenido[]  = $lenguetas->html();
+            $this->javascript[] = $lenguetas->javascript();
+        }
+        // Ejecutar el padre y entregar su resultado
+        return parent::html();
     } // html
 
 } // Clase PaginaHTML
