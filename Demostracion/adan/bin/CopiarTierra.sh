@@ -172,14 +172,14 @@ if [ ! -d htdocs/lib/Configuracion ]; then
         echo "ERROR: Falló con el directorio lib/Configuracion."
         exit $E_FATAL
     fi
+    echo "$SOY Copiando lib/Configuracion..."
+    cp -r ../Tierra/htdocs/lib/Configuracion/* htdocs/lib/Configuracion/
+    if [ "$?" -ne $EXITO ]; then
+        echo "ERROR: Falló al copiar el directorio lib/Configuracion."
+        exit $E_FATAL
+    fi
 fi
-#echo "$SOY Copiando lib/Configuracion..."
-#cp -r ../Tierra/htdocs/lib/Configuracion/* htdocs/lib/Configuracion/
-#if [ "$?" -ne $EXITO ]; then
-#    echo "ERROR: Falló al copiar el directorio lib/Configuracion."
-#    exit $E_FATAL
-#fi
-
+    
 #
 # lib/Inicio
 #

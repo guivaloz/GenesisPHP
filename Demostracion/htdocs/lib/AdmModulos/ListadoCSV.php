@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmModulos;
 
 /**
  * Clase ListadoCSV

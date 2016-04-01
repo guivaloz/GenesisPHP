@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmModulos;
 
 /**
  * Clase OpcionesSelect
@@ -33,6 +33,38 @@ class OpcionesSelect {
      * @return array Arreglo asociativo, id => descripcion
      */
     public function opciones() {
+        // Consultar padres
+        $padres = $this->opciones_padre();
+        // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando("
+                SELECT
+                    id, nombre, padre
+                FROM
+                    adm_modulos
+                WHERE
+                    estatus = 'A'
+                ORDER BY
+                    orden ASC");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos para hacer opciones.', $e->getMessage());
+        }
+        // Provoca excepcion si no hay registros
+        if ($consulta->cantidad_registros() == 0) {
+            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron módulos.');
+        }
+        // Juntar como arreglo asociativo
+        $a = array();
+        foreach ($consulta->obtener_todos_los_registros() as $item) {
+            if ($item['padre'] != '') {
+                $a[$item['id']] = $padres[$item['padre']].' > '.$item['nombre'];
+            } else {
+                $a[$item['id']] = $item['nombre'];
+            }
+        }
+        // Entregar
+        return $a;
     } // opciones
 
 } // Clase OpcionesSelect
