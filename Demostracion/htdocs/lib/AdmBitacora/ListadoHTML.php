@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmBitacora;
 
 /**
  * Clase ListadoHTML
