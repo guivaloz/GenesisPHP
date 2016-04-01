@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmDepartamentos;
 
 /**
  * Clase OpcionesSelect
@@ -33,6 +33,32 @@ class OpcionesSelect {
      * @return array Arreglo asociativo, id => descripcion
      */
     public function opciones() {
+        // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando("
+                SELECT
+                    id, nombre
+                FROM
+                    departamentos
+                WHERE
+                    estatus = 'A'
+                ORDER BY
+                    nombre ASC");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar departamentos para hacer opciones.', $e->getMessage());
+        }
+        // Provoca excepcion si no hay registros
+        if ($consulta->cantidad_registros() == 0) {
+            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron departamentos en uso.');
+        }
+        // Juntar como arreglo asociativo
+        $a = array();
+        foreach ($consulta->obtener_todos_los_registros() as $item) {
+            $a[$item['id']] = $item['nombre'];
+        }
+        // Entregar
+        return $a;
     } // opciones
 
 } // Clase OpcionesSelect

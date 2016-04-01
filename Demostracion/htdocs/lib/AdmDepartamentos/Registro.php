@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmDepartamentos;
 
 /**
  * Clase Registro
@@ -154,7 +154,7 @@ class Registro extends \Base\Registro {
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
-                    departamentos (nombre, clave, notas)
+                    adm_departamentos (nombre, clave, notas)
                 VALUES
                     (%s, %s, %s)",
                 sql_texto($this->nombre),
@@ -165,7 +165,11 @@ class Registro extends \Base\Registro {
         }
         // Obtener el id del registro recién insertado
         try {
-            $consulta = $base_datos->comando("SELECT last_value AS id FROM departamentos_id_seq");
+            $consulta = $base_datos->comando("
+                SELECT
+                    last_value AS id
+                FROM
+                    adm_departamentos_id_seq");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del departamento. ', $e->getMessage());
         }
