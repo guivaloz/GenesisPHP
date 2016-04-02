@@ -48,7 +48,7 @@ class SesionSalir extends Sesion {
      */
     private function eliminar_en_cadenero() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
@@ -70,7 +70,7 @@ class SesionSalir extends Sesion {
      */
     private function eliminar_sesion() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
@@ -92,7 +92,7 @@ class SesionSalir extends Sesion {
      */
     private function registrar_salida() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Insertar registro en autentificaciones
@@ -105,9 +105,9 @@ class SesionSalir extends Sesion {
                 VALUES
                     (%d, %s, %s, %s)",
                 $this->usuario,
-                sql_texto($this->nom_corto),
-                sql_texto('T'),
-                sql_texto($_SERVER['REMOTE_ADDR'])));
+                $this->sql_texto($this->nom_corto),
+                $this->sql_texto('T'),
+                $this->sql_texto($_SERVER['REMOTE_ADDR'])));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar la autentificación.');
         }

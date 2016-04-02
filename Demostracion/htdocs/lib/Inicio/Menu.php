@@ -71,7 +71,7 @@ class Menu extends \Base\Menu {
         if ($in_usuario != '') {
             $this->usuario = $in_usuario;
         }
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception("Error en Menu: ID de usuario incorrecto.");
         }
         // Consultar

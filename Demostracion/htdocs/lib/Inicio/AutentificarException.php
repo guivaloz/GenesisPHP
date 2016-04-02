@@ -28,6 +28,19 @@ namespace Inicio;
 class AutentificarException extends \Exception {
 
     /**
+     * SQL Texto
+     *
+     * @parem string Texto
+     */
+    function sql_texto($texto) {
+        if (trim($texto) == '') {
+            return 'NULL';
+        } else {
+            return "'".pg_escape_string(trim($texto))."'";
+        }
+    } // sql_texto
+
+    /**
      * Constructor
      *
      * @param integer ID del usuario, FALSO si no representa a ninguno
@@ -71,9 +84,9 @@ class AutentificarException extends \Exception {
                 VALUES
                     (%s, %s, %s, %s)",
                 ($in_usuario == false) ? 'NULL' : $in_usuario,
-                sql_texto($in_nom_corto),
-                sql_texto($tipo),
-                sql_texto($_SERVER['REMOTE_ADDR'])), true); // Tiene el true para tronar en caso de error
+                $this->sql_texto($in_nom_corto),
+                $this->sql_texto($tipo),
+                $this->sql_texto($_SERVER['REMOTE_ADDR'])), true); // Tiene el true para tronar en caso de error
         } catch (\Exception $e) {
             die("Error fatal: Al tratar de insertar evento en autentificaciones.");
         }

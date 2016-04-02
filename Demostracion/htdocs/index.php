@@ -72,8 +72,8 @@ class PaginaInicial extends \Base\PlantillaHTML {
             $this->contenido[] = $mensaje->html('Error en menú');
         }
         // Si viene el formulario del cambio de contraseña
-        $personalizar = new \Personalizar\FormularioHTMLContrasena($this->sesion);
-        if ($_POST['formulario'] == Personalizar\FormularioHTMLContrasena::$form_name) {
+        $personalizar = new \Personalizar\ContrasenaFormularioHTML($this->sesion);
+        if ($_POST['formulario'] == \Personalizar\ContrasenaFormularioHTML::$form_name) {
             // Mostrar el resultado de recibirlo
             $this->contenido[] = $personalizar->html();
         } else {

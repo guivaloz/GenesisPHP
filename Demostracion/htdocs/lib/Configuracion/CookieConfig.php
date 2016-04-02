@@ -25,7 +25,7 @@ namespace Configuracion;
 /**
  * Clase CookieConfig
  */
-class CookieConfig {
+class CookieConfig extends \Base\UtileriasParaDatos {
 
     protected $nom_cookie     = 'genesisphp_demostracion'; // Nombre con el que se guardara la cookie en el navegador.
     protected $version_actual = 1;                         // Número entero que sirve para obligar a renover las cookies anteriores

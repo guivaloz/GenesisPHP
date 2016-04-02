@@ -85,7 +85,7 @@ class Sesion extends Cookie {
         // Si la cookie no es válida, abortar al usuario
         $this->validar(); // Puede provocar una excepción
         // Validar ID del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: Por ID del usuario incorrecto.');
         }
         // Consultar registro en la tabla de sesiones

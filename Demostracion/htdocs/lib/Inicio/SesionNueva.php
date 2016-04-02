@@ -48,7 +48,7 @@ class SesionNueva extends Sesion {
      */
     private function consultar_usuario() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Consultar usuario
@@ -83,7 +83,7 @@ class SesionNueva extends Sesion {
      */
     private function eliminar_en_cadenero() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
@@ -105,7 +105,7 @@ class SesionNueva extends Sesion {
      */
     private function eliminar_sesion() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
@@ -127,7 +127,7 @@ class SesionNueva extends Sesion {
      */
     private function insertar_sesion() {
         // Validar id del usuario
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Insertar sesion
@@ -140,10 +140,10 @@ class SesionNueva extends Sesion {
                 VALUES
                     (%d, %s, %s, %s, %s, %d)",
                 $this->usuario,
-                sql_tiempo($this->ingreso),
-                sql_texto($this->nombre),
-                sql_texto($this->nom_corto),
-                sql_texto($this->tipo),
+                $this->sql_tiempo($this->ingreso),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->nom_corto),
+                $this->sql_texto($this->tipo),
                 $this->listado_renglones));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar la sesión.');
@@ -164,9 +164,9 @@ class SesionNueva extends Sesion {
                 VALUES
                     (%d, %s, %s, %s)",
                 $this->usuario,
-                sql_texto($this->nom_corto),
-                sql_texto('A'),
-                sql_texto($_SERVER['REMOTE_ADDR'])));
+                $this->sql_texto($this->nom_corto),
+                $this->sql_texto('A'),
+                $this->sql_texto($_SERVER['REMOTE_ADDR'])));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar en autentificaciones el registro de la entrada.');
         }

@@ -55,11 +55,11 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Si no se da el id del usuario, se toma de la sesion
-        if (($in_id == false) && !validar_entero($this->id)) {
+        if (($in_id == false) && !$this->validar_entero($this->id)) {
             $this->id = $this->sesion->usuario;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: ID de usuario incorrecto.');
         }
         // Consultar
@@ -86,7 +86,7 @@ class Registro extends \Base\Registro {
         $this->nom_corto             = $a['nom_corto'];
         $this->nombre                = $a['nombre'];
         $this->tipo                  = $a['tipo'];
-        $this->tipo_descrito         = \Usuarios\Registro::$tipo_descripciones[$this->tipo];
+        $this->tipo_descrito         = \AdmUsuarios\Registro::$tipo_descripciones[$this->tipo];
         $this->email                 = $a['email'];
         $this->listado_renglones     = intval($a['listado_renglones']);
         $this->contrasena            = $a['contrasena'];
@@ -94,7 +94,7 @@ class Registro extends \Base\Registro {
         $this->sesiones_maximas      = $a['sesiones_maximas'];
         $this->sesiones_contador     = $a['sesiones_contador'];
         $this->estatus               = $a['estatus'];
-        $this->estatus_descrito      = \Usuarios\Registro::$estatus_descripciones[$this->estatus];
+        $this->estatus_descrito      = \AdmUsuarios\Registro::$estatus_descripciones[$this->estatus];
         // Describimos la situacion de las sesiones
         if ($this->sesiones_contador > 0) {
             if ($this->sesiones_contador == $this->sesiones_maximas) {
@@ -141,11 +141,11 @@ class Registro extends \Base\Registro {
             throw new \Exception('Error: No ha sido consultado para cambiar la contraseña.');
         }
         // Validar contraseña actual
-        if (!validar_contrasena($in_contrasena_actual)) {
+        if (!$this->validar_contrasena($in_contrasena_actual)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña actual no es válida.');
         }
         // Validar contraseña nueva
-        if (!validar_contrasena($in_contrasena_nueva)) {
+        if (!$this->validar_contrasena($in_contrasena_nueva)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña nueva no es válida. Debe tener un mínimo de 8 caracteres (letras y números solamente).');
         }
         // Validar que sean iguales
@@ -167,7 +167,7 @@ class Registro extends \Base\Registro {
             }
         }
         // Calculamos la fecha de expiracion
-        $this->contrasena_expira = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+\Usuarios\Registro::$dias_expira_contrasena, date('Y')));
+        $this->contrasena_expira = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d')+\AdmUsuarios\Registro::$dias_expira_contrasena, date('Y')));
         // Ciframos la contrasena
         $this->contrasena_encriptada = md5($in_contrasena_nueva);
         // Actualizar
@@ -180,8 +180,8 @@ class Registro extends \Base\Registro {
                     contrasena_encriptada = %s, contrasena_expira = %s
                 WHERE
                     id = %d",
-                sql_texto($this->contrasena_encriptada),
-                sql_tiempo($this->contrasena_expira),
+                $this->sql_texto($this->contrasena_encriptada),
+                $this->sql_tiempo($this->contrasena_expira),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la contraseña. ', $e->getMessage());
@@ -205,7 +205,7 @@ class Registro extends \Base\Registro {
             throw new \Exception('Error: No ha sido consultado para cambiar la cantidad de renglones.');
         }
         // Validar la cantidad para el listado de renglones
-        if (!validar_entero($in_listado_renglones) || ($in_listado_renglones < 5)) {
+        if (!$this->validar_entero($in_listado_renglones) || ($in_listado_renglones < 5)) {
             throw new \Base\RegistroExceptionValidacion("Aviso: La cantidad de reglones en los listados es incorrecta. Debe ser igual o mayor a cinco.");
         }
         // Actualizar usuario
@@ -213,7 +213,7 @@ class Registro extends \Base\Registro {
         try {
             $base_datos->comando(sprintf("
                 UPDATE
-                    usuarios
+                    adm_usuarios
                 SET
                     listado_renglones = %d
                 WHERE
@@ -227,7 +227,7 @@ class Registro extends \Base\Registro {
         try {
             $base_datos->comando(sprintf("
                 UPDATE
-                    sesiones
+                    adm_sesiones
                 SET
                     listado_renglones = %d
                 WHERE

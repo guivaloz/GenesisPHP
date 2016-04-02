@@ -25,7 +25,7 @@ namespace Inicio;
 /**
  * Clase Autentificar
  */
-class Autentificar {
+class Autentificar extends \Base\UtileriasParaDatos {
 
     static public $fallas_para_bloquear = 5;
 
@@ -40,10 +40,10 @@ class Autentificar {
         // Ponemos en minusculas el nombre corto
         $this->nom_corto = strtolower($in_nom_corto);
         // Validar parámetros
-        if (!validar_nom_corto($this->nom_corto)) {
+        if (!$this->validar_nom_corto($this->nom_corto)) {
             throw new AutentificarException(false, $this->nom_corto, 'datos incorrectos', 'Aviso: Nombre corto incorrecto.');
         }
-        if (!validar_contrasena($in_contrasena)) {
+        if (!$this->validar_contrasena($in_contrasena)) {
             throw new AutentificarException(false, $this->nom_corto, 'datos incorrectos', 'Aviso: Contraseña incorrecta.');
         }
         // Consultar usuario
@@ -58,7 +58,7 @@ class Autentificar {
                     adm_usuarios
                 WHERE
                     nom_corto = %s",
-                sql_texto($this->nom_corto)));
+                $this->sql_texto($this->nom_corto)));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al ejecutar comando SQL para consultar usuario.');
         }

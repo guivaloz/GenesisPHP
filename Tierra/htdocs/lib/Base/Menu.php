@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase Menu
  */
-class Menu {
+class Menu extends UtileriasParaDatos {
 
     public $clave;                         // Texto, clave de la página en uso, sirve para saber cuál es la opción activa
     public $permisos            = array(); // Arreglo, clave => permiso
