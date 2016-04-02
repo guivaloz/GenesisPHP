@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Pruebas Página Inicial
+ * GenesisPHP - Página Inicial
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
