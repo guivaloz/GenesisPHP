@@ -47,6 +47,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
     // static public $dias_expira_contrasena_aviso;
     // protected $contrasena;
     // protected $contrasena_encriptada;
+    static public $form_name = 'personalizar_renglones';
 
     /**
      * Formulario
