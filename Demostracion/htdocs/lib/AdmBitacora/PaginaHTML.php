@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios PaginaHTML
+ * GenesisPHP - AdmBitacora PaginaHTML
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

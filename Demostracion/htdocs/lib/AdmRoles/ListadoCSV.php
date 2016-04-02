@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios ListadoCSV
+ * GenesisPHP - AdmRoles ListadoCSV
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace Usuarios;
+namespace AdmRoles;
 
 /**
  * Clase ListadoCSV

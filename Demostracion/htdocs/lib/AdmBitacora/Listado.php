@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios Listado
+ * GenesisPHP - AdmBitacora Listado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

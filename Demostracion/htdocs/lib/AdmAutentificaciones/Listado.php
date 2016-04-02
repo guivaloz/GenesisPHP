@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios Listado
+ * GenesisPHP - AdmAutentificaciones Listado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

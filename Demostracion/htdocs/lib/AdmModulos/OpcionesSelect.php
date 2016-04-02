@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios OpcionesSelect
+ * GenesisPHP - AdmModulos OpcionesSelect
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios ListadoCSV
+ * GenesisPHP - AdmUsuarios ListadoCSV
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

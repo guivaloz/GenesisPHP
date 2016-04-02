@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Usuarios FormularioHTML
+ * GenesisPHP - AdmModulos FormularioHTML
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
