@@ -178,8 +178,10 @@ if [ ! -d htdocs/lib/Configuracion ]; then
         echo "ERROR: Falló al copiar el directorio lib/Configuracion."
         exit $E_FATAL
     fi
+else
+    echo "$SOY Omito copiar lib/Configuracion porque ya lo tiene."
 fi
-    
+
 #
 # lib/Inicio
 #

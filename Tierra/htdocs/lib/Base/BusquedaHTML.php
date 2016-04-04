@@ -122,7 +122,7 @@ abstract class BusquedaHTML {
         } else {
             try {
                 // No se recibió, mostrar el formulario listo para buscar
-                return $this->formulario();
+                return $this->elaborar_formulario();
             } catch (\Exception $e) {
                 // Error fatal, mostrar mensaje
                 $mensaje = new MensajeHTML($e->getMessage());

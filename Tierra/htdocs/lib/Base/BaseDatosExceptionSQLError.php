@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase BaseDatosExceptionSQLError
  */
-class BaseDatosExceptionSQLError extends UtileriasParaDatos {
+class BaseDatosExceptionSQLError extends \Base\Exception {
 
     /**
      * Constructor

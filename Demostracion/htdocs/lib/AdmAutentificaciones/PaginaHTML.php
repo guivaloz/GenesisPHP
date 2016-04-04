@@ -70,7 +70,7 @@ class PaginaHTML extends \Base\PaginaHTML {
             $this->contenido[]  = $lenguetas->html();
             $this->javascript[] = $lenguetas->javascript();
         }
-        // EJECUTAR EL PADRE Y ENTREGAR SU RESULTADO
+        // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 

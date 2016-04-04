@@ -69,6 +69,8 @@ class FormularioHTML extends DetalleHTML {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     // static public $accion_desbloquear;
+    protected $es_nuevo;
+    static public $form_name = 'admusuario';
 
     /**
      * Formulario

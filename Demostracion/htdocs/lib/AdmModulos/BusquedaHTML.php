@@ -64,12 +64,12 @@ class BusquedaHTML extends \Base\BusquedaHTML {
     } // validar
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string Encabezado opcional
      * @return string HTML con el formulario
      */
-    protected function formulario($in_encabezado='') {
+    protected function elaborar_formulario($in_encabezado='') {
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->texto_nombre('nombre',            'Nombre',         $this->nombre);
@@ -88,7 +88,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         }
         // Entregar
         return $f->html($encabezado, $this->sesion->menu->icono_en('modulos'));
-    } // formulario
+    } // elaborar_formulario
 
     /**
      * Recibir Formulario

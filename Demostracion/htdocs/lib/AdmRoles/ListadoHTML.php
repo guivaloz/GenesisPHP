@@ -35,6 +35,10 @@ class ListadoHTML extends Listado {
     // public $offset;
     // protected $consultado;
 
+    public $viene_listado;         // Es verdadero si en el URL vienen filtros
+    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $estructura;         // Arreglo asociativo con datos de las columnas
+
     /**
      * Constructor
      *

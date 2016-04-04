@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Página Inicial
+ * GenesisPHP - Exception
  *
- * Copyright (C) 2016 Guillermo Valdés Lozano
+ * Copyright (C) 2015 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,26 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+namespace Base;
 
-// Mostrar la página HTML
-$pagina_html = new \Personalizar\PaginaHTML();
-echo $pagina_html->html();
+/**
+ * Clase Exception
+ */
+class Exception extends \Exception {
+
+    /**
+     * SQL Texto
+     *
+     * @parem string Texto
+     */
+    function sql_texto($texto) {
+        if (trim($texto) == '') {
+            return 'NULL';
+        } else {
+            return "'".pg_escape_string(trim($texto))."'";
+        }
+    } // sql_texto
+
+} // Clase Exception
 
 ?>

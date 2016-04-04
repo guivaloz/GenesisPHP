@@ -42,13 +42,13 @@ class BusquedaHTML extends \Base\BusquedaHTML {
     } // validar
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string Encabezado opcional
      * @return string HTML con el formulario
      */
-    protected function formulario($in_encabezado='') {
-    } // formulario
+    protected function elaborar_formulario($in_encabezado='') {
+    } // elaborar_formulario
 
     /**
      * Recibir Formulario

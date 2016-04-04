@@ -45,9 +45,9 @@ class ListadoHTML extends Listado {
     // static public $param_poder_minimo;
     // static public $param_estatus;
     // public $filtros_param;
-    public $viene_listado;
-    protected $estructura;
-    protected $listado_html;
+    public $viene_listado;         // Es verdadero si en el URL vienen filtros
+    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $estructura;         // Arreglo asociativo con datos de las columnas
 
     /**
      * Constructor
@@ -89,13 +89,13 @@ class ListadoHTML extends Listado {
                 'color'   => 'estatus',
                 'colores' => Registro::$estatus_colores));
         // Iniciar listado controlado html
-        $this->listado_html = new \Base\ListadoControladoHTML();
+        $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Su constructor toma estos parametros por url
-        $this->limit              = $this->listado_html->limit;
-        $this->offset             = $this->listado_html->offset;
-        $this->cantidad_registros = $this->listado_html->cantidad_registros;
+        $this->limit              = $this->listado_controlado->limit;
+        $this->offset             = $this->listado_controlado->offset;
+        $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Si cualquiera de los filtros tiene valor, entonces viene listado sera verdadero
-        if ($this->listado_html->viene_listado) {
+        if ($this->listado_controlado->viene_listado) {
             $this->viene_listado = true;
         } else {
             $this->viene_listado = ($this->nombre != '') || ($this->clave != '') || ($this->permiso_maximo != '') || ($this->poder_minimo != '') || ($this->estatus != '');
@@ -138,11 +138,11 @@ class ListadoHTML extends Listado {
             unset($this->estructura['estatus']);
         }
         // Pasamos al listado controlado html
-        $this->listado_html->estructura         = $this->estructura;
-        $this->listado_html->listado            = $this->listado;
-        $this->listado_html->cantidad_registros = $this->cantidad_registros;
-        $this->listado_html->variables          = $this->filtros_param;
-    //  $this->listado_html->limit              = $this->limit;
+        $this->listado_controlado->estructura         = $this->estructura;
+        $this->listado_controlado->listado            = $this->listado;
+        $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
+        $this->listado_controlado->variables          = $this->filtros_param;
+    //  $this->listado_controlado->limit              = $this->limit;
         // Encabezado
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
@@ -150,7 +150,7 @@ class ListadoHTML extends Listado {
             $encabezado = $this->encabezado();
         }
         // Entregar
-        return $this->listado_html->html($encabezado, $this->sesion->menu->icono_en('modulos'));
+        return $this->listado_controlado->html($encabezado, $this->sesion->menu->icono_en('modulos'));
     } // html
 
 } // Clase ListadoHTML

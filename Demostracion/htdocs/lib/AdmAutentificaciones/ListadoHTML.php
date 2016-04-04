@@ -34,6 +34,15 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
+    // public $usuario;
+    // public $usuario_nombre;
+    // public $tipo;
+    // static public $param_usuario;
+    // static public $param_tipo;
+    // public $filtros_param;
+    public $viene_listado;         // Es verdadero si en el URL vienen filtros
+    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $estructura;         // Arreglo asociativo con datos de las columnas
 
     /**
      * Constructor
@@ -62,11 +71,11 @@ class ListadoHTML extends Listado {
             'ip' => array(
                 'enca' => 'IP'));
         // Iniciar listado controlado html
-        $this->listado_html = new \Base\ListadoControladoHTML();
+        $this->listado_controlado = new \Base\ListadoControladoHTML();
         // Su constructor toma estos parametros por url
-        $this->limit              = $this->listado_html->limit;
-        $this->offset             = $this->listado_html->offset;
-        $this->cantidad_registros = $this->listado_html->cantidad_registros;
+        $this->limit              = $this->listado_controlado->limit;
+        $this->offset             = $this->listado_controlado->offset;
+        $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
         // Ejecutar el constructor del padre
         parent::__construct($in_sesion);
     } // constructor
@@ -102,11 +111,11 @@ class ListadoHTML extends Listado {
             unset($this->estructura['tipo']);
         }
         // Pasamos al listado controlado html
-        $this->listado_html->estructura         = $this->estructura;
-        $this->listado_html->listado            = $this->listado;
-        $this->listado_html->cantidad_registros = $this->cantidad_registros;
-        $this->listado_html->variables          = $this->filtros_param;
-    //  $this->listado_html->limit              = $this->limit;
+        $this->listado_controlado->estructura         = $this->estructura;
+        $this->listado_controlado->listado            = $this->listado;
+        $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
+        $this->listado_controlado->variables          = $this->filtros_param;
+    //  $this->listado_controlado->limit              = $this->limit;
         // Encabezado
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
@@ -114,7 +123,7 @@ class ListadoHTML extends Listado {
             $encabezado = $this->encabezado();
         }
         // Entregar
-        return $this->listado_html->html($encabezado, $this->sesion->menu->icono_en('autentificaciones'));
+        return $this->listado_controlado->html($encabezado, $this->sesion->menu->icono_en('autentificaciones'));
     } // html
 
 } // Clase ListadoHTML

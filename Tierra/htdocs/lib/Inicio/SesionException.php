@@ -25,7 +25,7 @@ namespace Inicio;
 /**
  * Clase SesionException
  */
-class SesionException extends \Exception {
+class SesionException extends \Base\Exception {
 
     /**
      * Constructor
@@ -59,9 +59,9 @@ class SesionException extends \Exception {
                 VALUES
                     (%s, %s, %s, %s)",
                 ($in_usuario == false) ? 'NULL' : $in_usuario,
-                sql_texto($in_nom_corto),
-                sql_texto($tipo),
-                sql_texto($_SERVER['REMOTE_ADDR'])), true); // TIENE EL TRUE PARA TRONAR EN CASO DE ERROR
+                $this->sql_texto($in_nom_corto),
+                $this->sql_texto($tipo),
+                $this->sql_texto($_SERVER['REMOTE_ADDR'])), true); // TIENE EL TRUE PARA TRONAR EN CASO DE ERROR
         } catch (\Exception $e) {
             die('Error fatal al tratar de insertar registro en autentificaciones.');
         }

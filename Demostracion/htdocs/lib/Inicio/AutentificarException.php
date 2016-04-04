@@ -25,20 +25,7 @@ namespace Inicio;
 /**
  * Clase AutentificarException
  */
-class AutentificarException extends \Exception {
-
-    /**
-     * SQL Texto
-     *
-     * @parem string Texto
-     */
-    function sql_texto($texto) {
-        if (trim($texto) == '') {
-            return 'NULL';
-        } else {
-            return "'".pg_escape_string(trim($texto))."'";
-        }
-    } // sql_texto
+class AutentificarException extends \Base\Exception {
 
     /**
      * Constructor

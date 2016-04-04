@@ -76,12 +76,12 @@ class BusquedaHTML extends \Base\BusquedaHTML {
     } // validar
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string Encabezado opcional
      * @return string HTML con el formulario
      */
-    protected function formulario($in_encabezado='') {
+    protected function elaborar_formulario($in_encabezado='') {
         // Opciones para escoger usuario y departamento
         $usuarios      = new \Usuarios\OpcionesSelect();
         $departamentos = new \Departamentos\OpcionesSelect();
@@ -101,7 +101,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         }
         // Entregar
         return $f->html($encabezado, $this->sesion->menu->icono_en('integrantes'));
-    } // formulario
+    } // elaborar_formulario
 
     /**
      * Recibir Formulario
