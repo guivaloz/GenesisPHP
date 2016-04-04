@@ -34,7 +34,11 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-
+    // public $nombre;
+    // public $tipo;
+    // static public $param_nombre;
+    // static public $param_tipo;
+    // public $filtros_param;
     public $viene_listado;         // Es verdadero si en el URL vienen filtros
     protected $listado_controlado; // Instancia de ListadoControladoHTML
     protected $estructura;         // Arreglo asociativo con datos de las columnas
@@ -45,6 +49,35 @@ class ListadoHTML extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
+        // Filtros que puede recibir por el url
+        $this->nombre = $_GET[parent::$param_nombre];
+        $this->tipo   = $_GET[parent::$param_tipo];
+        // Estructura
+        $this->estructura = array(
+            'nombre' => array(
+                'enca' => 'Usuario',
+                'pag'  => 'usuarios.php',
+                'id'   => 'usuario'),
+            'ingreso' => array(
+                'enca' => 'Ingreso'),
+            'tipo' => array(
+                'enca' => 'Tipo'),
+            'listado_renglones' => array(
+                'enca' => 'Renglones'));
+        // Iniciar listado controlado html
+        $this->listado_html = new \Base\ListadoControladoHTML();
+        // Su constructor toma estos parametros por url
+        $this->limit              = $this->listado_html->limit;
+        $this->offset             = $this->listado_html->offset;
+        $this->cantidad_registros = $this->listado_html->cantidad_registros;
+        // Si cualquiera de los filtros tiene valor, entonces viene listado sera verdadero
+        if ($this->listado_controlado->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->nombre != '') || ($this->tipo != '');
+        }
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
     } // constructor
 
     /**
@@ -63,6 +96,31 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html($in_encabezado='') {
+        // Consultar
+        try {
+            $this->consultar();
+        } catch (\Exception $e) {
+            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            return $mensaje->html($in_encabezado);
+        }
+        // Eliminar columnas de la estructura que sean filtros aplicados
+        if ($this->tipo != '') {
+            unset($this->estructura['tipo']);
+        }
+        // Pasamos al listado controlado html
+        $this->listado_html->estructura         = $this->estructura;
+        $this->listado_html->listado            = $this->listado;
+        $this->listado_html->cantidad_registros = $this->cantidad_registros;
+        $this->listado_html->variables          = $this->filtros_param;
+    //  $this->listado_html->limit              = $this->limit;
+        // Encabezado
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->encabezado();
+        }
+        // Entregar
+        return $this->listado_html->html($encabezado, $this->sesion->menu->icono_en('sesiones'));
     } // html
 
 } // Clase ListadoHTML

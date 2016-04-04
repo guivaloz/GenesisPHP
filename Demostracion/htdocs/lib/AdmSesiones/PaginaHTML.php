@@ -50,6 +50,7 @@ class PaginaHTML extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
+        parent::__construct('sesiones');
     } // constructor
 
     /**
@@ -58,6 +59,19 @@ class PaginaHTML extends \Base\PaginaHTML {
      * @return string Código HTML
      */
     public function html() {
+        // Solo si se carga con éxito la sesión
+        if ($this->sesion_exitosa) {
+            // Lenguetas
+            $lenguetas = new \Base\LenguetasHTML('lenguetassesiones');
+            // Listado sesiones
+            $sesiones = new ListadoHTML($this->sesion);
+            $lenguetas->agregar_activa('sesionesListado', 'Sesiones', $sesiones);
+            // Pasar el html y el javascript de las lenguetas al contenido
+            $this->contenido[]  = $lenguetas->html();
+            $this->javascript[] = $lenguetas->javascript();
+        }
+        // Ejecutar el padre y entregar su resultado
+        return parent::html();
     } // html
 
 } // Clase PaginaHTML

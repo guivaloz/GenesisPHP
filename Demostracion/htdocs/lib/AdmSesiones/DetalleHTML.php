@@ -29,6 +29,11 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
+    // public $nombre;
+    // public $nom_corto;
+    // public $tipo;
+    // public $ingreso;
+    // public $listado_renglones;
 
     /**
      * HTML
@@ -38,22 +43,6 @@ class DetalleHTML extends Registro {
      */
     public function html($in_encabezado='') {
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-    } // recuperar_html
 
 } // Clase DetalleHTML
 

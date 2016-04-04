@@ -29,6 +29,22 @@ class DetalleHTML extends Registro {
 
     // protected $sesion;
     // protected $consultado;
+    // public $id;
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $modulo;
+    // public $modulo_nombre;
+    // public $permiso_maximo;
+    // public $permiso_maximo_descrito;
+    // public $estatus;
+    // public $estatus_descrito;
+    // static public $permiso_maximo_descripciones;
+    // static public $permiso_maximo_colores;
+    // static public $estatus_descripciones;
+    // static public $estatus_colores;
+    static public $accion_modificar = 'rolModificar';
+    static public $accion_eliminar  = 'rolEliminar';
+    static public $accion_recuperar = 'rolRecuperar';
 
     /**
      * HTML
@@ -37,6 +53,55 @@ class DetalleHTML extends Registro {
      * @return string HTML
      */
     public function html($in_encabezado='') {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
+                $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                return $mensaje->html($in_encabezado);
+            }
+        }
+        // Detalle
+        $detalle = new \Base\DetalleHTML();
+        // Seccion rol
+        $detalle->seccion('Rol');
+        $detalle->dato('Departamento',   sprintf('<a href="roles.php?%s=%d">%s</a>', ListadoHTML::$param_departamento, $this->departamento, $this->departamento_nombre));
+        $detalle->dato('Módulo',         sprintf('<a href="roles.php?%s=%d">%s</a>', ListadoHTML::$param_modulo, $this->modulo, $this->modulo_nombre));
+        $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
+        // Seccion registro
+        if ($this->sesion->puede_eliminar('roles')) {
+            $detalle->seccion('Registro');
+            $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+        }
+        // Encabezado
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = "Rol de {$this->departamento_nombre} en {$this->modulo_nombre}";
+        }
+        // Si hay encabezado
+        if ($encabezado != '') {
+            // Crear la barra
+            $barra             = new \Base\BarraHTML();
+            $barra->encabezado = $encabezado;
+            $barra->icono      = $this->sesion->menu->icono_en('roles');
+            if (($this->estatus != 'B') && $this->sesion->puede_modificar('roles')) {
+                $barra->boton_modificar(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_modificar));
+            }
+            if (($this->estatus != 'B') && $this->sesion->puede_eliminar('roles')) {
+                $barra->boton_eliminar_confirmacion(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_eliminar),
+                    "¿Está seguro de querer <strong>eliminar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
+            }
+            if (($this->estatus == 'B') && $this->sesion->puede_recuperar('roles')) {
+                $barra->boton_recuperar_confirmacion(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
+                    "¿Está seguro de querer <strong>recuperar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
+            }
+            // Pasar la barra al detalle html
+            $detalle->barra = $barra;
+        }
+        // Entregar
+        return $detalle->html();
     } // html
 
     /**
@@ -45,6 +110,13 @@ class DetalleHTML extends Registro {
      * @return string HTML con el detalle y el mensaje
      */
     public function eliminar_html() {
+        try {
+            $mensaje = new \Base\MensajeHTML($this->eliminar());
+            return $mensaje->html().$this->html();
+        } catch (\Exception $e) {
+            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            return $mensaje->html($in_encabezado);
+        }
     } // eliminar_html
 
     /**
@@ -53,6 +125,13 @@ class DetalleHTML extends Registro {
      * @return string HTML con el detalle y el mensaje
      */
     public function recuperar_html() {
+        try {
+            $mensaje = new \Base\MensajeHTML($this->recuperar());
+            return $mensaje->html().$this->html();
+        } catch (\Exception $e) {
+            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            return $mensaje->html($in_encabezado);
+        }
     } // recuperar_html
 
 } // Clase DetalleHTML

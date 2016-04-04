@@ -34,11 +34,45 @@ class BusquedaHTML extends \Base\BusquedaHTML {
     // protected $sesion;
     // protected $consultado;
     // protected $javascript;
+    protected $departamento;        // Filtro entero
+    protected $departamento_nombre;
+    protected $modulo;              // Filtro entero
+    protected $modulo_nombre;
+    protected $estatus;             // Filtro caracter
+    static public $form_name = 'roles_busqueda';
 
     /**
      * Validar
      */
     public function validar() {
+        // Validar la relacion departamento
+        if ($this->departamento != '') {
+            $departamento = new \AdmDepartamentos\Registro($this->sesion);
+            try {
+                $departamento->consultar($this->departamento);
+            } catch (\Exception $e) {
+                throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Departamento incorrecto.');
+            }
+            $this->departamento_nombre = $departamento->nombre;
+        } else {
+            $this->departamento_nombre = '';
+        }
+        // Validar la relacion modulo
+        if ($this->modulo != '') {
+            $modulo = new \AdmModulos\Registro($this->sesion);
+            try {
+                $modulo->consultar($this->modulo);
+            } catch (\Exception $e) {
+                throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Módulo incorrecto.');
+            }
+            $this->modulo_nombre = $modulo->nombre;
+        } else {
+            $this->modulo_nombre = '';
+        }
+        // Validar estatus
+        if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
+            throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Estatus incorrecto.');
+        }
     } // validar
 
     /**
@@ -48,6 +82,25 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      * @return string HTML con el formulario
      */
     protected function elaborar_formulario($in_encabezado='') {
+        // Opciones para escoger al departamento y al modulo
+        $departamentos = new \AdmDepartamentos\OpcionesSelect();
+        $modulos       = new \Modulos\OpcionesSelect();
+        // Formulario
+        $f = new \Base\FormularioHTML(self::$form_name);
+        $f->select_con_nulo('departamento', 'Departamento', $departamentos->opciones(), $this->departamento);
+        $f->select_con_nulo('modulo',       'Módulo',       $modulos->opciones(),       $this->modulo);
+        if ($this->sesion->puede_recuperar('roles')) {
+            $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
+        }
+        $f->boton_buscar();
+        // Encabezado
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = "Buscar roles";
+        }
+        // Entregar
+        return $f->html($encabezado, $this->sesion->menu->icono_en('roles'));
     } // elaborar_formulario
 
     /**
@@ -56,6 +109,20 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      * @return boolean Verdadero si se recibió el formulario
      */
     public function recibir_formulario() {
+        // Si viene el formulario
+        if ($_POST['formulario'] == self::$form_name) {
+            // Cargar propiedades
+            $this->departamento = post_select($_POST['departamento']);
+            $this->modulo       = post_select($_POST['modulo']);
+            if ($this->sesion->puede_recuperar('roles')) {
+                $this->estatus = post_select($_POST['estatus']);
+            }
+            // Entregar verdadero
+            return true;
+        } else {
+            // No viene el formulario, entregar falso
+            return false;
+        }
     } // recibir_formulario
 
     /**
@@ -64,6 +131,69 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
      */
     public function consultar() {
+        // De inicio, no hay resultados
+        $this->hay_resultados = false;
+        // Filtros y mensajes
+        $f = array();
+        $m = array();
+        // Elaborar los filtros sql y el mensaje
+        if ($this->departamento != '') {
+            $f[] = "departamento = {$this->departamento}";
+            $m[] = "departamento {$this->departamento_nombre}";
+        }
+        if ($this->modulo != '') {
+            $f[] = "modulo = {$this->modulo}";
+            $m[] = "módulo {$this->modulo_nombre}";
+        }
+        if ($this->sesion->puede_recuperar('roles')) {
+            if ($this->estatus != '') {
+                $f[] = "estatus = '{$this->estatus}'";
+                $m[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];
+            }
+        } else {
+            // No tiene permiso de recuperar, entonces no encontrara los eliminados
+            $f[] = "estatus != 'B'";
+        }
+        // Siempre debe haber por lo menos un filtro
+        if (count($f) == 0) {
+            throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Búsqueda vacía. Debe usar por lo menos un campo.');
+        }
+        $filtros_sql = implode(' AND ', $f);
+        $msg         = 'Buscó roles con '.implode(', ', $m);
+        // Agregar a la bitacora que se busco
+        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora->agregar_busco($msg);
+        // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando("SELECT id FROM adm_roles WHERE $filtros_sql");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al buscar roles.', $e->getMessage());
+        }
+        // Se considera consultado
+        $this->consultado = true;
+        // Si la cantidad de registros es mayor a uno
+        if ($consulta->cantidad_registros() > 1) {
+            // Hay resultados
+            $this->hay_resultados = true;
+            // Entregar listado
+            $listado               = new ListadoHTML($this->sesion);
+            $listado->departamento = $this->departamento;
+            $listado->modulo       = $this->modulo;
+            $listado->estatus      = $this->estatus;
+            return $listado;
+        } elseif ($consulta->cantidad_registros() == 1) {
+            // Hay resultados
+            $this->hay_resultados = true;
+            // La cantidad de registros es uno, entregar detalle
+            $a           = $consulta->obtener_registro();
+            $detalle     = new DetalleHTML($this->sesion);
+            $detalle->id = intval($a['id']);
+            return $detalle;
+        } else {
+            // No se encontró nada
+            throw new \Base\BusquedaHTMLExceptionVacio('Aviso: La búsqueda no encontró roles con esos parámetros.');
+        }
     } // consultar
 
 } // Clase BusquedaHTML

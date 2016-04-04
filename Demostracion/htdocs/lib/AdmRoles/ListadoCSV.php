@@ -34,6 +34,15 @@ class ListadoCSV extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $modulo;
+    // public $modulo_nombre;
+    // public $estatus;
+    // static public $param_departamento;
+    // static public $param_modulo;
+    // static public $param_estatus;
+    // public $filtros_param;
 
     /**
      * Constructor

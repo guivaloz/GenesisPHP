@@ -34,7 +34,15 @@ class ListadoHTML extends Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-
+    // public $departamento;
+    // public $departamento_nombre;
+    // public $modulo;
+    // public $modulo_nombre;
+    // public $estatus;
+    // static public $param_departamento;
+    // static public $param_modulo;
+    // static public $param_estatus;
+    // public $filtros_param;
     public $viene_listado;         // Es verdadero si en el URL vienen filtros
     protected $listado_controlado; // Instancia de ListadoControladoHTML
     protected $estructura;         // Arreglo asociativo con datos de las columnas
@@ -45,6 +53,44 @@ class ListadoHTML extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
+        // Filtros que puede recibir por el url
+        $this->departamento = $_GET[parent::$param_departamento];
+        $this->modulo       = $_GET[parent::$param_modulo];
+        $this->estatus      = $_GET[parent::$param_estatus];
+        // Estructura
+        $this->estructura = array(
+            'departamento_nombre'  => array(
+                'enca'    => 'Departamento'),
+            'icono'  => array(
+                'enca'    => 'Ícono',
+                'sprintf' => '<img src="imagenes/16x16/%s">'),
+            'modulo_nombre'  => array(
+                'enca'    => 'Módulo'),
+            'permiso_maximo'  => array(
+                'enca'    => 'Permiso máximo',
+                'pag'     => 'roles.php',
+                'cambiar' => Registro::$permiso_maximo_descripciones,
+                'color'   => 'permiso_maximo',
+                'colores' => Registro::$permiso_maximo_colores),
+            'estatus' => array(
+                'enca'    => 'Estatus',
+                'cambiar' => Registro::$estatus_descripciones,
+                'color'   => 'estatus',
+                'colores' => Registro::$estatus_colores));
+        // Iniciar listado controlado html
+        $this->listado_controlado = new \Base\ListadoControladoHTML();
+        // Su constructor toma estos parametros por url
+        $this->limit              = $this->listado_controlado->limit;
+        $this->offset             = $this->listado_controlado->offset;
+        $this->cantidad_registros = $this->listado_controlado->cantidad_registros;
+        // Si cualquiera de los filtros tiene valor, entonces viene listado sera verdadero
+        if ($this->listado_controlado->viene_listado) {
+            $this->viene_listado = true;
+        } else {
+            $this->viene_listado = ($this->departamento != '') || ($this->modulo != '') || ($this->estatus != '');
+        }
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
     } // constructor
 
     /**
@@ -63,6 +109,37 @@ class ListadoHTML extends Listado {
      * @return string HTML
      */
     public function html($in_encabezado='') {
+        // Consultar
+        try {
+            $this->consultar();
+        } catch (\Exception $e) {
+            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            return $mensaje->html($in_encabezado);
+        }
+        // Eliminar columnas de la estructura que sean filtros aplicados
+        if ($this->departamento != '') {
+            unset($this->estructura['departamento_nombre']);
+        }
+        if ($this->modulo != '') {
+            unset($this->estructura['modulo_nombre']);
+        }
+        if ($this->estatus != '') {
+            unset($this->estructura['estatus']);
+        }
+        // Pasamos al listado controlado html
+        $this->listado_controlado->estructura         = $this->estructura;
+        $this->listado_controlado->listado            = $this->listado;
+        $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
+        $this->listado_controlado->variables          = $this->filtros_param;
+    //  $this->listado_controlado->limit              = $this->limit;
+        // Encabezado
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->encabezado();
+        }
+        // Entregar
+        return $this->listado_controlado->html($encabezado, $this->sesion->menu->icono_en('roles'));
     } // html
 
 } // Clase ListadoHTML
