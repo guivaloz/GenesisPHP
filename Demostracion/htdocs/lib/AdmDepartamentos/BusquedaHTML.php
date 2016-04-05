@@ -84,9 +84,9 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->nombre = post_texto_mayusculas($_POST['nombre']);
+            $this->nombre = $this->post_texto($_POST['nombre']);
             if ($this->sesion->puede_recuperar('departamentos')) {
-                $this->estatus = post_select($_POST['estatus']);
+                $this->estatus = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
@@ -128,7 +128,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $filtros_sql = implode(' AND ', $f);
         $msg         = 'Buscó departamentos con '.implode(', ', $m);
         // Agregar a la bitacora que se busco
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_busco($msg);
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();

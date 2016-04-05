@@ -5,8 +5,8 @@
 --
 
 -- Menú Catálogos (si la primer opcion comienza con guion, se omite en el menú secundario)
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (801, 'cat_catalogos',     '-Catálogos',    'file-manager.png',              'catdepartamentos.php', NULL); -- 10
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (811, 'cat_departamentos', 'Departamentos', 'fsview.png',                    'catdepartamentos.php',   10); -- 11
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (801, 'cat_catalogos',     '-Catálogos',    'applications-graphics.png',     'catdepartamentos.php', NULL); -- 10
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (811, 'cat_departamentos', 'Departamentos', 'mail-send.png',                 'catdepartamentos.php',   10); -- 11
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (813, 'cat_puestos',       'Puestos',       'preferences-desktop-theme.png', 'catpuestos.php',         10); -- 12
 
 -- Roles de Desarrollo de Sistemas(1) en el menú Catálogos
@@ -30,10 +30,10 @@ INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 11, 1);
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 12, 1);
 
 -- Menú Expedientes
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (101, 'exp_personas',            'Personas',   'folder.png',                   'exppersonas.php',           NULL); -- 13
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (105, 'exp_personas_fotos',      'Fotos',      'camera-photo.png',             'exppersonasfotos.php',        13); -- 14
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (111, 'exp_personas_domicilios', 'Domicilios', 'preferences-desktop-user.png', 'exppersonasdomicilios.php',   13); -- 15
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (113, 'exp_personas_familiares', 'Familiares', 'scanner.png',                  'spcpersonasfamiliares.php',   13); -- 16
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (101, 'exp_personas',            'Personas',   'folder.png',       'exppersonas.php',           NULL); -- 13
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (105, 'exp_personas_fotos',      'Fotos',      'camera-photo.png', 'exppersonasfotos.php',        13); -- 14
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (111, 'exp_personas_domicilios', 'Domicilios', 'midori.png',       'exppersonasdomicilios.php',   13); -- 15
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (113, 'exp_personas_familiares', 'Familiares', 'system-users.png', 'spcpersonasfamiliares.php',   13); -- 16
 
 -- Roles de Desarrollo de Sistemas(1) en el menú Expedientes
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1, 13, 5); -- 5 = puede ver, modificar, agregar, eliminar y recuperar

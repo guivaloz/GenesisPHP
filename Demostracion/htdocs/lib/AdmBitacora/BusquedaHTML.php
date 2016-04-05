@@ -106,8 +106,8 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->usuario     = post_select($_POST['usuario']);
-            $this->tipo        = post_select($_POST['tipo']);
+            $this->usuario     = $this->post_select($_POST['usuario']);
+            $this->tipo        = $this->post_select($_POST['tipo']);
             $this->fecha_desde = $_POST['fecha_desde'];
             $this->fecha_hasta = $_POST['fecha_hasta'];
             // Entregar verdadero
@@ -153,8 +153,8 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $filtros_sql = implode(' AND ', $f);
         $msg         = 'Buscó en bitácora con '.implode(', ', $m);
         // Agregar a la bitacora que se busco
-        $bitacora = new \Bitacora\Registro($this->sesion);
-        $bitacora->agregar_busco($msg);
+    //  $bitacora = new \AdmBitacora\Registro($this->sesion);
+    //  $bitacora->agregar_busco($msg);
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {

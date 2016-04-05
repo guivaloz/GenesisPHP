@@ -83,7 +83,7 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     i.usuario, u.nombre AS usuario_nombre, u.nom_corto AS usuario_nom_corto,
                     i.departamento, d.nombre AS departamento_nombre,
@@ -96,7 +96,8 @@ class Registro extends \Base\Registro {
                 WHERE
                     i.usuario = u.id
                     AND i.departamento = d.id
-                    AND i.id = {$this->id}");
+                    AND i.id = %d",
+                $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el integrante.', $e->getMessage());
         }
@@ -205,9 +206,9 @@ class Registro extends \Base\Registro {
                     adm_integrantes (usuario, departamento, poder)
                 VALUES
                     (%s, %s, %s)",
-                sql_entero($this->usuario),
-                sql_entero($this->departamento),
-                sql_entero($this->poder)));
+                $this->sql_entero($this->usuario),
+                $this->sql_entero($this->departamento),
+                $this->sql_entero($this->poder)));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el integrante. ', $e->getMessage());
         }
@@ -228,7 +229,7 @@ class Registro extends \Base\Registro {
         // Elborar mensaje
         $msg = "Nuevo integrante {$this->usuario_nombre} en {$this->departamento_nombre} con {$this->poder_descrito}.";
         // Agregar a la bitacora que hay un nuevo registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
         return $msg;
@@ -279,19 +280,19 @@ class Registro extends \Base\Registro {
                 UPDATE
                     adm_integrantes
                 SET
-                    usuario=%d, departamento=%d, poder=%d, estatus=%s
+                    usuario = %d, departamento = %d, poder = %d, estatus = %s
                 WHERE
-                    id=%d",
-                sql_entero($this->usuario),
-                sql_entero($this->departamento),
-                sql_entero($this->poder),
-                sql_texto($this->estatus),
+                    id = %d",
+                $this->sql_entero($this->usuario),
+                $this->sql_entero($this->departamento),
+                $this->sql_entero($this->poder),
+                $this->sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el integrante. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
         return $msg;

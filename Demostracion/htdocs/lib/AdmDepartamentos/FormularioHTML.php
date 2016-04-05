@@ -98,10 +98,10 @@ class FormularioHTML extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Seccion departamento
-        $this->nombre = post_texto_mayusculas($_POST['nombre']);
-        $this->clave  = post_texto_mayusculas($_POST['clave']);
+        $this->nombre = $this->post_texto($_POST['nombre']);
+        $this->clave  = $this->post_texto($_POST['clave']);
         // Seccion registro
-        $this->notas = post_texto($_POST['notas']);
+        $this->notas  = $this->post_texto($_POST['notas']);
     } // recibir_formulario
 
     /**

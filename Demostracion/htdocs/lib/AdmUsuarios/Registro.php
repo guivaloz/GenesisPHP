@@ -159,7 +159,7 @@ class Registro extends \Base\Registro {
         if ($this->estatus == 'A') {
             $this->esta_bloqueada = ($this->bloqueada_porque_fallas || $this->bloqueada_porque_expiro || $this->bloqueada_porque_sesiones);
         } else {
-            $this->esta_bloqueada = true;
+            $this->esta_bloqueada = false;
         }
         // Descrito contraseña no cifrada
         if ($this->contrasena_no_cifrada) {
@@ -290,6 +290,10 @@ class Registro extends \Base\Registro {
         }
         // Validar
         $this->validar();
+        // Validar contraseña, no debe estar vacía
+        if (($this->contrasena == '') || !$this->validar_contrasena($this->contrasena)) {
+            throw new \Base\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
+        }
         // Insertar registro en la base de datos
         $base_datos = new \Base\BaseDatosMotor();
         try {
@@ -299,22 +303,26 @@ class Registro extends \Base\Registro {
                     (nom_corto, nombre, puesto, tipo, email, contrasena, sesiones_maximas, listado_renglones, notas, estatus)
                 VALUES
                     (%s, %s, %s, %s, %s, %s, %d, %d, %s, %s)",
-                sql_texto($this->nom_corto),
-                sql_texto($this->nombre),
-                sql_texto($this->puesto),
-                sql_texto($this->tipo),
-                sql_texto($this->email),
-                sql_texto($this->contrasena),
+                $this->sql_texto($this->nom_corto),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->puesto),
+                $this->sql_texto($this->tipo),
+                $this->sql_texto($this->email),
+                $this->sql_texto($this->contrasena),
                 $this->sesiones_maximas,
                 $this->listado_renglones,
-                sql_texto($this->notas),
-                sql_texto($this->estatus)));
+                $this->sql_texto($this->notas),
+                $this->sql_texto($this->estatus)));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el usuario. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
-            $consulta = $base_datos->comando("SELECT last_value AS id FROM usuarios_id_seq");
+            $consulta = $base_datos->comando("
+                SELECT
+                    last_value AS id
+                FROM
+                    adm_usuarios_id_seq");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del usuario. ', $e->getMessage());
         }
@@ -325,7 +333,7 @@ class Registro extends \Base\Registro {
         // Elborar mensaje
         $msg = "Nuevo usuario {$this->nombre}.";
         // Agregar a la bitacora que hay un nuevo registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
         return $msg;
@@ -398,25 +406,25 @@ class Registro extends \Base\Registro {
                 UPDATE
                     adm_usuarios
                 SET
-                    nom_corto=%s, nombre=%s, puesto=%s, tipo=%s, email=%s,
-                    sesiones_maximas=%d, listado_renglones=%d,
-                    notas=%s, estatus=%s
+                    nom_corto = %s, nombre = %s, puesto = %s, tipo = %s, email = %s,
+                    sesiones_maximas = %d, listado_renglones = %d,
+                    notas = %s, estatus = %s
                 WHERE
-                    id=%d",
-                sql_texto($this->nom_corto),
-                sql_texto($this->nombre),
-                sql_texto($this->puesto),
-                sql_texto($this->tipo),
-                sql_texto($this->email),
+                    id = %d",
+                $this->sql_texto($this->nom_corto),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->puesto),
+                $this->sql_texto($this->tipo),
+                $this->sql_texto($this->email),
                 $this->sesiones_maximas,
                 $this->listado_renglones,
-                sql_texto($this->notas),
-                sql_texto($this->estatus),
+                $this->sql_texto($this->notas),
+                $this->sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
         }
-        // ACTUALIZAR CONTRASEÑA, SI LA DEFINE
+        // Actualizar contraseña, si la define
         if ($this->contrasena != '') {
             try {
                 $base_datos->comando(sprintf("
@@ -428,17 +436,17 @@ class Registro extends \Base\Registro {
                         contrasena_fallas=0,
                         contrasena_expira=((('now'::text)::date + '30 days'::interval))::date
                     WHERE
-                        id=%d",
-                    sql_texto($this->contrasena),
+                        id = %d",
+                    $this->sql_texto($this->contrasena),
                     $this->id));
             } catch (\Exception $e) {
                 throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
             }
         }
-        // AGREGAR A LA BITACORA QUE SE MODIFICO EL REGISTRO
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        // Agregar a la bitacora que se modifico el registro
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
-        // ENTREGAR MENSAJE
+        // Entregar mensaje
         return $msg;
     } // modificar
 
@@ -517,7 +525,14 @@ class Registro extends \Base\Registro {
         // Determinar el comando sql y armar el mensaje
         if ($this->bloqueada_porque_fallas) {
             // Vamos a poner la cantidad de fallas en cero
-            $comando_sql = sprintf("UPDATE usuarios SET contrasena_fallas=0 WHERE id=%d", $this->id);
+            $comando_sql = sprintf("
+                UPDATE
+                    adm_usuarios
+                SET
+                    contrasena_fallas = 0
+                WHERE
+                    id = %d",
+                $this->id);
         }
         if ($this->bloqueada_porque_expiro) {
             // Cuando una contraseña esta expirada, viene con el numero de fallas al tope para que se bloquee
@@ -525,11 +540,26 @@ class Registro extends \Base\Registro {
             // y agregarle tres dias a la fecha de expiracion
             // debe aparecerle el mensaje al usuario para que cambie su contraseña
             list($y, $m, $d) = explode('-', date('Y-m-d'));
-            $comando_sql = sprintf("UPDATE usuarios SET contrasena_expira=%s, contrasena_fallas=0 WHERE id=%d", sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)), $this->id);
+            $comando_sql = sprintf("
+                UPDATE
+                    adm_usuarios
+                SET
+                    contrasena_expira = %s, contrasena_fallas = 0
+                WHERE
+                    id = %d",
+                $this->sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)),
+                $this->id);
         }
         if ($this->bloqueada_porque_sesiones) {
             // Vamos a poner el contador de sesiones en cero
-            $comando_sql = sprintf("UPDATE usuarios SET sesiones_contador=0 WHERE id=%d", $this->id);
+            $comando_sql = sprintf("
+                UPDATE
+                    adm_usuarios
+                SET
+                    sesiones_contador = 0
+                WHERE
+                    id = %d",
+                $this->id);
         }
         // Actualizar registro en la base de datos
         $base_datos = new \Base\BaseDatosMotor();
@@ -553,7 +583,7 @@ class Registro extends \Base\Registro {
         }
         $this->esta_bloqueada = ($this->bloqueada_porque_fallas || $this->bloqueada_porque_expiro || $this->bloqueada_porque_sesiones);
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
         return $msg;

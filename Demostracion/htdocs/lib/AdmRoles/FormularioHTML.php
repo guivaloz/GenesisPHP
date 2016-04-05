@@ -104,9 +104,9 @@ class FormularioHTML extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Seccion rol
-        $this->departamento   = $_POST['departamento'];
-        $this->modulo         = $_POST['modulo'];
-        $this->permiso_maximo = $_POST['permiso_maximo'];
+        $this->departamento   = $this->post_select($_POST['departamento']);
+        $this->modulo         = $this->post_select($_POST['modulo']);
+        $this->permiso_maximo = $this->post_select($_POST['permiso_maximo']);
     } // recibir_formulario
 
     /**

@@ -112,10 +112,10 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->departamento = post_select($_POST['departamento']);
-            $this->modulo       = post_select($_POST['modulo']);
+            $this->departamento = $this->post_select($_POST['departamento']);
+            $this->modulo       = $this->post_select($_POST['modulo']);
             if ($this->sesion->puede_recuperar('roles')) {
-                $this->estatus = post_select($_POST['estatus']);
+                $this->estatus  = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
@@ -161,7 +161,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $filtros_sql = implode(' AND ', $f);
         $msg         = 'Buscó roles con '.implode(', ', $m);
         // Agregar a la bitacora que se busco
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_busco($msg);
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();

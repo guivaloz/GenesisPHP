@@ -177,11 +177,11 @@ class Registro extends \Base\Registro {
                 VALUES
                     (%d, %s, %s, %s, %s, %s)",
                 $this->usuario,
-                sql_texto($this->pagina),
-                sql_entero($this->pagina_id),
-                sql_texto($this->tipo),
-                sql_texto($this->url),
-                sql_texto($this->notas)), true); // Tiene el true para tronar en caso de error
+                $this->sql_texto($this->pagina),
+                $this->sql_entero($this->pagina_id),
+                $this->sql_texto($this->tipo),
+                $this->sql_texto($this->url),
+                $this->sql_texto($this->notas)), true); // Tiene el true para tronar en caso de error
         } catch (\Exception $e) {
             die("Error en bitácora: Al tratar de insertar un registro.");
         }

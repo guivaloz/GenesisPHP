@@ -105,9 +105,9 @@ class FormularioHTML extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Seccion integrante
-        $this->usuario      = $_POST['usuario'];
-        $this->departamento = $_POST['departamento'];
-        $this->poder        = post_select($_POST['poder']);
+        $this->usuario      = $this->post_select($_POST['usuario']);
+        $this->departamento = $this->post_select($_POST['departamento']);
+        $this->poder        = $this->post_select($_POST['poder']);
     } // recibir_formulario
 
     /**

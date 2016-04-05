@@ -78,7 +78,7 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     r.departamento, d.nombre AS departamento_nombre,
                     r.modulo, m.nombre AS modulo_nombre,
@@ -91,7 +91,8 @@ class Registro extends \Base\Registro {
                 WHERE
                     r.departamento = d.id
                     AND r.modulo = m.id
-                    AND r.id = {$this->id}");
+                    AND r.id = %d",
+                $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el rol.', $e->getMessage());
         }
@@ -197,15 +198,19 @@ class Registro extends \Base\Registro {
                     adm_roles (departamento, modulo, permiso_maximo)
                 VALUES
                     (%s, %s, %s)",
-                sql_entero($this->departamento),
-                sql_entero($this->modulo),
-                sql_entero($this->permiso_maximo)));
+                $this->sql_entero($this->departamento),
+                $this->sql_entero($this->modulo),
+                $this->sql_entero($this->permiso_maximo)));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el rol. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
-            $consulta = $base_datos->comando("SELECT last_value AS id FROM roles_id_seq");
+            $consulta = $base_datos->comando("
+                SELECT
+                    last_value AS id
+                FROM
+                    adm_roles_id_seq");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del rol. ', $e->getMessage());
         }
@@ -216,7 +221,7 @@ class Registro extends \Base\Registro {
         // Elborar mensaje
         $msg = "Nuevo rol para {$this->departamento_nombre} en {$this->modulo_nombre} con {$this->permiso_maximo_descrito}.";
         // Agregar a la bitacora que hay un nuevo registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
         return $msg;
@@ -271,19 +276,19 @@ class Registro extends \Base\Registro {
                 UPDATE
                     adm_roles
                 SET
-                    departamento=%s, modulo=%s, permiso_maximo=%s, estatus=%s
+                    departamento = %s, modulo = %s, permiso_maximo = %s, estatus = %s
                 WHERE
-                    id=%d",
-                sql_entero($this->departamento),
-                sql_entero($this->modulo),
-                sql_entero($this->permiso_maximo),
-                sql_texto($this->estatus),
+                    id = %d",
+                $this->sql_entero($this->departamento),
+                $this->sql_entero($this->modulo),
+                $this->sql_entero($this->permiso_maximo),
+                $this->sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el rol. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
         return $msg;

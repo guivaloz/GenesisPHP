@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase BusquedaHTML
  */
-abstract class BusquedaHTML {
+abstract class BusquedaHTML extends UtileriasParaDatos {
 
     public $hay_resultados  = false;   // Verdadero si la búsqueda arrojo resultados
     public $entrego_detalle = false;   // Verdadero si la búsqueda arrojo un resultado, para que se muestren los hijos debajo del detalle

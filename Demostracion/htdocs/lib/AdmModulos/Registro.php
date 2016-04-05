@@ -96,13 +96,14 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     nombre
                 FROM
                     adm_modulos
                 WHERE
-                    id = {$in_id}");
+                    id = %d",
+                $in_id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el padre del módulo.', $e->getMessage());
         }
@@ -137,13 +138,14 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo, estatus
                 FROM
                     adm_modulos
                 WHERE
-                    id = {$this->id}");
+                    id = %d",
+                $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar módulo.', $e->getMessage());
         }
@@ -265,14 +267,14 @@ class Registro extends \Base\Registro {
                     (orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo)
                 VALUES
                     (%s, %s, %s, %s, %s, %s, %s, %s)",
-                sql_entero($this->orden),
-                sql_texto($this->clave),
-                sql_texto($this->nombre),
-                sql_texto($this->pagina),
-                sql_texto($this->icono),
-                sql_texto($this->padre),
-                sql_entero($this->permiso_maximo),
-                sql_entero($this->poder_minimo)));
+                $this->sql_entero($this->orden),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->pagina),
+                $this->sql_texto($this->icono),
+                $this->sql_texto($this->padre),
+                $this->sql_entero($this->permiso_maximo),
+                $this->sql_entero($this->poder_minimo)));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el módulo. ', $e->getMessage());
         }
@@ -293,7 +295,7 @@ class Registro extends \Base\Registro {
         // Elaborar mensaje
         $msg = "Nuevo módulo {$this->nombre}.";
         // Agregar a la bitacora que hay un nuevo registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar
         return $msg;
@@ -363,24 +365,24 @@ class Registro extends \Base\Registro {
                 UPDATE
                     modulos
                 SET
-                    orden=%s, clave=%s, nombre=%s, pagina=%s, icono=%s, padre=%s, permiso_maximo=%s, poder_minimo=%s, estatus=%s
+                    orden = %s, clave = %s, nombre = %s, pagina = %s, icono = %s, padre = %s, permiso_maximo = %s, poder_minimo = %s, estatus = %s
                 WHERE
-                    id=%d",
-                sql_entero($this->orden),
-                sql_texto($this->clave),
-                sql_texto($this->nombre),
-                sql_texto($this->pagina),
-                sql_texto($this->icono),
-                sql_texto($this->padre),
-                sql_entero($this->permiso_maximo),
-                sql_entero($this->poder_minimo),
-                sql_texto($this->estatus),
+                    id = %d",
+                $this->sql_entero($this->orden),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->pagina),
+                $this->sql_texto($this->icono),
+                $this->sql_texto($this->padre),
+                $this->sql_entero($this->permiso_maximo),
+                $this->sql_entero($this->poder_minimo),
+                $this->sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el módulo. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
         return $msg;

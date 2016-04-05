@@ -94,10 +94,10 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->nombre = post_texto($_POST['nombre']);
-            $this->puesto = post_texto($_POST['puesto']);
+            $this->nombre = $this->post_texto($_POST['nombre']);
+            $this->puesto = $this->post_texto($_POST['puesto']);
             if ($this->sesion->puede_recuperar('usuarios')) {
-                $this->estatus = post_select($_POST['estatus']);
+                $this->estatus = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
@@ -143,7 +143,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $filtros_sql = implode(' AND ', $f);
         $msg         = 'Buscó módulos con '.implode(', ', $m);
         // Agregar a la bitacora que se busco
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_busco($msg);
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();

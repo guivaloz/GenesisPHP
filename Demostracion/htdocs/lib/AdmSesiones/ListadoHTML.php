@@ -56,7 +56,7 @@ class ListadoHTML extends Listado {
         $this->estructura = array(
             'nombre' => array(
                 'enca' => 'Usuario',
-                'pag'  => 'usuarios.php',
+                'pag'  => \AdmUsuarios\DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'id'   => 'usuario'),
             'ingreso' => array(
                 'enca' => 'Ingreso'),

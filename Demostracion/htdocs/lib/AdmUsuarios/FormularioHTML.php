@@ -138,15 +138,15 @@ class FormularioHTML extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Definir propiedades
-        $this->nom_corto         = $_POST['nom_corto'];
-        $this->nombre            = $_POST['nombre'];
-        $this->puesto            = $_POST['puesto'];
-        $this->tipo              = $_POST['tipo'];
-        $this->email             = $_POST['email'];
-        $this->contrasena        = $_POST['contrasena'];
+        $this->nom_corto         = $this->post_texto($_POST['nom_corto']);
+        $this->nombre            = $this->post_texto($_POST['nombre']);
+        $this->puesto            = $this->post_texto($_POST['puesto']);
+        $this->tipo              = $this->post_select($_POST['tipo']);
+        $this->email             = $this->post_texto_minusculas_sin_acentos($_POST['email']);
+        $this->contrasena        = $this->post_texto($_POST['contrasena']);
         $this->sesiones_maximas  = $_POST['sesiones_maximas'];
         $this->listado_renglones = $_POST['listado_renglones'];
-        $this->notas             = $_POST['notas'];
+        $this->notas             = $this->post_texto($_POST['notas']);
     } // recibir_formulario
 
     /**

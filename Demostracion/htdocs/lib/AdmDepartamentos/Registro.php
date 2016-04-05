@@ -63,13 +63,14 @@ class Registro extends \Base\Registro {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     nombre, clave, notas, estatus
                 FROM
                     adm_departamentos
                 WHERE
-                    id = {$this->id}");
+                    id = %d",
+                $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el departamento.', $e->getMessage());
         }
@@ -157,9 +158,9 @@ class Registro extends \Base\Registro {
                     adm_departamentos (nombre, clave, notas)
                 VALUES
                     (%s, %s, %s)",
-                sql_texto($this->nombre),
-                sql_texto($this->clave),
-                sql_texto($this->notas)));
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->notas)));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el departamento. ', $e->getMessage());
         }
@@ -180,7 +181,7 @@ class Registro extends \Base\Registro {
         // Elaborar mensaje
         $msg = "Nuevo departamento {$this->nombre}.";
         // Agregar a la bitacora que hay un nuevo registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_nuevo($this->id, $msg);
         // Entregar mensaje
         return $msg;
@@ -235,19 +236,19 @@ class Registro extends \Base\Registro {
                 UPDATE
                     adm_departamentos
                 SET
-                    nombre=%s, clave=%s, notas=%s, estatus=%s
+                    nombre = %s, clave = %s, notas = %s, estatus = %s
                 WHERE
-                    id=%d",
-                sql_texto($this->nombre),
-                sql_texto($this->clave),
-                sql_texto($this->notas),
-                sql_texto($this->estatus),
+                    id = %d",
+                $this->sql_texto($this->nombre),
+                $this->sql_texto($this->clave),
+                $this->sql_texto($this->notas),
+                $this->sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el departamento. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_modificado($this->id, $msg);
         // Entregar mensaje
         return $msg;
