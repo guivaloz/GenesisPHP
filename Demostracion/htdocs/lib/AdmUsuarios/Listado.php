@@ -53,10 +53,10 @@ class Listado extends \Base\Listado {
             throw new \Exception('Aviso: No tiene permiso para ver los usuarios.');
         }
         // Validar filtros
-        if (($this->nom_corto != '') && !validar_nom_corto($this->nom_corto)) {
+        if (($this->nom_corto != '') && !$this->validar_nom_corto($this->nom_corto)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Nombre corto incorrecto.');
         }
-        if (($this->nombre != '') && !validar_nombre($this->nombre)) {
+        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
         }
         if (($this->tipo != '') && !array_key_exists($this->tipo, Registro::$tipo_descripciones)) {

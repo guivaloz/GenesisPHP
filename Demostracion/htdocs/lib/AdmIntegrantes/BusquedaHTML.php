@@ -47,7 +47,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
     public function validar() {
         // Validar relacion usuario
         if ($this->usuario != '') {
-            $usuario = new \Usuarios\Registro($this->sesion);
+            $usuario = new \AdmUsuarios\Registro($this->sesion);
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
@@ -59,7 +59,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         }
         // Validar relacion departamento
         if ($this->departamento != '') {
-            $departamento = new \Departamentos\Registro($this->sesion);
+            $departamento = new \AdmDepartamentos\Registro($this->sesion);
             try {
                 $departamento->consultar($this->departamento);
             } catch (\Exception $e) {
@@ -83,8 +83,8 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Opciones para escoger usuario y departamento
-        $usuarios      = new \Usuarios\OpcionesSelect();
-        $departamentos = new \Departamentos\OpcionesSelect();
+        $usuarios      = new \AdmUsuarios\OpcionesSelect($this->sesion);
+        $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->select_con_nulo('usuario',      'Usuario',      $usuarios->opciones(),      $this->usuario);
@@ -100,7 +100,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $encabezado = "Buscar integrantes";
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('integrantes'));
+        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_integrantes'));
     } // elaborar_formulario
 
     /**
@@ -166,13 +166,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
-                SELECT
-                    id
-                FROM
-                    adm_integrantes
-                WHERE
-                    $filtros_sql");
+            $consulta = $base_datos->comando("SELECT id FROM adm_integrantes WHERE $filtros_sql");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al buscar integrantes.', $e->getMessage());
         }

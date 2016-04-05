@@ -45,6 +45,40 @@ class DetalleHTML extends Registro {
     static public $accion_modificar = 'rolModificar';
     static public $accion_eliminar  = 'rolEliminar';
     static public $accion_recuperar = 'rolRecuperar';
+    const RAIZ_PHP_ARCHIVO          = 'admroles.php';
+
+    /**
+     * Barra
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de BarraHTML
+     */
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = "Rol de {$this->departamento_nombre} en {$this->modulo_nombre}";
+        }
+        // Crear la barra
+        $barra             = new \Base\BarraHTML();
+        $barra->encabezado = $encabezado;
+        $barra->icono      = $this->sesion->menu->icono_en('adm_roles');
+        // Definir botones
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('roles')) {
+            $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
+        }
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('roles')) {
+            $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
+                "¿Está seguro de querer <strong>eliminar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
+        }
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('roles')) {
+            $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
+                "¿Está seguro de querer <strong>recuperar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
+        }
+        // Entregar
+        return $barra;
+    } // barra
 
     /**
      * HTML
@@ -66,40 +100,16 @@ class DetalleHTML extends Registro {
         $detalle = new \Base\DetalleHTML();
         // Seccion rol
         $detalle->seccion('Rol');
-        $detalle->dato('Departamento',   sprintf('<a href="roles.php?%s=%d">%s</a>', ListadoHTML::$param_departamento, $this->departamento, $this->departamento_nombre));
-        $detalle->dato('Módulo',         sprintf('<a href="roles.php?%s=%d">%s</a>', ListadoHTML::$param_modulo, $this->modulo, $this->modulo_nombre));
+        $detalle->dato('Departamento',   sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoHTML::$param_departamento, $this->departamento, $this->departamento_nombre));
+        $detalle->dato('Módulo',         sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoHTML::$param_modulo, $this->modulo, $this->modulo_nombre));
         $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
         // Seccion registro
         if ($this->sesion->puede_eliminar('roles')) {
             $detalle->seccion('Registro');
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
-        // Encabezado
-        if ($in_encabezado !== '') {
-            $encabezado = $in_encabezado;
-        } else {
-            $encabezado = "Rol de {$this->departamento_nombre} en {$this->modulo_nombre}";
-        }
-        // Si hay encabezado
-        if ($encabezado != '') {
-            // Crear la barra
-            $barra             = new \Base\BarraHTML();
-            $barra->encabezado = $encabezado;
-            $barra->icono      = $this->sesion->menu->icono_en('roles');
-            if (($this->estatus != 'B') && $this->sesion->puede_modificar('roles')) {
-                $barra->boton_modificar(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_modificar));
-            }
-            if (($this->estatus != 'B') && $this->sesion->puede_eliminar('roles')) {
-                $barra->boton_eliminar_confirmacion(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_eliminar),
-                    "¿Está seguro de querer <strong>eliminar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
-            }
-            if (($this->estatus == 'B') && $this->sesion->puede_recuperar('roles')) {
-                $barra->boton_recuperar_confirmacion(sprintf('roles.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
-                    "¿Está seguro de querer <strong>recuperar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
-            }
-            // Pasar la barra al detalle html
-            $detalle->barra = $barra;
-        }
+        // Pasar la barra
+        $detalle->barra = $this->barra();
         // Entregar
         return $detalle->html();
     } // html
@@ -133,6 +143,15 @@ class DetalleHTML extends Registro {
             return $mensaje->html($in_encabezado);
         }
     } // recuperar_html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase DetalleHTML
 

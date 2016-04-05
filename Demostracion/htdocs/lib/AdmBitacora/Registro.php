@@ -87,7 +87,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar la bitácora por ID incorrecto.');
         }
         // Consultar
@@ -136,7 +136,7 @@ class Registro extends \Base\Registro {
         $this->usuario_nom_corto = $this->sesion->nom_corto;
         $this->pagina            = $this->sesion->pagina;
         // Validaciones
-        if (($this->pagina_id != null) && !validar_entero($this->pagina_id)) {
+        if (($this->pagina_id != null) && !$this->validar_entero($this->pagina_id)) {
             throw new \Base\RegistroExceptionValidacion('Error en bitácora: Número para pagina_id incorrecto.');
         }
         if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
@@ -150,7 +150,7 @@ class Registro extends \Base\Registro {
             }
         }
         // Validar notas
-        if (($this->notas != '') && !validar_notas($this->notas)) {
+        if (($this->notas != '') && !$this->validar_notas($this->notas)) {
             // throw new \Base\RegistroExceptionValidacion('Error en bitácora: Notas incorrectas.');
             $this->notas = 'Error en Bitácora: Notas incorrectas.';
         }

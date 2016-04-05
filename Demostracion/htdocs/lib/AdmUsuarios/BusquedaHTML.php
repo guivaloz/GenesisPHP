@@ -45,13 +45,13 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      */
     public function validar() {
         // Validar filtros
-        if (($this->nom_corto) && !validar_nom_corto($this->nom_corto)) {
+        if (($this->nom_corto) && !$this->validar_nom_corto($this->nom_corto)) {
             throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Nombre corto incorrecto.');
         }
-        if (($this->nombre != '') && !validar_nombre($this->nombre)) {
+        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
             throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->puesto != '') && !validar_nombre($this->puesto)) {
+        if (($this->puesto != '') && !$this->validar_nombre($this->puesto)) {
             throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Puesto incorrecto.');
         }
         if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
@@ -82,7 +82,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $encabezado = "Buscar usuarios";
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('usuarios'));
+        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_usuarios'));
     } // elaborar_formulario
 
     /**
@@ -148,7 +148,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("SELECT id FROM usuarios WHERE $filtros_sql");
+            $consulta = $base_datos->comando("SELECT id FROM adm_usuarios WHERE $filtros_sql");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al buscar usuarios.', $e->getMessage());
         }

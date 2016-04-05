@@ -55,7 +55,7 @@ class Listado extends \Base\Listado {
         }
         // Validar usuario
         if ($this->usuario != '') {
-            $usuario = new \Usuarios\Registro($this->sesion);
+            $usuario = new \AdmUsuarios\Registro($this->sesion);
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
@@ -70,10 +70,10 @@ class Listado extends \Base\Listado {
             throw new \Base\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
         }
         // Validar fechas
-        if (($this->fecha_desde != '') && !validar_fecha($this->fecha_desde)) {
+        if (($this->fecha_desde != '') && !$this->validar_fecha($this->fecha_desde)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Fecha desde incorrecta.');
         }
-        if (($this->fecha_hasta != '') && !validar_fecha($this->fecha_hasta)) {
+        if (($this->fecha_hasta != '') && !$this->validar_fecha($this->fecha_hasta)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Fecha hasta incorrecta.');
         }
         // Reseteamos el arreglo asociativo

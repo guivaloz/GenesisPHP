@@ -77,7 +77,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el integrante por ID incorrecto.');
         }
         // Consultar
@@ -129,7 +129,7 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validar departamento
-        $departamento = new \Departamentos\Registro($this->sesion);
+        $departamento = new \AdmDepartamentos\Registro($this->sesion);
         try {
             $departamento->consultar($this->departamento);
         } catch (\Exception $e) {
@@ -137,7 +137,7 @@ class Registro extends \Base\Registro {
         }
         $this->departamento_nombre = $departamento->nombre;
         // Validar usuario
-        $usuario = new \Usuarios\Registro($this->sesion);
+        $usuario = new \AdmUsuarios\Registro($this->sesion);
         try {
             $usuario->consultar($this->usuario);
         } catch (\Exception $e) {

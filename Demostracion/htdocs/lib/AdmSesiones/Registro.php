@@ -50,7 +50,7 @@ class Registro extends \Base\Registro {
             $this->usuario = $in_usuario;
         }
         // Validar
-        if (!validar_entero($this->usuario)) {
+        if (!$this->validar_entero($this->usuario)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar la sesión por ID de usuario incorrecto.');
         }
         // Consultar

@@ -43,6 +43,27 @@ class DetalleHTML extends Registro {
     // static public $tipo_colores;
 
     /**
+     * Barra
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de BarraHTML
+     */
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->fecha;
+        }
+        // Crear la barra
+        $barra             = new \Base\BarraHTML();
+        $barra->encabezado = $encabezado;
+        $barra->icono      = $this->sesion->menu->icono_en('adm_bitacora');
+        // Entregar
+        return $barra;
+    } // barra
+
+    /**
      * HTML
      *
      * @param  string Encabezado opcional
@@ -69,24 +90,20 @@ class DetalleHTML extends Registro {
         $detalle->dato('URL',       $this->url);
         $detalle->dato('Tipo',      $this->tipo_descrito);
         $detalle->dato('Notas',     $this->notas);
-        // Encabezado
-        if ($in_encabezado !== '') {
-            $encabezado = $in_encabezado;
-        } else {
-            $encabezado = "{$this->fecha} {$this->usuario_nom_corto}";
-        }
-        // SI HAY ENCABEZADO
-        if ($encabezado != '') {
-            // CREAR LA BARRA
-            $barra             = new \Base\BarraHTML();
-            $barra->encabezado = $encabezado;
-            $barra->icono      = $this->sesion->menu->icono_en('bitacora');
-            // PASAR LA BARRA AL DETALLE HTML
-            $detalle->barra = $barra;
-        }
-        // ENTREGAR HTML
+        // Pasar la barra
+        $detalle->barra = $this->barra();
+        // Entregar
         return $detalle->html();
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase DetalleHTML
 

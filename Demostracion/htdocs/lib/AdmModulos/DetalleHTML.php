@@ -52,6 +52,40 @@ class DetalleHTML extends Registro {
     static public $accion_modificar = 'moduloModificar';
     static public $accion_eliminar  = 'moduloEliminar';
     static public $accion_recuperar = 'moduloRecuperar';
+    const RAIZ_PHP_ARCHIVO          = 'admmodulos.php';
+
+    /**
+     * Barra
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de BarraHTML
+     */
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->nombre;
+        }
+        // Crear la barra
+        $barra             = new \Base\BarraHTML();
+        $barra->encabezado = $encabezado;
+        $barra->icono      = $this->sesion->menu->icono_en('adm_modulos');
+        // Definir botones
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('modulos')) {
+            $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
+        }
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('modulos')) {
+            $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
+                "¿Está seguro de querer <strong>eliminar</strong> al módulo {$this->nombre}?");
+        }
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('departamentos')) {
+            $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
+                "¿Está seguro de querer <strong>recuperar</strong> al módulo {$this->nombre}?");
+        }
+        // Entregar
+        return $barra;
+    } // barra
 
     /**
      * HTML
@@ -86,34 +120,10 @@ class DetalleHTML extends Registro {
             $detalle->seccion('Registro');
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
-        // Encabezado
-        if ($in_encabezado !== '') {
-            $encabezado = $in_encabezado;
-        } else {
-            $encabezado = $this->nombre;
-        }
-        // Si hay encabezado
-        if ($encabezado != '') {
-            // Crear la barra
-            $barra             = new \Base\BarraHTML();
-            $barra->encabezado = $encabezado;
-            $barra->icono      = $this->sesion->menu->icono_en('modulos');
-            if (($this->estatus != 'B') && $this->sesion->puede_modificar('modulos')) {
-                $barra->boton_modificar(sprintf('modulos.php?id=%d&accion=%s', $this->id, self::$accion_modificar));
-            }
-            if (($this->estatus != 'B') && $this->sesion->puede_eliminar('modulos')) {
-                $barra->boton_eliminar_confirmacion(sprintf('modulos.php?id=%d&accion=%s', $this->id, self::$accion_eliminar),
-                    "¿Está seguro de querer <strong>eliminar</strong> al módulo {$this->nombre}?");
-            }
-            if (($this->estatus == 'B') && $this->sesion->puede_recuperar('departamentos')) {
-                $barra->boton_recuperar_confirmacion(sprintf('modulos.php?id=%d&accion=%s', $this->id, self::$accion_recuperar),
-                    "¿Está seguro de querer <strong>recuperar</strong> al módulo {$this->nombre}?");
-            }
-            // Pasar la barra al detalle html
-            $detalle->barra = $barra;
-        }
+        // Pasar la barra
+        $detalle->barra = $this->barra();
         // Entregar
-        return $detalle->html($encabezado, $this->sesion->menu->icono_en('modulos'));
+        return $detalle->html();
     } // html
 
     /**
@@ -123,10 +133,7 @@ class DetalleHTML extends Registro {
      */
     public function eliminar_html() {
         try {
-            // Este metodo espera que la propiedad id este definida
-            $msg = $this->eliminar();
-            // Mostrar el mensaje y el detalle
-            $mensaje = new \Base\MensajeHTML($msg);
+            $mensaje = new \Base\MensajeHTML($this->eliminar());
             return $mensaje->html().$this->html();
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
@@ -141,16 +148,22 @@ class DetalleHTML extends Registro {
      */
     public function recuperar_html() {
         try {
-            // Este metodo espera que la propiedad id este definida
-            $msg = $this->recuperar();
-            // Mostrar el mensaje y el detalle
-            $mensaje = new \Base\MensajeHTML($msg);
+            $mensaje = new \Base\MensajeHTML($this->recuperar());
             return $mensaje->html().$this->html();
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             return $mensaje->html($in_encabezado);
         }
     } // recuperar_html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase DetalleHTML
 

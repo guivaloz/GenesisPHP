@@ -46,10 +46,10 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      */
     public function validar() {
         // Validamos las propiedades
-        if (($this->nombre != '') && !validar_nombre($this->nombre)) {
+        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
             throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->clave != '') && !validar_nombre($this->clave)) {
+        if (($this->clave != '') && !$this->validar_nombre($this->clave)) {
             throw new \Base\BusquedaHTMLExceptionValidacion('Aviso: Clave incorrecta.');
         }
         if (($this->permiso_maximo != '') && !array_key_exists($this->permiso_maximo, Registro::$permiso_maximo_descripciones)) {
@@ -87,7 +87,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $encabezado = "Buscar módulos";
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('modulos'));
+        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_modulos'));
     } // elaborar_formulario
 
     /**
@@ -163,7 +163,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Consultar
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("SELECT id FROM modulos WHERE $filtros_sql");
+            $consulta = $base_datos->comando("SELECT id FROM adm_modulos WHERE $filtros_sql");
         } catch (\Exception $e) {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al buscar módulos.', $e->getMessage());
         }

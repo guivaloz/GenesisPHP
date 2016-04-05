@@ -41,6 +41,15 @@ class DetalleHTML extends Registro {
     public function html($in_encabezado='') {
     } // html
 
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
+
 } // Clase DetalleHTML
 
 ?>

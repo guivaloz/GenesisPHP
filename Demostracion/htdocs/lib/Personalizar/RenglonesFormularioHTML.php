@@ -50,12 +50,12 @@ class RenglonesFormularioHTML extends DetalleHTML {
     static public $form_name = 'personalizar_renglones';
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string  Encabezado opcional
      * @return string  HTML del Formulario de Búsqueda Avanzada
      */
-    protected function formulario($in_encabezado='') {
+    protected function elaborar_formulario($in_encabezado='') {
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
@@ -74,7 +74,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
         }
         // Entregar
         return $f->html($encabezado, $this->sesion->menu->icono_en('personalizar'));
-    } // formulario
+    } // elaborar_formulario
 
     /**
      * Recibir los valores del formulario
@@ -130,6 +130,15 @@ class RenglonesFormularioHTML extends DetalleHTML {
             return $mensaje->html();
         }
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase RenglonesFormularioHTML
 

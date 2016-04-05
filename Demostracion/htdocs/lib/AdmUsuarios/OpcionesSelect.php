@@ -25,7 +25,10 @@ namespace AdmUsuarios;
 /**
  * Clase OpcionesSelect
  */
-class OpcionesSelect {
+class OpcionesSelect extends \Base\OpcionesSelect {
+
+    // protected $sesion;
+    // protected $consultado;
 
     /**
      * Opciones para Select
@@ -40,7 +43,7 @@ class OpcionesSelect {
                 SELECT
                     id, nombre
                 FROM
-                    usuarios
+                    adm_usuarios
                 WHERE
                     estatus = 'A'
                 ORDER BY
@@ -57,6 +60,8 @@ class OpcionesSelect {
         foreach ($consulta->obtener_todos_los_registros() as $item) {
             $a[$item['id']] = $item['nombre'];
         }
+        // Poner en verdadero el flag consultado
+        $this->consultado = true;
         // Entregar
         return $a;
     } // opciones

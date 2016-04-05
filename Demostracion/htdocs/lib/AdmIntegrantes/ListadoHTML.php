@@ -61,15 +61,15 @@ class ListadoHTML extends Listado {
         $this->estructura = array(
             'usuario_nombre' => array(
                 'enca'    => 'Usuario',
-                'pag'     => 'integrantes.php',
+                'pag'     => DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'param'   => array(parent::$param_usuario => 'usuario')),
             'departamento_nombre' => array(
                 'enca'    => 'Departamento',
-                'pag'     => 'integrantes.php',
+                'pag'     => DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'param'   => array(parent::$param_departamento => 'departamento')),
             'poder' => array(
                 'enca'    => 'Poder',
-                'pag'     => 'integrantes.php',
+                'pag'     => DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'id'      => 'id',
                 'cambiar' => Registro::$poder_descripciones,
                 'color'   => 'poder',
@@ -101,7 +101,20 @@ class ListadoHTML extends Listado {
      * @param  string Encabezado opcional
      * @return mixed  Instancia de BarraHTML
      */
-    public function barra($in_encabezado='') {
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->encabezado();
+        }
+        // Crear la barra
+        $barra             = new \Base\BarraHTML();
+        $barra->encabezado = $encabezado;
+        $barra->icono      = $this->sesion->menu->icono_en('adm_integrantes');
+    //  $barra->boton_descargar('adm_integrantes.csv', $this->filtros_param);
+        // Entregar
+        return $barra;
     } // barra
 
     /**
@@ -133,16 +146,19 @@ class ListadoHTML extends Listado {
         $this->listado_controlado->listado            = $this->listado;
         $this->listado_controlado->cantidad_registros = $this->cantidad_registros;
         $this->listado_controlado->variables          = $this->filtros_param;
-    //  $this->listado_controlado->limit              = $this->limit;
-        // Encabezado
-        if ($in_encabezado !== '') {
-            $encabezado = $in_encabezado;
-        } else {
-            $encabezado = $this->encabezado();
-        }
+        $this->listado_controlado->barra              = $this->barra($in_encabezado);
         // Entregar
-        return $this->listado_controlado->html($encabezado, $this->sesion->menu->icono_en('integrantes'));
+        return $this->listado_controlado->html();
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return $this->listado_controlado->javascript();
+    } // javascript
 
 } // Clase ListadoHTML
 

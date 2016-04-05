@@ -53,12 +53,12 @@ class ContrasenaFormularioHTML extends DetalleHTML {
     static public $form_name = 'personalizar_contrasena';
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string  Encabezado opcional
      * @return string  HTML del Formulario de Búsqueda Avanzada
      */
-    protected function formulario($in_encabezado='') {
+    protected function elaborar_formulario($in_encabezado='') {
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
@@ -79,7 +79,7 @@ class ContrasenaFormularioHTML extends DetalleHTML {
         }
         // Entregar
         return $f->html($encabezado, $this->sesion->menu->icono_en('personalizar'));
-    } // formulario
+    } // elaborar_formulario
 
     /**
      * Recibir los valores del formulario
@@ -122,7 +122,7 @@ class ContrasenaFormularioHTML extends DetalleHTML {
             } catch (\Base\RegistroExceptionValidacion $e) {
                 // Fallo la validacion, se muestra el mensaje y formulario de nuevo
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html('Validación')."\n".$this->formulario($in_encabezado);
+                return $mensaje->html('Validación')."\n".$this->elaborar_formulario($in_encabezado);
             } catch (\Exception $e) {
                 // Error fatal
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
@@ -131,12 +131,21 @@ class ContrasenaFormularioHTML extends DetalleHTML {
         }
         // Mostrar formulario, como cadenero puede provovar una excepcion se encierra en try-catch
         try {
-            return $this->formulario($in_encabezado);
+            return $this->elaborar_formulario($in_encabezado);
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             return $mensaje->html();
         }
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase ContrasenaFormularioHTML
 

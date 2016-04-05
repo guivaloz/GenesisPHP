@@ -83,8 +83,8 @@ class BusquedaHTML extends \Base\BusquedaHTML {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Opciones para escoger al departamento y al modulo
-        $departamentos = new \AdmDepartamentos\OpcionesSelect();
-        $modulos       = new \Modulos\OpcionesSelect();
+        $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
+        $modulos       = new \AdmModulos\OpcionesSelect($this->sesion);
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->select_con_nulo('departamento', 'Departamento', $departamentos->opciones(), $this->departamento);
@@ -100,7 +100,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $encabezado = "Buscar roles";
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('roles'));
+        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_roles'));
     } // elaborar_formulario
 
     /**

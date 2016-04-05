@@ -54,7 +54,7 @@ class Listado extends \Base\Listado {
         }
         // Validar usuario
         if ($this->usuario != '') {
-            $usuario = new \Usuarios\Registro($this->sesion);
+            $usuario = new \AdmUsuarios\Registro($this->sesion);
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
@@ -66,7 +66,7 @@ class Listado extends \Base\Listado {
         }
         // Validar departamento
         if ($this->departamento != '') {
-            $departamento = new \Departamentos\Registro($this->sesion);
+            $departamento = new \AdmDepartamentos\Registro($this->sesion);
             try {
                 $departamento->consultar($this->departamento);
             } catch (\Exception $e) {

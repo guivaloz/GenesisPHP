@@ -57,7 +57,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el departamento por ID incorrecto.');
         }
         // Consultar
@@ -98,13 +98,13 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validamos las propiedades
-        if (!validar_nombre($this->nombre)) {
+        if (!$this->validar_nombre($this->nombre)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo nombre es incorrecto.');
         }
-        if (!validar_nombre($this->clave)) {
+        if (!$this->validar_nombre($this->clave)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo clave es incorrecto.');
         }
-        if (($this->notas != '') && !validar_notas($this->notas)) {
+        if (($this->notas != '') && !$this->validar_notas($this->notas)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: El campo notas es incorrecto.');
         }
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {

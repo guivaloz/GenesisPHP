@@ -55,10 +55,10 @@ class Listado extends \Base\Listado {
             throw new \Exception('Aviso: No tiene permiso para ver los módulos.');
         }
         // Validar filtros
-        if (($this->nombre != '') && !validar_nombre($this->nombre)) {
+        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->clave != '') && !validar_nombre($this->clave)) {
+        if (($this->clave != '') && !$this->validar_nombre($this->clave)) {
             throw new \Base\ListadoExceptionValidacion('Aviso: Clave incorrecta.');
         }
         if (($this->permiso_maximo != '') && !array_key_exists($this->permiso_maximo, Registro::$permiso_maximo_descripciones)) {

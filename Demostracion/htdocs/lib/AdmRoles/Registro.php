@@ -72,7 +72,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el rol por ID incorrecto.');
         }
         // Consultar
@@ -123,7 +123,7 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validar departamento
-        $departamento = new \Departamentos\Registro($this->sesion);
+        $departamento = new \AdmDepartamentos\Registro($this->sesion);
         try {
             $departamento->consultar($this->departamento);
         } catch (\Exception $e) {
@@ -131,7 +131,7 @@ class Registro extends \Base\Registro {
         }
         $this->departamento_nombre = $departamento->nombre;
         // Validar modulo
-        $modulo = new \Modulos\Registro($this->sesion);
+        $modulo = new \AdmModulos\Registro($this->sesion);
         try {
             $modulo->consultar($this->modulo);
         } catch (\Exception $e) {
@@ -139,7 +139,7 @@ class Registro extends \Base\Registro {
         }
         $this->modulo_nombre = $modulo->nombre;
         // Validar permiso maximo
-        if (!validar_entero($this->permiso_maximo)) {
+        if (!$this->validar_entero($this->permiso_maximo)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
         }
         // Validar estatus

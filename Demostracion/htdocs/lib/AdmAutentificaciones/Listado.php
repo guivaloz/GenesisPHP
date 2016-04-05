@@ -51,7 +51,7 @@ class Listado extends \Base\Listado {
         }
         // Validar usuario
         if ($this->usuario != '') {
-            $usuario = new \Usuarios\Registro($this->sesion);
+            $usuario = new \AdmUsuarios\Registro($this->sesion);
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
@@ -138,7 +138,7 @@ class Listado extends \Base\Listado {
                     a.tipo,
                     a.ip
                 FROM
-                    adm_autentificaciones AS a LEFT JOIN usuarios AS u ON a.usuario = u.id
+                    adm_autentificaciones AS a LEFT JOIN adm_usuarios AS u ON a.usuario = u.id
                 %s
                 ORDER BY
                     a.fecha DESC
@@ -161,7 +161,7 @@ class Listado extends \Base\Listado {
                     SELECT
                         COUNT(*) AS cantidad
                     FROM
-                        adm_autentificaciones AS a LEFT JOIN usuarios AS u ON a.usuario = u.id
+                        adm_autentificaciones AS a LEFT JOIN adm_usuarios AS u ON a.usuario = u.id
                     %s",
                     $filtros_sql));
             } catch (\Exception $e) {

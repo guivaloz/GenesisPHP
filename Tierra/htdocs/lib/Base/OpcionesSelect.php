@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - AdmSesiones DetalleHTML
+ * GenesisPHP - OpcionesSelect
  *
- * Copyright (C) 2016 Guillermo Valdés Lozano
+ * Copyright (C) 2015 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,39 +20,30 @@
  * @package GenesisPHP
  */
 
-namespace AdmSesiones;
+namespace Base;
 
 /**
- * Clase DetalleHTML
+ * Clase OpcionesSelect
  */
-class DetalleHTML extends Registro {
+abstract class OpcionesSelect extends UtileriasParaDatos {
 
-    // protected $sesion;
-    // protected $consultado;
-    // public $nombre;
-    // public $nom_corto;
-    // public $tipo;
-    // public $ingreso;
-    // public $listado_renglones;
+    protected $sesion;             // Instancia de \Inicio\Sesion
+    protected $consultado = false; // Verdadero si ya fue consultado
 
     /**
-     * HTML
+     * Constructor
      *
-     * @param  string Encabezado opcional
-     * @return string HTML
+     * @param mixed Sesion
      */
-    public function html($in_encabezado='') {
-    } // html
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        $this->sesion = $in_sesion;
+    } // constructor
 
     /**
-     * Javascript
-     *
-     * @return string Javascript
+     * Opciones
      */
-    public function javascript() {
-        return false;
-    } // javascript
+    abstract function opciones();
 
-} // Clase DetalleHTML
+} // Clase OpcionesSelect
 
 ?>

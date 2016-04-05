@@ -90,7 +90,7 @@ class Registro extends \Base\Registro {
             return '';
         }
         // Validar
-        if (!validar_entero($in_id)) {
+        if (!$this->validar_entero($in_id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el padre del módulo por ID incorrecto.');
         }
         // Consultar
@@ -131,7 +131,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el módulo por ID incorrecto.');
         }
         // Consultar
@@ -180,19 +180,19 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validamos las propiedades
-        if (!validar_entero($this->orden)) {
+        if (!$this->validar_entero($this->orden)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Número de orden incorrecto.');
         }
-        if (!validar_nombre($this->clave)) {
+        if (!$this->validar_nombre($this->clave)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Clave incorrecta.');
         }
-        if (!validar_nombre($this->nombre)) {
+        if (!$this->validar_nombre($this->nombre)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (!validar_nombre($this->pagina)) {
+        if (!$this->validar_nombre($this->pagina)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Página incorrecta.');
         }
-        if (!validar_nombre($this->icono)) {
+        if (!$this->validar_nombre($this->icono)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Icono incorrecto.');
         }
         if ($this->padre != '') {

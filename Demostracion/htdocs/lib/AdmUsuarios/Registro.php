@@ -99,7 +99,7 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!validar_entero($this->id)) {
+        if (!$this->validar_entero($this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar el usuario por ID incorrecto.');
         }
         // Consultar
@@ -211,32 +211,32 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validamos las propiedades
-        if (!validar_nom_corto($this->nom_corto)) {
+        if (!$this->validar_nom_corto($this->nom_corto)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Nombre corto incorrecto.');
         }
         $this->nom_corto = strtolower($this->nom_corto);
-        if (!validar_nombre($this->nombre)) {
+        if (!$this->validar_nombre($this->nombre)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->puesto != '') && !validar_nombre($this->puesto)) {
+        if (($this->puesto != '') && !$this->validar_nombre($this->puesto)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Puesto incorrecto.');
         }
         if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Tipo incorrecto.');
         }
-        if (!validar_email($this->email)) {
+        if (!$this->validar_email($this->email)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Correo electrónico incorrecto.');
         }
-        if (($this->contrasena != '') && !validar_contrasena($this->contrasena)) {
+        if (($this->contrasena != '') && !$this->validar_contrasena($this->contrasena)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
         }
-        if (!validar_entero($this->sesiones_maximas)) {
+        if (!$this->validar_entero($this->sesiones_maximas)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de ingresos por día es incorrecta.');
         }
-        if (!validar_entero($this->listado_renglones)) {
+        if (!$this->validar_entero($this->listado_renglones)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de renglones en los listados es incorrecta.');
         }
-        if (($this->notas != '') && !validar_nombre($this->notas)) {
+        if (($this->notas != '') && !$this->validar_nombre($this->notas)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: La nota es incorrecta.');
         }
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {

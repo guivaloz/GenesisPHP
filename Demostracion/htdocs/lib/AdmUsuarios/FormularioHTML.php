@@ -73,12 +73,12 @@ class FormularioHTML extends DetalleHTML {
     static public $form_name = 'admusuario';
 
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string  Encabezado opcional
      * @return string  HTML del Formulario
      */
-    protected function formulario($in_encabezado='') {
+    protected function elaborar_formulario($in_encabezado='') {
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
@@ -110,7 +110,7 @@ class FormularioHTML extends DetalleHTML {
         // Botones
         $f->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('usuarios.php?id=%d', $this->id));
+            $f->boton_cancelar(sprintf('%s?id=%d', self::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -121,8 +121,8 @@ class FormularioHTML extends DetalleHTML {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('usuarios'));
-    } // formulario
+        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_usuarios'));
+    } // elaborar_formulario
 
     /**
      * Recibir los valores del formulario
@@ -213,7 +213,7 @@ class FormularioHTML extends DetalleHTML {
         }
         // Mostrar formulario, como cadenero puede provocar una excepcion se encierra en try-catch
         try {
-            $a[] = $this->formulario($in_encabezado);
+            $a[] = $this->elaborar_formulario($in_encabezado);
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             $a[]     = $mensaje->html();
@@ -221,6 +221,15 @@ class FormularioHTML extends DetalleHTML {
         // Entregar
         return implode("\n", $a);
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
 
 } // Clase FormularioHTML
 

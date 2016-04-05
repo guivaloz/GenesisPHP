@@ -25,7 +25,44 @@ namespace AdmModulos;
 /**
  * Clase OpcionesSelect
  */
-class OpcionesSelect {
+class OpcionesSelect extends \Base\OpcionesSelect {
+
+    // protected $sesion;
+    // protected $consultado;
+
+    /**
+     * Opciones Padre
+     *
+     * @return array Arreglo asociativo, id => nombre
+     */
+    public function opciones_padre() {
+        // Consultar
+        $base_datos = new \Base\BaseDatosMotor();
+        try {
+            $consulta = $base_datos->comando("
+                SELECT
+                    id, nombre
+                FROM
+                    adm_modulos
+                WHERE
+                    padre IS null
+                ORDER BY
+                    orden ASC");
+        } catch (\Exception $e) {
+            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos padre para hacer opciones.', $e->getMessage());
+        }
+        // Provoca excepcion si no hay registros
+        if ($consulta->cantidad_registros() == 0) {
+            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron módulos padre.');
+        }
+        // Juntar como arreglo asociativo
+        $a = array();
+        foreach ($consulta->obtener_todos_los_registros() as $item) {
+            $a[$item['id']] = $item['nombre'];
+        }
+        // Entregar
+        return $a;
+    } // opciones_padre
 
     /**
      * Opciones para Select
@@ -63,6 +100,8 @@ class OpcionesSelect {
                 $a[$item['id']] = $item['nombre'];
             }
         }
+        // Poner en verdadero el flag consultado
+        $this->consultado = true;
         // Entregar
         return $a;
     } // opciones
