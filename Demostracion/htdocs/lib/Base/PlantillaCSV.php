@@ -46,12 +46,15 @@ class PlantillaCSV {
             return $error_fatal_html->html();
         }
         // Cabeceras para CSV
-        header('Content-Type: text/csv; charset=iso-8859-1');
+        header('Content-Type: text/csv; charset=utf-8');
+    //  header('Content-Type: text/csv; charset=iso-8859-1');
         if ($this->csv_archivo != '') {
             header("Content-Disposition: attachment; filename={$this->csv_archivo}");
         }
+        // Entregar
+         return $this->contenido;
         // Entregar con codificacion de caracteres ISO-8859-1
-        return iconv("UTF-8", "ISO-8859-1", $this->contenido);
+    //  return iconv("UTF-8", "ISO-8859-1", $this->contenido);
     } // csv
 
 } // Clase PlantillaCSV

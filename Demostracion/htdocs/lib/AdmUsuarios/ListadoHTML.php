@@ -123,7 +123,7 @@ class ListadoHTML extends Listado {
         $barra             = new \Base\BarraHTML();
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_usuarios');
-        $barra->boton_descargar('adm_usuarios.csv', $this->filtros_param);
+        $barra->boton_descargar(preg_replace('/\.php$/', '.csv', DetalleHTML::RAIZ_PHP_ARCHIVO), $this->filtros_param);
         // Entregar
         return $barra;
     } // barra

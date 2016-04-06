@@ -224,7 +224,7 @@ class Registro extends \Base\Registro {
         if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Tipo incorrecto.');
         }
-        if (!$this->validar_email($this->email)) {
+        if (($this->email != '') && !$this->validar_email($this->email)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Correo electrónico incorrecto.');
         }
         if (($this->contrasena != '') && !$this->validar_contrasena($this->contrasena)) {
@@ -431,10 +431,10 @@ class Registro extends \Base\Registro {
                     UPDATE
                         usuarios
                     SET
-                        contrasena=%s,
-                        contrasena_encriptada=NULL,
-                        contrasena_fallas=0,
-                        contrasena_expira=((('now'::text)::date + '30 days'::interval))::date
+                        contrasena = %s,
+                        contrasena_encriptada = NULL,
+                        contrasena_fallas = 0,
+                        contrasena_expira = ((('now'::text)::date + '30 days'::interval))::date
                     WHERE
                         id = %d",
                     $this->sql_texto($this->contrasena),

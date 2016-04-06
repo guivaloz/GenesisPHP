@@ -46,7 +46,7 @@ class DetalleHTML extends Registro {
     static public $accion_modificar = 'integranteModificar';
     static public $accion_eliminar  = 'integranteEliminar';
     static public $accion_recuperar = 'integranteRecuperar';
-    const RAIZ_PHP_ARCHIVO          = 'adm_integrantes.php';
+    const RAIZ_PHP_ARCHIVO          = 'admintegrantes.php';
 
     /**
      * Barra

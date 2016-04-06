@@ -94,9 +94,9 @@ class FormularioHTML extends DetalleHTML {
         $f->seccion('general', 'Datos Generales');
         $f->texto_nom_corto('nom_corto', 'Nombre corto *', $this->nom_corto, 16);
         $f->texto_nombre('nombre',       'Nombre *',       $this->nombre,    64);
-        $f->texto_nombre('puesto',       'Puesto',       $this->puesto,    64);
+        $f->texto_nombre('puesto',       'Puesto',         $this->puesto,    64);
         $f->select('tipo',               'Tipo *',         self::$tipo_descripciones, $this->tipo);
-        $f->texto('email',               'e-mail *',       $this->email,     64);
+        $f->texto('email',               'e-mail',         $this->email,     64);
         // Sección contraseña
         $f->seccion('password',    'Contraseña');
         $f->password('contrasena', 'Contraseña nueva');

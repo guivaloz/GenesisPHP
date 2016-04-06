@@ -41,6 +41,7 @@ class DetalleHTML extends Registro {
     // public $notas;
     // static public $tipo_descripciones;
     // static public $tipo_colores;
+    const RAIZ_PHP_ARCHIVO = 'admbitacora.php';
 
     /**
      * Barra

@@ -63,11 +63,11 @@ class ListadoHTML extends Listado {
         $this->estructura = array(
             'fecha' => array(
                 'enca'    => 'Fecha',
-                'pag'     => 'bitacora.php',
+                'pag'     => DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'id'      => 'id'),
             'usuario_nom_corto' => array(
                 'enca'    => 'Usuario',
-                'pag'     => 'usuarios.php',
+                'pag'     => \AdmUsuarios\DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'id'      => 'usuario'),
             'pagina' => array(
                 'enca'    => 'Página',

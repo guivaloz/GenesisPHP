@@ -66,7 +66,7 @@ class ListadoHTML extends Listado {
                 'enca' => 'Login'),
             'usuario_nom_corto' => array(
                 'enca' => 'Usuario',
-                'pag'  => 'usuarios.php',
+                'pag'  => \AdmUsuarios\DetalleHTML::RAIZ_PHP_ARCHIVO,
                 'id'   => 'usuario'),
             'ip' => array(
                 'enca' => 'IP'));
