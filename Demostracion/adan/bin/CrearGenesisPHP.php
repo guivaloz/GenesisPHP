@@ -30,7 +30,12 @@ $E_FATAL=99;
 
 // Cambiarse al directorio donde se encuentran las semillas
 chdir(realpath(dirname(__FILE__)));
-chdir('../lib/Semillas');
+if (is_dir('../lib/Semillas')) {
+    chdir('../lib/Semillas');
+} else {
+    echo "$soy ERROR: No existe el directorio para las semillas.\n";
+    exit($E_FATAL);
+}
 
 // Obtener archivos de las semillas
 echo "$soy Recolectando semillas...\n";
@@ -51,11 +56,11 @@ if ($manipulador = opendir('.')) {
     }
     closedir($manipulador);
 } else {
-    echo "$soy ERROR fatal al tratar de obtener las Semillas.\n";
+    echo "$soy ERROR: Fatal al tratar de obtener las Semillas.\n";
     exit($E_FATAL);
 }
 if (count($semillas) == 0) {
-    echo "$soy ERROR no hay Semillas.\n";
+    echo "$soy ERROR: No hay Semillas.\n";
     exit($E_FATAL);
 }
 sort($semillas);

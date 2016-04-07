@@ -3,7 +3,7 @@
 #
 # GenesisPHP - Crear Común
 #
-# Copyright 2015 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
+# Copyright 2016 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,145 +21,110 @@
 # MA 02110-1301, USA.
 #
 
-#
-# Ruta a la capeta donde está GenesisPHP
-#
-GENESISPHP="$HOME/Documentos/GenesisPHP/GitHub/GenesisPHP"
-
-#
-# Constantes
-#
-JARDIN="$GENESISPHP/Tierra/htdocs"
-SOBREESCRIBIR="htdocs-sobreescribir"
-HTDOCS="htdocs"
+# Yo soy
+SOY="[Copiar Tierra]"
 
 # Constantes que definen los tipos de errores
 EXITO=0
 E_FATAL=99
 
-#
-# Validaciones
-#
+# Nombres de los directorios
+ORIGEN_DIR="Eva"
+DESTINO_DIR="Demostracion"
 
-# Validar GenesisPHP
-if [ ! -d "$GENESISPHP" ]; then
-    echo "ERROR: No se encuentra $GENESISPHP"
-    echo "Revise que en CrearComun.sh la variable GENESISPHP tenga la ruta correcta."
-    exit $E_FATAL
-fi
-if [ ! -d "$JARDIN" ]; then
-    echo "ERROR: No se encuentra $JARDIN"
-    echo "Revise que en CrearComun.sh la variable JARDIN tenga la ruta correcta."
-    exit $E_FATAL
-fi
-
-# Debe ejecutarse en el directorio base del sistema o desde adan/bin
-if [ ! -d adan ]; then
+# Cambiarse al directorio de destino
+if [ -d "../$DESTINO_DIR" ]; then
+    echo "$SOY O.K. Estoy en el directorio $DESTINO_DIR"
+else
     cd ../../
-    if [ ! -d adan ]; then
-        echo "ERROR: No se encuentra el directorio adan."
+    if [ -d "../$DESTINO_DIR" ]; then
+        echo "$SOY O.K. Me cambié al directorio $DESTINO_DIR"
+    else
+        echo "$SOY ERROR: No existe el directorio $DESTINO_DIR"
         exit $E_FATAL
     fi
 fi
 
-# Validar que exista htdocs-sobreescribir
-if [ ! -d "$SOBREESCRIBIR" ]; then
-    echo "ERROR: No se encuentra $SOBREESCRIBIR"
-    echo "Recuerde que debe ejecutar este script desde el directorio base del sistema o dentro de adan/bin"
+# Validar que exista el directorio de origen
+if [ ! -d "../$ORIGEN_DIR" ]; then
+    echo "$SOY ERROR: No existe el directorio $ORIGEN_DIR"
     exit $E_FATAL
 fi
+
+#~ # Validar que exista htdocs-sobreescribir
+#~ if [ ! -d "$SOBREESCRIBIR" ]; then
+    #~ echo "ERROR: No se encuentra $SOBREESCRIBIR"
+    #~ echo "Recuerde que debe ejecutar este script desde el directorio base del sistema o dentro de adan/bin"
+    #~ exit $E_FATAL
+#~ fi
 
 #
 # Proceso principal
 #
 
-#
-# Inicia lo Exclusivo
-#
-# Fotos de las personas
-#PERSONASFOTOS="$HTDOCS/imagenes/exppersonasfotos"
-#if [ -d $PERSONASFOTOS ]; then
-#    echo "Resguardando $PERSONASFOTOS..."
-#    mv $PERSONASFOTOS $HTDOCS/.exppersonasfotos
-#fi
-#
-# Termina lo exclusivo
-#
-
 # Si no existe htdocs será creado
-if [ ! -d "$HTDOCS" ]; then
-    mkdir $HTDOCS
-    cd $HTDOCS
+if [ ! -d "htdocs" ]; then
+    mkdir htdocs
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude crear el directorio htdocs"
+        exit $E_FATAL
+    fi
 else
     echo "Presione ENTER para DESTRUIR todo el contenido de $HTDOCS"
     read
-    cd $HTDOCS
+    cd htdocs
     echo "DESTRUYENDO..."
     rm -rf *
 fi
 
-echo "Copiando los archivos PHP de la raiz..."
-for ARCH in index.php autentificaciones.php bitacora.php departamentos.php integrantes.php modulos.php personalizar.php roles.php sesiones.php usuarios.php
-do
-    cp $JARDIN/$ARCH ./
-done
-cp ../$SOBREESCRIBIR/*.php ./
-
-if [ -e ../$SOBREESCRIBIR/favicon.ico ]; then
-    echo "Copiando favicon..."
-    cp ../$SOBREESCRIBIR/favicon.ico ./
+# Cambiarse al directorio htdocs
+cd htdocs
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar al directorio htdocs"
+    exit $E_FATAL
 fi
 
-for DIR in bin css fonts img imagenes js
+# Copiar archivos de la raiz
+echo "$SOY Copiando los archivos PHP de la raiz..."
+cp "../../$ORIGEN_DIR/htdocs/*" ./
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No pude copiar los archivos de la raiz."
+    exit $E_FATAL
+fi
+
+# Copiar directorios
+for DIR in bin css fonts img imagenes js lib
 do
-    echo "Copiando $DIR..."
-    mkdir ./$DIR
-    cp -r $JARDIN/$DIR/* ./$DIR/
-    if [ -d ../$SOBREESCRIBIR/$DIR ]; then
-        echo "Copiando de $SOBREESCRIBIR a $DIR..."
-        cp -r ../$SOBREESCRIBIR/$DIR/* ./$DIR/
+    echo "$SOY Copiando $DIR..."
+    cp -r "../../$ORIGEN_DIR/htdocs/$DIR" ./
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude copiar el directorio $DIR"
+        exit $E_FATAL
     fi
 done
 
-mkdir ./lib
-for DIR in `ls $JARDIN/lib/`
-do
-    echo "Copiando $DIR..."
-    mkdir ./lib/$DIR
-    cp -r $JARDIN/lib/$DIR/* ./lib/$DIR/
-done
-for DIR in `ls ../$SOBREESCRIBIR/lib/`
-do
-    echo "Copiando de $SOBREESCRIBIR a $DIR..."
-    if [ ! -d "./lib/$DIR" ]; then
-        mkdir ./lib/$DIR
-    fi
-    cp -r ../$SOBREESCRIBIR/lib/$DIR/* ./lib/$DIR/
-done
+#~     cp ../$SOBREESCRIBIR/*.php ./
+#~     if [ -d ../$SOBREESCRIBIR/$DIR ]; then
+#~         echo "Copiando de $SOBREESCRIBIR a $DIR..."
+#~         cp -r ../$SOBREESCRIBIR/$DIR/* ./$DIR/
+#~     fi
 
-#
-# Inicia lo Exclusivo
-#
-# Fotos de las personas
-#if [ -d $HTDOCS/.exppersonasfotos ]; then
-#    echo "Recuperando $PERSONASFOTOS..."
-#    mv $HTDOCS/.exppersonasfotos $PERSONASFOTOS
-#else
-#    echo "CREANDO DIRECTORIO $PERSONASFOTOS..."
-#    mkdir -p $PERSONASFOTOS/big
-#    mkdir -p $PERSONASFOTOS/middle
-#    mkdir -p $PERSONASFOTOS/small
-#    chmod -R a+w $PERSONASFOTOS
-#fi
-#
-# Termina lo exclusivo
-#
+#~ for DIR in `ls ../$SOBREESCRIBIR/lib/`
+#~ do
+#~ echo "Copiando de $SOBREESCRIBIR a $DIR..."
+#~ if [ ! -d "./lib/$DIR" ]; then
+#~ mkdir ./lib/$DIR
+#~ fi
+#~ cp -r ../$SOBREESCRIBIR/lib/$DIR/* ./lib/$DIR/
+#~ done
 
-cd ./bin
-echo "Creando enlaces de lib en el directorio bin..."
+# Crear enlaces en bin
+cd bin
+echo "$SOY Creando enlace de lib en el directorio bin..."
 ln -s ../lib .
-echo "Creando enlaces de imagenes en el directorio bin..."
+echo "$SOY Creando enlace de imagenes en el directorio bin..."
 ln -s ../imagenes .
 
 echo "Script terminado."
 exit $EXITO
+

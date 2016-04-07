@@ -28,18 +28,27 @@ SOY="[Copiar Tierra]"
 EXITO=0
 E_FATAL=99
 
-# Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
-# Cambiarse al directorio sql
-if [ -d ../Demostracion ]; then
-    echo "$SOY O.K. Estoy en el directorio Demostracion."
+# Nombres de los directorios
+ORIGEN_DIR="Tierra"
+DESTINO_DIR="Eva"
+
+# Cambiarse al directorio de destino
+if [ -d "../$DESTINO_DIR" ]; then
+    echo "$SOY O.K. Estoy en el directorio $DESTINO_DIR"
 else
     cd ../../
-    if [ -d ../Demostracion ]; then
-        echo "$SOY O.K. Me cambié al directorio Demostracion."
+    if [ -d "../$DESTINO_DIR" ]; then
+        echo "$SOY O.K. Me cambié al directorio $DESTINO_DIR"
     else
-        echo "ERROR: No existe el directorio Demostracion."
+        echo "$SOY ERROR: No existe el directorio $DESTINO_DIR"
         exit $E_FATAL
     fi
+fi
+
+# Validar que exista el directorio de origen
+if [ ! -d "../$ORIGEN_DIR" ]; then
+    echo "$SOY ERROR: No existe el directorio $ORIGEN_DIR"
+    exit $E_FATAL
 fi
 
 #
@@ -49,14 +58,14 @@ if [ ! -d htdocs/css ]; then
     echo "$SOY Creando directorio css..."
     mkdir htdocs/css
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio css."
+        echo "$SOY ERROR: Falló con el directorio css."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando css..."
-cp -r ../Tierra/htdocs/css/* htdocs/css/
+cp -r ../$ORIGEN_DIR/htdocs/css/* htdocs/css/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio css."
+    echo "$SOY ERROR: Falló al copiar el directorio css."
     exit $E_FATAL
 fi
 
@@ -67,14 +76,14 @@ if [ -d htdocs/fonts ]; then
     echo "$SOY Eliminando directorio fonts..."
     rm -rf htdocs/fonts
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio fonts."
+        echo "$SOY ERROR: Falló con el directorio fonts."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando fonts..."
-cp -r ../Tierra/htdocs/fonts htdocs/
+cp -r ../$ORIGEN_DIR/htdocs/fonts htdocs/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio fonts."
+    echo "$SOY ERROR: Falló al copiar el directorio fonts."
     exit $E_FATAL
 fi
 
@@ -85,14 +94,14 @@ if [ ! -d htdocs/imagenes ]; then
     echo "$SOY Creando directorio imagenes..."
     mkdir htdocs/imagenes
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio imagenes."
+        echo "$SOY ERROR: Falló con el directorio imagenes."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando imagenes..."
-cp -r ../Tierra/htdocs/imagenes/* htdocs/imagenes/
+cp -r ../$ORIGEN_DIR/htdocs/imagenes/* htdocs/imagenes/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio imagenes."
+    echo "$SOY ERROR: Falló al copiar el directorio imagenes."
     exit $E_FATAL
 fi
 
@@ -103,14 +112,14 @@ if [ -d htdocs/img ]; then
     echo "$SOY Eliminando directorio img..."
     rm -rf htdocs/img
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio img."
+        echo "$SOY ERROR: Falló con el directorio img."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando img..."
-cp -r ../Tierra/htdocs/img htdocs/
+cp -r ../$ORIGEN_DIR/htdocs/img htdocs/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio img."
+    echo "$SOY ERROR: Falló al copiar el directorio img."
     exit $E_FATAL
 fi
 
@@ -121,14 +130,14 @@ if [ -d htdocs/js ]; then
     echo "$SOY Eliminando directorio js..."
     rm -rf htdocs/js
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio js."
+        echo "$SOY ERROR: Falló con el directorio js."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando js..."
-cp -r ../Tierra/htdocs/js htdocs/
+cp -r ../$ORIGEN_DIR/htdocs/js htdocs/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio js."
+    echo "$SOY ERROR: Falló al copiar el directorio js."
     exit $E_FATAL
 fi
 
@@ -139,7 +148,7 @@ if [ ! -d htdocs/lib ]; then
     echo "$SOY Creando directorio lib..."
     mkdir htdocs/lib
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio lib."
+        echo "$SOY ERROR: Falló con el directorio lib."
         exit $E_FATAL
     fi
 fi
@@ -151,14 +160,14 @@ if [ ! -d htdocs/lib/Base ]; then
     echo "$SOY Creando directorio lib/Base..."
     mkdir htdocs/lib/Base
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio lib/Base."
+        echo "$SOY ERROR: Falló con el directorio lib/Base."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando lib/Base..."
-cp -r ../Tierra/htdocs/lib/Base/* htdocs/lib/Base/
+cp -r ../$ORIGEN_DIR/htdocs/lib/Base/* htdocs/lib/Base/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio lib/Base."
+    echo "$SOY ERROR: Falló al copiar el directorio lib/Base."
     exit $E_FATAL
 fi
 
@@ -169,13 +178,13 @@ if [ ! -d htdocs/lib/Configuracion ]; then
     echo "$SOY Creando directorio lib/Configuracion..."
     mkdir htdocs/lib/Configuracion
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio lib/Configuracion."
+        echo "$SOY ERROR: Falló con el directorio lib/Configuracion."
         exit $E_FATAL
     fi
     echo "$SOY Copiando lib/Configuracion..."
-    cp -r ../Tierra/htdocs/lib/Configuracion/* htdocs/lib/Configuracion/
+    cp -r ../$ORIGEN_DIR/htdocs/lib/Configuracion/* htdocs/lib/Configuracion/
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló al copiar el directorio lib/Configuracion."
+        echo "$SOY ERROR: Falló al copiar el directorio lib/Configuracion."
         exit $E_FATAL
     fi
 else
@@ -189,17 +198,17 @@ if [ ! -d htdocs/lib/Inicio ]; then
     echo "$SOY Creando directorio lib/Inicio..."
     mkdir htdocs/lib/Inicio
     if [ "$?" -ne $EXITO ]; then
-        echo "ERROR: Falló con el directorio lib/Inicio."
+        echo "$SOY ERROR: Falló con el directorio lib/Inicio."
         exit $E_FATAL
     fi
 fi
 echo "$SOY Copiando lib/Inicio..."
-cp -r ../Tierra/htdocs/lib/Inicio/* htdocs/lib/Inicio/
+cp -r ../$ORIGEN_DIR/htdocs/lib/Inicio/* htdocs/lib/Inicio/
 if [ "$?" -ne $EXITO ]; then
-    echo "ERROR: Falló al copiar el directorio lib/Inicio."
+    echo "$SOY ERROR: Falló al copiar el directorio lib/Inicio."
     exit $E_FATAL
 fi
 
-echo "Script terminado."
+echo "$SOY Script terminado."
 exit $EXITO
 
