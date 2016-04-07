@@ -62,22 +62,26 @@ fi
 # Proceso principal
 #
 
-# Si no existe htdocs será creado
-if [ ! -d "htdocs" ]; then
-    mkdir htdocs
+# Si existe htdocs será eliminado
+if [ -d "htdocs" ]; then
+    echo "$SOY ELIMINANDO los directorios y archivos de htdocs..."
+    rm -rf htdocs
     if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: No pude crear el directorio htdocs"
+        echo "$SOY ERROR: No pude eliminar el directorio htdocs"
         exit $E_FATAL
     fi
-else
-    echo "Presione ENTER para DESTRUIR todo el contenido de $HTDOCS"
-    read
-    cd htdocs
-    echo "DESTRUYENDO..."
-    rm -rf *
+fi
+
+# Crear el directorio htdocs
+echo "$SOY Creando el directorio htdocs..."
+mkdir htdocs
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No pude crear el directorio htdocs"
+    exit $E_FATAL
 fi
 
 # Cambiarse al directorio htdocs
+echo "$SOY Cambiándose a htdocs..."
 cd htdocs
 if [ "$?" -ne $EXITO ]; then
     echo "$SOY ERROR: No me pude cambiar al directorio htdocs"
@@ -86,17 +90,44 @@ fi
 
 # Copiar archivos de la raiz
 echo "$SOY Copiando los archivos PHP de la raiz..."
-cp "../../$ORIGEN_DIR/htdocs/*" ./
+cp ../../$ORIGEN_DIR/htdocs/*.php .
 if [ "$?" -ne $EXITO ]; then
     echo "$SOY ERROR: No pude copiar los archivos de la raiz."
     exit $E_FATAL
 fi
 
 # Copiar directorios
-for DIR in bin css fonts img imagenes js lib
+for DIR in bin css fonts img imagenes js
 do
     echo "$SOY Copiando $DIR..."
-    cp -r "../../$ORIGEN_DIR/htdocs/$DIR" ./
+    cp -r ../../$ORIGEN_DIR/htdocs/$DIR .
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude copiar el directorio $DIR"
+        exit $E_FATAL
+    fi
+done
+
+# Crear el directorio htdocs/lib
+echo "$SOY Creando el directorio htdocs/lib..."
+mkdir lib
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No pude crear el directorio htdocs/lib"
+    exit $E_FATAL
+fi
+
+# Cambiarse al directorio htdocs
+echo "$SOY Cambiándose a htdocs/lib..."
+cd lib
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar al directorio htdocs/lib"
+    exit $E_FATAL
+fi
+
+# Copiar directorios
+for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base Configuracion Inicio Personalizar
+do
+    echo "$SOY Copiando $DIR..."
+    cp -r ../../../$ORIGEN_DIR/htdocs/lib/$DIR .
     if [ "$?" -ne $EXITO ]; then
         echo "$SOY ERROR: No pude copiar el directorio $DIR"
         exit $E_FATAL
@@ -119,7 +150,7 @@ done
 #~ done
 
 # Crear enlaces en bin
-cd bin
+cd ../bin
 echo "$SOY Creando enlace de lib en el directorio bin..."
 ln -s ../lib .
 echo "$SOY Creando enlace de imagenes en el directorio bin..."
