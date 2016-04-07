@@ -34,6 +34,13 @@
 #   $ ./CrearBaseDatos.sh
 #
 
+# Yo soy
+SOY="[Crear Base de Datos]"
+
+# Constantes que definen los tipos de errores
+EXITO=0
+E_FATAL=99
+
 # Constantes
 BD="genesisphp_demostracion"
 PROPIETARIO="genesisphp"
@@ -42,10 +49,6 @@ PROPIETARIO="genesisphp"
 export PGHOST=localhost
 export PGPORT=5432
 #export PGUSER=superusuario
-
-# Constantes que definen los tipos de errores
-EXITO=0
-E_FATAL=99
 
 # Si estoy en servidor, cancelo la ejecución de este script
 #if [ $HOSTNAME == 'servidor' ]; then
@@ -62,7 +65,7 @@ else
     if [ -d sql ]; then
         cd sql
     else
-        echo "ERROR: No existe el directorio sql."
+        echo "$SOY ERROR: No existe el directorio sql."
         exit $E_FATAL
     fi
 fi
@@ -73,9 +76,7 @@ dropdb $BD
 # Crear una base de datos nueva
 createdb -O $PROPIETARIO $BD
 
-#
-# PostGIS
-#
+# Extensiones PostGIS para habilitar georreferenciación
 #psql -c "CREATE EXTENSION postgis;" $BD
 #psql -c "CREATE EXTENSION postgis_topology;" $BD
 
@@ -85,6 +86,6 @@ do
     psql -U $PROPIETARIO -d $BD -f $ARCH
 done
 
-echo "Script terminado."
+echo "$SOY Script terminado."
 exit $EXITO
 

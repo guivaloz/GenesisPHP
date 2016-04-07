@@ -84,7 +84,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
         $cadenero = new \Base\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir el unico valor del formulario
-        $this->listado_renglones = post_texto($_POST['listado_renglones']);
+        $this->listado_renglones = $this->post_texto($_POST['listado_renglones']);
     } // recibir_formulario
 
     /**
@@ -115,7 +115,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
             } catch (\Base\RegistroExceptionValidacion $e) {
                 // Fallo la validacion, se muestra el mensaje y formulario de nuevo
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
-                return $mensaje->html('Validación')."\n".$this->formulario($in_encabezado);
+                return $mensaje->html('Validación')."\n".$this->elaborar_formulario($in_encabezado);
             } catch (\Exception $e) {
                 // Error fatal
                 $mensaje = new \Base\MensajeHTML($e->getMessage());
@@ -124,7 +124,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
         }
         // Mostrar formulario, como cadenero puede provovar una excepcion se encierra en try-catch
         try {
-            return $this->formulario($in_encabezado);
+            return $this->elaborar_formulario($in_encabezado);
         } catch (\Exception $e) {
             $mensaje = new \Base\MensajeHTML($e->getMessage());
             return $mensaje->html();

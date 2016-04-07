@@ -74,6 +74,9 @@ a:hover { color:#F00; }
 }
 
 /* LENGÜETAS */
+.nav-tabs {
+    border-bottom:none;
+}
 .lenguetas > li > a,
 .lenguetas > li > a:link,
 .lenguetas > li > a:visited {
@@ -126,40 +129,31 @@ a:hover { color:#F00; }
 .detalle,
 .formulario,
 .listado,
-.tren {
-    margin-top:8px;
+.tren,
+.mapa,
+.grafica,
+.mensaje {
+    margin-top:0; /* Para que no haya espacio con las lengüetas */
     margin-bottom:8px;
     padding-top:8px;
     padding-left:8px;
     padding-right:8px;
     border:1px solid #CCC;
+/*  -webkit-border-radius:4px;
     -webkit-border-radius:4px;
        -moz-border-radius:4px;
-    border-radius:4px;
+    border-radius:4px; */
+    border-bottom-left-radius:4px;
+    border-bottom-right-radius:4px;
 }
 .mensaje {
-    margin-top:8px;
-    margin-bottom:8px;
     padding:8px;
-    border:1px solid #CCC;
 }
 .mapa {
     height:500px;
-    margin-top:8px;
-    margin-bottom:8px;
-    border:1px solid #CCC;
-    -webkit-border-radius:4px;
-       -moz-border-radius:4px;
-    border-radius:4px;
 }
 .grafica {
     height:300px;
-    margin-top:8px;
-    margin-bottom:8px;
-    border:1px solid #CCC;
-    -webkit-border-radius:4px;
-       -moz-border-radius:4px;
-    border-radius:4px;
 }
 
 /* PIEZAS DE TIERRA DENTRO DE COLLAPSE */

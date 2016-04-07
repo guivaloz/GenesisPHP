@@ -89,9 +89,9 @@ class ContrasenaFormularioHTML extends DetalleHTML {
         $cadenero = new \Base\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir los valores del formulario
-        $this->formulario_contrasena_actual    = post_texto($_POST['actual']);
-        $this->formulario_contrasena_nueva     = post_texto($_POST['nueva']);
-        $this->formulario_contrasena_confirmar = post_texto($_POST['confirmar']);
+        $this->formulario_contrasena_actual    = $this->post_texto($_POST['actual']);
+        $this->formulario_contrasena_nueva     = $this->post_texto($_POST['nueva']);
+        $this->formulario_contrasena_confirmar = $this->post_texto($_POST['confirmar']);
     } // recibir_formulario
 
     /**

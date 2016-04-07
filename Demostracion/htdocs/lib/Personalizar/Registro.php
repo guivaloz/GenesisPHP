@@ -187,7 +187,7 @@ class Registro extends \Base\Registro {
             throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la contraseña. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
-        $bitacora = new \Bitacora\Registro($this->sesion);
+        $bitacora = new \AdmBitacora\Registro($this->sesion);
         $bitacora->agregar_cambio_contrasena();
         // Entregar mensaje de exito
         return "Se ha cambiado la contraseña de {$this->nombre}. Expira el {$this->contrasena_expira}.";
