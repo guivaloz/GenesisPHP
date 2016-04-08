@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Creador
+ * GenesisPHP - DetalleHTML HTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,5 +19,22 @@
  *
  * @package GenesisPHP
  */
+
+namespace DetalleHTML;
+
+/**
+ * Clase XXX
+ */
+class XXX extends \Base\Plantilla {
+
+    /**
+     * PHP
+     *
+     * @return string Código PHP
+     */
+    public function php() {
+    } // php
+
+} // Clase XXX
 
 ?>

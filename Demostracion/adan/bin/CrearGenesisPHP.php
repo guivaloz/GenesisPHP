@@ -22,7 +22,7 @@
  */
 
 // Soy
-$soy = '[TrcIMPLAN Central]';
+$soy = '[Crear GenesisPHP]';
 
 // Constantes que definen los tipos de errores
 $EXITO=0;
@@ -69,6 +69,50 @@ foreach ($semillas as $s) {
     echo "  $s\n";
 }
 
+// Autocargador de clases
+spl_autoload_register(
+    function ($className) {
+        // Se retira la diagonal inversa al inicio si la hubiera
+        $className = ltrim($className, '\\');
+        $fileName  = '';
+        $namespace = '';
+        // Si hay una diagonal inversa se separan los directorios del nombre del archivo
+        if ($lastNsPos = strrpos($className, '\\')) {
+            $namespace = substr($className, 0, $lastNsPos);
+            $className = substr($className, $lastNsPos + 1);
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR;
+        }
+        // Acumular el nombre del archivo, convertir guiones bajos a diagonales como lo especifica la norma
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+        // Como prefijo, todas las clases están dentro del directorio lib
+        $file = 'lib/'.$fileName;
+        // Cargar el archivo
+        if (file_exists($file)) {
+            require $file;
+        } else {
+            die("$soy ERROR: no existe $file");
+            exit($E_FATAL);
+        }
+    } // auto-cargador de clases
+);
+
+// Cambiarse al directorio por debajo de donde se encuentra este programa
+chdir(realpath(dirname(__FILE__))."/..");
+
+// Crear
+$creador = new TwitterBootstrapReproductores\Creador('../../htdocs');
+try {
+    foreach ($semillas as $s) {
+        $clase         = "\\Semillas\\$s";
+        $creador->adan = new $clase();
+        echo $creador->crear()."\n";
+    }
+} catch (\Exception $e) {
+    echo "ERROR: ".$e->getMessage()."\n";
+    exit($E_FATAL);
+}
+
+// Mensaje de término
 echo "$soy Script terminado.\n";
 exit($EXITO);
 

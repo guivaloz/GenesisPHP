@@ -22,7 +22,7 @@
 #
 
 # Yo soy
-SOY="[Copiar Tierra]"
+SOY="[Crear Común]"
 
 # Constantes que definen los tipos de errores
 EXITO=0
@@ -33,11 +33,11 @@ ORIGEN_DIR="Eva"
 DESTINO_DIR="Demostracion"
 
 # Cambiarse al directorio de destino
-if [ -d "../$DESTINO_DIR" ]; then
+if [ -d ../$DESTINO_DIR ]; then
     echo "$SOY O.K. Estoy en el directorio $DESTINO_DIR"
 else
     cd ../../
-    if [ -d "../$DESTINO_DIR" ]; then
+    if [ -d ../$DESTINO_DIR ]; then
         echo "$SOY O.K. Me cambié al directorio $DESTINO_DIR"
     else
         echo "$SOY ERROR: No existe el directorio $DESTINO_DIR"
@@ -46,20 +46,58 @@ else
 fi
 
 # Validar que exista el directorio de origen
-if [ ! -d "../$ORIGEN_DIR" ]; then
+if [ ! -d ../$ORIGEN_DIR ]; then
     echo "$SOY ERROR: No existe el directorio $ORIGEN_DIR"
     exit $E_FATAL
 fi
 
-#~ # Validar que exista htdocs-sobreescribir
-#~ if [ ! -d "$SOBREESCRIBIR" ]; then
-    #~ echo "ERROR: No se encuentra $SOBREESCRIBIR"
-    #~ echo "Recuerde que debe ejecutar este script desde el directorio base del sistema o dentro de adan/bin"
-    #~ exit $E_FATAL
-#~ fi
+#
+# Procesos para adan
+#
+
+if [ ! -d adan ]; then
+    echo "$SOY Creando el directorio adan..."
+    mkdir htdocs
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude crear el directorio adan"
+        exit $E_FATAL
+    fi
+fi
+
+if [ ! -d adan/lib ]; then
+    echo "$SOY Creando el directorio adan/lib..."
+    mkdir adan/lib
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude crear el directorio adan/lib"
+        exit $E_FATAL
+    fi
+fi
+
+if [ ! -d adan/lib/Semillas ]; then
+    echo "$SOY Creando el directorio adan/lib/Semillas..."
+    mkdir adan/lib/Semillas
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude crear el directorio adan/lib/Semillas"
+        exit $E_FATAL
+    fi
+fi
+
+cd adan/lib
+for DIRECTORIO in `ls ../../../Eva/adan/lib`
+do
+    if [ ! -h $DIRECTORIO ]; then
+        echo "$SOY Creando el vínculo adan/lib/$DIRECTORIO..."
+        ln -s ../../../Eva/adan/lib/$DIRECTORIO
+        if [ "$?" -ne $EXITO ]; then
+            echo "$SOY ERROR: No pude crear el vínculo para adan/lib/Arbol"
+            exit $E_FATAL
+        fi
+    fi
+done
+cd ../../
 
 #
-# Proceso principal
+# Procesos para htdocs
 #
 
 # Si existe htdocs será eliminado
@@ -93,6 +131,14 @@ echo "$SOY Copiando los archivos PHP de la raiz..."
 cp ../../$ORIGEN_DIR/htdocs/*.php .
 if [ "$?" -ne $EXITO ]; then
     echo "$SOY ERROR: No pude copiar los archivos de la raiz."
+    exit $E_FATAL
+fi
+
+# Copiar archivos de la raiz
+echo "$SOY Copiando favicon.ico a la raiz..."
+cp ../../$ORIGEN_DIR/htdocs/favicon.ico .
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No pude copiar el favicon.ico"
     exit $E_FATAL
 fi
 
@@ -133,21 +179,6 @@ do
         exit $E_FATAL
     fi
 done
-
-#~     cp ../$SOBREESCRIBIR/*.php ./
-#~     if [ -d ../$SOBREESCRIBIR/$DIR ]; then
-#~         echo "Copiando de $SOBREESCRIBIR a $DIR..."
-#~         cp -r ../$SOBREESCRIBIR/$DIR/* ./$DIR/
-#~     fi
-
-#~ for DIR in `ls ../$SOBREESCRIBIR/lib/`
-#~ do
-#~ echo "Copiando de $SOBREESCRIBIR a $DIR..."
-#~ if [ ! -d "./lib/$DIR" ]; then
-#~ mkdir ./lib/$DIR
-#~ fi
-#~ cp -r ../$SOBREESCRIBIR/lib/$DIR/* ./lib/$DIR/
-#~ done
 
 # Crear enlaces en bin
 cd ../bin
