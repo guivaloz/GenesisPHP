@@ -73,7 +73,7 @@ fi
 # fonts
 #
 if [ -d htdocs/fonts ]; then
-    echo "$SOY Eliminando directorio fonts..."
+    echo "$SOY ELIMINANDO directorio fonts..."
     rm -rf htdocs/fonts
     if [ "$?" -ne $EXITO ]; then
         echo "$SOY ERROR: Falló con el directorio fonts."
@@ -109,7 +109,7 @@ fi
 # img
 #
 if [ -d htdocs/img ]; then
-    echo "$SOY Eliminando directorio img..."
+    echo "$SOY ELIMINANDO directorio img..."
     rm -rf htdocs/img
     if [ "$?" -ne $EXITO ]; then
         echo "$SOY ERROR: Falló con el directorio img."
@@ -127,7 +127,7 @@ fi
 # js
 #
 if [ -d htdocs/js ]; then
-    echo "$SOY Eliminando directorio js..."
+    echo "$SOY ELIMINANDO directorio js..."
     rm -rf htdocs/js
     if [ "$?" -ne $EXITO ]; then
         echo "$SOY ERROR: Falló con el directorio js."

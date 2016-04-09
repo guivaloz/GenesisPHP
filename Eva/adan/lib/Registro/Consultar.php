@@ -390,7 +390,7 @@ FIN;
             \$this->id = \$in_id;
         }
         // Validar
-        if (!$this->validar_entero(\$this->id)) {
+        if (!\$this->validar_entero(\$this->id)) {
             throw new \Base\RegistroExceptionValidacion('Error: Al consultar SED_MENSAJE_SINGULAR por ID incorrecto.');
         }
         // Consultar
