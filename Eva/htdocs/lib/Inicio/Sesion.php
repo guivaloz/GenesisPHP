@@ -82,8 +82,8 @@ class Sesion extends Cookie {
     public function cargar($in_pagina) {
         // Parámetro con la clave de la pagina
         $this->pagina = $in_pagina;
-        // Si la cookie no es válida, abortar al usuario
-        $this->validar(); // Puede provocar una excepción
+        // Validar la cookie
+        $this->validar(); // Si no hay cookie o ha caducado, provoca una excepción
         // Validar ID del usuario
         if (!$this->validar_entero($this->usuario)) {
             throw new \Exception('Error: Por ID del usuario incorrecto.');
