@@ -49,8 +49,8 @@ class PaginaInicial extends \Base\PlantillaHTML {
     public function __construct() {
         // Definir la clave de esta página
         $this->clave = 'tierra_prueba';
-        // Definir el menú que es fijo
-        $this->menu  = new \Pruebas\Menu();
+        // Definir el menú
+        $this->menu  = new \Inicio\Menu();
         $this->menu->consultar();
         $this->menu->clave = $this->clave;
     } // constructor

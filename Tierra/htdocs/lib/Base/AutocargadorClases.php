@@ -51,34 +51,9 @@ spl_autoload_register(
         if (file_exists($file)) {
             require $file;
         } else {
-            die("Autocargador Clases: Error, no existe $file");
+            die("Autocargador Clases: Error, no existe $file\n");
         }
     } // auto-cargador de clases
 );
-
-/*
- * Otro código para el mismo fin
- *
-    // Prefijo específico de este proyecto
-    $prefix = ''; // Foo\\Bar\\
-    // Directorio base para los namespaces
-    $base_dir = __DIR__ . '/lib/';
-    // Does the class use the namespace prefix?
-    $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) {
-        // no, move to the next registered autoloader
-        return;
-    }
-    // Get the relative class name
-    $relative_class = substr($class, $len);
-    // Replace the namespace prefix with the base directory, replace namespace
-    // separators with directory separators in the relative class name, append
-    // with .php
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-    // if the file exists, require it
-    if (file_exists($file)) {
-        require $file;
-    }
- */
 
 ?>

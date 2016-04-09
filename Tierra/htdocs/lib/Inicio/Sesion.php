@@ -74,61 +74,6 @@ class Sesion extends Cookie {
     } // constructor
 
     /**
-     * Cargar
-     *
-     * @param  string  Clave de la pagina
-     * @return integer Permiso de la pagina
-     */
-    public function cargar($in_pagina) {
-        // Parámetro con la clave de la pagina
-        $this->pagina = $in_pagina;
-        // Si la cookie no es válida, abortar al usuario
-        $this->validar(); // Puede provocar una excepción
-        // Validar ID del usuario
-        if (!$this->validar_entero($this->usuario)) {
-            throw new \Exception('Error: Por ID del usuario incorrecto.');
-        }
-        // Consultar registro en la tabla de sesiones
-        $base_datos = new \Base\BaseDatosMotor();
-        try {
-            $consulta = $base_datos->comando("
-                SELECT
-                    nombre, nom_corto, tipo, listado_renglones
-                FROM
-                    adm_sesiones
-                WHERE
-                    usuario = {$this->usuario}");
-        } catch (\Exception $e) {
-            throw new \Exception('Error: En la consulta de la sesion.');
-        }
-        // Si la consulta no arrojó registros
-        if ($consulta->cantidad_registros() == 0) {
-            $this->eliminar();
-            throw new SesionException($this->usuario, '', 'sesión no existe', 'Aviso: Su sesión ha caducado.');
-        }
-        // Tomar valores de la consulta
-        $a = $consulta->obtener_registro();
-        $this->nombre            = $a['nombre'];
-        $this->nom_corto         = $a['nom_corto'];
-        $this->tipo              = $a['tipo'];
-        $this->listado_renglones = intval($a['listado_renglones']);
-        // De menu obtenemos el permiso de la página y todos los permisos
-        $this->menu           = new Menu($this);
-        $this->menu->consultar(); // Puede provocar una excepción
-        $this->pagina_permiso = $this->menu->permiso_en_pagina($this->pagina);
-        $this->permisos       = $this->menu->permisos;
-        // Si no tiene el permiso para esa página
-        if ($this->pagina_permiso < 1) {
-            $this->eliminar();
-            throw new SesionException($this->usuario, $this->nom_corto, 'no tiene permiso', "No tiene permiso para esa página.");
-        }
-        // Cambiar la cantidad de renglones en los listados controlados
-        \Base\ControladoHTML::$limit_por_defecto = $this->listado_renglones;
-        // Entregar el permiso de la página
-        return $this->pagina_permiso;
-    } // cargar
-
-    /**
      * Puede ver
      *
      * @param  string  Clave del módulo

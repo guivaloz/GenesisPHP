@@ -33,8 +33,11 @@ ORIGEN_DIR="Tierra"
 DESTINO_DIR="Eva"
 
 # Cambiarse al directorio de destino
-if [ -d "../$DESTINO_DIR" ]; then
+if [ -d ../$DESTINO_DIR ]; then
     echo "$SOY O.K. Estoy en el directorio $DESTINO_DIR"
+elif [ -d ./$DESTINO_DIR ]; then
+    cd ./$DESTINO_DIR
+    echo "$SOY O.K. Me cambié al directorio $DESTINO_DIR"
 else
     cd ../../
     if [ -d "../$DESTINO_DIR" ]; then
@@ -189,24 +192,6 @@ if [ ! -d htdocs/lib/Configuracion ]; then
     fi
 else
     echo "$SOY Omito copiar lib/Configuracion porque ya lo tiene."
-fi
-
-#
-# lib/Inicio
-#
-if [ ! -d htdocs/lib/Inicio ]; then
-    echo "$SOY Creando directorio lib/Inicio..."
-    mkdir htdocs/lib/Inicio
-    if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: Falló con el directorio lib/Inicio."
-        exit $E_FATAL
-    fi
-fi
-echo "$SOY Copiando lib/Inicio..."
-cp -r ../$ORIGEN_DIR/htdocs/lib/Inicio/* htdocs/lib/Inicio/
-if [ "$?" -ne $EXITO ]; then
-    echo "$SOY ERROR: Falló al copiar el directorio lib/Inicio."
-    exit $E_FATAL
 fi
 
 echo "$SOY Script terminado."

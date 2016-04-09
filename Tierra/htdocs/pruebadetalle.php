@@ -50,11 +50,11 @@ class PaginaPruebaDetalle extends \Base\PlantillaHTML {
     public function __construct() {
         // Definir la clave de esta página
         $this->clave = 'tierra_prueba_detalle';
-        // Definir el menú que es fijo
-        $this->menu  = new \Pruebas\Menu();
+        // Definir el menú
+        $this->menu  = new \Inicio\Menu();
         $this->menu->consultar();
         $this->menu->clave = $this->clave;
-        // Definir la sesión, porque es requerida desde \Base\Registro; con el usuario sistema para no usar la BD y le pasamos el menu
+        // Definir la sesión
         $this->sesion = new \Inicio\Sesion('sistema', $this->menu);
     } // constructor
 
