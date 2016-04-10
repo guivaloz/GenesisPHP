@@ -34,20 +34,20 @@ DESTINO_DIR="Demostracion"
 
 # Cambiarse al directorio de destino
 if [ -d ../$DESTINO_DIR ]; then
-    echo "$SOY O.K. Estoy en el directorio $DESTINO_DIR"
+    echo "$SOY O.K. Estoy en $DESTINO_DIR"
 else
     cd ../../
     if [ -d ../$DESTINO_DIR ]; then
-        echo "$SOY O.K. Me cambié al directorio $DESTINO_DIR"
+        echo "$SOY O.K. Me cambié a $DESTINO_DIR"
     else
-        echo "$SOY ERROR: No existe el directorio $DESTINO_DIR"
+        echo "$SOY ERROR: No existe $DESTINO_DIR"
         exit $E_FATAL
     fi
 fi
 
 # Validar que exista el directorio de origen
 if [ ! -d ../$ORIGEN_DIR ]; then
-    echo "$SOY ERROR: No existe el directorio $ORIGEN_DIR"
+    echo "$SOY ERROR: No existe $ORIGEN_DIR"
     exit $E_FATAL
 fi
 
@@ -83,13 +83,13 @@ if [ ! -d adan/lib/Semillas ]; then
 fi
 
 cd adan/lib
-for DIRECTORIO in `ls ../../../Eva/adan/lib`
+for DIR in `ls ../../../Eva/adan/lib`
 do
-    if [ ! -h $DIRECTORIO ]; then
-        echo "$SOY Creando el vínculo adan/lib/$DIRECTORIO..."
-        ln -s ../../../Eva/adan/lib/$DIRECTORIO
+    if [ ! -h $DIR ]; then
+        echo "$SOY Creando el vínculo adan/lib/$DIR..."
+        ln -s ../../../Eva/adan/lib/$DIR
         if [ "$?" -ne $EXITO ]; then
-            echo "$SOY ERROR: No pude crear el vínculo para adan/lib/Arbol"
+            echo "$SOY ERROR: No pude crear el vínculo para adan/lib/$DIR"
             exit $E_FATAL
         fi
     fi
@@ -105,7 +105,7 @@ if [ -d "htdocs" ]; then
     echo "$SOY ELIMINANDO los directorios y archivos de htdocs..."
     rm -rf htdocs
     if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: No pude eliminar el directorio htdocs"
+        echo "$SOY ERROR: No pude eliminar htdocs"
         exit $E_FATAL
     fi
 fi
@@ -122,7 +122,7 @@ fi
 echo "$SOY Cambiándose a htdocs..."
 cd htdocs
 if [ "$?" -ne $EXITO ]; then
-    echo "$SOY ERROR: No me pude cambiar al directorio htdocs"
+    echo "$SOY ERROR: No me pude cambiar a htdocs"
     exit $E_FATAL
 fi
 
@@ -138,7 +138,7 @@ fi
 echo "$SOY Copiando favicon.ico a la raiz..."
 cp ../../$ORIGEN_DIR/htdocs/favicon.ico .
 if [ "$?" -ne $EXITO ]; then
-    echo "$SOY ERROR: No pude copiar el favicon.ico"
+    echo "$SOY ERROR: No pude copiar favicon.ico"
     exit $E_FATAL
 fi
 
@@ -148,8 +148,16 @@ do
     echo "$SOY Copiando $DIR..."
     cp -r ../../$ORIGEN_DIR/htdocs/$DIR .
     if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: No pude copiar el directorio $DIR"
+        echo "$SOY ERROR: No pude copiar $DIR"
         exit $E_FATAL
+    fi
+    if [ -d ../htdocs-sobreescribir/$DIR ]; then
+        echo "$SOY Copiando $DIR desde htdocs-sobreescribir..."
+        cp -r ../htdocs-sobreescribir/$DIR/* $DIR/
+        if [ "$?" -ne $EXITO ]; then
+            echo "$SOY ERROR: No pude copiar $DIR desde htdocs-sobreescribir"
+            exit $E_FATAL
+        fi
     fi
 done
 
@@ -161,30 +169,45 @@ if [ "$?" -ne $EXITO ]; then
     exit $E_FATAL
 fi
 
-# Cambiarse al directorio htdocs
+# Cambiarse al directorio htdocs/lib
 echo "$SOY Cambiándose a htdocs/lib..."
 cd lib
 if [ "$?" -ne $EXITO ]; then
-    echo "$SOY ERROR: No me pude cambiar al directorio htdocs/lib"
+    echo "$SOY ERROR: No me pude cambiar a htdocs/lib"
     exit $E_FATAL
 fi
 
-# Copiar directorios
+# Copiar directorios de htdocs/lib
 for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base Configuracion Inicio Personalizar
 do
     echo "$SOY Copiando $DIR..."
     cp -r ../../../$ORIGEN_DIR/htdocs/lib/$DIR .
     if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: No pude copiar el directorio $DIR"
+        echo "$SOY ERROR: No pude copiar $DIR"
         exit $E_FATAL
     fi
 done
 
+# Copiar directorios de htdocs-sobreescribir/lib
+if [ -d ../../htdocs-sobreescribir/lib ]; then
+    for DIR in `ls ../../htdocs-sobreescribir/lib`
+    do
+        echo "$SOY Copiando $DIR desde htdocs-sobreescribir..."
+        cp -r ../../htdocs-sobreescribir/lib/$DIR .
+        if [ "$?" -ne $EXITO ]; then
+            echo "$SOY ERROR: No pude copiar $DIR"
+            exit $E_FATAL
+        fi
+    done
+fi
+
+#
 # Crear enlaces en bin
+#
 cd ../bin
-echo "$SOY Creando enlace de lib en el directorio bin..."
+echo "$SOY Creando enlace de lib en bin..."
 ln -s ../lib .
-echo "$SOY Creando enlace de imagenes en el directorio bin..."
+echo "$SOY Creando enlace de imagenes en bin..."
 ln -s ../imagenes .
 
 echo "Script terminado."
