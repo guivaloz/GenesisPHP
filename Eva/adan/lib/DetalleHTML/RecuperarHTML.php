@@ -23,9 +23,9 @@
 namespace DetalleHTML;
 
 /**
- * Clase XXX
+ * Clase RecuperarHTML
  */
-class XXX extends \Base\Plantilla {
+class RecuperarHTML extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,8 +33,28 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        if ($this->adan->si_hay_que_crear('recuperar')) {
+            return <<<FIN
+    /**
+     * Recuperar HTML
+     *
+     * @return string HTML con el detalle y el mensaje
+     */
+    public function recuperar_html() {
+        try {
+            \$mensaje = new \\Base\\MensajeHTML(\$this->recuperar());
+            return \$mensaje->html().\$this->html();
+        } catch (\\Exception \$e) {
+            \$mensaje = new \\Base\\MensajeHTML(\$e->getMessage());
+            return \$mensaje->html();
+        }
+    } // recuperar_html
+
+
+FIN;
+        }
     } // php
 
-} // Clase XXX
+} // Clase RecuperarHTML
 
 ?>

@@ -383,7 +383,7 @@ FIN;
     public function consultar(\$in_id=false) {
         // Que tenga permiso para consultar
         if (!\$this->sesion->puede_ver('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para consultar SED_MENSAJE_PLURAL.');
+            throw new \\Exception('Aviso: No tiene permiso para consultar SED_MENSAJE_PLURAL.');
         }
         // Parámetros
         if (\$in_id !== false) {
@@ -391,18 +391,18 @@ FIN;
         }
         // Validar
         if (!\$this->validar_entero(\$this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar SED_MENSAJE_SINGULAR por ID incorrecto.');
+            throw new \\Base\\RegistroExceptionValidacion('Error: Al consultar SED_MENSAJE_SINGULAR por ID incorrecto.');
         }
         // Consultar
-        \$base_datos = new \Base\BaseDatosMotor();
+        \$base_datos = new \\Base\\BaseDatosMotor();
         try {
 {$this->elaborar_consultar_select()}
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
         }
         // Si la consulta no entrego nada
         if (\$consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró SED_MENSAJE_SINGULAR.');
+            throw new \\Base\\RegistroExceptionNoEncontrado('Aviso: No se encontró SED_MENSAJE_SINGULAR.');
         }
 {$this->elaborar_consultar_propiedades()}
 {$this->elaborar_consultar_propiedades_relacionadas()}

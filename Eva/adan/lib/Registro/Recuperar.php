@@ -45,7 +45,7 @@ class Recuperar extends \Base\Plantilla {
     public function recuperar() {
         // Que tenga permiso para recuperar
         if (!\$this->sesion->puede_recuperar('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para recuperar SED_MENSAJE_SINGULAR.');
+            throw new \\Exception('Aviso: No tiene permiso para recuperar SED_MENSAJE_SINGULAR.');
         }
         // Consultar si no lo esta
         if (\$this->consultado == false) {
@@ -53,14 +53,14 @@ class Recuperar extends \Base\Plantilla {
         }
         // Validar que esté eliminado
         if (\$this->estatus != '{$this->estatus['eliminado']}') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse SED_MENSAJE_SINGULAR porque ya lo está.');
+            throw new \\Base\\RegistroExceptionValidacion('Aviso: No puede recuperarse SED_MENSAJE_SINGULAR porque ya lo está.');
         }
         // Cambiar el estatus
         \$this->estatus = '{$this->estatus['enuso']}';
         // Validar
         \$this->validar();
         // Actualizar la base de datos
-        \$base_datos = new \Base\BaseDatosMotor();
+        \$base_datos = new \\Base\\BaseDatosMotor();
         try {
             \$base_datos->comando(sprintf("
                 UPDATE
@@ -71,13 +71,13 @@ class Recuperar extends \Base\Plantilla {
                     id = %d",
                 \$this->estatus,
                 \$this->id));
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Recuperó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";
         // Agregar a la bitácora que se eliminó un registro
-        \$bitacora = new \AdmBitacora\Registro(\$this->sesion);
+        \$bitacora = new \\AdmBitacora\\Registro(\$this->sesion);
         \$bitacora->agregar_recupero(\$this->id, \$msg);
         // Entregar mensaje
         return \$msg;

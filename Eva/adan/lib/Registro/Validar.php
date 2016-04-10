@@ -122,19 +122,19 @@ class Validar extends \Base\Plantilla {
                             // Es opcional y es geopunto
                             $a[] = "            if ((\$this->{$columna}_longitud != '') || (\$this->{$columna}_latitud != '')) {";
                             $a[] = "                if ({$funcion}) {";
-                            $a[] = "                    throw new \Base\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
+                            $a[] = "                    throw new \\Base\\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
                             $a[] = "                }";
                             $a[] = "            }";
                         } else {
                             // Es opcional y de cualquier otro tipo
                             $a[] = "            if ((\$this->{$columna} != '') && {$funcion}) {";
-                            $a[] = "                throw new \Base\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
+                            $a[] = "                throw new \\Base\\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
                             $a[] = "            }";
                         }
                     } elseif (is_int($datos['validacion']) && ($datos['validacion'] == 2)) {
                         // Es obligatoria
                         $a[] = "            if ({$funcion}) {";
-                        $a[] = "                throw new \Base\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
+                        $a[] = "                throw new \\Base\\RegistroExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
                         $a[] = "            }";
                     }
                 }

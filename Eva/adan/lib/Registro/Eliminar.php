@@ -45,7 +45,7 @@ class Eliminar extends \Base\Plantilla {
     public function eliminar() {
         // Que tenga permiso para eliminar
         if (!\$this->sesion->puede_eliminar('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para eliminar SED_MENSAJE_SINGULAR.');
+            throw new \\Exception('Aviso: No tiene permiso para eliminar SED_MENSAJE_SINGULAR.');
         }
         // Consultar si no lo esta
         if (\$this->consultado == false) {
@@ -53,14 +53,14 @@ class Eliminar extends \Base\Plantilla {
         }
         // Validar que no esté eliminado
         if (\$this->estatus == '{$this->estatus['eliminado']}') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse SED_MENSAJE_SINGULAR porque ya lo está.');
+            throw new \\Base\\RegistroExceptionValidacion('Aviso: No puede eliminarse SED_MENSAJE_SINGULAR porque ya lo está.');
         }
         // Cambiar el estatus
         \$this->estatus = '{$this->estatus['eliminado']}';
         // Validar
         \$this->validar();
         // Actualizar la base de datos
-        \$base_datos = new \Base\BaseDatosMotor();
+        \$base_datos = new \\Base\\BaseDatosMotor();
         try {
             \$base_datos->comando(sprintf("
                 UPDATE
@@ -71,13 +71,13 @@ class Eliminar extends \Base\Plantilla {
                     id = %d",
                 \$this->estatus,
                 \$this->id));
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al eliminar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al eliminar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Eliminó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";
         // Agregar a la bitácora que se eliminó un registro
-        \$bitacora = new \AdmBitacora\Registro(\$this->sesion);
+        \$bitacora = new \\AdmBitacora\\Registro(\$this->sesion);
         \$bitacora->agregar_elimino(\$this->id, \$msg);
         // Entregar mensaje
         return \$msg;

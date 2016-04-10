@@ -27,7 +27,7 @@ namespace Base;
  */
 class Probador {
 
-    public $adan;     // Instancia con la Semilla, es heredera de Adan
+    public $adan; // Instancia con la Semilla, es heredera de Adan
 
     /**
      * Constructor

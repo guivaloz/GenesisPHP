@@ -148,33 +148,33 @@ FIN;
     public function agregar() {
         // Que tenga permiso para agregar
         if (!\$this->sesion->puede_agregar('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para agregar SED_MENSAJE_SINGULAR.');
+            throw new \\Exception('Aviso: No tiene permiso para agregar SED_MENSAJE_SINGULAR.');
         }
         // Verificar que no haya sido consultado
         if (\$this->consultado == true) {
-            throw new \Exception('Error: Ha sido consultado(a) SED_MENSAJE_SINGULAR, no debe estarlo.');
+            throw new \\Exception('Error: Ha sido consultado(a) SED_MENSAJE_SINGULAR, no debe estarlo.');
         }{$this->elaborar_asignaciones_previas()}
         // Validar
         \$this->validar();
         // Insertar en la base de datos
-        \$base_datos = new \Base\BaseDatosMotor();
+        \$base_datos = new \\Base\\BaseDatosMotor();
         try {
             \$base_datos->comando({$this->elaborar_insert_sql()});
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Obtener el id de lo recién insertado
         try {
             \$consulta = \$base_datos->comando("SELECT last_value AS id FROM {$this->tabla_nombre}_id_seq");
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         \$a        = \$consulta->obtener_registro();
         \$this->id = intval(\$a['id']);
         // Elaborar mensaje
         \$msg = "Agregó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";
         // Agregar a la bitácora que hay un nuevo registro
-        \$bitacora = new \AdmBitacora\Registro(\$this->sesion);
+        \$bitacora = new \\AdmBitacora\\Registro(\$this->sesion);
         \$bitacora->agregar_nuevo(\$this->id, \$msg);
         // Entregar mensaje
         return \$msg;

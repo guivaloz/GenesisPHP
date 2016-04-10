@@ -184,11 +184,11 @@ FIN;
     public function modificar() {
         // Que tenga permiso para modificar
         if (!\$this->sesion->puede_modificar('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para modificar SED_MENSAJE_PLURAL.');
+            throw new \\Exception('Aviso: No tiene permiso para modificar SED_MENSAJE_PLURAL.');
         }
         // Verificar que haya sido consultado
         if (\$this->consultado == false) {
-            throw new \Exception('Error: No ha sido consultado(a) SED_MENSAJE_SINGULAR para modificarlo.');
+            throw new \\Exception('Error: No ha sido consultado(a) SED_MENSAJE_SINGULAR para modificarlo.');
         }{$this->elaborar_asignaciones_previas()}
         // Validar
         \$this->validar();
@@ -196,26 +196,26 @@ FIN;
         \$original = new Registro(\$this->sesion);
         try {
             \$original->consultar(\$this->id);
-        } catch (\Exception \$e) {
+        } catch (\\Exception \$e) {
             die('Esto no debería pasar. Error al consultar registro original de SED_MENSAJE_PLURAL.');
         }
         \$a = array();
 {$this->elaborar_comparaciones()}
         // Si no hay cambios, provoca excepcion de validacion
         if (count(\$a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \\Base\\RegistroExceptionValidacion('Aviso: No hay cambios.');
         }
         // Actualizar la base de datos
-        \$base_datos = new \Base\BaseDatosMotor();
+        \$base_datos = new \\Base\\BaseDatosMotor();
         try {
             \$base_datos->comando({$this->elaborar_update_sql()});
-        } catch (\Exception \$e) {
-            throw new \Base\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+        } catch (\\Exception \$e) {
+            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Modificó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()} con ".implode(', ', \$a);
         // Agregar a la bitácora que se modificó el registro
-        \$bitacora = new \AdmBitacora\Registro(\$this->sesion);
+        \$bitacora = new \\AdmBitacora\\Registro(\$this->sesion);
         \$bitacora->agregar_modificado(\$this->id, \$msg);
         // Entregar mensaje
         return \$msg;

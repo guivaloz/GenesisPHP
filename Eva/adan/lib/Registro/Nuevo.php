@@ -291,7 +291,7 @@ class Nuevo extends \Base\Plantilla {
     public function nuevo() {
         // Que tenga permiso para agregar
         if (!\$this->sesion->puede_agregar('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para agregar SED_MENSAJE_SINGULAR.');
+            throw new \\Exception('Aviso: No tiene permiso para agregar SED_MENSAJE_SINGULAR.');
         }
 {$asigaciones_por_defecto}
         // Ponemos como verdadero el flag de consultado

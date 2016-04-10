@@ -23,9 +23,9 @@
 namespace DetalleHTML;
 
 /**
- * Clase XXX
+ * Clase JavaScript
  */
-class XXX extends \Base\Plantilla {
+class JavaScript extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,8 +33,19 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        return <<<FINAL
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return false;
+    } // javascript
+
+FINAL;
     } // php
 
-} // Clase XXX
+} // Clase JavaScript
 
 ?>

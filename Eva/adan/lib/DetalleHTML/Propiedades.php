@@ -23,9 +23,9 @@
 namespace DetalleHTML;
 
 /**
- * Clase XXX
+ * Clase Propiedades
  */
-class XXX extends \Base\Plantilla {
+class Propiedades extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,8 +33,27 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Juntaremos el código en este arreglo
+        $a = array();
+        // Propiedades comentadas
+        $seccion_propiedades = new \Registro\Propiedades($this->adan);
+        $a[]                 = $seccion_propiedades->php_comentado();
+        // Javascript
+        $a[] = "    protected \$javascript = array();";
+        // Acciones
+        if ($this->adan->si_hay_que_crear('eliminar')) {
+            $a[] = "    static public \$accion_eliminar  = 'SED_CLASE_SINGULAREliminar';";
+        }
+        if ($this->adan->si_hay_que_crear('formulario')) {
+            $a[] = "    static public \$accion_modificar = 'SED_CLASE_SINGULARModificar';";
+        }
+        if ($this->adan->si_hay_que_crear('recuperar')) {
+            $a[] = "    static public \$accion_recuperar = 'SED_CLASE_SINGULARRecuperar';";
+        }
+        // Entregar
+        return implode("\n", $a)."\n";
     } // php
 
-} // Clase XXX
+} // Clase Propiedades
 
 ?>
