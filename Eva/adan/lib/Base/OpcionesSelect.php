@@ -48,12 +48,12 @@ class OpcionesSelect extends Plantilla {
 namespace SED_CLASE_PLURAL;
 
 /**
- * Clase Registro
+ * Clase OpcionesSelect
  */
-class Registro extends \Base\Registro {
+class OpcionesSelect extends Listado {
 
 {$propiedades->php()}
-{$metodo_opciones->php()}
+{$metodo_opciones->php()}} // Clase OpcionesSelect
 
 ?>
 

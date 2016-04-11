@@ -45,13 +45,12 @@ class Raiz extends Plantilla {
 
 require_once('lib/Base/AutocargadorClases.php');
 
-// Si se solicita la descarga de archivo CSV
+// Si se solicita el archivo CSV, descargarlo, de lo contrario mostrar la página HTML
 if (\$_GET['csv'] == 'descargar') {
-    \$pagina_csv = new SED_CLASE_PLURAL\PaginaCSV();
+    \$pagina_csv = new \\SED_CLASE_PLURAL\\PaginaCSV();
     echo \$pagina_csv->csv();
 } else {
-    // Mostrar página HTML
-    \$pagina_html = new SED_CLASE_PLURAL\PaginaHTML();
+    \$pagina_html = new \\SED_CLASE_PLURAL\\PaginaHTML();
     echo \$pagina_html->html();
 }
 
@@ -71,14 +70,14 @@ FINAL;
 require_once('lib/Base/AutocargadorClases.php');
 
 // Mostrar página HTML
-\$pagina_html = new SED_CLASE_PLURAL\PaginaHTML();
+\$pagina_html = new \\SED_CLASE_PLURAL\\PaginaHTML();
 echo \$pagina_html->html();
 
 ?>
 
 FINAL;
         }
-        // Realizar sustituciones y entregar contenido
+        // Realizar sustituciones y entregar
         return $this->sustituir_sed($contenido);
     } // php
 

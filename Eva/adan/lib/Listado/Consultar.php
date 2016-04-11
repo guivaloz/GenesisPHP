@@ -23,9 +23,9 @@
 namespace Listado;
 
 /**
- * Clase XXX
+ * Clase Consultar
  */
-class XXX extends \Base\Plantilla {
+class Consultar extends \Base\Plantilla {
 
     /**
      * PHP
@@ -35,6 +35,6 @@ class XXX extends \Base\Plantilla {
     public function php() {
     } // php
 
-} // Clase XXX
+} // Clase Consultar
 
 ?>

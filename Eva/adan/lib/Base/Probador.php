@@ -59,9 +59,9 @@ class Probador {
             case 'listado':
                 $listado = new \Base\Listado($this->adan);
                 return $listado->php();
-            case 'listadohtml':
-                $listado_html = new \Base\ListadoHTML($this->adan);
-                return $listado_html->php();
+            //~ case 'listadohtml':
+                //~ $listado_html = new \Base\ListadoHTML($this->adan);
+                //~ return $listado_html->php();
             //~ case 'busquedahtml':
                 //~ $libreria = new \Base\BusquedaHTML($this->adan);
                 //~ return $libreria->php();
@@ -74,9 +74,9 @@ class Probador {
             case 'opcionesselect':
                 $opciones_select = new \Base\OpcionesSelect($this->adan);
                 return $opciones_select->php();
-            case 'pagina':
-                $pagina = new \Base\Pagina($this->adan);
-                return $pagina->php();
+            //~ case 'pagina':
+                //~ $pagina = new \Base\Pagina($this->adan);
+                //~ return $pagina->php();
             case 'raiz':
                 $raiz = new \Base\Pagina($this->adan);
                 return $raiz->php();

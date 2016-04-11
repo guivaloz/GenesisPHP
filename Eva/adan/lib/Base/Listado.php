@@ -33,6 +33,38 @@ class Listado extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Definir instancias con las partes
+        $propiedades       = new \Listado\Propiedades($this->adan);
+        $metodo_validar    = new \Listado\Validar($this->adan);
+        $metodo_encabezado = new \Listado\Encabezado($this->adan);
+        $metodo_consultar  = new \Listado\Consultar($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_SINGULAR
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
+/**
+ * Clase Listado
+ */
+class Listado extends \Base\Listado {
+
+{$propiedades->php()}
+{$metodo_validar->php()}
+{$metodo_encabezado->php()}
+{$metodo_consultar->php()}
+} // Clase Listado
+
+?>
+
+FINAL;
+        // Realizar sustituciones y entregar
+        return $this->sustituir_sed($contenido);
     } // php
 
 } // Clase Listado
