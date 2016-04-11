@@ -23,9 +23,109 @@
 namespace OpcionesSelect;
 
 /**
- * Clase XXX
+ * Clase Propiedades
  */
-class XXX extends \Base\Plantilla {
+class Propiedades extends \Base\Plantilla {
+
+    /**
+     * Elaborar propiedades
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_propiedades() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a = array();
+        // Declarar propiedades publicas de los filtros
+        foreach ($this->tabla as $columna => $datos) {
+            if ($datos['filtro'] > 1) {
+                // Rango (desde-hasta)
+                $a[] = "    // public \${$columna}_desde;";
+                $a[] = "    // public \${$columna}_hasta;";
+            } elseif ($datos['filtro'] > 0) {
+                // Normal
+                $a[] = "    // public \${$columna};";
+                // Si es una relacion
+                if ($datos['tipo'] == 'relacion') {
+                    // Se va usar mucho la relacion, asi que para simplificar
+                    if (is_array($this->relaciones[$columna])) {
+                        $relacion = $this->relaciones[$columna];
+                    } else {
+                        die("Error en Listado: Falta obtener datos de Serpiente para la relación $columna.");
+                    }
+                    // Si vip es texto
+                    if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
+                        // Solo un vip
+                        $a[] = "    // public \${$columna}_{$relacion['vip']};";
+                    } elseif (is_array($relacion['vip'])) {
+                        // Vip es un arreglo
+                        foreach ($relacion['vip'] as $vip => $vip_datos) {
+                            // Si es un arreglo
+                            if (is_array($vip_datos)) {
+                                // Si es una relacion
+                                if ($vip_datos['tipo'] == 'relacion') {
+                                    // Es una relacion y debe de existir en reptil
+                                    if (is_array($this->relaciones[$vip])) {
+                                        // Si el vip es un arreglo
+                                        if (is_array($this->relaciones[$vip]['vip'])) {
+                                            // Ese vip es un arreglo
+                                            foreach ($this->relaciones[$vip]['vip'] as $v => $vd) {
+                                                // Es cualquier otro tipo
+                                                $a[] = "    // public \${$columna}_{$vip}_{$v};";
+                                                if ($vd['tipo'] == 'caracter') {
+                                                    // Ese vip de la relacion es de tipo caracter, habra un descrito
+                                                    $a[] = "    // public \${$columna}_{$vip}_{$v}_descrito;";
+                                                }
+                                            }
+                                        } else {
+                                            // Ese vip es texto
+                                            $a[] = "    // public \${$columna}_{$vip}_{$this->relaciones[$vip]['vip']};";
+                                        }
+                                    } else {
+                                        die("Error en ListadoHTML: No está definido el VIP en Serpiente para $vip.");
+                                    }
+                                } elseif ($vip_datos['tipo'] == 'caracter') {
+                                    // Es caracter, habra el caracter y el descrito
+                                    $a[] = "    // public \${$columna}_{$vip};";
+                                    $a[] = "    // public \${$columna}_{$vip}_descrito;";
+                                } else {
+                                    // Es cualquier otro tipo
+                                    $a[] = "    // public \${$columna}_{$vip};";
+                                }
+                            } else {
+                                // Vip datos es un texto
+                                $a[] = "    // public \${$columna}_{$vip_datos};";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_propiedades
+
+    /**
+     * Elaborar propiedades estáticas
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_propiedades_estaticas() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a = array();
+        // Bucle por las columnas con filtro
+        foreach ($this->tabla as $columna => $datos) {
+            if ($datos['filtro'] > 1) {
+                // Rango (desde-hasta)
+                $a[] = "    // static public \$param_{$columna}_desde;";
+                $a[] = "    // static public \$param_{$columna}_hasta;";
+            } elseif ($datos['filtro'] > 0) {
+                // Normal
+                $a[] = "    // static public \$param_{$columna};";
+            }
+        }
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_propiedades_estaticas
 
     /**
      * PHP
@@ -33,8 +133,15 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        return <<<FINAL
+    // protected \$sesion;
+    // protected \$consultado;
+{$this->elaborar_propiedades()}
+{$this->elaborar_propiedades_estaticas()}
+
+FINAL;
     } // php
 
-} // Clase XXX
+} // Clase Propiedades
 
 ?>

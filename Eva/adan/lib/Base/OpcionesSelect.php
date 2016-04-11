@@ -33,6 +33,33 @@ class OpcionesSelect extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Definir instancias con las partes
+        $propiedades     = new \OpcionesSelect\Propiedades($this->adan);
+        $metodo_opciones = new \OpcionesSelect\Opciones($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_SINGULAR
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
+/**
+ * Clase Registro
+ */
+class Registro extends \Base\Registro {
+
+{$propiedades->php()}
+{$metodo_opciones->php()}
+
+?>
+
+FINAL;
+        // Realizar sustituciones y entregar
+        return $this->sustituir_sed($contenido);
     } // php
 
 } // Clase OpcionesSelect
