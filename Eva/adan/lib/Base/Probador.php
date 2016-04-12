@@ -59,9 +59,9 @@ class Probador {
             case 'listado':
                 $listado = new \Base\Listado($this->adan);
                 return $listado->php();
-            //~ case 'listadohtml':
-                //~ $listado_html = new \Base\ListadoHTML($this->adan);
-                //~ return $listado_html->php();
+            case 'listadohtml':
+                $listado_html = new \Base\ListadoHTML($this->adan);
+                return $listado_html->php();
             //~ case 'busquedahtml':
                 //~ $libreria = new \Base\BusquedaHTML($this->adan);
                 //~ return $libreria->php();

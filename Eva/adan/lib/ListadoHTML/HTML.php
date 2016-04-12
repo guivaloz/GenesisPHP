@@ -23,9 +23,181 @@
 namespace ListadoHTML;
 
 /**
- * Clase XXX
+ * Clase HTML
  */
-class XXX extends \Base\Plantilla {
+class HTML extends \Base\Plantilla {
+
+    /**
+     * Elaborar HTML Consulta
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_html_consulta() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a = array();
+        // Construir la consulta
+        $a[] = "        // Consultar";
+        $a[] = "        try {";
+        $a[] = "            \$this->consultar();";
+        // Si tiene uno o mas padres
+        if (is_array($this->padre) && (count($this->padre) > 0)) {
+            // Si el listado esta vacio y tiene permiso ponga el boton para agregar
+            $a[] = "        } catch (\\Base\\ListadoExceptionVacio \$e) {";
+            $a[] = "            \$mensaje = new \\Base\\MensajeHTML(\$e->getMessage());";
+            foreach ($this->padre as $p) {
+                // Para que se vea bonito
+                $padre            = $p['instancia_singular'];
+                $agregar_etiqueta = 'Agregar SED_SUBTITULO_SINGULAR';
+                $agregar_url      = sprintf('SED_ARCHIVO_PLURAL.php?%s={$this->%s}&accion=agregar', $padre, $padre);
+                // Agregar
+                $a[] = "            if ((\$this->$padre != '') && (\$this->sesion->puede_agregar('SED_CLAVE'))) {";
+                $a[] = "                \$mensaje->boton_agregar('$agregar_etiqueta', \"$agregar_url\");";
+                $a[] = "            }";
+            }
+            $a[] = "            return \$mensaje->html(\$this->encabezado());";
+        }
+        $a[] = "        } catch (\\Exception \$e) {";
+        $a[] = "            \$mensaje = new \\Base\\MensajeHTML(\$e->getMessage());";
+        $a[] = "            return \$mensaje->html(\$this->encabezado());";
+        $a[] = "        }";
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_html_consulta
+
+    /**
+     * Elaborar HTML Eliminar Columnas
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_html_eliminar_columnas() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a   = array();
+        $a[] = '        // Eliminar columnas de la estructura que sean filtros aplicados';
+        foreach ($this->tabla as $columna => $datos) {
+            // Solo si se va a mostrar en el listado
+            // Y tambien que tenga un filtro de no rango
+            if (($datos['listado'] > 0) && ($datos['filtro'] == 1)) {
+                switch ($datos['tipo']) {
+                    case 'relacion':
+                        // Se va usar mucho la relacion, asi que para simplificar
+                        if (is_array($this->relaciones[$columna])) {
+                            $relacion = $this->relaciones[$columna];
+                        } else {
+                            die("Error en ListadoHTML: Falta obtener datos de Serpiente para la relación $columna.");
+                        }
+                        // Si vip es texto
+                        if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
+                            // Solo un vip
+                            $a[] = "        if (\$this->{$columna}) {";
+                            $a[] = "            unset(\$this->estructura['{$columna}_{$relacion['vip']}']);";
+                            $a[] = "        }";
+                        } elseif (is_array($relacion['vip'])) {
+                            // Vip es un arreglo
+                            foreach ($relacion['vip'] as $vip => $vip_datos) {
+                                // Si es un arreglo
+                                if (is_array($vip_datos)) {
+                                    // Si es una relacion
+                                    if ($vip_datos['tipo'] == 'relacion') {
+                                        // Es una relacion y debe de existir en reptil
+                                        if (is_array($this->relaciones[$vip])) {
+                                            // SI EL VIP ES UN ARREGLO
+                                            if (is_array($this->relaciones[$vip]['vip'])) {
+                                                // ESE VIP ES UN ARREGLO
+                                                foreach ($this->relaciones[$vip]['vip'] as $v => $vd) {
+                                                    $a[] = "        if (\$this->{$columna}) {";
+                                                    $a[] = "            unset(\$this->estructura['{$vip}_{$v}']); // 8-)";
+                                                    $a[] = "        }";
+                                                }
+                                            } else {
+                                                $a[] = "        if (\$this->{$columna}) {";
+                                                $a[] = "            unset(\$this->estructura['{$vip}']); // :-)";
+                                                $a[] = "        }";
+                                            }
+                                        } else {
+                                            die("Error en ListadoHTML: No está definido el VIP en Serpiente para $vip.");
+                                        }
+                                    } else {
+                                        // NO ES UNA RELACION
+                                        $a[] = "        if (\$this->{$columna}) {";
+                                        $a[] = "            unset(\$this->estructura['{$columna}_{$vip}']); // :)";
+                                        $a[] = "        }";
+                                    }
+                                } else {
+                                    // VIP DATOS ES UN TEXTO
+                                    $a[] = "        if (\$this->{$columna}) {";
+                                    $a[] = "            unset(\$this->estructura['{$columna}_{$vip_datos}']);";
+                                    $a[] = "        }";
+                                }
+                            }
+                        }
+                        break;
+                    case 'entero':
+                    case 'fecha':
+                    case 'caracter':
+                        // ES ENTERO, FECHA O CARACTER, LO RETIRAMOS
+                        $a[] = "        if (\$this->{$columna}) {";
+                        $a[] = "            unset(\$this->estructura['{$columna}']);";
+                        $a[] = "        }";
+                }
+            }
+        }
+        // ENTREGAR
+        return implode("\n", $a);
+    } // elaborar_html_eliminar_columnas
+
+    /**
+     * Elaborar HTML Mapa
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_html_mapa() {
+        // SI NO HAY MAPA NO SE ENTREGA NADA
+        if (!is_array($this->mapa)) {
+            return false;
+        }
+        // EN ESTE ARREGLO JUNTAREMOS EL CODIGO PHP
+        $a = array();
+        // PUEDE HABER MAS DE UNA COLUMNA CON INFORMACION PARA MAPAS
+        foreach ($this->mapa as $columna => $datos) {
+            // SI LA COLUMNA ES GEOPUNTO
+            if ($this->tabla[$columna]['tipo'] == 'geopunto') {
+                // VALIDAR QUE ESTEN LOS DATOS NECESARIOS
+                if ($datos['categoria'] == '') {
+                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categoria'.");
+                }
+                if ($datos['categorias_colores'] == '') {
+                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_colores'.");
+                }
+                if ($datos['categorias_descripciones'] == '') {
+                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_descripciones'.");
+                }
+                if ($datos['descripcion'] == '') {
+                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'descripcion'.");
+                }
+                // PARA QUE SE VEA BONITO
+                $colores    = $datos['categorias_colores'];
+                $geojson    = "\$r['{$columna}_geojson']";
+                $categoria  = "\$r['".$datos['categoria']."']";
+                $popup      = "\$r['".$datos['descripcion']."']";
+                // AGREGAR
+                $a[] = "        // AGREGAR MAPA AL LISTADO HTML";
+                $a[] = "        \$mapa = new \Base\MapaHTML();";
+                $a[] = "        foreach ($colores as \$letra => \$color) {";
+                $a[] = "            \$mapa->agregar_categoria(\$letra, \$color);";
+                $a[] = "        }";
+                $a[] = "        foreach (\$this->listado as \$r) {";
+                $a[] = "            \$mapa->agregar_geopunto(\$r['id'], $geojson, $categoria, $popup);";
+                $a[] = "        }";
+                $a[] = "        \$this->listado_controlado->al_principio(\$mapa);";
+            }
+        }
+        // ENTREGAR
+        if (count($a) > 0) {
+            return "\n".implode("\n", $a);
+        } else {
+            return '';
+        }
+    } // elaborar_html_mapa
 
     /**
      * PHP
@@ -33,8 +205,32 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        return <<<FINAL
+    /**
+     * HTML
+     *
+     * @param  string Encabezado opcional
+     * @return string HTML
+     */
+    public function html(\$in_encabezado='') {
+{$this->elaborar_html_consulta()}
+{$this->elaborar_html_eliminar_columnas()}{$this->elaborar_html_mapa()}
+        // Pasamos al ListadoControladoHTML
+        \$this->listado_controlado->estructura         = \$this->estructura;
+        \$this->listado_controlado->listado            = \$this->listado;
+        \$this->listado_controlado->cantidad_registros = \$this->cantidad_registros;
+        \$this->listado_controlado->variables          = \$this->filtros_param;
+        \$this->listado_controlado->limit              = \$this->limit; // Pasamos el limit, porque desde la pagina se puede pedir sin botones
+        \$this->listado_controlado->barra              = \$this->barra(\$in_encabezado);
+        // Agregar el javascript del ListadoControladoHTML (que incluye el de la BarraHTML)
+        \$this->javascript[] = \$this->listado_controlado->javascript();
+        // Entregar
+        return \$this->listado_controlado->html();
+    } // html
+
+FINAL;
     } // php
 
-} // Clase XXX
+} // Clase HTML
 
 ?>

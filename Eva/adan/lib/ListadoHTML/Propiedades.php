@@ -23,9 +23,9 @@
 namespace ListadoHTML;
 
 /**
- * Clase XXX
+ * Clase Propiedades
  */
-class XXX extends \Base\Plantilla {
+class Propiedades extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,8 +33,19 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Propiedades comentadas
+        $propiedades = new \Listado\Propiedades($this->adan);
+        // Entregar
+        return <<<FINAL
+{$propiedades->php_comentado()}
+    public \$viene_listado; // Se usa en la pagina, si es verdadero debe mostrar el listado
+    protected \$estructura;
+    protected \$listado_controlado;
+    protected \$javascript = array();
+
+FINAL;
     } // php
 
-} // Clase XXX
+} // Clase Propiedades
 
 ?>

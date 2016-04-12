@@ -33,6 +33,40 @@ class ListadoHTML extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Definir instancias con las partes
+        $propiedades        = new \ListadoHTML\Propiedades($this->adan);
+        $metodo_constructor = new \ListadoHTML\Constructor($this->adan);
+        $metodo_barra_html  = new \ListadoHTML\BarraHTML($this->adan);
+        $metodo_html        = new \ListadoHTML\HTML($this->adan);
+        $metodo_javascript  = new \ListadoHTML\JavaScript($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_PLURAL ListadoHTML
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
+/**
+ * Clase ListadoHTML
+ */
+class ListadoHTML extends Listado {
+
+{$propiedades->php()}
+{$metodo_constructor->php()}
+{$metodo_barra_html->php()}
+{$metodo_html->php()}
+{$metodo_javascript->php()}
+} // Clase ListadoHTML
+
+?>
+
+FINAL;
+        // Realizar sustituciones y entregar
+        return $this->sustituir_sed($contenido);
     } // php
 
 } // Clase ListadoHTML

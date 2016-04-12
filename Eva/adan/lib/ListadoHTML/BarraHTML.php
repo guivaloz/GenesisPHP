@@ -23,9 +23,52 @@
 namespace ListadoHTML;
 
 /**
- * Clase XXX
+ * Clase BarraHTML
  */
-class XXX extends \Base\Plantilla {
+class BarraHTML extends \Base\Plantilla {
+
+    /**
+     * Botón Agregar Registro
+     *
+     * @return string Código PHP
+     */
+    protected function boton_agregar_registro() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a = array();
+        // Boton para agregar
+        if (is_array($this->padre) && (count($this->padre) > 0)) {
+            foreach ($this->padre as $p) {
+                // Para que se vea bonito
+                $padre            = $p['instancia_singular'];
+                $agregar_etiqueta = '<span class="glyphicon glyphicon-plus"></span> SED_SUBTITULO_SINGULAR';
+                $agregar_url      = sprintf('SED_ARCHIVO_PLURAL.php?%s={$this->%s}&accion=agregar', $padre, $padre);
+                // Agregar
+                $a[] = "        // Botón agregar";
+                $a[] = "        if ((\$this->$padre != '') && (\$this->sesion->puede_agregar('SED_CLAVE'))) {";
+                $a[] = "            \$barra->boton_agregar(\"$agregar_url\", '$agregar_etiqueta');";
+                $a[] = "        }";
+            }
+        }
+        // Entregar
+        return (count($a) > 0) ? implode("\n", $a)."\n" : '';
+    } // boton_agregar_registro
+
+    /**
+     * Botón para Descargar CSV
+     *
+     * @return string Código PHP
+     */
+    protected function boton_descargar_csv() {
+        // Lo que se va a entregar se juntara en este arreglo
+        $a = array();
+        // Boton para descargar csv
+        if ($this->adan->si_hay_que_crear('listadocsv') > 0) {
+            $a[] = "        // Botón descargar CSV";
+            $a[] = "        \$barra->boton_descargar(\"SED_ARCHIVO_PLURAL.csv\", \$this->filtros_param, '<span class=\"glyphicon glyphicon-floppy-save\"></span> CSV');";
+        }
+        // Entregar
+        return (count($a) > 0) ? implode("\n", $a)."\n" : '';
+    } // boton_descargar_csv
 
     /**
      * PHP
@@ -33,8 +76,31 @@ class XXX extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        return <<<FINAL
+    /**
+     * Barra HTML
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de BarraHTML
+     */
+    public function barra_html(\$in_encabezado='') {
+        // Si viene el encabezado como parametro
+        if (\$in_encabezado !== '') {
+            \$encabezado = \$in_encabezado;
+        } else {
+            \$encabezado = \$this->encabezado(); // De lo contrario se toma el de listado
+        }
+        // Crear la barra
+        \$barra             = new \\Base\\BarraHTML();
+        \$barra->encabezado = \$encabezado;
+        \$barra->icono      = \$this->sesion->menu->icono_en('SED_CLAVE');
+{$this->boton_agregar_registro()}{$this->boton_descargar_csv()}        // Entregar
+        return \$barra;
+    } // barra
+
+FINAL;
     } // php
 
-} // Clase XXX
+} // Clase BarraHTML
 
 ?>
