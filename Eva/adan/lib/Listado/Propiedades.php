@@ -56,9 +56,9 @@ class Propiedades extends \Base\Plantilla {
                 $a[] = "    public \${$columna}_hasta_latitud; // Filtro";
             } else {
                 // Cualquier otro tipo de rango desde-hasta
-                $a[] = "    public \${$columna}; // Consulta (".strtoupper($datos['tipo']).")";
-                $a[] = "    public \${$columna}_desde; // Filtro (".strtoupper($datos['tipo']).")";
-                $a[] = "    public \${$columna}_hasta; // Filtro (".strtoupper($datos['tipo']).")";
+                $a[] = "    public \${$columna}; // Consulta ({$datos['tipo']})";
+                $a[] = "    public \${$columna}_desde; // Filtro ({$datos['tipo']})";
+                $a[] = "    public \${$columna}_hasta; // Filtro ({$datos['tipo']})";
             }
         // Si hay filtro
         } elseif ($datos['filtro'] > 0) {
@@ -72,7 +72,7 @@ class Propiedades extends \Base\Plantilla {
                 $a[] = "    public \${$columna}; // Filtro relación (id entero)";
             } else {
                 // Cualquier otro tipo
-                $a[] = "    public \${$columna}; // Filtro (".strtoupper($datos['tipo']).")";
+                $a[] = "    public \${$columna}; // Filtro ({$datos['tipo']})";
             }
         } else {
             die("Error en Listado, elaborar_propiedades_declaracion: No hay valor en filtro para $columna.");

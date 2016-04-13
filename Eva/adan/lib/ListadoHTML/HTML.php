@@ -83,7 +83,7 @@ class HTML extends \Base\Plantilla {
                         if (is_array($this->relaciones[$columna])) {
                             $relacion = $this->relaciones[$columna];
                         } else {
-                            die("Error en ListadoHTML: Falta obtener datos de Serpiente para la relación $columna.");
+                            die("Error en ListadoHTML, HTML elaborar_html_eliminar_columnas: Falta obtener datos de Serpiente para la relación $columna.");
                         }
                         // Si vip es texto
                         if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -100,9 +100,9 @@ class HTML extends \Base\Plantilla {
                                     if ($vip_datos['tipo'] == 'relacion') {
                                         // Es una relacion y debe de existir en reptil
                                         if (is_array($this->relaciones[$vip])) {
-                                            // SI EL VIP ES UN ARREGLO
+                                            // Si el vip es un arreglo
                                             if (is_array($this->relaciones[$vip]['vip'])) {
-                                                // ESE VIP ES UN ARREGLO
+                                                // Ese vip es un arreglo
                                                 foreach ($this->relaciones[$vip]['vip'] as $v => $vd) {
                                                     $a[] = "        if (\$this->{$columna}) {";
                                                     $a[] = "            unset(\$this->estructura['{$vip}_{$v}']); // 8-)";
@@ -114,16 +114,16 @@ class HTML extends \Base\Plantilla {
                                                 $a[] = "        }";
                                             }
                                         } else {
-                                            die("Error en ListadoHTML: No está definido el VIP en Serpiente para $vip.");
+                                            die("Error en ListadoHTML, HTML elaborar_html_eliminar_columnas: No está definido el VIP en Serpiente para $vip.");
                                         }
                                     } else {
-                                        // NO ES UNA RELACION
+                                        // No es una relacion
                                         $a[] = "        if (\$this->{$columna}) {";
                                         $a[] = "            unset(\$this->estructura['{$columna}_{$vip}']); // :)";
                                         $a[] = "        }";
                                     }
                                 } else {
-                                    // VIP DATOS ES UN TEXTO
+                                    // Vip datos es un texto
                                     $a[] = "        if (\$this->{$columna}) {";
                                     $a[] = "            unset(\$this->estructura['{$columna}_{$vip_datos}']);";
                                     $a[] = "        }";
@@ -134,14 +134,14 @@ class HTML extends \Base\Plantilla {
                     case 'entero':
                     case 'fecha':
                     case 'caracter':
-                        // ES ENTERO, FECHA O CARACTER, LO RETIRAMOS
+                        // Es entero, fecha o caracter, lo retiramos
                         $a[] = "        if (\$this->{$columna}) {";
                         $a[] = "            unset(\$this->estructura['{$columna}']);";
                         $a[] = "        }";
                 }
             }
         }
-        // ENTREGAR
+        // Entregar
         return implode("\n", $a);
     } // elaborar_html_eliminar_columnas
 
@@ -151,37 +151,37 @@ class HTML extends \Base\Plantilla {
      * @return string Código PHP
      */
     protected function elaborar_html_mapa() {
-        // SI NO HAY MAPA NO SE ENTREGA NADA
+        // Si no hay mapa no se entrega nada
         if (!is_array($this->mapa)) {
             return false;
         }
-        // EN ESTE ARREGLO JUNTAREMOS EL CODIGO PHP
+        // En este arreglo juntaremos el codigo php
         $a = array();
-        // PUEDE HABER MAS DE UNA COLUMNA CON INFORMACION PARA MAPAS
+        // Puede haber mas de una columna con informacion para mapas
         foreach ($this->mapa as $columna => $datos) {
-            // SI LA COLUMNA ES GEOPUNTO
+            // Si la columna es geopunto
             if ($this->tabla[$columna]['tipo'] == 'geopunto') {
-                // VALIDAR QUE ESTEN LOS DATOS NECESARIOS
+                // Validar que esten los datos necesarios
                 if ($datos['categoria'] == '') {
-                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categoria'.");
+                    die("Error en ListadoHTML, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categoria'.");
                 }
                 if ($datos['categorias_colores'] == '') {
-                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_colores'.");
+                    die("Error en ListadoHTML, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_colores'.");
                 }
                 if ($datos['categorias_descripciones'] == '') {
-                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_descripciones'.");
+                    die("Error en ListadoHTML, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_descripciones'.");
                 }
                 if ($datos['descripcion'] == '') {
-                    die("Error en DetalleHTML: Al arreglo mapa, para la columna $columna le falta el dato 'descripcion'.");
+                    die("Error en ListadoHTML, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'descripcion'.");
                 }
-                // PARA QUE SE VEA BONITO
+                // Para que se vea bonito
                 $colores    = $datos['categorias_colores'];
                 $geojson    = "\$r['{$columna}_geojson']";
                 $categoria  = "\$r['".$datos['categoria']."']";
                 $popup      = "\$r['".$datos['descripcion']."']";
-                // AGREGAR
-                $a[] = "        // AGREGAR MAPA AL LISTADO HTML";
-                $a[] = "        \$mapa = new \Base\MapaHTML();";
+                // Agregar
+                $a[] = "        // Agregar el mapa";
+                $a[] = "        \$mapa = new \\Base\\MapaHTML();";
                 $a[] = "        foreach ($colores as \$letra => \$color) {";
                 $a[] = "            \$mapa->agregar_categoria(\$letra, \$color);";
                 $a[] = "        }";
@@ -191,7 +191,7 @@ class HTML extends \Base\Plantilla {
                 $a[] = "        \$this->listado_controlado->al_principio(\$mapa);";
             }
         }
-        // ENTREGAR
+        // Entregar
         if (count($a) > 0) {
             return "\n".implode("\n", $a);
         } else {

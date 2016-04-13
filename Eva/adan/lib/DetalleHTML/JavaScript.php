@@ -40,7 +40,21 @@ class JavaScript extends \Base\Plantilla {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if (is_array(\$this->javascript) && (count(\$this->javascript) > 0)) {
+            \$a = array();
+            foreach (\$this->javascript as \$js) {
+                if (is_string(\$js) && (\$js != '')) {
+                    \$a[] = \$js;
+                }
+            }
+            if (count(\$a) > 0) {
+                return implode("\\n", \$a);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     } // javascript
 
 FINAL;

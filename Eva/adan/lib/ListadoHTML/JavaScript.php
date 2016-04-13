@@ -33,6 +33,31 @@ class JavaScript extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        return <<<FINAL
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        if (is_array(\$this->javascript) && (count(\$this->javascript) > 0)) {
+            \$a = array();
+            foreach (\$this->javascript as \$js) {
+                if (is_string(\$js) && (\$js != '')) {
+                    \$a[] = \$js;
+                }
+            }
+            if (count(\$a) > 0) {
+                return implode("\\n", \$a);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } // javascript
+
+FINAL;
     } // php
 
 } // Clase JavaScript
