@@ -102,58 +102,58 @@ class Creador {
         $modulo = $this->adan->nombre;
         $m[]    = $modulo;
         // Crear Registro
-        $libreria = new \Base\Registro($this->adan);
+        $libreria = new Registro($this->adan);
         $m[]      = $this->crear_archivo_libreria($modulo, "Registro.php", $libreria->php());
         // Crear DetalleHTML
-        $libreria = new \Base\DetalleHTML($this->adan);
+        $libreria = new DetalleHTML($this->adan);
         $m[]      = $this->crear_archivo_libreria($modulo, "DetalleHTML.php", $libreria->php());
         // Crear FormularioHTML
         //~ if ($this->adan->si_hay_que_crear('formulario')) {
-            //~ $libreria = new \Base\FormularioHTML($this->adan);
+            //~ $libreria = new FormularioHTML($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "FormularioHTML.php", $libreria->php());
         //~ }
         // Crear Listado
-        $libreria = new \Base\Listado($this->adan);
+        $libreria = new Listado($this->adan);
         $m[]      = $this->crear_archivo_libreria($modulo, "Listado.php", $libreria->php());
         // Crear ListadoCSV
         //~ if ($this->adan->si_hay_que_crear('listadocsv')) {
-            //~ $libreria = new \Base\ListadoCSV($this->adan);
+            //~ $libreria = new ListadoCSV($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "ListadoCSV.php", $libreria->php());
-            //~ $libreria = new \Base\PaginaCSV($this->adan);
+            //~ $libreria = new PaginaCSV($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "PaginaCSV.php", $libreria->php());
         //~ }
         // Crear ListadoHTML
         if ($this->adan->si_hay_que_crear('listado')) {
-            $libreria = new \Base\ListadoHTML($this->adan);
+            $libreria = new ListadoHTML($this->adan);
             $m[]      = $this->crear_archivo_libreria($modulo, "ListadoHTML.php", $libreria->php());
         }
         // Crear TrenHTML
         //~ if ($this->adan->si_hay_que_crear('tren')) {
-            //~ $libreria = new \Base\TrenHTML($this->adan);
+            //~ $libreria = new TrenHTML($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "TrenHTML.php", $libreria->php());
         //~ }
         // Crear BusquedaHTML
         //~ if ($this->adan->si_hay_que_crear('busqueda')) {
-            //~ $libreria = new \Base\BusquedaHTML($this->adan);
+            //~ $libreria = new BusquedaHTML($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "BusquedaHTML.php", $libreria->php());
         //~ }
         // Crear Select Opciones
         if ($this->adan->si_hay_que_crear('select_opciones')) {
-            $libreria = new \Base\OpcionesSelect($this->adan);
+            $libreria = new OpcionesSelect($this->adan);
             $m[]      = $this->crear_archivo_libreria($modulo, "OpcionesSelect.php", $libreria->php());
         }
         // Crear Impresion
         //~ if ($this->adan->si_hay_que_crear('impresiones')) {
-            //~ $libreria = new \Base\Impresion($this->adan);
+            //~ $libreria = new Impresion($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "Impresion.php", $libreria->php());
-            //~ $libreria = new \Base\ImpresionHTML($this->adan);
+            //~ $libreria = new ImpresionHTML($this->adan);
             //~ $m[]      = $this->crear_archivo_libreria($modulo, "ImpresionHTML.php", $libreria->php());
         //~ }
         // Crear PaginaHTML
-        //~ $libreria = new \Base\PaginaHTML($this->adan);
-        //~ $m[]      = $this->crear_archivo_libreria($modulo, "PaginaHTML.php", $libreria->php());
+        $libreria = new PaginaHTML($this->adan);
+        $m[]      = $this->crear_archivo_libreria($modulo, "PaginaHTML.php", $libreria->php());
         // Crear raiz
-        $pagina   = new \Base\Raiz($this->adan);
+        $pagina   = new Raiz($this->adan);
         $m[]      = $this->crear_archivo_pagina($this->adan->sustituciones['SED_ARCHIVO_PLURAL'].".php", $pagina->php());
         // Entregar mensaje
         return implode("\n", $m);

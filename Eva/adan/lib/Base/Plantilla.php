@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase Plantilla
  */
-class Plantilla {
+abstract class Plantilla {
 
     protected $primary_key;        // Nombre de la columna primary key
     protected $adan;               // Instancia de Adan
@@ -315,6 +315,13 @@ class Plantilla {
         // Entregamos el codigo php comentado
         return implode("\n", $nuevo);
     } // php_comentado
+
+    /**
+     * PHP
+     *
+     * @return string Código PHP
+     */
+    abstract public function php();
 
 } // Clase Plantilla
 

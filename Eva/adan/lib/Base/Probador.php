@@ -48,37 +48,37 @@ class Probador {
         // De acuerdo a lo pedido
         switch (strtolower($libreria)) {
             case 'registro':
-                $registro = new \Base\Registro($this->adan);
+                $registro = new Registro($this->adan);
                 return $registro->php();
             case 'detallehtml':
-                $detalle_html = new \Base\DetalleHTML($this->adan);
+                $detalle_html = new DetalleHTML($this->adan);
                 return $detalle_html->php();
             //~ case 'formulariohtml':
-                //~ $libreria = new \Base\FormularioHTML($this->adan);
+                //~ $libreria = new FormularioHTML($this->adan);
                 //~ return $libreria->php();
             case 'listado':
-                $listado = new \Base\Listado($this->adan);
+                $listado = new Listado($this->adan);
                 return $listado->php();
             case 'listadohtml':
-                $listado_html = new \Base\ListadoHTML($this->adan);
+                $listado_html = new ListadoHTML($this->adan);
                 return $listado_html->php();
             //~ case 'busquedahtml':
-                //~ $libreria = new \Base\BusquedaHTML($this->adan);
+                //~ $libreria = new BusquedaHTML($this->adan);
                 //~ return $libreria->php();
             //~ case 'trenhtml':
-                //~ $libreria = new \Base\TrenHTML($this->adan);
+                //~ $libreria = new TrenHTML($this->adan);
                 //~ return $libreria->php();
             //~ case 'mapahtml':
-                //~ $libreria = new \Base\MapaHTML($this->adan);
+                //~ $libreria = new MapaHTML($this->adan);
                 //~ return $libreria->php();
             case 'opcionesselect':
-                $opciones_select = new \Base\OpcionesSelect($this->adan);
+                $opciones_select = new OpcionesSelect($this->adan);
                 return $opciones_select->php();
-            //~ case 'pagina':
-                //~ $pagina = new \Base\Pagina($this->adan);
-                //~ return $pagina->php();
+            case 'paginahtml':
+                $pagina = new PaginaHTML($this->adan);
+                return $pagina->php();
             case 'raiz':
-                $raiz = new \Base\Pagina($this->adan);
+                $raiz = new Raiz($this->adan);
                 return $raiz->php();
             default:
                 return "ERROR en Probador: No esta definida la librería $libreria";
