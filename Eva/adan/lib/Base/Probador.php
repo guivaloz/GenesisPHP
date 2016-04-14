@@ -54,8 +54,8 @@ class Probador {
                 $detalle_html = new DetalleHTML($this->adan);
                 return $detalle_html->php();
             //~ case 'formulariohtml':
-                //~ $libreria = new FormularioHTML($this->adan);
-                //~ return $libreria->php();
+                //~ $formulario_html = new FormularioHTML($this->adan);
+                //~ return $formulario_html->php();
             case 'listado':
                 $listado = new Listado($this->adan);
                 return $listado->php();
@@ -63,20 +63,20 @@ class Probador {
                 $listado_html = new ListadoHTML($this->adan);
                 return $listado_html->php();
             //~ case 'busquedahtml':
-                //~ $libreria = new BusquedaHTML($this->adan);
-                //~ return $libreria->php();
-            //~ case 'trenhtml':
-                //~ $libreria = new TrenHTML($this->adan);
-                //~ return $libreria->php();
+                //~ $busqueda_html = new BusquedaHTML($this->adan);
+                //~ return $busqueda_html->php();
+            case 'trenhtml':
+                $tren_html = new TrenHTML($this->adan);
+                return $tren_html->php();
             //~ case 'mapahtml':
-                //~ $libreria = new MapaHTML($this->adan);
-                //~ return $libreria->php();
+                //~ $mapa_html = new MapaHTML($this->adan);
+                //~ return $mapa_html->php();
             case 'opcionesselect':
                 $opciones_select = new OpcionesSelect($this->adan);
                 return $opciones_select->php();
             case 'paginahtml':
-                $pagina = new PaginaHTML($this->adan);
-                return $pagina->php();
+                $pagina_html = new PaginaHTML($this->adan);
+                return $pagina_html->php();
             case 'raiz':
                 $raiz = new Raiz($this->adan);
                 return $raiz->php();

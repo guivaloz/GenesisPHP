@@ -27,16 +27,15 @@ namespace Base;
  */
 class ListadoHTML {
 
-    public $encabezado;                    // Opcional, texto para el encabezado
-    public $icono;                         // Opcional, URL al icono
-    public $barra;                         // Opcional, instancia de BarraHTML
-    public $estructura;                    // Arreglo asociativo con la estructura del listado
-    public $listado             = array(); // Arreglo, resultado de la consulta
-    public $panal               = array();
-    protected $cabeza           = array(); // Arreglo de objetos o de códigos HTML a agregar al principio con el metodo al_principio
-    protected $pie              = array(); // Arreglo de objetos o de codigos HTML a agregar al final     con el metodo al_final
-    protected $javascript       = array(); // Arreglo, Javascript a colocar al final de la página
-    static public $icono_tamano = '24x24';
+    public $encabezado;              // Opcional, texto para el encabezado
+    public $icono;                   // Opcional, URL al icono
+    public $barra;                   // Opcional, instancia de BarraHTML
+    public $estructura;              // Arreglo asociativo con la estructura del listado
+    public $listado       = array(); // Arreglo, resultado de la consulta
+    public $panal         = array();
+    protected $cabeza     = array(); // Arreglo de objetos o de códigos HTML a agregar al principio con el metodo al_principio
+    protected $pie        = array(); // Arreglo de objetos o de codigos HTML a agregar al final     con el metodo al_final
+    protected $javascript = array(); // Arreglo, Javascript a colocar al final de la página
 
     /**
      * Al Principio
@@ -91,6 +90,8 @@ class ListadoHTML {
 
     /**
      * Elaborar Tabla Inicio
+     *
+     * @return string HTML
      */
     protected function elaborar_tabla_inicio() {
         // Acumularemos la entrega en este arreglo
@@ -142,6 +143,8 @@ class ListadoHTML {
 
     /**
      * Elaborar Tabla Contenido con Listado
+     *
+     * @return string HTML
      */
     protected function elaborar_tabla_contenido_con_listado() {
         // Acumularemos la entrega en este arreglo
@@ -258,6 +261,8 @@ class ListadoHTML {
 
     /**
      * Elaborar Tabla Contenido con Panal
+     *
+     * @return string HTML
      */
     protected function elaborar_tabla_contenido_con_panal() {
         // Acumularemos la entrega en este arreglo
@@ -373,6 +378,8 @@ class ListadoHTML {
 
     /**
      * Elaborar Tabla Final
+     *
+     * @return string HTML
      */
     protected function elaborar_tabla_final() {
         // Acumularemos la entrega en este arreglo
@@ -433,7 +440,7 @@ class ListadoHTML {
     /**
      * Javascript
      *
-     * @return string Javascript, si no hay entrega falso
+     * @return string Javascript
      */
     public function javascript() {
         // Si hay Javascript en los objetos de la cabeza
@@ -452,7 +459,7 @@ class ListadoHTML {
                 }
             }
         }
-        // Entregar sólo código, sin renglones en blanco
+        // Entregar
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {

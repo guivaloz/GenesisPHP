@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - ListadoControladoHTML
+ * GenesisPHP - TrenControladoHTML
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,54 +23,61 @@
 namespace Base;
 
 /**
- * Clase ListadoControladoHTML
+ * Clase TrenControladoHTML
  */
-class ListadoControladoHTML extends ListadoHTML {
+class TrenControladoHTML extends TrenHTML {
 
     // public $encabezado;
     // public $icono;
     // public $barra;
-    // public $estructura;
-    // public $listado;
-    // public $panal;
+    // public $vagones;
+    // public $div_class;
+    // public $columnas;
     // protected $cabeza;
     // protected $pie;
+    // protected $javascript;
     public $limit;
     public $offset;
     public $cantidad_registros;
     public $variables;
-    public $viene_listado; // Se usa en la página, si es verdadero debe mostrar el listado
+    public $viene_tren; // Se usa en la pagina, si es verdadero debe mostrar el tren
     protected $controlado_html;
 
     /**
      * Constructor
+     *
+     * @param array Opcional, vagones es un arreglo de objetos con un método html
      */
-    public function __construct() {
+    public function __construct($in_vagones=false) {
         // Iniciamos controlado html
         $this->controlado_html = new ControladoHTML();
         // Tomamos estos valores que pueden venir por el url
         $this->limit              = $this->controlado_html->limit;
         $this->offset             = $this->controlado_html->offset;
         $this->cantidad_registros = $this->controlado_html->cantidad_registros;
-        $this->viene_listado      = $this->controlado_html->viene_listado;
+        $this->viene_tren         = $this->controlado_html->viene_listado;
+        // Ejecutamos al padre
+        parent::__construct($in_vagones);
     } // constructor
 
     /**
      * HTML
      *
+     * @param  string Encabezado opcional
+     * @param  string Icono opcional
      * @return string HTML
      */
-    public function html() {
-        // Le entregamos a controlado HTML
+    public function html($in_encabezado='', $in_icono='') {
+        // Le entregamos las variables
         $this->controlado_html->cantidad_registros = $this->cantidad_registros;
         $this->controlado_html->variables          = $this->variables;
-        $this->controlado_html->limit              = $this->limit; // Puede ponerse en cero para que no tenga botones
-        // Definimos el pie de la lista
+        $this->controlado_html->limit              = $this->limit; // PUEDE PONERSE EN CERO PARA QUE NO TENGA BOTONES
+        // El pie del tren son los botones de control
         $this->pie = $this->controlado_html->html();
         // Ejecutar padre y entregar
-        return parent::html();
+        return parent::html($in_encabezado, $in_icono);
     } // html
 
-} // Clase ListadoControladoHTML
+} // Clase TrenControladoHTML
 
 ?>

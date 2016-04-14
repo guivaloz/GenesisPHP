@@ -42,7 +42,6 @@ class MensajeHTML {
         'error' => 'dialog-error.png',
         'info'  => 'face-smile.png',
         'tip'   => 'dialog-information.png');
-    static public $icono_tamano = '24x24';
     static public $botones_clases = array(
         'default' => 'btn',              // Gris
         'primary' => 'btn btn-primary',  // Azul fuerte
@@ -174,7 +173,7 @@ class MensajeHTML {
         // Acumular encabezado
         if ($this->encabezado != '') {
             if ($this->icono != '') {
-                $a[] = sprintf('  <h4><img src="imagenes/%s/%s"> %s</h4>', self::$icono_tamano, $this->icono, $this->encabezado);
+                $a[] = sprintf('  <h4><img src="imagenes/24x24/%s"> %s</h4>', $this->icono, $this->encabezado);
             } else {
                 $a[] = "  <h4>{$this->encabezado} {$this->icono}</h4>";
             }

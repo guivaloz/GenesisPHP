@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - ListadoHTML BarraHTML
+ * GenesisPHP - TrenHTML BarraHTML
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-namespace ListadoHTML;
+namespace TrenHTML;
 
 /**
  * Clase BarraHTML
@@ -58,27 +58,6 @@ class BarraHTML extends \Base\Plantilla {
     } // boton_agregar_registro
 
     /**
-     * Botón para Descargar CSV
-     *
-     * @return string Código PHP
-     */
-    protected function boton_descargar_csv() {
-        // Lo que se va a entregar se juntara en este arreglo
-        $a = array();
-        // Boton para descargar csv
-        if ($this->adan->si_hay_que_crear('listadocsv') > 0) {
-            $a[] = "        // Botón descargar CSV";
-            $a[] = "        \$barra->boton_descargar(\"SED_ARCHIVO_PLURAL.csv\", \$this->filtros_param, '<span class=\"glyphicon glyphicon-floppy-save\"></span> CSV');";
-        }
-        // Entregar
-        if (count($a) > 0) {
-            return implode("\n", $a)."\n";
-        } else {
-            return '';
-        }
-    } // boton_descargar_csv
-
-    /**
      * PHP
      *
      * @return string Código PHP
@@ -102,7 +81,7 @@ class BarraHTML extends \Base\Plantilla {
         \$barra             = new \\Base\\BarraHTML();
         \$barra->encabezado = \$encabezado;
         \$barra->icono      = \$this->sesion->menu->icono_en('SED_CLAVE');
-{$this->boton_agregar_registro()}{$this->boton_descargar_csv()}        // Entregar
+{$this->boton_agregar_registro()}        // Entregar
         return \$barra;
     } // barra
 

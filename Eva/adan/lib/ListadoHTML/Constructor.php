@@ -362,7 +362,7 @@ class Constructor extends \Base\Plantilla {
     public function __construct(\\Inicio\\Sesion \$in_sesion) {
 {$this->elaborar_constructor_recibir_filtros()}
 {$this->elaborar_constructor_estructura()}
-        // Iniciar listado controlado html
+        // Iniciar listado controlado
         \$this->listado_controlado = new \\Base\\ListadoControladoHTML();
         // Su constructor toma estos parametros por url
         \$this->limit              = \$this->listado_controlado->limit;
