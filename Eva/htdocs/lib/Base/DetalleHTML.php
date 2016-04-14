@@ -30,12 +30,11 @@ class DetalleHTML {
     public $encabezado;                    // Opcional, texto para el encabezado
     public $icono;                         // Opcional, URL al icono
     public $barra;                         // Opcional, instancia de BarraHTML
-    protected $secciones        = array();
-    protected $seccion_actual   = 'Datos';
-    protected $imagenes         = array();
-    protected $pie              = array(); // Arreglo de objetos o códigos HTML para poner al final con al_final
-    protected $javascript       = array(); // Arreglo con Javascript
-    static public $icono_tamano = '24x24';
+    protected $secciones      = array();
+    protected $seccion_actual = 'Datos';
+    protected $imagenes       = array();
+    protected $pie            = array(); // Arreglo de objetos o códigos HTML para poner al final con al_final
+    protected $javascript     = array(); // Arreglo con Javascript
 
     /**
      * Seccion

@@ -43,7 +43,6 @@ class FormularioHTML {
     protected $onkeypress;
     protected $subir_archivo             = false;
     protected $html_elaborado;                       // El método HTML sólo se elabora una vez, después entrega el mismo HTML
-    static public $icono_tamano          = '24x24';
     static public $adjunto_tamano_maximo = 24000000; // Tamaño máximo en bytes
     static public $botones_clases        = array(
         'default' => 'btn',              // Gris

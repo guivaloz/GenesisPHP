@@ -23,9 +23,9 @@
 namespace Base;
 
 /**
- * Clase ListadoHTML
+ * Clase TrenHTML
  */
-class ListadoHTML extends Plantilla {
+class TrenHTML extends Plantilla {
 
     /**
      * PHP
@@ -43,7 +43,7 @@ class ListadoHTML extends Plantilla {
         $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_PLURAL ListadoHTML
+ * SED_SISTEMA - SED_TITULO_PLURAL TrenHTML
  *
  * @package SED_PAQUETE
  */
@@ -69,6 +69,6 @@ FINAL;
         return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase ListadoHTML
+} // Clase TrenHTML
 
 ?>
