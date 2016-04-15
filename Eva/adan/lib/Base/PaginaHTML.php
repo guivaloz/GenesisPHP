@@ -51,7 +51,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase PaginaHTML
  */
-class PaginaHTML extends \Base\PaginaHTML {
+class PaginaHTML extends \\Base\\PaginaHTML {
 
 {$propiedades->php()}
 {$metodo_constructor->php()}

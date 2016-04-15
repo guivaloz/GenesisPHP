@@ -39,9 +39,30 @@ class BusquedaHTML extends Plantilla {
         $metodo_elaborar_formulario = new \BusquedaHTML\ElaborarFormulario($this->adan);
         $metodo_recibir_formulario  = new \BusquedaHTML\RecibirFormulario($this->adan);
         $metodo_consultar           = new \BusquedaHTML\Consultar($this->adan);
-        $metodo_javascript          = new \BusquedaHTML\JavaScript($this->adan);
         // Armar el contenido con las partes
         $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_SINGULAR BusquedaHTML
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
+/**
+ * Clase BusquedaHTML
+ */
+class BusquedaHTML extends \\Base\\BusquedaHTML {
+
+{$propiedades->php()}
+{$metodo_validar->php()}
+{$metodo_elaborar_formulario->php()}
+{$metodo_recibir_formulario->php()}
+{$metodo_consultar->php()}
+} // Clase BusquedaHTML
+
+?>
 
 FINAL;
         // Realizar sustituciones y entregar

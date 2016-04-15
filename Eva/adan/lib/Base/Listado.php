@@ -42,7 +42,7 @@ class Listado extends Plantilla {
         $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_SINGULAR
+ * SED_SISTEMA - SED_TITULO_SINGULAR Listado
  *
  * @package SED_PAQUETE
  */
@@ -52,7 +52,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \\Base\\Listado {
 
 {$propiedades->php()}
 {$metodo_validar->php()}

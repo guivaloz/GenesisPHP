@@ -40,7 +40,7 @@ class OpcionesSelect extends Plantilla {
         $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_SINGULAR
+ * SED_SISTEMA - SED_TITULO_SINGULAR OpcionesSelect
  *
  * @package SED_PAQUETE
  */

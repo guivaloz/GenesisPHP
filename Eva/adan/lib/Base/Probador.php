@@ -62,9 +62,9 @@ class Probador {
             case 'listadohtml':
                 $listado_html = new ListadoHTML($this->adan);
                 return $listado_html->php();
-            //~ case 'busquedahtml':
-                //~ $busqueda_html = new BusquedaHTML($this->adan);
-                //~ return $busqueda_html->php();
+            case 'busquedahtml':
+                $busqueda_html = new BusquedaHTML($this->adan);
+                return $busqueda_html->php();
             case 'trenhtml':
                 $tren_html = new TrenHTML($this->adan);
                 return $tren_html->php();

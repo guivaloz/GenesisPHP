@@ -46,7 +46,7 @@ class Registro extends Plantilla {
         $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_SINGULAR
+ * SED_SISTEMA - SED_TITULO_SINGULAR Registro
  *
  * @package SED_PAQUETE
  */
@@ -56,7 +56,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \\Base\\Registro {
 
 {$propiedades->php()}
 {$metodo_consultar->php()}

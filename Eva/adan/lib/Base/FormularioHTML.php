@@ -41,6 +41,28 @@ class FormularioHTML extends Plantilla {
         $metodo_javascript          = new \FormularioHTML\JavaScript($this->adan);
         // Armar el contenido con las partes
         $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_SINGULAR FormularioHTML
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
+/**
+ * Clase FormularioHTML
+ */
+class FormularioHTML extends Registro {
+
+{$propiedades->php()}
+{$metodo_elaborar_formulario->php()}
+{$metodo_recibir_formulario->php()}
+{$metodo_html->php()}
+{$metodo_javascript->php()}
+} // Clase FormularioHTML
+
+?>
 
 FINAL;
         // Realizar sustituciones y entregar

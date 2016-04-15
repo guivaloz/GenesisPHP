@@ -38,7 +38,7 @@ class Raiz extends Plantilla {
             $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - Página SED_TITULO_PLURAL
+ * SED_SISTEMA - SED_TITULO_PLURAL Raiz
  *
  * @package SED_PAQUETE
  */

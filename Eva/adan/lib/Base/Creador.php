@@ -133,10 +133,10 @@ class Creador {
             $m[]       = $this->crear_archivo_libreria($modulo, "TrenHTML.php", $tren_html->php());
         }
         // Crear BusquedaHTML
-        //~ if ($this->adan->si_hay_que_crear('busqueda')) {
-            //~ $busqueda_html = new BusquedaHTML($this->adan);
-            //~ $m[]           = $this->crear_archivo_libreria($modulo, "BusquedaHTML.php", $busqueda_html->php());
-        //~ }
+        if ($this->adan->si_hay_que_crear('busqueda')) {
+            $busqueda_html = new BusquedaHTML($this->adan);
+            $m[]           = $this->crear_archivo_libreria($modulo, "BusquedaHTML.php", $busqueda_html->php());
+        }
         // Crear Select Opciones
         if ($this->adan->si_hay_que_crear('select_opciones')) {
             $opciones_select = new OpcionesSelect($this->adan);

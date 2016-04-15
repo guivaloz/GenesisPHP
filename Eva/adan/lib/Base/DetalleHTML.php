@@ -43,7 +43,7 @@ class DetalleHTML extends Plantilla {
         $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_SINGULAR Detalle HTML
+ * SED_SISTEMA - SED_TITULO_SINGULAR DetalleHTML
  *
  * @package SED_PAQUETE
  */
