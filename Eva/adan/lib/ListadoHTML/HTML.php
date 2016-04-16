@@ -221,7 +221,7 @@ class HTML extends \Base\Plantilla {
         \$this->listado_controlado->cantidad_registros = \$this->cantidad_registros;
         \$this->listado_controlado->variables          = \$this->filtros_param;
         \$this->listado_controlado->limit              = \$this->limit; // Pasamos el limit, porque desde la pagina se puede pedir sin botones
-        \$this->listado_controlado->barra              = \$this->barra(\$in_encabezado);
+        \$this->listado_controlado->barra              = \$this->barra_html(\$in_encabezado);
         // Agregar el javascript del ListadoControladoHTML (que incluye el de la BarraHTML)
         \$this->javascript[] = \$this->listado_controlado->javascript();
         // Entregar

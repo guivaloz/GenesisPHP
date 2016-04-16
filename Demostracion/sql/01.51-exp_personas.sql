@@ -6,8 +6,8 @@
 
 CREATE TABLE exp_personas (
     id                   serial                  PRIMARY KEY,
-    departamento         integer                 REFERENCES cat_departamentos NOT NULL,
-    puesto               integer                 REFERENCES cat_puestos       NOT NULL,
+    area                 integer                 REFERENCES cat_areas   NOT NULL,
+    puesto               integer                 REFERENCES cat_puestos NOT NULL,
 
     nombres              character varying(128),
     apellido_paterno     character varying(128),

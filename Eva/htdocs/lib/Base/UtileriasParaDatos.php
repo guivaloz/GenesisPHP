@@ -549,6 +549,25 @@ abstract class UtileriasParaDatos {
         }
     } // validar_geopunto
 
+    /**
+     * Arreglo sin valores repetidos
+     *
+     * @param  array Arreglo a procesar
+     * @return array Arreglo sin valores repetidos
+     */
+    protected function arreglo_sin_valores_repetidos($in_arreglo) {
+        if (!is_array($in_arreglo) || (count($in_arreglo) == 0)) {
+            return array();
+        }
+        $arreglo = array();
+        foreach ($in_arreglo as $a) {
+            if (!in_array($a, $arreglo)) {
+                $arreglo[] = $a;
+            }
+        }
+        return $arreglo;
+    } // arreglo_sin_valores_repetidos
+
 } // Clase UtileriasParaDatos
 
 ?>

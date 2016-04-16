@@ -5,9 +5,9 @@
 --
 
 -- Menú Catálogos (si la primer opcion comienza con guion, se omite en el menú secundario)
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (801, 'cat_catalogos',     '-Catálogos',    'applications-graphics.png',     'catdepartamentos.php', NULL); -- 10
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (811, 'cat_departamentos', 'Departamentos', 'mail-send.png',                 'catdepartamentos.php',   10); -- 11
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (813, 'cat_puestos',       'Puestos',       'preferences-desktop-theme.png', 'catpuestos.php',         10); -- 12
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (801, 'cat_catalogos', '-Catálogos', 'applications-graphics.png',     'catareas.php',   NULL); -- 10
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (811, 'cat_areas',     'Áreas',      'mail-send.png',                 'catareas.php',     10); -- 11
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (813, 'cat_puestos',   'Puestos',    'preferences-desktop-theme.png', 'catpuestos.php',   10); -- 12
 
 -- Roles de Desarrollo de Sistemas(1) en el menú Catálogos
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1, 10, 1);

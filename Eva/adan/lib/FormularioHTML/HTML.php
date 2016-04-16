@@ -155,7 +155,7 @@ class HTML extends \Base\Plantilla {
         }
         // Mostrar formulario, como cadenero puede provovar una excepcion se encierra en try-catch
         try {
-            \$a[] = \$this->formulario(\$in_encabezado);
+            \$a[] = \$this->elaborar_formulario(\$in_encabezado);
         } catch (\Exception \$e) {
             \$mensaje = new \\Base\\MensajeHTML(\$e->getMessage());
             \$a[]     = \$mensaje->html('Formulario');

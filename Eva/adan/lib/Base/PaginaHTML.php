@@ -40,6 +40,7 @@ class PaginaHTML extends Plantilla {
         $metodo_html                   = new \PaginaHTML\HTML($this->adan);
         // Armar el contenido con las partes
         $contenido = <<<FINAL
+<?php
 /**
  * SED_SISTEMA - SED_TITULO_PLURAL PaginaHTML
  *

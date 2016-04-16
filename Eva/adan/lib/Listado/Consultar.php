@@ -35,7 +35,7 @@ class Consultar extends \Base\Plantilla {
     protected function elaborar_consultar_columnas() {
         // Entregar
         $a   = array();
-        $a[] = "        // COLUMNAS";
+        $a[] = "        // Columnas";
         $a[] = '        $c   = array();';
         // Bandera hay relaciones
         $hay_relaciones = false;
@@ -452,8 +452,8 @@ class Consultar extends \Base\Plantilla {
             $a[] = "        \$f[] = \"{$this->adan->filtro_impuesto_sql}\";";
         } elseif (is_array($this->adan->filtro_impuesto_sql) && (count($this->adan->filtro_impuesto_sql) > 0)) {
             $a[] = "        // Filtro sql impuesto";
-            foreach ($this->adan->filtro_impuesto_sql as $f) {
-                $a[] = "        \$f[] = \"$f\";";
+            foreach ($this->adan->filtro_impuesto_sql as $filtro) {
+                $a[] = "        \$f[] = \"$filtro\";";
             }
         }
         // En la semilla se puede definir un fragmento de codigo, para filtrar si cumple una condicion
@@ -465,11 +465,11 @@ class Consultar extends \Base\Plantilla {
         // Si hay relaciones
         if ($hay_relaciones) {
             // Como hay relaciones, siempre tendra where
-            $a[] = "        \$filtros_sql = 'WHERE '.implode(' AND ', arreglo_sin_valores_repetidos(\$f));";
+            $a[] = "        \$filtros_sql = 'WHERE '.implode(' AND ', \$this->arreglo_sin_valores_repetidos(\$f));";
         } else {
             // Hay posibilidad de que no se use ningun filtro, por lo que where puede usarse o no
-            $a[] = "        if (count($f) > 0) {";
-            $a[] = "            \$filtros_sql = 'WHERE '.implode(' AND ', arreglo_sin_valores_repetidos(\$f));";
+            $a[] = "        if (count(\$f) > 0) {";
+            $a[] = "            \$filtros_sql = 'WHERE '.implode(' AND ', \$this->arreglo_sin_valores_repetidos(\$f));";
             $a[] = "        } else {";
             $a[] = "            \$filtros_sql = '';";
             $a[] = "        }";
@@ -517,7 +517,7 @@ class Consultar extends \Base\Plantilla {
             if (count($descendente) > 0) {
                 $o[] = implode(", ", $descendente).' DESC';
             }
-            $a[] = sprintf("        \$orden_sql = \"ORDER BY %s\"", implode(", ", $o));
+            $a[] = sprintf("        \$orden_sql = \"ORDER BY %s\";", implode(", ", $o));
         } else {
             $a[] = "        \$orden_sql = \"\"; // No fue declarado orden en la semilla";
         }

@@ -68,7 +68,6 @@ echo "$soy Semillas recolectadas...\n";
 foreach ($semillas as $s) {
     echo "  $s\n";
 }
-exit($EXITO);
 
 // Cambiarse al directorio por debajo de donde se encuentra este programa
 chdir(realpath(dirname(__FILE__))."/..");

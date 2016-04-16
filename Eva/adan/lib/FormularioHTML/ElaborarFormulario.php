@@ -399,12 +399,12 @@ FINAL;
     public function php() {
         return <<<FINAL
     /**
-     * Formulario
+     * Elaborar formulario
      *
      * @param  string  Encabezado opcional
      * @return string  HTML del Formulario
      */
-    protected function formulario(\$in_encabezado='') {
+    protected function elaborar_formulario(\$in_encabezado='') {
         // Formulario
         \$form = new \\Base\\FormularioHTML(self::\$form_name);
         \$form->mensaje = '(*) Campos obligatorios.';
@@ -430,7 +430,7 @@ FINAL;
         \$this->javascript[] = \$form->javascript();
         // Entregar
         return \$form->html(\$encabezado, \$this->sesion->menu->icono_en('SED_CLAVE'));
-    } // formulario
+    } // elaborar_formulario
 
 FINAL;
     } // php

@@ -133,7 +133,7 @@ FINAL;
     public function php() {
         return <<<FINAL
     /**
-     * Recibir los valores del formulario
+     * Recibir formulario
      */
     protected function recibir_formulario() {
         // Cadenero

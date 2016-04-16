@@ -120,7 +120,6 @@ class CollapsePadreEHijos extends \Base\Plantilla {
         }
     } // crear_collapse_padre_hijos
 
-
 FINAL;
     } // php
 

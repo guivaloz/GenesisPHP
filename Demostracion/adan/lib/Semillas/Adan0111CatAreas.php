@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Semillas Adan0111CatDepartamentos
+ * GenesisPHP - Semillas Adan0111CatAreas
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,15 +23,15 @@
 namespace Semillas;
 
 /**
- * Clase Adan0111CatDepartamentos
+ * Clase Adan0111CatAreas
  */
-class Adan0111CatDepartamentos extends \Arbol\Adan {
+class Adan0111CatAreas extends \Arbol\Adan {
 
     // Nombre de este modulo
-    public $nombre = 'CatDepartamentos';
+    public $nombre = 'CatAreas';
 
     // Nombre de la tabla
-    public $tabla_nombre = 'cat_departamentos';
+    public $tabla_nombre = 'cat_areas';
 
     // Datos de la tabla
     public $tabla = array(
@@ -50,22 +50,22 @@ class Adan0111CatDepartamentos extends \Arbol\Adan {
 
     // Reptil es leido por Serpiente
     static public $reptil = array(
-        'etiqueta_singular'  => 'Departamento',
-        'etiqueta_plural'    => 'Departamentos',
-        'nom_corto_singular' => 'departamento',
-        'nom_corto_plural'   => 'departamentos',
-        'mensaje_singular'   => 'el departamento',
-        'mensaje_plural'     => 'los departamentos',
-        'clave'              => 'cat_departamentos',
-        'clase_singular'     => 'CatDepartamento',
-        'clase_plural'       => 'CatDepartamentos',
-        'instancia_singular' => 'departamento',
-        'instancia_plural'   => 'departamentos',
-        'archivo_singular'   => 'catdepartamento',
-        'archivo_plural'     => 'catdepartamentos',
-        'tabla'              => 'cat_departamentos',
+        'etiqueta_singular'  => 'Área',
+        'etiqueta_plural'    => 'Áreas',
+        'nom_corto_singular' => 'area',
+        'nom_corto_plural'   => 'areas',
+        'mensaje_singular'   => 'el área',
+        'mensaje_plural'     => 'las áreas',
+        'clave'              => 'cat_areas',
+        'clase_singular'     => 'CatArea',
+        'clase_plural'       => 'CatAreas',
+        'instancia_singular' => 'área',
+        'instancia_plural'   => 'áreas',
+        'archivo_singular'   => 'catarea',
+        'archivo_plural'     => 'catareas',
+        'tabla'              => 'cat_areas',
         'vip'                => array(
-            'nombre' => array('tipo' => 'nombre', 'etiqueta' => 'Departamento', 'filtro' => 1))
+            'nombre' => array('tipo' => 'nombre', 'etiqueta' => 'Área', 'filtro' => 1))
     );
 
     /**
@@ -82,6 +82,6 @@ class Adan0111CatDepartamentos extends \Arbol\Adan {
         $this->estatus            = $serpiente->obtener_estatus($this->nombre);
     } // constructor
 
-} // Clase Adan0111CatDepartamentos
+} // Clase Adan0111CatAreas
 
 ?>

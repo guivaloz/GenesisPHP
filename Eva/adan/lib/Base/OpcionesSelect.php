@@ -53,7 +53,8 @@ namespace SED_CLASE_PLURAL;
 class OpcionesSelect extends Listado {
 
 {$propiedades->php()}
-{$metodo_opciones->php()}} // Clase OpcionesSelect
+{$metodo_opciones->php()}
+} // Clase OpcionesSelect
 
 ?>
 

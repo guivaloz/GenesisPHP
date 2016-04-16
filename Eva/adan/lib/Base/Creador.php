@@ -27,8 +27,8 @@ namespace Base;
  */
 class Creador {
 
-    protected $adan;             // Instancia con la Semilla, es heredera de Adan
-    const RAIZ = '../../htdocs'; // Texto con la ruta al directorio raiz para el sistema
+    protected $adan;          // Instancia con la Semilla, es heredera de Adan
+    const RAIZ = '../htdocs'; // Texto con la ruta al directorio raiz para el sistema
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ class Creador {
      */
     protected function crear_archivo_pagina($archivo, $contenido) {
         // Crear archivo con la libreria
-        $pagina_arch = sprintf('%s/%s', RAIZ, $archivo);
+        $pagina_arch = sprintf('%s/%s', self::RAIZ, $archivo);
         if (!($soga = fopen($pagina_arch, 'w'))) {
             throw new \Exception("ERROR en Creador: No es posible crear o escribir el archivo $pagina_arch");
         }
@@ -66,9 +66,9 @@ class Creador {
      */
     protected function crear_archivo_libreria($modulo, $archivo, $contenido) {
         // Crear directorio lib
-        $lib_dir = sprintf('%s/lib', RAIZ);
+        $lib_dir = sprintf('%s/lib', self::RAIZ);
         if (!is_dir($lib_dir)) {
-            throw new \Exception("ERROR en Creador: No existe el directorio lib, debería de existir.");
+            throw new \Exception("ERROR en Creador: No existe el directorio $lib_dir, debería de existir.");
         }
         // Crear directorio del modulo
         $modulo_dir = "$lib_dir/$modulo";
