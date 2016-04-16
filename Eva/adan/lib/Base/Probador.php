@@ -27,7 +27,7 @@ namespace Base;
  */
 class Probador {
 
-    public $adan; // Instancia con la Semilla, es heredera de Adan
+    protected $adan; // Instancia con la Semilla, es heredera de Adan
 
     /**
      * Constructor
@@ -44,7 +44,7 @@ class Probador {
      * @param  string Texto que identifica a la librería a probar
      * @return string Codigo PHP
      */
-    public function crear($libreria) {
+    public function probar($libreria) {
         // De acuerdo a lo pedido
         switch (strtolower($libreria)) {
             case 'registro':
@@ -80,7 +80,7 @@ class Probador {
             default:
                 return "ERROR en Probador: No esta definida la librería $libreria";
         }
-    } // crear
+    } // probar
 
 } // Clase Probador
 

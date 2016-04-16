@@ -27,16 +27,16 @@ namespace Base;
  */
 class Creador {
 
-    public    $adan;                       // Objeto Adan
-    protected $base_ruta = '../../htdocs'; // Texto con la ruta al directorio base
+    protected $adan;             // Instancia con la Semilla, es heredera de Adan
+    const RAIZ = '../../htdocs'; // Texto con la ruta al directorio raiz para el sistema
 
     /**
      * Constructor
      *
-     * @param string Ruta de destino, base del htdocs
+     * @param mixed Instancia con la Semilla, que es heredera de Adan
      */
-    public function __construct($in_base_ruta) {
-        $this->base_ruta = $in_base_ruta;
+    public function __construct(\Arbol\Adan $semilla) {
+        $this->adan = $semilla;
     } // constructor
 
     /**
@@ -45,16 +45,16 @@ class Creador {
      * @param string Nombre del archivo
      * @param string Codigo PHP a escribir
      */
-    protected function crear_archivo_pagina($in_archivo, $in_contenido) {
+    protected function crear_archivo_pagina($archivo, $contenido) {
         // Crear archivo con la libreria
-        $pagina_arch = "{$this->base_ruta}/$in_archivo";
+        $pagina_arch = sprintf('%s/%s', RAIZ, $archivo);
         if (!($soga = fopen($pagina_arch, 'w'))) {
             throw new \Exception("ERROR en Creador: No es posible crear o escribir el archivo $pagina_arch");
         }
-        if (fwrite($soga, $in_contenido) === FALSE) {
+        if (fwrite($soga, $contenido) === FALSE) {
             throw new \Exception("ERROR en Creador: Al escribir contenido en $pagina_arch");
         }
-        return ":-) $in_archivo";
+        return ":-) $archivo";
     } // crear_archivo_pagina
 
     /**
@@ -64,38 +64,34 @@ class Creador {
      * @param string Nombre del archivo
      * @param string Codigo PHP a escribir
      */
-    protected function crear_archivo_libreria($in_modulo, $in_archivo, $in_contenido) {
+    protected function crear_archivo_libreria($modulo, $archivo, $contenido) {
         // Crear directorio lib
-        $lib_dir = "{$this->base_ruta}/lib";
+        $lib_dir = sprintf('%s/lib', RAIZ);
         if (!is_dir($lib_dir)) {
             throw new \Exception("ERROR en Creador: No existe el directorio lib, debería de existir.");
         }
         // Crear directorio del modulo
-        $modulo_dir = "$lib_dir/$in_modulo";
+        $modulo_dir = "$lib_dir/$modulo";
         if (!is_dir($modulo_dir)) {
             if (mkdir($modulo_dir) === false) {
-                throw new \Exception("ERROR en Creador: Al tratar de crear el directorio lib/$in_modulo");
+                throw new \Exception("ERROR en Creador: Al tratar de crear el directorio lib/$modulo");
             }
         }
         // Crear archivo con la libreria
-        $libreria_arch = "$modulo_dir/$in_archivo";
+        $libreria_arch = "$modulo_dir/$archivo";
         if (!($soga = fopen($libreria_arch, 'w'))) {
             throw new \Exception("ERROR en Creador: No es posible crear o escribir el archivo $libreria_arch");
         }
-        if (fwrite($soga, $in_contenido) === FALSE) {
+        if (fwrite($soga, $contenido) === FALSE) {
             throw new \Exception("ERROR en Creador: Al escribir contenido en $libreria_arch");
         }
-        return ":-)   $in_archivo";
+        return ":-)   $archivo";
     } // crear_archivo_libreria
 
     /**
      * Crear
      */
     public function crear() {
-        // Validar Adan
-        if (!isset($this->adan)) {
-            throw new \Exception ('ERROR en Creador: No está definido Adán.');
-        }
         // Arreglo para juntar los mensajes
         $m = array();
         // Tomamos el nombre del modulo, sera el directorio de la libreria

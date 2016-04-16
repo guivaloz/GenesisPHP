@@ -51,7 +51,7 @@ spl_autoload_register(
         if (file_exists($file)) {
             require $file;
         } else {
-            die("Autocargador Clases: Error, no existe $file\n");
+            die("ERROR en Auto-cargador de Clases: NO existe $file\n");
         }
     } // auto-cargador de clases
 );
