@@ -33,8 +33,28 @@ class Propiedades extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        return <<<FINAL
-FINAL;
+        // Juntaremos el código en este arreglo
+        $a = array();
+        // Propiedades comentadas
+        $seccion_propiedades = new \DetalleHTML\Propiedades($this->adan);
+        $a[]                 = $seccion_propiedades->php_comentado();
+        // Imagen
+        if (is_array($this->imagen)) {
+            if (is_string($this->imagen['variable']) && ($this->imagen['variable'] != '')) {
+                $variable = $this->imagen['variable'];
+            } else {
+                $variable = 'imagen';
+            }
+            $a[] = "    protected \$imagen_{$variable};";
+            $a[] = "    protected \$imagen_temporal;";
+        }
+        // Propiedades
+        $a[] = "    public \$entrego_detalle  = false;";
+        $a[] = "    protected \$es_nuevo;";
+        $a[] = "    protected \$html_elaborado; // El metodo html solo procesa una vez, despues entrega el mismo html";
+        $a[] = "    static public \$form_name = 'SED_ARCHIVO_SINGULAR';";
+        // Entregar
+        return implode("\n", $a)."\n";
     } // php
 
 } // Clase Propiedades

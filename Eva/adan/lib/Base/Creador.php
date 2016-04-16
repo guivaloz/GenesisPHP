@@ -108,10 +108,10 @@ class Creador {
         $detalle_html = new DetalleHTML($this->adan);
         $m[]          = $this->crear_archivo_libreria($modulo, "DetalleHTML.php", $detalle_html->php());
         // Crear FormularioHTML
-        //~ if ($this->adan->si_hay_que_crear('formulario')) {
-            //~ $formulario_html = new FormularioHTML($this->adan);
-            //~ $m[]             = $this->crear_archivo_libreria($modulo, "FormularioHTML.php", $formulario_html->php());
-        //~ }
+        if ($this->adan->si_hay_que_crear('formulario')) {
+            $formulario_html = new FormularioHTML($this->adan);
+            $m[]             = $this->crear_archivo_libreria($modulo, "FormularioHTML.php", $formulario_html->php());
+        }
         // Crear Listado
         $listado = new Listado($this->adan);
         $m[]     = $this->crear_archivo_libreria($modulo, "Listado.php", $listado->php());

@@ -53,24 +53,21 @@ class Probador {
             case 'detallehtml':
                 $detalle_html = new DetalleHTML($this->adan);
                 return $detalle_html->php();
-            //~ case 'formulariohtml':
-                //~ $formulario_html = new FormularioHTML($this->adan);
-                //~ return $formulario_html->php();
+            case 'formulariohtml':
+                $formulario_html = new FormularioHTML($this->adan);
+                return $formulario_html->php();
             case 'listado':
                 $listado = new Listado($this->adan);
                 return $listado->php();
             case 'listadohtml':
                 $listado_html = new ListadoHTML($this->adan);
                 return $listado_html->php();
-            case 'busquedahtml':
-                $busqueda_html = new BusquedaHTML($this->adan);
-                return $busqueda_html->php();
             case 'trenhtml':
                 $tren_html = new TrenHTML($this->adan);
                 return $tren_html->php();
-            //~ case 'mapahtml':
-                //~ $mapa_html = new MapaHTML($this->adan);
-                //~ return $mapa_html->php();
+            case 'busquedahtml':
+                $busqueda_html = new BusquedaHTML($this->adan);
+                return $busqueda_html->php();
             case 'opcionesselect':
                 $opciones_select = new OpcionesSelect($this->adan);
                 return $opciones_select->php();
