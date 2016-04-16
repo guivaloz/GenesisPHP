@@ -76,7 +76,7 @@ fi
 cd adan/bin
 for SCRIPT in CrearGenesisPHP.php ProbarGenesisPHP.php
 do
-    if [ -x $SCRIPT ]; then
+    if [ -x ../../../Eva/adan/bin/$SCRIPT ]; then
         echo "$SOY Copiando adan/bin/$SCRIPT..."
         cp ../../../Eva/adan/bin/$SCRIPT .
         if [ "$?" -ne $EXITO ]; then
