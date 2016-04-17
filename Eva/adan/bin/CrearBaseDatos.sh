@@ -21,19 +21,6 @@
 # MA 02110-1301, USA.
 #
 
-#
-# Para probar que tiene los permisos, haga una prueba de la creación
-# con estos comandos...
-#
-#   $ createuser -d -s genesisphp
-#   $ createdb -O genesisphp genesisphp_demostracion
-#   $ psql -l
-#
-# Si funciona, ejecute...
-#
-#   $ ./CrearBaseDatos.sh
-#
-
 # Yo soy
 SOY="[Crear Base de Datos]"
 
@@ -41,43 +28,48 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-#
-# Debe configurar este script para su sistema
-# Si no lo ha hecho, mostrará este mensaje
-#
-echo "GenesisPHP"
-echo "  AVISO: No ha configurado el script $SOY"
-echo
-echo "Pasos a seguir:"
-echo "1) Verifique que PostgreSQL esté funcionando y"
-echo "   y que su cuenta de usuario tenga permisos para"
-echo "   crear y eliminar bases de datos"
-echo
-echo "2) Cree archivos sql en el directorio sql con los"
-echo "   CREATE TABLE e INSERT necesarios para la"
-echo "   base de datos inicial de su sistema"
-echo
-echo "3) Edite CrearBaseDatos.sh"
-echo "   Cambie las constantes BD y PROPIETARIO"
-echo
-echo "4) Ejecute este script y verifique que haya trabajado bien"
-echo
-exit $E_FATAL
-
-# MODIFIQUE ESTAS Constantes
-BD="genesisphp_demostracion"
-PROPIETARIO="genesisphp"
-
-# PostgreSQL
-export PGHOST=localhost
-export PGPORT=5432
-#export PGUSER=superusuario
-
 # Si estoy en servidor, cancelo la ejecución de este script
 #if [ $HOSTNAME == 'servidor' ]; then
 #    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
 #    exit $E_FATAL
 #fi
+
+# MODIFIQUE ESTAS Constantes
+BD=""
+PROPIETARIO=""
+
+#
+# Debe configurar este script para su sistema
+# Si no lo ha hecho, mostrará este mensaje
+#
+if [ -z "$BD" ] || [ -z "$PROPIETARIO" ]; then
+    echo "GenesisPHP"
+    echo "  AVISO: No ha configurado este script."
+    echo
+    echo "Pasos a seguir:"
+    echo "1 Verifique que PostgreSQL esté funcionando y"
+    echo "  y que su cuenta de usuario tenga permisos para"
+    echo "  crear y eliminar bases de datos"
+    echo "    $ createuser -d -s genesisphp"
+    echo "    $ createdb -O genesisphp genesisphp_demostracion"
+    echo "    $ psql -l"
+    echo
+    echo "2 Cree archivos sql en el directorio sql con los"
+    echo "  CREATE TABLE e INSERT necesarios para la"
+    echo "  base de datos inicial de su sistema"
+    echo
+    echo "3 Edite CrearBaseDatos.sh"
+    echo "  Cambie las constantes BD y PROPIETARIO"
+    echo
+    echo "4 Ejecute este script y verifique que haya trabajado bien"
+    echo
+    exit $E_FATAL
+fi
+
+# PostgreSQL
+export PGHOST=localhost
+export PGPORT=5432
+#export PGUSER=superusuario
 
 # Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
 # Cambiarse al directorio sql

@@ -30,7 +30,27 @@ E_FATAL=99
 
 # Nombres de los directorios
 ORIGEN_DIR="Eva"
-DESTINO_DIR="Demostracion"
+DESTINO_DIR=""
+
+if [ -z "$DESTINO_DIR" ]; then
+    echo "GenesisPHP"
+    echo "  AVISO: No ha configurado este script."
+    echo
+    echo "Pasos a seguir:"
+    echo "1 Haga accesos directos de los directorios Eva y Tierra"
+    echo "    $ ln -s ../GenesisPHP/Eva"
+    echo "    $ ln -s ../GenesisPHP/Tierra"
+    echo
+    echo "2 Edite CrearComun.sh"
+    echo "  Cambie la constante DESTINO_DIR con el nombre"
+    echo "  del directorio del SISTEMA"
+    echo
+    echo "3 Ejecute este script y verifique que haya trabajado bien"
+    echo
+    echo "4 Elabore las semillas y serpiente en SISTEMA/adan/lib/"
+    echo
+    exit $E_FATAL
+fi
 
 # Cambiarse al directorio de destino
 if [ -d ../$DESTINO_DIR ]; then
