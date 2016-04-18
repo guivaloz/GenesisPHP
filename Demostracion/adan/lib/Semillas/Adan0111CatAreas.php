@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Semillas Adan0111CatAreas
+ * GenesisPHP - Semillas CatAreas
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

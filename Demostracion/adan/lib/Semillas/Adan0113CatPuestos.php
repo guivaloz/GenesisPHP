@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Semillas Adan0113CatPuestos
+ * GenesisPHP - Semillas CatPuestos
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
