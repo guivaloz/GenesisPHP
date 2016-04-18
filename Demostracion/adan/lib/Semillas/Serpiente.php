@@ -39,7 +39,8 @@ class Serpiente extends \Arbol\Serpiente {
         $this->sistema_nombre = 'Demostración';
         $this->sistema_siglas = 'GenesisPHP';
         // Cargar reptil
-        $this->reptil['CatAreas'] = Adan0111CatAreas::$reptil;
+        $this->reptil['CatAreas']   = Adan0111CatAreas::$reptil;
+        $this->reptil['CatPuestos'] = Adan0113CatPuestos::$reptil;
     } // constructor
 
 } // Clase Serpiente
