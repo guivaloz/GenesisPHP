@@ -57,14 +57,14 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
         'nom_corto_plural'   => 'fotos',
         'mensaje_singular'   => 'la foto',
         'mensaje_plural'     => 'las fotos',
-        'clave'              => '',
-        'clase_singular'     => '',
-        'clase_plural'       => '',
-        'instancia_singular' => '',
-        'instancia_plural'   => '',
-        'archivo_singular'   => '',
-        'archivo_plural'     => '',
-        'tabla'              => '',
+        'clave'              => 'exp_personas_fotos',
+        'clase_singular'     => 'ExpPersonaFoto',
+        'clase_plural'       => 'ExpPersonasFotos',
+        'instancia_singular' => 'persona_foto',
+        'instancia_plural'   => 'personas_fotos',
+        'archivo_singular'   => 'exppersonafoto',
+        'archivo_plural'     => 'exppersonasfotos',
+        'tabla'              => 'exp_personas_fotos',
         'vip'                => 'fecha',
         'listados'           => 'trenes'
     );
@@ -78,13 +78,15 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
         // Obtener de serpiente
         $serpiente = new Serpiente();
         // Relaciones
-        $this->relaciones['relacion'] = $serpiente->obtener_datos_del_modulo('XxxModuloNombre');
+        $this->relaciones['area']    = $serpiente->obtener_datos_del_modulo('CatAreas');
+        $this->relaciones['puesto']  = $serpiente->obtener_datos_del_modulo('CatPuestos');
+        $this->relaciones['persona'] = $serpiente->obtener_datos_del_modulo('ExpPersonas');
         // Padre
-        $this->padre['relacion']      = $serpiente->obtener_datos_del_modulo('XxxModuloNombre');
+        $this->padre['persona']      = $serpiente->obtener_datos_del_modulo('ExpPersonas');
         // Siempre se debe de cargar de serpiente esta informacion
-        $this->sustituciones          = $serpiente->obtener_sustituciones($this->nombre);
-        $this->instancia_singular     = $serpiente->obtener_instancia_singular($this->nombre);
-        $this->estatus                = $serpiente->obtener_estatus($this->nombre);
+        $this->sustituciones         = $serpiente->obtener_sustituciones($this->nombre);
+        $this->instancia_singular    = $serpiente->obtener_instancia_singular($this->nombre);
+        $this->estatus               = $serpiente->obtener_estatus($this->nombre);
         // Este módulo gestiona imagenes
         $this->imagen = array(
             'almacen_ruta' => 'imagenes/xxxrelacionesimagenes',

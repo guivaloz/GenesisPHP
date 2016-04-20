@@ -67,16 +67,16 @@ class Adan0125ExpPersonasDomicilios extends \Arbol\Adan {
         'nom_corto_plural'   => 'domicilios',
         'mensaje_singular'   => 'el domicilio',
         'mensaje_plural'     => 'los domicilios',
-        'clave'              => '',
-        'clase_singular'     => '',
-        'clase_plural'       => '',
-        'instancia_singular' => '',
-        'instancia_plural'   => '',
-        'archivo_singular'   => '',
-        'archivo_plural'     => '',
-        'tabla'              => '',
+        'clave'              => 'exp_personas_domicilios',
+        'clase_singular'     => 'ExpPersonaDomicilio',
+        'clase_plural'       => 'ExpPersonasDomicilios',
+        'instancia_singular' => 'persona_domicilio',
+        'instancia_plural'   => 'personas_domicilios',
+        'archivo_singular'   => 'exppersonadomicilio',
+        'archivo_plural'     => 'exppersonasdomicilios',
+        'tabla'              => 'exp_personas_domicilios',
         'vip'                => array(
-            '' => array('tipo' => '', 'etiqueta' => '', 'filtro' => 1))
+            'calle' => array('tipo' => 'nobre', 'etiqueta' => 'Domicilio', 'filtro' => 1))
     );
 
     /**
@@ -88,15 +88,15 @@ class Adan0125ExpPersonasDomicilios extends \Arbol\Adan {
         // Obtener de serpiente
         $serpiente = new Serpiente();
         // Relaciones, cada modulo con el que está relacionado sin incluir a los hijos
-        $this->relaciones['columna']  = $serpiente->obtener_datos_del_modulo('XxxModuloNombre');
+        $this->relaciones['area']    = $serpiente->obtener_datos_del_modulo('CatAreas');
+        $this->relaciones['puesto']  = $serpiente->obtener_datos_del_modulo('CatPuestos');
+        $this->relaciones['persona'] = $serpiente->obtener_datos_del_modulo('ExpPersonas');
         // Padre, el módulo que mostrará a éste como un listado debajo de aquel
-        $this->padre['columna']       = $serpiente->obtener_datos_del_modulo('XxxModuloNombre');
-        // Hijos, los módulos que se mostrarán debajo del detalle como listados
-        $this->hijos['identificador'] = $serpiente->obtener_datos_del_modulo('XxxModuloNombre');
+        $this->padre['persona']      = $serpiente->obtener_datos_del_modulo('ExpPersonas');
         // Siempre se debe de cargar de serpiente esta informacion
-        $this->sustituciones          = $serpiente->obtener_sustituciones($this->nombre);
-        $this->instancia_singular     = $serpiente->obtener_instancia_singular($this->nombre);
-        $this->estatus                = $serpiente->obtener_estatus($this->nombre);
+        $this->sustituciones         = $serpiente->obtener_sustituciones($this->nombre);
+        $this->instancia_singular    = $serpiente->obtener_instancia_singular($this->nombre);
+        $this->estatus               = $serpiente->obtener_estatus($this->nombre);
     } // constructor
 
 } // Clase Adan0125ExpPersonasDomicilios
