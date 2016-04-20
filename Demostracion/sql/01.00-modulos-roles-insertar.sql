@@ -33,7 +33,7 @@ INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 12, 1);
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (101, 'exp_personas',            'Personas',   'folder.png',       'exppersonas.php',           NULL); -- 13
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (105, 'exp_personas_fotos',      'Fotos',      'camera-photo.png', 'exppersonasfotos.php',        13); -- 14
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (111, 'exp_personas_domicilios', 'Domicilios', 'midori.png',       'exppersonasdomicilios.php',   13); -- 15
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (113, 'exp_personas_familiares', 'Familiares', 'system-users.png', 'spcpersonasfamiliares.php',   13); -- 16
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (113, 'exp_personas_familiares', 'Familiares', 'system-users.png', 'exppersonasfamiliares.php',   13); -- 16
 
 -- Roles de Desarrollo de Sistemas(1) en el menú Expedientes
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1, 13, 5); -- 5 = puede ver, modificar, agregar, eliminar y recuperar

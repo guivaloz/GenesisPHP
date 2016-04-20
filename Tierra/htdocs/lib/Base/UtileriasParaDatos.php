@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Utilerías para Datos
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,76 @@ namespace Base;
  * Clase UtileriasParaDatos
  */
 abstract class UtileriasParaDatos {
+
+    /**
+     * Formato entero
+     *
+     * @param  mixed  Entero
+     * @return string Texto que usa comas en los miles
+     */
+    public function formato_entero($entero) {
+        if ($this->validar_entero($entero)) {
+            return number_format($entero, 0, ".", ",");
+        } else {
+            return '';
+        }
+    } // formato_entero
+
+    /**
+     * Formato flotante
+     *
+     * @param  mixed   Entero o flotante
+     * @param  integer Opcional, cantidad de decimales, por defecto cuatro
+     * @return string  Texto con comas en los miles y decimales
+     */
+    public function formato_flotante($cantidad, $decimales=4) {
+        if ($this->validar_entero($cantidad) || $this->validar_flotante($cantidad)) {
+            return number_format($cantidad, $decimales, ".", ",");
+        } else {
+            return '';
+        }
+    } // formato_flotante
+
+    /**
+     * Formato porcentaje
+     *
+     * @param  mixed   Entero o flotante
+     * @param  integer Opcional, cantidad de decimales, por defecto dos
+     * @return string  Texto con decimales y el signo de porcentaje
+     */
+    public function formato_porcentaje($cantidad, $decimales=2) {
+        if ($this->validar_entero($cantidad) || $this->validar_flotante($cantidad)) {
+            return number_format($cantidad, $decimales, ".", ",")." %";
+        } else {
+            return '';
+        }
+    } // formato_porcentaje
+
+    /**
+     * Formato dinero
+     *
+     * @param  mixed   Entero o flotante
+     * @return string  Texto con signo de pesos, comas en los miles y dos decimales
+     */
+    public function formato_dinero($cantidad) {
+        $entrega = $this->formato_flotante($cantidad, 2);
+        if ($entrega !== '') {
+            return '$ '.$entrega;
+        } else {
+            return $entrega;
+        }
+    } // formato_dinero
+
+    /**
+     * Formato fecha
+     *
+     * @param  string Fecha en el formato de la base de datos YYYY-MM-DD
+     * @return string Fecha en el formato DD/MM/YYYY
+     */
+    public function formato_fecha($in_fecha) {
+        $a = explode('-', $in_fecha);
+        return sprintf('%02d/%02d/%04d', $a[2], $a[1], $a[0]);
+    } // formato_fecha
 
     /**
      * Post Select
@@ -137,6 +207,24 @@ abstract class UtileriasParaDatos {
             return "'".pg_escape_string(trim($texto))."'";
         }
     } // sql_texto
+
+    /**
+     * SQL Texto en mayúsculas
+     *
+     * @param  string
+     * @return string
+     */
+    public function sql_texto_mayusculas($texto) {
+        $normalizar = array(
+            'à' => 'A', 'è' => 'E', 'ì' => 'I', 'ò' => 'O', 'ù' => 'U',
+            'À' => 'A', 'È' => 'E', 'Ì' => 'I', 'Ò' => 'O', 'Ù' => 'U',
+            'á' => 'A', 'é' => 'E', 'í' => 'I', 'ó' => 'O', 'ú' => 'U',
+            'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
+            'ñ' => 'Ñ',
+            'ü' => 'Ü');
+        $normalizado = strtr($texto, $normalizar);
+        return "'".pg_escape_string(trim(strtoupper($normalizado)))."'";
+    } // sql_texto_mayusculas
 
     /**
      * SQL Entero

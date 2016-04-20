@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - BusquedaHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@ namespace Base;
  */
 abstract class BusquedaHTML extends UtileriasParaDatos {
 
+    public $consultado = false;        // Booleano
+    protected $sesion;                 // Instancia de \Inicio\Sesion
     public $hay_resultados  = false;   // Verdadero si la búsqueda arrojo resultados
     public $entrego_detalle = false;   // Verdadero si la búsqueda arrojo un resultado, para que se muestren los hijos debajo del detalle
     public $hay_mensaje     = false;   // Verdadero si la búsqueda no encontro resultados, para que la página active la lengüeta y se vea el mensaje
     public $resultado;                 // Instancia con el resultado si tiene éxito, puede ser un detalle o un listado
-    protected $sesion;                 // Instancia de la sesión
-    protected $consultado;             // Booleano
     protected $javascript   = array(); // Arreglo, Javascript a colocar al final
 
     /**

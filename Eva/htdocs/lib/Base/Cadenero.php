@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Cadenero
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ namespace Base;
  */
 class Cadenero extends Registro {
 
+    // public $consultado;
     // protected $sesion;
-    // protected $consultado;
     protected $usuario;
     protected $form_name;
     protected $creado;

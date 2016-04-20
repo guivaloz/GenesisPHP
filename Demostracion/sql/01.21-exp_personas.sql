@@ -13,6 +13,7 @@ CREATE TABLE exp_personas (
     apellido_paterno     character varying(128),
     apellido_materno     character varying(128),
     nombre_completo      character varying(256)  NOT NULL,
+
     nacimiento_fecha     date,
     sexo                 character(1)            NOT NULL,
     estado_civil         character(1)            NOT NULL,

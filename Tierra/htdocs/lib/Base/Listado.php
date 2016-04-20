@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Listado
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,13 +27,13 @@ namespace Base;
  */
 abstract class Listado extends UtileriasParaDatos {
 
-    protected $sesion;                  // Instancia de \Inicio\Sesion
-    public $listado;                    // Arreglo de arreglos asociativos columna => valor
-    public $panal;                      // Arreglo de arreglos con instancias columna => Celda
-    public $cantidad_registros = 0;     // Entero, cantidad total de registros de la consulta
-    public $limit              = 0;     // Entero, límite de registros a consultar, es también la máxima cantidad de renglones que se obtendrán
-    public $offset             = 0;     // Entero, desplazamiento para la consulta
-    protected $consultado      = false; // Verdadero si ya fue consultado
+    public $consultado      = false; // Verdadero si ya fue consultado
+    protected $sesion;               // Instancia de \Inicio\Sesion
+    public $listado;                 // Arreglo de arreglos asociativos columna => valor
+    public $panal;                   // Arreglo de arreglos con instancias columna => Celda
+    public $cantidad_registros = 0;  // Entero, cantidad total de registros de la consulta
+    public $limit              = 0;  // Entero, límite de registros a consultar, es también la máxima cantidad de renglones que se obtendrán
+    public $offset             = 0;  // Entero, desplazamiento para la consulta
 
     /**
      * Constructor

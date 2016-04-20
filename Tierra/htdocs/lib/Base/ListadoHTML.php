@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - ListadoHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase ListadoHTML
  */
-class ListadoHTML {
+class ListadoHTML extends UtileriasParaDatos{
 
     public $encabezado;              // Opcional, texto para el encabezado
     public $icono;                   // Opcional, URL al icono
@@ -96,7 +96,6 @@ class ListadoHTML {
     protected function elaborar_tabla_inicio() {
         // Acumularemos la entrega en este arreglo
         $a   = array();
-        $a[] = '<!-- LISTADO INICIA -->';
         $a[] = '<div class="listado">';
         // Elaborar Barra
         if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
@@ -177,19 +176,19 @@ class ListadoHTML {
                     // Si usa un formato
                     switch ($parametros['formato']) {
                         case 'fecha':
-                            $valor = formato_fecha($fila[$columna]);
+                            $valor = $this->formato_fecha($fila[$columna]);
                             break;
                         case 'entero':
-                            $valor = formato_entero($fila[$columna]);
+                            $valor = $this->formato_entero($fila[$columna]);
                             break;
                         case 'dinero':
-                            $valor = formato_dinero($fila[$columna]);
+                            $valor = $this->formato_dinero($fila[$columna]);
                             break;
                         case 'flotante':
-                            $valor = formato_flotante($fila[$columna]);
+                            $valor = $this->formato_flotante($fila[$columna]);
                             break;
                         case 'porcentaje':
-                            $valor = formato_porcentaje($fila[$columna]);
+                            $valor = $this->formato_porcentaje($fila[$columna]);
                             break;
                         default:
                             $valor = $fila[$columna]; // Pasa igual
@@ -400,7 +399,6 @@ class ListadoHTML {
         }
         // Cierre
         $a[] = '</div>';
-        $a[] = '<!-- LISTADO TERMINA -->';
         // Entregar
         return implode("\n", $a);
     } // elaborar_tabla_final

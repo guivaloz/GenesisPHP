@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - TrenHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -129,14 +129,16 @@ class TrenHTML {
             $a[] = "<div>";
         }
         // Si la barra esta definida
-        if (is_object($this->barra) && method_exists($this->barra, 'html')) {
-            $a[] = $this->barra->html();
+        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+            $a[]                = $this->barra->html();
+            $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
             // No esta definida la barra, entonces hacemos una
-            $barra             = new BarraHTML();
-            $barra->encabezado = $this->encabezado;
-            $barra->icono      = $this->icono;
-            $a[]               = $barra->html();
+            $barra              = new BarraHTML();
+            $barra->encabezado  = $this->encabezado;
+            $barra->icono       = $this->icono;
+            $a[]                = $barra->html();
+            $this->javascript[] = $barra->javascript();
         }
         // Si hay algo en la cabeza se agregará al contenido
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {

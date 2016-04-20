@@ -42,7 +42,10 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
         'nombres'          => array('tipo' => 'nombre',     'etiqueta' => 'Nombres',             'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
         'apellido_paterno' => array('tipo' => 'nombre',     'etiqueta' => 'Apellido paterno',    'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
         'apellido_materno' => array('tipo' => 'nombre',     'etiqueta' => 'Apellido materno',    'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
-        'nombre_completo'  => array('tipo' => 'nombre',     'etiqueta' => 'Nombre completo',     'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 21, 'orden' => 1, 'vip' => 2),
+        'nombre_completo'  => array('tipo' => 'nombre',     'etiqueta' => 'Nombre completo',     'validacion' => 2,                                   'filtro' => 1, 'listado' => 21, 'orden' => 1, 'vip' => 2,
+            'agregar'   => 'sprintf("%s, %s", trim($this->apellido_paterno.\' \'.$this->apellido_materno), $this->nombres)',
+            'modificar' => 'sprintf("%s, %s", trim($this->apellido_paterno.\' \'.$this->apellido_materno), $this->nombres)'),
+
         'nacimiento_fecha' => array('tipo' => 'fecha',      'etiqueta' => 'Fecha de nacimiento', 'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'sexo'             => array('tipo' => 'caracter',   'etiqueta' => 'Sexo',                'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1,
             'descripciones' => array('M' => 'Hombre',  'F' => 'Mujer'),
@@ -57,7 +60,6 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
         'nomina'           => array('tipo' => 'entero',     'etiqueta' => 'Nómina',              'validacion' => 1, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11),
         'ingreso_fecha'    => array('tipo' => 'fecha',      'etiqueta' => 'Fecha de ingreso',    'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
 
-        'creado'           => array('tipo' => 'fecha_hora', 'etiqueta' => 'Creado'),
         'notas'            => array('tipo' => 'notas',      'etiqueta' => 'Notas',               'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'estatus'          => array('tipo' => 'caracter',   'etiqueta' => 'Estatus',             'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
             'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),

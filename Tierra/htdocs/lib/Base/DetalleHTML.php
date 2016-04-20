@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - DetalleHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,13 +148,13 @@ class DetalleHTML {
         $contenido = implode("\n", $a);
         // Elaborar Barra
         if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
-            $titulo             = $this->barra->html();
+            $barra_html         = $this->barra->html();
             $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
             $barra              = new BarraHTML();
             $barra->encabezado  = $this->encabezado;
             $barra->icono       = $this->icono;
-            $titulo             = $barra->html();
+            $barra_html         = $barra->html();
             $this->javascript[] = $barra->javascript();
         }
         // Si tiene imágenes
@@ -174,7 +174,7 @@ class DetalleHTML {
 <div class="media detalle">
   {$imagen_html}
   <div class="media-body">
-{$titulo}
+{$barra_html}
 {$contenido}
   </div>
 </div>
@@ -183,7 +183,7 @@ FIN;
             // Entregar sin imágenes
             return <<<FIN
 <div class="detalle">
-{$titulo}
+{$barra_html}
 {$contenido}
 </div>
 FIN;

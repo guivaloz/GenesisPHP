@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - OpcionesSelect
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ namespace Base;
  */
 abstract class OpcionesSelect extends UtileriasParaDatos {
 
-    protected $sesion;             // Instancia de \Inicio\Sesion
-    protected $consultado = false; // Verdadero si ya fue consultado
+    public $consultado = false; // Verdadero si ya fue consultado
+    protected $sesion;          // Instancia de \Inicio\Sesion
 
     /**
      * Constructor

@@ -104,8 +104,8 @@ class CollapsePadreEHijos extends \Base\Plantilla {
         }
         // A partir de aqui se tiene DetalleHTML, ejecutar su metodo html
         \$html = \$detalle->html();
-        // Si tuvo exito
-        if (\$detalle->consulta_exitosa()) {
+        // Si fue consultado
+        if (\$detalle->consultado == true) {
             // Elaborar collapse
             \$collapse = new \\Base\\CollapseHTML('pinpon');
             \$collapse->hay_resultados = (\$in_instancia->hay_resultados == true);
@@ -115,7 +115,7 @@ class CollapsePadreEHijos extends \Base\Plantilla {
             // Entregar
             return \$collapse;
         } else {
-            // Falló la ejecucion del html, se regresa
+            // No se levantó la bandera consultado, tal vez tenga un mensaje
             return \$in_instancia;
         }
     } // crear_collapse_padre_hijos

@@ -53,7 +53,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase FormularioHTML
  */
-class FormularioHTML extends Registro {
+class FormularioHTML extends DetalleHTML {
 
 {$propiedades->php()}
 {$metodo_elaborar_formulario->php()}
