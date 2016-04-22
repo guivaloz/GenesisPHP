@@ -34,15 +34,16 @@ E_FATAL=99
 #    exit $E_FATAL
 #fi
 
-# MODIFIQUE ESTAS Constantes
+# PONGA VALORES A ESTAS Constantes
 BD=""
 PROPIETARIO=""
+SISTEMA_DIR=""
 
 #
 # Debe configurar este script para su sistema
 # Si no lo ha hecho, mostrará este mensaje
 #
-if [ -z "$BD" ] || [ -z "$PROPIETARIO" ]; then
+if [ -z "$BD" ] || [ -z "$PROPIETARIO" ] || [ -z "$SISTEMA_DIR" ]; then
     echo "GenesisPHP"
     echo "  AVISO: No ha configurado este script."
     echo
@@ -71,18 +72,39 @@ export PGHOST=localhost
 export PGPORT=5432
 #export PGUSER=superusuario
 
+# Si estoy en servidor, cancelo la ejecución de este script
+#if [ $HOSTNAME == 'servidor' ]; then
+#    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
+#    exit $E_FATAL
+#fi
+
 # Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
+if [ -d ../$SISTEMA_DIR ]; then
+    echo "$SOY Estoy en el directorio $SISTEMA_DIR"
+elif [ -d ./$SISTEMA_DIR ]; then
+    cd ./$SISTEMA_DIR
+    echo "$SOY Me cambié al directorio $SISTEMA_DIR"
+else
+    cd ../../
+    if [ -d "../$SISTEMA_DIR" ]; then
+        echo "$SOY Me cambié al directorio $SISTEMA_DIR"
+    else
+        echo "$SOY ERROR: No existe el directorio $SISTEMA_DIR"
+        exit $E_FATAL
+    fi
+fi
+
 # Cambiarse al directorio sql
 if [ -d sql ]; then
     cd sql
-else
-    cd ../../
-    if [ -d sql ]; then
-        cd sql
-    else
-        echo "$SOY ERROR: No existe el directorio sql."
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude cambiarme al directorio sql"
         exit $E_FATAL
     fi
+    echo "$SOY Me cambié al directorio sql"
+else
+    echo "$SOY ERROR: No existe el directorio sql"
+    exit $E_FATAL
 fi
 
 # Eliminar la base de datos

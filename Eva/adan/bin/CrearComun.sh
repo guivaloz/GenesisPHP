@@ -55,6 +55,9 @@ fi
 # Cambiarse al directorio de destino
 if [ -d ../$DESTINO_DIR ]; then
     echo "$SOY O.K. Estoy en $DESTINO_DIR"
+elif [ -d ./$DESTINO_DIR ]; then
+    cd ./$DESTINO_DIR
+    echo "$SOY Me cambié al directorio $DESTINO_DIR"
 else
     cd ../../
     if [ -d ../$DESTINO_DIR ]; then

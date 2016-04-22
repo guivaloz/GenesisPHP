@@ -44,6 +44,35 @@ E_FATAL=99
 # Constantes
 BD="genesisphp_demostracion"
 PROPIETARIO="genesisphp"
+SISTEMA_DIR="Demostracion"
+
+#
+# Debe configurar este script para su sistema
+# Si no lo ha hecho, mostrará este mensaje
+#
+if [ -z "$BD" ] || [ -z "$PROPIETARIO" ] || [ -z "$SISTEMA_DIR" ]; then
+    echo "GenesisPHP"
+    echo "  AVISO: No ha configurado este script."
+    echo
+    echo "Pasos a seguir:"
+    echo "1 Verifique que PostgreSQL esté funcionando y"
+    echo "  y que su cuenta de usuario tenga permisos para"
+    echo "  crear y eliminar bases de datos"
+    echo "    $ createuser -d -s genesisphp"
+    echo "    $ createdb -O genesisphp genesisphp_demostracion"
+    echo "    $ psql -l"
+    echo
+    echo "2 Cree archivos sql en el directorio sql con los"
+    echo "  CREATE TABLE e INSERT necesarios para la"
+    echo "  base de datos inicial de su sistema"
+    echo
+    echo "3 Edite CrearBaseDatos.sh"
+    echo "  Cambie las constantes BD y PROPIETARIO"
+    echo
+    echo "4 Ejecute este script y verifique que haya trabajado bien"
+    echo
+    exit $E_FATAL
+fi
 
 # PostgreSQL
 export PGHOST=localhost
@@ -57,17 +86,32 @@ export PGPORT=5432
 #fi
 
 # Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
+if [ -d ../$SISTEMA_DIR ]; then
+    echo "$SOY Estoy en el directorio $SISTEMA_DIR"
+elif [ -d ./$SISTEMA_DIR ]; then
+    cd ./$SISTEMA_DIR
+    echo "$SOY Me cambié al directorio $SISTEMA_DIR"
+else
+    cd ../../
+    if [ -d "../$SISTEMA_DIR" ]; then
+        echo "$SOY Me cambié al directorio $SISTEMA_DIR"
+    else
+        echo "$SOY ERROR: No existe el directorio $SISTEMA_DIR"
+        exit $E_FATAL
+    fi
+fi
+
 # Cambiarse al directorio sql
 if [ -d sql ]; then
     cd sql
-else
-    cd ../../
-    if [ -d sql ]; then
-        cd sql
-    else
-        echo "$SOY ERROR: No existe el directorio sql."
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude cambiarme al directorio sql"
         exit $E_FATAL
     fi
+    echo "$SOY Me cambié al directorio sql"
+else
+    echo "$SOY ERROR: No existe el directorio sql"
+    exit $E_FATAL
 fi
 
 # Eliminar la base de datos
