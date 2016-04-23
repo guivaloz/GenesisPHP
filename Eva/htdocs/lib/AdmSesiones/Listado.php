@@ -45,7 +45,7 @@ class Listado extends \Base\Listado {
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('sesiones')) {
+        if (!$this->sesion->puede_ver('adm_sesiones')) {
             throw new \Exception('Aviso: No tiene permiso para ver las sesiones.');
         }
         // Validar filtros

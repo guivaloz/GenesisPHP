@@ -76,7 +76,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $f->texto_nom_corto('clave',          'Clave',          $this->clave);
         $f->select_con_nulo('permiso_maximo', 'Permiso máximo', Registro::$permiso_maximo_descripciones, $this->permiso_maximo);
         $f->select_con_nulo('poder_minimo',   'Poder mínimo',   Registro::$poder_minimo_descripciones,   $this->poder_minimo);
-        if ($this->sesion->puede_recuperar('modulos')) {
+        if ($this->sesion->puede_recuperar('adm_modulos')) {
             $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
         }
         $f->boton_buscar();
@@ -103,7 +103,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $this->clave          = $this->post_texto($_POST['clave']);
             $this->permiso_maximo = $this->post_select($_POST['permiso_maximo']);
             $this->poder_minimo   = $this->post_select($_POST['poder_minimo']);
-            if ($this->sesion->puede_recuperar('modulos')) {
+            if ($this->sesion->puede_recuperar('adm_modulos')) {
                 $this->estatus = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
@@ -142,7 +142,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $f[] = "poder_minimo = '{$this->poder_minimo}'";
             $m[] = "poder mínimo ".Registro::$poder_minimo_descripciones[$this->poder_minimo];
         }
-        if ($this->sesion->puede_recuperar('modulos')) {
+        if ($this->sesion->puede_recuperar('adm_modulos')) {
             if ($this->estatus != '') {
                 $f[] = "estatus = '{$this->estatus}'";
                 $m[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];

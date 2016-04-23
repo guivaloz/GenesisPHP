@@ -57,7 +57,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('autentificaciones')) {
+        if (!$this->sesion->puede_ver('adm_autentificaciones')) {
             throw new \Exception('Aviso: No tiene permiso para consultar autentificaciones.');
         }
         // Parametros

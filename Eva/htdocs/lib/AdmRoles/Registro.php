@@ -64,7 +64,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('roles')) {
+        if (!$this->sesion->puede_ver('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para consultar los roles.');
         }
         // Parametros
@@ -103,7 +103,7 @@ class Registro extends \Base\Registro {
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
-        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('roles')) {
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_roles')) {
             throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
@@ -157,7 +157,7 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('roles')) {
+        if (!$this->sesion->puede_agregar('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para agregar departamentos.');
         }
         // Definir propiedades
@@ -181,7 +181,7 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('roles')) {
+        if (!$this->sesion->puede_agregar('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para agregar roles.');
         }
         // Verificar que no haya sido consultado
@@ -234,7 +234,7 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('roles')) {
+        if (!$this->sesion->puede_modificar('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para modificar roles.');
         }
         // Verificar que haya sido consultado
@@ -301,7 +301,7 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('roles')) {
+        if (!$this->sesion->puede_eliminar('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para eliminar roles.');
         }
         // Consultar si no lo esta
@@ -326,7 +326,7 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('roles')) {
+        if (!$this->sesion->puede_recuperar('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para recuperar roles.');
         }
         // Consultar si no lo esta

@@ -89,21 +89,21 @@ class DetalleHTML extends Registro {
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_usuarios');
         // Definir botones
-        if (($this->estatus == 'A') && $this->sesion->puede_modificar('usuarios')) {
+        if (($this->estatus == 'A') && $this->sesion->puede_modificar('adm_usuarios')) {
             $barra->boton_modificar(
                 sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
         }
-        if (($this->estatus == 'A') && $this->sesion->puede_eliminar('usuarios')) {
+        if (($this->estatus == 'A') && $this->sesion->puede_eliminar('adm_usuarios')) {
             $barra->boton_eliminar_confirmacion(
                 sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
                 "¿Está seguro de querer <strong>eliminar</strong> a el usuario {$this->nombre}?");
         }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('usuarios')) {
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('adm_usuarios')) {
             $barra->boton_recuperar_confirmacion(
                 sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> a el usuario {$this->nombre}?");
         }
-        if ($this->esta_bloqueada && ($this->estatus == 'A') && $this->sesion->puede_modificar('usuarios')) {
+        if ($this->esta_bloqueada && ($this->estatus == 'A') && $this->sesion->puede_modificar('adm_usuarios')) {
             $barra->boton_confirmacion(
                 sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_desbloquear),
                 'Desbloquear',
@@ -155,7 +155,7 @@ class DetalleHTML extends Registro {
         // Seccion registro
         $detalle->seccion('Registro');
         $detalle->dato('Notas',   $this->notas);
-        if ($this->sesion->puede_eliminar('usuarios')) {
+        if ($this->sesion->puede_eliminar('adm_usuarios')) {
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra

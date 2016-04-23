@@ -50,7 +50,7 @@ class Listado extends \Base\Listado {
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('bitacora')) {
+        if (!$this->sesion->puede_ver('adm_bitacora')) {
             throw new \Exception('Aviso: No tiene permiso para ver la bitácora.');
         }
         // Validar usuario

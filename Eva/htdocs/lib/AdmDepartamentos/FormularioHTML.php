@@ -154,7 +154,7 @@ class FormularioHTML extends DetalleHTML {
             // Mostrar el formulario para modificar
             $this->es_nuevo = false;
             // Validar que tenga permiso para modificar
-            if (!$this->sesion->puede_modificar('departamentos')) {
+            if (!$this->sesion->puede_modificar('adm_departamentos')) {
                 $mensaje = new \Base\MensajeHTML('Aviso: No tiene permiso para modificar departamentos.');
                 return $mensaje->html('Error');
             }

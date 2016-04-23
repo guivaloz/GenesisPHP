@@ -49,7 +49,7 @@ class Listado extends \Base\Listado {
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('usuarios')) {
+        if (!$this->sesion->puede_ver('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para ver los usuarios.');
         }
         // Validar filtros

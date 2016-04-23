@@ -69,7 +69,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('integrantes')) {
+        if (!$this->sesion->puede_ver('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para consultar los integrantes.');
         }
         // Parametros
@@ -108,7 +108,7 @@ class Registro extends \Base\Registro {
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
-        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('integrantes')) {
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_integrantes')) {
             throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
@@ -164,7 +164,7 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('integrantes')) {
+        if (!$this->sesion->puede_agregar('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para agregar integrantes.');
         }
         // Definir propiedades
@@ -189,7 +189,7 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('integrantes')) {
+        if (!$this->sesion->puede_agregar('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para agregar integrantes.');
         }
         // Verificar que no haya sido consultado
@@ -242,7 +242,7 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('integrantes')) {
+        if (!$this->sesion->puede_modificar('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para modificar integrantes.');
         }
         // Validar
@@ -305,7 +305,7 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('integrantes')) {
+        if (!$this->sesion->puede_eliminar('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para eliminar integrantes.');
         }
         // Consultar si no lo esta
@@ -330,7 +330,7 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('integrantes')) {
+        if (!$this->sesion->puede_recuperar('adm_integrantes')) {
             throw new \Exception('Aviso: No tiene permiso para recuperar integrantes.');
         }
         // Consultar si no lo esta

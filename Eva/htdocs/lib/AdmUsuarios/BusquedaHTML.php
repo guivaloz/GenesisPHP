@@ -71,7 +71,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $f->texto_nom_corto('nom_corto', 'Nombre corto', $this->nom_corto);
         $f->texto_nombre('nombre', 'Nombre', $this->nombre);
         $f->texto_nombre('puesto', 'Puesto', $this->puesto);
-        if ($this->sesion->puede_recuperar('usuarios')) {
+        if ($this->sesion->puede_recuperar('adm_usuarios')) {
             $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
         }
         $f->boton_buscar();
@@ -96,7 +96,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             // Cargar propiedades
             $this->nombre = $this->post_texto($_POST['nombre']);
             $this->puesto = $this->post_texto($_POST['puesto']);
-            if ($this->sesion->puede_recuperar('usuarios')) {
+            if ($this->sesion->puede_recuperar('adm_usuarios')) {
                 $this->estatus = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
@@ -127,7 +127,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $f[] = "puesto ILIKE '%{$this->puesto}%'";
             $m[] = "puesto {$this->puesto}";
         }
-        if ($this->sesion->puede_recuperar('usuarios')) {
+        if ($this->sesion->puede_recuperar('adm_usuarios')) {
             if ($this->estatus != '') {
                 $f[] = "estatus = '{$this->estatus}'";
                 $m[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];

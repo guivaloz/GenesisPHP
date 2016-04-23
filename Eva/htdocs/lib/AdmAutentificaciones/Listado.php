@@ -46,7 +46,7 @@ class Listado extends \Base\Listado {
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('autentificaciones')) {
+        if (!$this->sesion->puede_ver('adm_autentificaciones')) {
             throw new \Exception('Aviso: No tiene permiso para ver las autentificaciones.');
         }
         // Validar usuario

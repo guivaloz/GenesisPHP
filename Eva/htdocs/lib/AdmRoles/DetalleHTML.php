@@ -65,14 +65,14 @@ class DetalleHTML extends Registro {
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_roles');
         // Definir botones
-        if (($this->estatus != 'B') && $this->sesion->puede_modificar('roles')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('adm_roles')) {
             $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
         }
-        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('roles')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('adm_roles')) {
             $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
                 "¿Está seguro de querer <strong>eliminar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
         }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('roles')) {
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('adm_roles')) {
             $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> el rol de {$this->departamento_nombre} en {$this->modulo_nombre}?");
         }
@@ -104,7 +104,7 @@ class DetalleHTML extends Registro {
         $detalle->dato('Módulo',         sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoHTML::$param_modulo, $this->modulo, $this->modulo_nombre));
         $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
         // Seccion registro
-        if ($this->sesion->puede_eliminar('roles')) {
+        if ($this->sesion->puede_eliminar('adm_roles')) {
             $detalle->seccion('Registro');
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }

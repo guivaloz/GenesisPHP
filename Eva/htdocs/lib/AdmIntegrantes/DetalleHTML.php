@@ -66,14 +66,14 @@ class DetalleHTML extends Registro {
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_integrantes');
         // Definir botones
-        if (($this->estatus != 'B') && $this->sesion->puede_modificar('integrantes')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('adm_integrantes')) {
             $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
         }
-        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('integrantes')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('adm_integrantes')) {
             $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
                 "¿Está seguro de querer <strong>eliminar</strong> a el integrante {$this->usuario_nombre} del departamento {$this->departamento_nombre}?");
         }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('integrantes')) {
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('adm_integrantes')) {
             $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> a el integrante {$this->usuario_nombre} del departamento {$this->departamento_nombre}?");
         }
@@ -105,7 +105,7 @@ class DetalleHTML extends Registro {
         $detalle->dato('Departamento', sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, Listado::$param_departamento, $this->departamento, $this->departamento_nombre));
         $detalle->dato('Poder',        $this->poder_descrito, parent::$poder_colores[$this->poder]);
         // Seccion registro
-        if ($this->sesion->puede_eliminar('integrantes')) {
+        if ($this->sesion->puede_eliminar('adm_integrantes')) {
             $detalle->seccion('Registro');
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }

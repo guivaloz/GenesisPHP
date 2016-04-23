@@ -91,7 +91,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('usuarios')) {
+        if (!$this->sesion->puede_ver('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para consultar usuarios.');
         }
         // Parametros
@@ -129,7 +129,7 @@ class Registro extends \Base\Registro {
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
-        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('usuarios')) {
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_usuarios')) {
             throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
@@ -252,7 +252,7 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('usuarios')) {
+        if (!$this->sesion->puede_agregar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para agregar usuarios.');
         }
         // Definir propiedades
@@ -281,7 +281,7 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('usuarios')) {
+        if (!$this->sesion->puede_agregar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para agregar usuarios.');
         }
         // Verificar que no haya sido consultado
@@ -346,7 +346,7 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('usuarios')) {
+        if (!$this->sesion->puede_modificar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para modificar usuarios.');
         }
         // Verificar que haya sido consultado
@@ -457,7 +457,7 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('usuarios')) {
+        if (!$this->sesion->puede_eliminar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para eliminar usuarios.');
         }
         // Consultar si no lo esta
@@ -482,7 +482,7 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('usuarios')) {
+        if (!$this->sesion->puede_recuperar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para recuperar usuarios.');
         }
         // Consultar si no lo esta
@@ -507,7 +507,7 @@ class Registro extends \Base\Registro {
      */
     public function desbloquear() {
         // Que tenga permiso para desbloquear
-        if (!$this->sesion->puede_modificar('usuarios')) {
+        if (!$this->sesion->puede_modificar('adm_usuarios')) {
             throw new \Exception('Aviso: No tiene permiso para desbloquear usuarios.');
         }
         // Debe estar consultado el registro

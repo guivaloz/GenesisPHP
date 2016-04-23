@@ -124,7 +124,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('modulos')) {
+        if (!$this->sesion->puede_ver('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para consultar los módulos.');
         }
         // Parametros
@@ -156,7 +156,7 @@ class Registro extends \Base\Registro {
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
-        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('modulos')) {
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_modulos')) {
             throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
@@ -222,7 +222,7 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('modulos')) {
+        if (!$this->sesion->puede_agregar('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para agregar módulos.');
         }
         // Definir propiedades
@@ -250,7 +250,7 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('modulos')) {
+        if (!$this->sesion->puede_agregar('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para agregar módulos.');
         }
         // Verificar que no haya sido consultado
@@ -308,7 +308,7 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('modulos')) {
+        if (!$this->sesion->puede_modificar('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para modificar módulos.');
         }
         // Verificar que haya sido consultado
@@ -395,7 +395,7 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('modulos')) {
+        if (!$this->sesion->puede_eliminar('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para eliminar el módulo.');
         }
         // Consultar si no lo esta
@@ -420,7 +420,7 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('modulos')) {
+        if (!$this->sesion->puede_recuperar('adm_modulos')) {
             throw new \Exception('Aviso: No tiene permiso para recuperar el módulo.');
         }
         // Consultar si no lo esta

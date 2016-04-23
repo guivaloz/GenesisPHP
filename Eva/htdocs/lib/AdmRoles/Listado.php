@@ -49,7 +49,7 @@ class Listado extends \Base\Listado {
      */
     public function validar() {
         // Validar permiso
-        if (!$this->sesion->puede_ver('roles')) {
+        if (!$this->sesion->puede_ver('adm_roles')) {
             throw new \Exception('Aviso: No tiene permiso para ver la bitácora.');
         }
         // Validar departamento

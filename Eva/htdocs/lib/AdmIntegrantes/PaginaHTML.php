@@ -50,7 +50,7 @@ class PaginaHTML extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
-        parent::__construct('integrantes');
+        parent::__construct('adm_integrantes');
     } // constructor
 
     /**
@@ -120,14 +120,14 @@ class PaginaHTML extends \Base\PaginaHTML {
                     $lenguetas->definir_activa();
                 }
                 // Eliminados
-                if ($this->sesion->puede_recuperar('integrantes')) {
+                if ($this->sesion->puede_recuperar('adm_integrantes')) {
                     $listado = new ListadoHTML($this->sesion);
                     $listado->estatus = 'B';
                     $lenguetas->agregar('integrantesEliminados', 'Eliminados', $listado);
                 }
             }
             // Nuevo
-            if ($this->sesion->puede_agregar('integrantes')) {
+            if ($this->sesion->puede_agregar('adm_integrantes')) {
                 $formulario     = new FormularioHTML($this->sesion);
                 $formulario->id = 'agregar';
                 $lenguetas->agregar('integrantesNuevo', 'Nuevo', $formulario);

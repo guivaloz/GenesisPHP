@@ -199,7 +199,7 @@ class FormularioHTML extends DetalleHTML {
             // Mostrar el formulario para modificar
             $this->es_nuevo = false;
             // Validar que tenga permiso para modificar
-            if (!$this->sesion->puede_modificar('usuarios')) {
+            if (!$this->sesion->puede_modificar('adm_usuarios')) {
                 $mensaje = new \Base\MensajeHTML('Aviso: No tiene permiso para modificar usuarios.');
                 return $mensaje->html('Error');
             }

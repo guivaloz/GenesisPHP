@@ -72,14 +72,14 @@ class DetalleHTML extends Registro {
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_modulos');
         // Definir botones
-        if (($this->estatus != 'B') && $this->sesion->puede_modificar('modulos')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('adm_modulos')) {
             $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
         }
-        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('modulos')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('adm_modulos')) {
             $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
                 "¿Está seguro de querer <strong>eliminar</strong> al módulo {$this->nombre}?");
         }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('departamentos')) {
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('adm_departamentos')) {
             $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> al módulo {$this->nombre}?");
         }
@@ -116,7 +116,7 @@ class DetalleHTML extends Registro {
         $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
         $detalle->dato('Poder mínimo',   $this->poder_minimo_descrito, parent::$poder_minimo_colores[$this->poder_minimo]);
         // Seccion registro
-        if ($this->sesion->puede_eliminar('modulos')) {
+        if ($this->sesion->puede_eliminar('adm_modulos')) {
             $detalle->seccion('Registro');
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }

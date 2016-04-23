@@ -89,7 +89,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->select_con_nulo('usuario',      'Usuario',      $usuarios->opciones(),      $this->usuario);
         $f->select_con_nulo('departamento', 'Departamento', $departamentos->opciones(), $this->departamento);
-        if ($this->sesion->puede_recuperar('integrantes')) {
+        if ($this->sesion->puede_recuperar('adm_integrantes')) {
             $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
         }
         $f->boton_buscar();
@@ -114,7 +114,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             // Cargar propiedades
             $this->usuario      = $this->post_select($_POST['usuario']);
             $this->departamento = $this->post_select($_POST['departamento']);
-            if ($this->sesion->puede_recuperar('integrantes')) {
+            if ($this->sesion->puede_recuperar('adm_integrantes')) {
                 $this->estatus  = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
@@ -145,7 +145,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $f[] = "departamento = {$this->departamento}";
             $m[] = "departamento {$this->departamento_nombre}";
         }
-        if ($this->sesion->puede_recuperar('integrantes')) {
+        if ($this->sesion->puede_recuperar('adm_integrantes')) {
             if ($this->estatus != '') {
                 $f[] = "estatus = '{$this->estatus}'";
                 $m[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];

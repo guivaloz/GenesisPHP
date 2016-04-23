@@ -50,7 +50,7 @@ class PaginaHTML extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
-        parent::__construct('roles');
+        parent::__construct('adm_roles');
     } // constructor
 
     /**
@@ -120,14 +120,14 @@ class PaginaHTML extends \Base\PaginaHTML {
                     $lenguetas->definir_activa();
                 }
                 // Eliminados
-                if ($this->sesion->puede_recuperar('roles')) {
+                if ($this->sesion->puede_recuperar('adm_roles')) {
                     $listado = new ListadoHTML($this->sesion);
                     $listado->estatus = 'B';
                     $lenguetas->agregar('rolesEliminados', 'Eliminados', $listado);
                 }
             }
             // Nuevo
-            if ($this->sesion->puede_agregar('roles')) {
+            if ($this->sesion->puede_agregar('adm_roles')) {
                 $formulario     = new FormularioHTML($this->sesion);
                 $formulario->id = 'agregar';
                 $lenguetas->agregar('rolesNuevo', 'Nuevo', $formulario);

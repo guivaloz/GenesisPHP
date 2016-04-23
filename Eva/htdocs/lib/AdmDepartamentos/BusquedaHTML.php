@@ -61,7 +61,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         // Formulario
         $f = new \Base\FormularioHTML(self::$form_name);
         $f->texto_nombre('nombre', 'Nombre', $this->nombre, 48);
-        if ($this->sesion->puede_recuperar('departamentos')) {
+        if ($this->sesion->puede_recuperar('adm_departamentos')) {
             $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
         }
         $f->boton_buscar();
@@ -85,7 +85,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
             $this->nombre = $this->post_texto($_POST['nombre']);
-            if ($this->sesion->puede_recuperar('departamentos')) {
+            if ($this->sesion->puede_recuperar('adm_departamentos')) {
                 $this->estatus = $this->post_select($_POST['estatus']);
             }
             // Entregar verdadero
@@ -112,7 +112,7 @@ class BusquedaHTML extends \Base\BusquedaHTML {
             $f[] = "nombre ILIKE '%{$this->nombre}%'";
             $m[] = "nombre {$this->nombre}";
         }
-        if ($this->sesion->puede_recuperar('departamentos')) {
+        if ($this->sesion->puede_recuperar('adm_departamentos')) {
             if ($this->estatus != '') {
                 $f[] = "estatus = '{$this->estatus}'";
                 $m[] = "estatus ".Registro::$estatus_descripciones[$this->estatus];

@@ -49,7 +49,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('departamentos')) {
+        if (!$this->sesion->puede_ver('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para consultar los departamentos.');
         }
         // Parametros
@@ -81,7 +81,7 @@ class Registro extends \Base\Registro {
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
-        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('departamentos')) {
+        if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_departamentos')) {
             throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
@@ -120,7 +120,7 @@ class Registro extends \Base\Registro {
      */
     public function nuevo() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('departamentos')) {
+        if (!$this->sesion->puede_agregar('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para agregar departamentos.');
         }
         // Definir propiedades
@@ -141,7 +141,7 @@ class Registro extends \Base\Registro {
      */
     public function agregar() {
         // Que tenga permiso para agregar
-        if (!$this->sesion->puede_agregar('departamentos')) {
+        if (!$this->sesion->puede_agregar('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para agregar departamentos.');
         }
         // Verificar que no haya sido consultado
@@ -194,7 +194,7 @@ class Registro extends \Base\Registro {
      */
     public function modificar() {
         // Que tenga permiso para modificar
-        if (!$this->sesion->puede_modificar('departamentos')) {
+        if (!$this->sesion->puede_modificar('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para modificar departamentos.');
         }
         // Verificar que haya sido consultado
@@ -261,7 +261,7 @@ class Registro extends \Base\Registro {
      */
     public function eliminar() {
         // Que tenga permiso para eliminar
-        if (!$this->sesion->puede_eliminar('departamentos')) {
+        if (!$this->sesion->puede_eliminar('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para eliminar departamentos.');
         }
         // Consultar si no lo esta
@@ -286,7 +286,7 @@ class Registro extends \Base\Registro {
      */
     public function recuperar() {
         // Que tenga permiso para recuperar
-        if (!$this->sesion->puede_recuperar('departamentos')) {
+        if (!$this->sesion->puede_recuperar('adm_departamentos')) {
             throw new \Exception('Aviso: No tiene permiso para recuperar departamentos.');
         }
         // Consultar si no lo esta

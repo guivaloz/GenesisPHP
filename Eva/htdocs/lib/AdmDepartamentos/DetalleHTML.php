@@ -60,14 +60,14 @@ class DetalleHTML extends Registro {
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_departamentos');
         // Definir botones
-        if (($this->estatus != 'B') && $this->sesion->puede_modificar('departamentos')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_modificar('adm_departamentos')) {
             $barra->boton_modificar(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_modificar));
         }
-        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('departamentos')) {
+        if (($this->estatus != 'B') && $this->sesion->puede_eliminar('adm_departamentos')) {
             $barra->boton_eliminar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_eliminar),
                 "¿Está seguro de querer <strong>eliminar</strong> a el departamento {$this->nombre}?");
         }
-        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('departamentos')) {
+        if (($this->estatus == 'B') && $this->sesion->puede_recuperar('adm_departamentos')) {
             $barra->boton_recuperar_confirmacion(sprintf('%s?id=%d&accion=%s', self::RAIZ_PHP_ARCHIVO, $this->id, self::$accion_recuperar),
                 "¿Está seguro de querer <strong>recuperar</strong> a el departamento {$this->nombre}?");
         }
@@ -100,7 +100,7 @@ class DetalleHTML extends Registro {
         // Seccion registro
         $detalle->seccion('Registro');
         $detalle->dato('Notas',  $this->notas);
-        if ($this->sesion->puede_eliminar('departamentos')) {
+        if ($this->sesion->puede_eliminar('adm_departamentos')) {
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra

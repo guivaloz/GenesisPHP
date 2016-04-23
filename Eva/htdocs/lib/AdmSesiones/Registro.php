@@ -42,7 +42,7 @@ class Registro extends \Base\Registro {
      */
     public function consultar($in_id=false) {
         // Que tenga permiso para consultar
-        if (!$this->sesion->puede_ver('sesiones')) {
+        if (!$this->sesion->puede_ver('adm_sesiones')) {
             throw new \Exception('Aviso: No tiene permiso para consultar la sesión.');
         }
         // Parametros

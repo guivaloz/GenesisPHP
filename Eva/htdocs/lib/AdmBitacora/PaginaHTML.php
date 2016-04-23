@@ -50,7 +50,7 @@ class PaginaHTML extends \Base\PaginaHTML {
      * Constructor
      */
     public function __construct() {
-        parent::__construct('bitacora');
+        parent::__construct('adm_bitacora');
     } // constructor
 
     /**
