@@ -429,7 +429,7 @@ class Registro extends \Base\Registro {
             try {
                 $base_datos->comando(sprintf("
                     UPDATE
-                        usuarios
+                        adm_usuarios
                     SET
                         contrasena = %s,
                         contrasena_encriptada = NULL,

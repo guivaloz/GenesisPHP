@@ -123,7 +123,7 @@ class RecibirFormulario extends \Base\Plantilla {
                                     $a[] = $this->elaborar_recibir_formulario_campo("{$vip}_{$v}", $vd);
                                 }
                             } else {
-                                $a[] = "            \$this->{$vip} = post_texto(\$_POST['{$vip}']);";
+                                $a[] = "            \$this->{$vip} = \$this->post_texto(\$_POST['{$vip}']);";
                             }
                         } else {
                             die("Error en BusquedaHTML, RecibirFormulario, elaborar_recibir_formulario_relacion: No está definido el VIP en Serpiente para $vip.");
@@ -132,7 +132,7 @@ class RecibirFormulario extends \Base\Plantilla {
                         $a[] = $this->elaborar_recibir_formulario_campo("{$columna}_{$vip}", $vip_datos);
                     }
                 } else {
-                    $a[] = "            \$this->{$columna}_{$vip_datos} = post_texto(\$_POST['{$columna}_{$vip_datos}']);";
+                    $a[] = "            \$this->{$columna}_{$vip_datos} = \$this->post_texto(\$_POST['{$columna}_{$vip_datos}']);";
                 }
             }
         }
@@ -152,7 +152,7 @@ class RecibirFormulario extends \Base\Plantilla {
         $a = array();
         // Para buscar por estatus, se requiere tener permiso
         $a[] = "            if (\$this->sesion->puede_recuperar('SED_CLAVE')) {";
-        $a[] = "                \$this->estatus = post_select(\$_POST['estatus']);";
+        $a[] = "                \$this->estatus = \$this->post_select(\$_POST['estatus']);";
         $a[] = "            }";
         // Entregar
         return implode("\n", $a);
