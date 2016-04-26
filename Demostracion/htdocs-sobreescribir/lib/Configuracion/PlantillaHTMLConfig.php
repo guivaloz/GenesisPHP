@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - PlantillaHTMLConfig
+ * GenesisPHP - Configuración PlantillaHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,19 @@ namespace Configuracion;
  */
 class PlantillaHTMLConfig {
 
-    protected $sistema              = 'GenesisPHP Eva';
+    protected $sistema              = 'GenesisPHP Demostración';
     protected $titulo               = '';
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
-    protected $autor                = 'Guillermo Valdés Lozano';
-    protected $css;
+    protected $autor                = 'guivaloz';
+    protected $css                  = 'css/demostracion.css';
     protected $favicon              = 'imagenes/favicon.png';
     protected $modelo               = 'dashboard';
     protected $menu_principal_logo  = '';
-    protected $modelo_ingreso_logos;
-    protected $modelo_fluido_logos;
+    protected $modelo_ingreso_logos = array(
+        array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'izquierda'),
+        array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'derecha'));
+    protected $modelo_fluido_logos  = array(
+        array('url' => 'imagenes/generic_company.png', 'style' => 'position:fixed; bottom:10px; left:10px;'));
     protected $pie                  = 'Hecho con <a href="https://github.com/guivaloz/GenesisPHP" target="_blank">GenesisPHP</a>';
 
 } // Clase PlantillaHTMLConfig

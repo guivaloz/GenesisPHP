@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# GenesisPHP - Crear Común
+# GenesisPHP - Demostración Crear Común
 #
 # Copyright 2016 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
 #
@@ -160,12 +160,21 @@ if [ "$?" -ne $EXITO ]; then
     exit $E_FATAL
 fi
 
-# Copiar archivos de la raiz
-echo "$SOY Copiando favicon.ico a la raiz..."
-cp ../../$ORIGEN_DIR/htdocs/favicon.ico .
-if [ "$?" -ne $EXITO ]; then
-    echo "$SOY ERROR: No pude copiar favicon.ico"
-    exit $E_FATAL
+# Copiar favicon
+if [ -e ../htdocs-sobreescribir/favicon.ico ]; then
+    echo "$SOY Copiando favicon.ico desde htdocs-sobreescribir..."
+    cp ../htdocs-sobreescribir/favicon.ico .
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude copiar favicon.ico desde htdocs-sobreescribir"
+        exit $E_FATAL
+    fi
+elif [ -e ../../$ORIGEN_DIR/htdocs/favicon.ico ]; then
+    echo "$SOY Copiando favicon.ico..."
+    cp ../../$ORIGEN_DIR/htdocs/favicon.ico .
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude copiar favicon.ico"
+        exit $E_FATAL
+    fi
 fi
 
 # Copiar directorios
@@ -227,10 +236,13 @@ if [ -d ../../htdocs-sobreescribir/lib ]; then
     done
 fi
 
+# Estar en el directorio htdocs
+cd ..
+
 #
 # Crear enlaces en bin
 #
-cd ../bin
+cd bin
 echo "$SOY Creando enlace de lib en bin..."
 ln -s ../lib .
 echo "$SOY Creando enlace de imagenes en bin..."

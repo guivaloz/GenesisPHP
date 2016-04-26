@@ -1,10 +1,8 @@
 /*
- * Génesis | Tierra
- *
- * Plantilla Dashboard
+ * GenesisPHP - Plantilla Dashboard
  */
 
-/* GLOBALES */
+/* Globales */
 body {
     font-family:Arial, Helvetica, sans-serif;
     font-size:12px;
@@ -14,12 +12,10 @@ body {
 a       { color:#800; }
 a:hover { color:#F00; }
 
-/* MENU SECUNDARIO  */
-.menu-secundario {
-  display: none;
-}
+/* Menu secundario  */
+#menu-secundario { display:none; }
 @media (min-width: 768px) {
-    .menu-secundario {
+    #menu-secundario {
         position:fixed;
         top:51px;
         bottom:0;
@@ -29,32 +25,18 @@ a:hover { color:#F00; }
         padding:20px;
         overflow-x:hidden;
         overflow-y:auto;
-        background-color:#DDD;
-        border-right:2px solid #888;
         line-height:1.0;
     }
 }
-.nav-menu-secundario {
-    margin-right:-21px;
-    margin-bottom:20px;
+#menu-secundario ul {
     margin-left:-20px;
+    margin-right:-20px;
 }
-.nav-menu-secundario > li > a {
-    padding-right:20px;
-    padding-left:20px;
-    color:#444;
-}
-.nav-menu-secundario > li > a:hover,
-.nav-menu-secundario > li > a:active {
-    color:#000;
-}
-.nav-menu-secundario > .active > a ,
-.nav-menu-secundario > .active > a:hover,
-.nav-menu-secundario > .active > a:active {
-    background-color:#BBB;
+#menu-secundario .nav > li > a {
+    padding:8px 20px;
 }
 
-/* CONTENIDO */
+/* Contenido */
 .contenido {
     padding-left:20px;
     padding-right:20px;
@@ -63,7 +45,7 @@ a:hover { color:#F00; }
     text-align:right;
 }
 
-/* TITULO */
+/* Titulo */
 .titulo {
     margin-top:8px;
     margin-bottom:8px;
@@ -73,42 +55,12 @@ a:hover { color:#F00; }
     border-bottom:none;
 }
 
-/* LENGÜETAS */
+/* Lenguetas */
 .nav-tabs {
     border-bottom:none;
 }
-.lenguetas > li > a,
-.lenguetas > li > a:link,
-.lenguetas > li > a:visited {
-    color:#444;
-    background-color:#DDD;
-    border-color:#AAA;
-    border-bottom:none;
-}
-.lenguetas > li > a:hover,
-.lenguetas > li > a:active {
-    color:#000;
-    background-color:#EEE;
-    border-color:#000;
-    border-bottom:none;
-}
 
-/* LENGÜETA ACTIVA */
-.lenguetas > li.active > a,
-.lenguetas > li.active > a:link,
-.lenguetas > li.active > a:visited {
-    background-color:#BBB;
-    border-color:#AAA;
-    border-bottom:none;
-}
-.lenguetas > li.active > a:hover,
-.lenguetas > li.active > a:active {
-    background-color:#BBB;
-    border-color:#000;
-    border-bottom:none;
-}
-
-/* COLLAPSE */
+/* Collapse */
 .panel-default {
     border-color:#BBB;
 }
@@ -116,7 +68,7 @@ a:hover { color:#F00; }
     padding:0;
 }
 
-/* PIEZAS DE TIERRA */
+/* Piezas de Tierra */
 .barra {
     margin-bottom:8px;
 }
@@ -156,7 +108,7 @@ a:hover { color:#F00; }
     height:300px;
 }
 
-/* PIEZAS DE TIERRA DENTRO DE COLLAPSE */
+/* Piezas de Tierra dentro de collapse */
 .panel-body .detalle,
 .panel-body .formulario,
 .panel-body .listado,
@@ -169,10 +121,7 @@ a:hover { color:#F00; }
     padding-bottom:0;
 }
 
-/* FORMULARIOS */
-.form-group { margin-bottom:5px; }
-
-/* TABLAS */
+/* Tablas */
 .table th {
     background-color:#DDD;
 }
@@ -190,7 +139,7 @@ a:hover { color:#F00; }
     background-color:#EEE;
 }
 
-/* PIE */
+/* Pie */
 footer {
     font-size:12px;
     padding:4px;
@@ -211,7 +160,7 @@ footer a:active {
     color:#FFF;
 }
 
-/* COLORES */
+/* Colores */
 .blanco      { background-color:white; }
 .gris        { background-color:#E5E5E5; }
 .oscuro      { background-color:#BFBFBF; }

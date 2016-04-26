@@ -162,7 +162,7 @@ class TemaDashboardHTML {
         // En este arreglo acumulamos
         $a = array();
         // Acumular
-        $a[] = '<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="menu-principal">';
+        $a[] = '<nav class="navbar navbar-fixed-top" role="navigation" id="menu-principal">';
         $a[] = '  <div class="container-fluid">';
         // Navbar-header / brand / collapse
         $a[] = '    <div class="navbar-header">';
@@ -242,7 +242,7 @@ class TemaDashboardHTML {
         // En este arreglo acumularemos la salida
         $a   = array();
         // Acumular
-        $a[] = '<ul class="nav nav-menu-secundario">';
+        $a[] = '<ul class="nav">';
         foreach ($this->menu->opciones_menu_secundario() as $opcion) {
             if (strpos($opcion['icono'], 'glyphicon') === 0) {
                 $icono = "<span class=\"{$opcion['icono']}\"></span>";
@@ -293,10 +293,10 @@ class TemaDashboardHTML {
         $a[] = $this->menu_principal_html();
         $a[] = '  <div class="container-fluid">';
         $a[] = '    <div class="row">';
-        $a[] = '      <div class="col-sm-3 col-md-2 menu-secundario">';
+        $a[] = '      <div class="col-sm-3 col-md-2" id="menu-secundario">';
         $a[] = $this->menu_secundario_html();
         $a[] = '      </div>';
-        $a[] = '      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 contenido">';
+        $a[] = '      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="contenido">';
         if ($this->icono != '') {
             if (strpos($this->icono, 'glyphicon') === 0) {
                 $icono = "<span class=\"{$this->icono}\"></span>";
