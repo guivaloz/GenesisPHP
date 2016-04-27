@@ -54,7 +54,7 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
         'estado_civil'     => array('tipo' => 'caracter',   'etiqueta' => 'Estado civil',        'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1,
             'descripciones' => array('S' => 'Soltero', 'C' => 'Casado', 'D' => 'Divorciado', 'U' => 'Unión libre', 'V' => 'Viudo'),
             'etiquetas'     => array('S' => 'Soltero', 'C' => 'Casado', 'D' => 'Divorciado', 'U' => 'Unión libre', 'V' => 'Viudo'),
-            'colores'       => array('S' => '', 'C' => '', 'D' => '', 'U' => '', 'V' => '')),
+            'colores'       => array('S' => 'verde',   'C' => 'rojo',   'D' => 'amarillo',   'U' => 'rosa',        'V' => 'naranja')),
         'curp'             => array('tipo' => 'curp',     'etiqueta' => 'CURP',                  'validacion' => 2, 'agregar' => 1, 'modificar' => 1),
 
         'nomina'           => array('tipo' => 'entero',     'etiqueta' => 'Nómina',              'validacion' => 1, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11),

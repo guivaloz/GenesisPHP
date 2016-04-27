@@ -42,7 +42,7 @@ class Adan0127ExpPersonasFamiliares extends \Arbol\Adan {
         'parentesco'       => array('tipo' => 'caracter',   'etiqueta' => 'Parentezco',          'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 43,
             'descripciones' => array('C' => 'Cosanguíneo', 'A' => 'Por afinidad'),
             'etiquetas'     => array('C' => 'Cosanguíneo', 'A' => 'Por afinidad'),
-            'colores'       => array('C' => '', 'A' => '')),
+            'colores'       => array('C' => 'rojo',        'A' => 'azul')),
         'sexo'             => array('tipo' => 'caracter',   'etiqueta' => 'Sexo',                'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1,
             'descripciones' => array('M' => 'Hombre',  'F' => 'Mujer'),
             'etiquetas'     => array('M' => 'Hombres', 'F' => 'Mujeres'),

@@ -35,12 +35,12 @@ class Adan0111CatAreas extends \Arbol\Adan {
 
     // Datos de la tabla
     public $tabla = array(
-        'id'         => array('tipo' => 'serial'),
+        'id'      => array('tipo' => 'serial'),
 
-        'nombre'     => array('tipo' => 'nombre',   'etiqueta' => 'Nombre',  'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11, 'orden' => 1, 'vip' => 2),
+        'nombre'  => array('tipo' => 'nombre',   'etiqueta' => 'Nombre',  'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11, 'orden' => 1, 'vip' => 2),
 
-        'notas'      => array('tipo' => 'notas',    'etiqueta' => 'Notas',   'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
-        'estatus'    => array('tipo' => 'caracter', 'etiqueta' => 'Estatus', 'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
+        'notas'   => array('tipo' => 'notas',    'etiqueta' => 'Notas',   'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
+        'estatus' => array('tipo' => 'caracter', 'etiqueta' => 'Estatus', 'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
             'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
             'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
             'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),

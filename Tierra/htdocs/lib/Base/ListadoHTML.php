@@ -121,7 +121,7 @@ class ListadoHTML extends UtileriasParaDatos{
             $a[] = $this->cabeza;
         }
         // Tabla inicia
-        $a[] = '<table class="table table-hover table-bordered listado-tabla">';
+        $a[] = '<table class="table table-hover table-bordered">';
         // Tabla thead
         $a[] = '  <thead>';
         $a[] = '    <tr>';

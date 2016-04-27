@@ -38,10 +38,6 @@ a.navbar-brand:focus   { color:#000; background-color:#AAA; }
 
 #contenido { background-color:#FFF; }
 
-/* Piezas */
-
-.barra { background-color:#EEE; }
-
 /* Lenguetas */
 
 ul.lenguetas > li > a,
@@ -50,5 +46,30 @@ ul.lenguetas > li > a:visited { color:#444; background-color:#DDD; border-color:
 ul.lenguetas > li > a:hover,
 ul.lenguetas > li > a:focus   { color:#000; background-color:#CCC; border-color:#444; border-bottom:none; }
 
-ul.lenguetas > li.active > a  { color:#000; background-color:#FFF; border-color:#888; border-bottom:none; }
+ul.lenguetas > li.active > a,
+ul.lenguetas > li.active > a:hover,
+ul.lenguetas > li.active > a:focus { color:#000; background-color:#FFF; border-color:#888; border-bottom:none; }
+
+/* Piezas de Tierra */
+
+.barra      { border:none; background-color:#FFF; }
+.listado,
+.tren,
+.detalle,
+.formulario,
+.mapa,
+.grafica,
+.mensaje    { border:1px solid #888; }
+
+/* Piezas de Tierra dentro de collapse */
+
+.panel-default          { border-color:#888; }
+.panel-body .barra,
+.panel-body .detalle,
+.panel-body .formulario,
+.panel-body .listado,
+.panel-body .mensaje,
+.panel-body .mapa,
+.panel-body .grafica,
+.panel-body .tren       { border:none; }
 

@@ -60,65 +60,42 @@ a:hover { color:#F00; }
     border-bottom:none;
 }
 
-/* Collapse */
-.panel-default {
-    border-color:#BBB;
-}
-.panel-body {
-    padding:0;
-}
-
 /* Piezas de Tierra */
-.barra {
-    margin-bottom:8px;
-}
-.barra .navbar-right {
-    margin-right:8px;
-}
-.listado-tabla {
-    margin-bottom:8px;
-}
+
+.barra   { margin:0; padding:0; }
+.listado,
+.tren    { margin:0; padding:0 4px; }
 .detalle,
 .formulario,
-.listado,
-.tren,
 .mapa,
 .grafica,
-.mensaje {
-    margin-top:0; /* Para que no haya espacio con las lengüetas */
-    margin-bottom:8px;
-    padding-top:8px;
-    padding-left:8px;
-    padding-right:8px;
-    border:1px solid #CCC;
-/*  -webkit-border-radius:4px;
-    -webkit-border-radius:4px;
-       -moz-border-radius:4px;
-    border-radius:4px; */
-    border-bottom-left-radius:4px;
-    border-bottom-right-radius:4px;
-}
-.mensaje {
-    padding:8px;
-}
-.mapa {
-    height:500px;
-}
-.grafica {
-    height:300px;
-}
+.mensaje { margin:0; padding:8px 4px; }
+.barra               { margin-top:4px; }
+.barra .navbar-right { margin-right:4px; }
+.mapa                { height:500px; }
+.grafica             { height:300px; }
 
-/* Piezas de Tierra dentro de collapse */
+/* Piezas de Tierra dentro de Collapse */
+
+.panel-body             { padding:4px; }
+.panel-body .barra,
 .panel-body .detalle,
 .panel-body .formulario,
 .panel-body .listado,
 .panel-body .mensaje,
 .panel-body .mapa,
 .panel-body .grafica,
-.panel-body .tren {
-    border:none;
-    padding-top:0;
-    padding-bottom:0;
+.panel-body .tren       { margin:0 4px; padding:0; }
+
+/* Sin esquinas redondeadas */
+
+.barra,
+.listado,
+.tren {
+    -webkit-border-radius:0;
+    -webkit-border-radius:0;
+       -moz-border-radius:0;
+    border-radius:0;
 }
 
 /* Tablas */
