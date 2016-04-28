@@ -32,6 +32,10 @@ E_FATAL=99
 ORIGEN_DIR="Eva"
 DESTINO_DIR=""
 
+#
+# Debe configurar este script para su sistema
+# Si no lo ha hecho, mostrará este mensaje
+#
 if [ -z "$DESTINO_DIR" ]; then
     echo "GenesisPHP"
     echo "  AVISO: No ha configurado este script."

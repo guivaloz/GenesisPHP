@@ -226,6 +226,8 @@ FIN;
                 \$lenguetas->agregar('SED_CLASE_SINGULARBuscar',    'Buscar',    \$busqueda->formulario_html());
                 \$lenguetas->agregar('SED_CLASE_SINGULARResultado', 'Resultado', \$regalo->html());
                 \$lenguetas->definir_activa();
+            } elseif (\$busqueda->hay_mensaje) {
+                \$lenguetas->agregar_activa('SED_CLASE_SINGULARBuscar', 'Buscar', \$regalo->html());
             } else {
                 \$lenguetas->agregar('SED_CLASE_SINGULARBuscar',    'Buscar',    \$regalo->html());
             }
@@ -241,6 +243,8 @@ FIN;
                 \$lenguetas->agregar('SED_CLASE_SINGULARBuscar',    'Buscar',    \$busqueda->formulario_html());
                 \$lenguetas->agregar('SED_CLASE_SINGULARResultado', 'Resultado', \$resultado);
                 \$lenguetas->definir_activa();
+            } elseif (\$busqueda->hay_mensaje) {
+                \$lenguetas->agregar_activa('SED_CLASE_SINGULARBuscar', 'Buscar', \$resultado);
             } else {
                 \$lenguetas->agregar('SED_CLASE_SINGULARBuscar',    'Buscar',    \$resultado);
             }
