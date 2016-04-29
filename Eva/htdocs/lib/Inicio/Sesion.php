@@ -91,15 +91,16 @@ class Sesion extends Cookie {
         // Consultar registro en la tabla de sesiones
         $base_datos = new \Base\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     nombre, nom_corto, tipo, listado_renglones
                 FROM
                     adm_sesiones
                 WHERE
-                    usuario = {$this->usuario}");
+                    usuario = %d",
+                $this->usuario));
         } catch (\Exception $e) {
-            throw new \Exception('Error: En la consulta de la sesion.');
+            throw new \Exception('Error: En la consulta de la sesión.');
         }
         // Si la consulta no arrojó registros
         if ($consulta->cantidad_registros() == 0) {
