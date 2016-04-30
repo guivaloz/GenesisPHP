@@ -30,7 +30,8 @@ class PlantillaHTMLConfig {
     protected $sistema              = 'GenesisPHP Tierra';
     protected $titulo               = '';
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
-    protected $autor                = 'Guillermo Valdés Lozano';
+    protected $autor                = 'guivaloz';
+    protected $css                  = '';
     protected $favicon              = 'imagenes/favicon.png';
     protected $modelo               = 'dashboard';
     protected $menu_principal_logo  = '';
