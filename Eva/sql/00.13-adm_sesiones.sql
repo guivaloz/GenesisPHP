@@ -1,5 +1,5 @@
 --
--- Smd Administrador Sesiones
+-- GenesisPHP Sesiones
 --
 
 CREATE TABLE adm_sesiones (

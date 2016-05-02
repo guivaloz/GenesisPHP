@@ -1,5 +1,5 @@
 --
--- Smd Administrador Usuarios
+-- GenesisPHP Usuarios
 --
 
 CREATE TABLE adm_usuarios (

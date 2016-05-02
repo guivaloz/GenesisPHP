@@ -1,5 +1,5 @@
 --
--- Smd Administrador Roles
+-- GenesisPHP Roles
 --
 
 CREATE TABLE adm_roles (

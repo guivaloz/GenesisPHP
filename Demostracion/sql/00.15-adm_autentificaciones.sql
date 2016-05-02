@@ -1,5 +1,5 @@
 --
--- Smd Administrador Autentificaciones
+-- GenesisPHP Autentificaciones
 --
 
 CREATE TABLE adm_autentificaciones (

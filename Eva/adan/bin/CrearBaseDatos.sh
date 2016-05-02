@@ -28,12 +28,6 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-# Si estoy en servidor, cancelo la ejecución de este script
-#if [ $HOSTNAME == 'servidor' ]; then
-#    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
-#    exit $E_FATAL
-#fi
-
 # PONGA VALORES A ESTAS Constantes
 BD=""
 PROPIETARIO=""
@@ -116,6 +110,7 @@ createdb -O $PROPIETARIO $BD
 # Extensiones PostGIS para habilitar georreferenciación
 #psql -c "CREATE EXTENSION postgis;" $BD
 #psql -c "CREATE EXTENSION postgis_topology;" $BD
+#psql -f ../adan/bin/itrf92-inegi-spatial-ref-sys.sql $BD
 
 # Ejecutar cada archivo SQL
 for ARCH in `ls *.sql`

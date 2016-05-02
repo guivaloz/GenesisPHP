@@ -1,5 +1,5 @@
 --
--- Smd Administrador Integrantes
+-- GenesisPHP Integrantes
 --
 
 CREATE TABLE adm_integrantes (

@@ -1,5 +1,5 @@
 --
--- Smd Administrador Módulos
+-- GenesisPHP Módulos
 --
 
 CREATE TABLE adm_modulos (
@@ -19,21 +19,21 @@ CREATE TABLE adm_modulos (
 
 -- Menú Usuarios
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (951, 'usuarios',          'Usuarios',          'address-book-new.png',      'admusuarios.php',          NULL,    6); -- 1
+    VALUES (951, 'adm_usuarios',          'Usuarios',          'address-book-new.png',      'admusuarios.php',          NULL,    6); -- 1
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, permiso_maximo, poder_minimo)
-    VALUES (953, 'autentificaciones', 'Autentificaciones', 'system-lock-screen.png',    'admautentificaciones.php', 1,    1, 6); -- 2
+    VALUES (953, 'adm_autentificaciones', 'Autentificaciones', 'system-lock-screen.png',    'admautentificaciones.php', 1,    1, 6); -- 2
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, permiso_maximo, poder_minimo)
-    VALUES (961, 'bitacora',          'Bitácora',          'office-calendar.png',       'admbitacora.php',          1,    1, 6); -- 3
+    VALUES (961, 'adm_bitacora',          'Bitácora',          'office-calendar.png',       'admbitacora.php',          1,    1, 6); -- 3
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, permiso_maximo, poder_minimo)
-    VALUES (971, 'sesiones',          'Sesiones',          'computer.png',              'admsesiones.php',          1,    1, 6); -- 4
+    VALUES (971, 'adm_sesiones',          'Sesiones',          'computer.png',              'admsesiones.php',          1,    1, 6); -- 4
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (981, 'departamentos',     'Departamentos',     'applications-internet.png', 'admdepartamentos.php',     1,       7); -- 5
+    VALUES (981, 'adm_departamentos',     'Departamentos',     'applications-internet.png', 'admdepartamentos.php',     1,       7); -- 5
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (983, 'modulos',           'Módulos',           'package-x-generic.png',     'admmodulos.php',           1,       7); -- 6
+    VALUES (983, 'adm_modulos',           'Módulos',           'package-x-generic.png',     'admmodulos.php',           1,       7); -- 6
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (985, 'roles',             'Roles',             'applications-games.png',    'admroles.php',             1,       7); -- 7
+    VALUES (985, 'adm_roles',             'Roles',             'applications-games.png',    'admroles.php',             1,       7); -- 7
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (987, 'integrantes',       'Integrantes',       'system-users.png',          'admintegrantes.php',       1,       7); -- 8
+    VALUES (987, 'adm_integrantes',       'Integrantes',       'system-users.png',          'admintegrantes.php',       1,       7); -- 8
 
 -- Por compatibilidad se crea la novena entrada dada de baja
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo, estatus)

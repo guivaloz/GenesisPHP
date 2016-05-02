@@ -1,5 +1,5 @@
 --
--- Smd Administrador Departamentos
+-- GenesisPHP Departamentos
 --
 
 CREATE TABLE adm_departamentos (

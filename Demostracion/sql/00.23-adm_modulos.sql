@@ -1,5 +1,5 @@
 --
--- Smd Administrador Módulos
+-- GenesisPHP Módulos
 --
 
 CREATE TABLE adm_modulos (

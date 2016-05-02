@@ -1,5 +1,5 @@
 --
--- Smd Administrador Cadenero
+-- GenesisPHP Cadenero
 --
 
 CREATE TABLE adm_cadenero (

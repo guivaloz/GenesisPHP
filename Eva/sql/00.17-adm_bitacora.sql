@@ -1,5 +1,5 @@
 --
--- Smd Administrador Bitácora
+-- GenesisPHP Bitácora
 --
 
 CREATE TABLE adm_bitacora (
