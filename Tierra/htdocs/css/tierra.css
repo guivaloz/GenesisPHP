@@ -1,0 +1,75 @@
+/*
+ * Tierra
+ */
+
+/* Menu principal */
+
+.navbar { background-color:#BBB; }
+.nav > li > a:hover,
+.nav > li > a:focus { background-color:#AAA; }
+
+a.navbar-brand,
+a.navbar-brand:link,
+a.navbar-brand:visited { color:#222; }
+a.navbar-brand:hover,
+a.navbar-brand:focus   { color:#000; background-color:#AAA; }
+
+.navbar-nav > li > a,
+.navbar-nav > li > a:link,
+.navbar-nav > li > a:visited { color:#444; }
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus   { color:#000; background-color:#AAA; }
+
+.navbar-nav > li.active { background-color:#CCC; }
+
+/* Menú secundario */
+
+#menu-secundario { background-color:#DDD; border-right:2px solid #888; }
+
+#menu-secundario .nav > li > a,
+#menu-secundario .nav > li > a:link,
+#menu-secundario .nav > li > a:visited { color:#444; }
+#menu-secundario .nav > li > a:hover,
+#menu-secundario .nav > li > a:focus   { color:#000; background-color:#CCC; }
+
+#menu-secundario .nav > li.active { background-color:#EEE; }
+
+/* Contenido */
+
+#contenido { background-color:#FFF; }
+
+/* Lenguetas */
+
+ul.lenguetas > li > a,
+ul.lenguetas > li > a:link,
+ul.lenguetas > li > a:visited { color:#444; background-color:#DDD; border-color:#CCC; border-bottom:none; }
+ul.lenguetas > li > a:hover,
+ul.lenguetas > li > a:focus   { color:#000; background-color:#CCC; border-color:#444; border-bottom:none; }
+
+ul.lenguetas > li.active > a,
+ul.lenguetas > li.active > a:hover,
+ul.lenguetas > li.active > a:focus { color:#000; background-color:#FFF; border-color:#CCC; border-bottom:none; }
+
+/* Piezas de Tierra */
+
+.barra      { border:none; background-color:#FFF; }
+.listado,
+.tren,
+.detalle,
+.formulario,
+.mapa,
+.grafica,
+.mensaje    { border:1px solid #CCC; }
+
+/* Piezas de Tierra dentro de collapse */
+
+.panel-default          { border-color:#CCC; }
+.panel-body .barra,
+.panel-body .detalle,
+.panel-body .formulario,
+.panel-body .listado,
+.panel-body .mensaje,
+.panel-body .mapa,
+.panel-body .grafica,
+.panel-body .tren       { border:none; }
+
