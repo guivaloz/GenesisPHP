@@ -252,6 +252,33 @@ abstract class UtileriasParaDatos {
     } // sql_entero
 
     /**
+     * SQL Flotante
+     *
+     * @param  mixed
+     * @return mixed
+     */
+    public function sql_flotante($dato) {
+        if (is_string($dato)) {
+            $sin_espacios = trim($dato);
+            if (trim($sin_espacios) === '') {
+                return 'NULL';
+            } elseif (preg_match('/^\-?0*\.?0+$/', $sin_espacios)) {
+                return 0;
+            } else {
+                return floatval($sin_espacios);
+            }
+        } elseif (is_int($dato) || is_float($dato)) {
+            if ($dato == 0) {
+                return 0;
+            } else {
+                return floatval($dato);
+            }
+        } else {
+            return 'NULL';
+        }
+    } // sql_flotante
+
+    /**
      * SQL Tiempo
      *
      * @param mixed Texto o número entero
@@ -275,6 +302,39 @@ abstract class UtileriasParaDatos {
             return 'NULL';
         }
     } // sql_tiempo
+
+    /**
+     * SQL Boleano
+     *
+     * @param  mixed
+     * @return string
+     */
+    public function sql_boleano($dato) {
+        if (is_bool($dato) && $dato) {
+            return "TRUE";
+        } elseif (is_int($dato) && ($dato > 0)) {
+            return "TRUE";
+        } elseif (is_string($dato) && (($dato == 'true') || ($dato == 't'))) {
+            return "TRUE";
+        } else {
+            return "FALSE";
+        }
+    } // sql_boleano
+
+    /**
+     * SQL GeoPunto
+     *
+     * @param  float longitud
+     * @param  float latitud
+     * @return string
+     */
+    public function sql_geopunto($longitud, $latitud) {
+        if (($longitud != '') && ($latitud != '')) {
+            return "ST_GeomFromText('POINT($longitud $latitud)', 4326)"; // Ejemplo: ST_GeomFromText('POINT(-103.4207 25.5613)'
+        } else {
+            return 'NULL';
+        }
+    } // sql_geopunto
 
     /**
      * Validar nombre
