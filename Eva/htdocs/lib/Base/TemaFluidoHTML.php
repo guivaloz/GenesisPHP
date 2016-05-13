@@ -25,21 +25,21 @@ namespace Base;
 /**
  * Clase TemaFluidoHTML
  */
-class TemaFluidoHTML {
+class TemaFluidoHTML extends Tema {
 
-    public $sistema;
-    public $titulo;
-    public $descripcion;
-    public $autor;
-    public $css;
-    public $favicon;
-    public $menu_principal_logo;
+    // public $sistema;
+    // public $titulo;
+    // public $descripcion;
+    // public $autor;
+    // public $css;
+    // public $favicon;
+    // public $menu_principal_logo;
+    // public $icono;
+    // public $contenido;
+    // public $javascript;
+    // public $pie;
+    // public $menu;
     public $modelo_fluido_logos;
-    public $icono;                 // Texto, nombre del archivo con el icono de la página
-    public $contenido  = array();  // Arreglo con el contenido
-    public $javascript = array();  // Arreglo con Javascript
-    public $pie;
-    public $menu;                  // Instancia de Menu
 
     /**
      * Header HTML
@@ -293,9 +293,6 @@ class TemaFluidoHTML {
                 $this->icono = $this->menu->icono_en();
             }
         }
-        // Evitar que se guarde en el cache del navegador
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         // En este arreglo acumulamos
         $a = array();
         // Acumular

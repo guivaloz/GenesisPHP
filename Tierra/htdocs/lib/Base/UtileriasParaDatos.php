@@ -98,6 +98,22 @@ abstract class UtileriasParaDatos {
     } // formato_fecha
 
     /**
+     * Formato contenido
+     *
+     * Para el contenido que va entre tags HTML, cambia los menor que, mayor que y comilla doble
+     *
+     * @param  string
+     * @return string
+     */
+    public function formato_contenido($texto) {
+        // Definir título y descripción con carecteres validos para usarse como valor en un tag
+        $buscar      = array('"', '<', '>');
+        $reemplazar  = array("'", '-', '-');
+        $con_cambios = str_replace($buscar, $reemplazar, $texto);
+        return htmlspecialchars($con_cambios);
+    } // formato_contenido
+
+    /**
      * Post Select
      *
      * @param  string

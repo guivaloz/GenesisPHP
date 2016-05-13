@@ -25,17 +25,21 @@ namespace Base;
 /**
  * Clase TemaIngresoHTML
  */
-class TemaIngresoHTML {
+class TemaIngresoHTML extends Tema {
 
-    public $sistema;
-    public $descripcion;
-    public $autor;
-    public $css;
-    public $favicon;
+    // public $sistema;
+    // public $titulo;
+    // public $descripcion;
+    // public $autor;
+    // public $css;
+    // public $favicon;
+    // public $menu_principal_logo;
+    // public $icono;
+    // public $contenido;
+    // public $javascript;
+    // public $pie;
+    // public $menu;
     public $modelo_ingreso_logos;
-    public $contenido  = array();  // Arreglo con el contenido
-    public $javascript = array();  // Arreglo con Javascript
-    public $pie;
 
     /**
      * Header HTML
@@ -125,9 +129,6 @@ class TemaIngresoHTML {
      * @return string HTML con la pagina web
      */
     public function html() {
-        // Evitar que se guarde en el cache del navegador
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         // En este arreglo acumulamos
         $a = array();
         // Acumular header

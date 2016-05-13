@@ -25,50 +25,20 @@ namespace Base;
 /**
  * Clase TemaDashboardHTML
  */
-class TemaDashboardHTML {
+class TemaDashboardHTML extends Tema {
 
-    public $sistema;
-    public $titulo;
-    public $descripcion;
-    public $autor;
-    public $css;
-    public $favicon;
-    public $menu_principal_logo;
-    public $icono;                 // Texto, nombre del archivo con el icono de la página
-    public $contenido  = array();  // Arreglo con el contenido
-    public $javascript = array();  // Arreglo con Javascript
-    public $pie;
-    public $menu;                  // Instancia de Menu
-
-    /**
-     * Bloque HTML
-     *
-     * @param  mixed  Arreglo o texto con el contenido
-     * @param  string Tag a poner antes y después del contenido
-     * @return string Código HTML
-     */
-    protected function bloque_html($in_contenido, $in_tag) {
-        // Si es arreglo o es texto
-        if (is_array($in_contenido)) {
-            $a = array();
-            // Bucle para evitar los valores vacios
-            foreach ($in_contenido as $c) {
-                if (is_string($c) && ($c != '')) {
-                    $a[] = $c;
-                }
-            }
-            // Entregar
-            if (count($a)) {
-                return "<$in_tag>\n".implode("\n", $a)."\n</$in_tag>";
-            } else {
-                return '';
-            }
-        } elseif (is_string($in_contenido) && ($in_contenido != '')) {
-            return "<$in_tag>\n$in_contenido\n</$in_tag>";
-        } else {
-            return '';
-        }
-    } // bloque_html
+    // public $sistema;
+    // public $titulo;
+    // public $descripcion;
+    // public $autor;
+    // public $css;
+    // public $favicon;
+    // public $menu_principal_logo;
+    // public $icono;
+    // public $contenido;
+    // public $javascript;
+    // public $pie;
+    // public $menu;
 
     /**
      * Header HTML
@@ -283,11 +253,8 @@ class TemaDashboardHTML {
                 $this->icono = $this->menu->icono_en();
             }
         }
-        // Evitar que se guarde en el cache del navegador
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         // En este arreglo acumularemos la salida
-        $a   = array();
+        $a = array();
         // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();

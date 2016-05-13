@@ -25,20 +25,20 @@ namespace Base;
 /**
  * Clase TemaSimpleHTML
  */
-class TemaSimpleHTML {
+class TemaSimpleHTML extends Tema {
 
-    public $sistema;
-    public $titulo;
-    public $descripcion;
-    public $autor;
-    public $css;
-    public $favicon;
-    public $menu_principal_logo;
-    public $icono;                 // Texto, nombre del archivo con el icono de la página
-    public $contenido  = array();  // Arreglo con el contenido
-    public $javascript = array();  // Arreglo con Javascript
-    public $pie;
-    public $menu;                  // Instancia de Menu
+    // public $sistema;
+    // public $titulo;
+    // public $descripcion;
+    // public $autor;
+    // public $css;
+    // public $favicon;
+    // public $menu_principal_logo;
+    // public $icono;
+    // public $contenido;
+    // public $javascript;
+    // public $pie;
+    // public $menu;
 
     /**
      * Header HTML
@@ -236,15 +236,11 @@ class TemaSimpleHTML {
                 $this->icono = $this->menu->icono_en();
             }
         }
-        // evitar que se guarde en el cache del navegador
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         // En este arreglo acumulamos
         $a = array();
         // Acumular
         $a[] = $this->header_html();
         $a[] = $this->menu_principal_html();
-        $a[] = '<!-- CONTENIDO PLANTILLA SIMPLE INICIA -->';
         $a[] = '<div class="container">';
         if (is_array($this->contenido) && (count($this->contenido) > 0)) {
             $a[] = implode("\n", $this->contenido);
@@ -254,7 +250,6 @@ class TemaSimpleHTML {
             $a[] = "No hay contenido.";
         }
         $a[] = '</div>';
-        $a[] = '<!-- CONTENIDO PLANTILLA SIMPLE TERMINA -->';
         $a[] = $this->footer_html();
         // Entregar
         return implode("\n", $a);

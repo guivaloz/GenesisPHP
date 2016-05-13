@@ -52,18 +52,25 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
         // Definir la plantilla según el modelo de diseño
         switch ($this->modelo) {
             case 'ingreso':
-                $plantilla = new \Base\TemaIngresoHTML();
+                $plantilla = new TemaIngresoHTML();
                 $plantilla->modelo_ingreso_logos = $this->modelo_ingreso_logos;
                 break;
             case 'simple':
-                $plantilla = new \Base\TemaSimpleHTML();
+                $plantilla = new TemaSimpleHTML();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
                 break;
             case 'dashboard':
-                $plantilla = new \Base\TemaDashboardHTML();
+                $plantilla = new TemaDashboardHTML();
+                $plantilla->titulo              = $this->titulo;
+                $plantilla->menu_principal_logo = $this->menu_principal_logo;
+                $plantilla->icono               = $this->icono;
+                $plantilla->menu                = $this->menu;
+                break;
+            case 'sbadmin2':
+                $plantilla = new TemaSBAdmin2HTML();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;
@@ -72,7 +79,7 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
             case 'fluida':
             case 'fluido':
             default:
-                $plantilla = new \Base\TemaFluidoHTML();
+                $plantilla = new TemaFluidoHTML();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->modelo_fluido_logos = $this->modelo_fluido_logos;
@@ -88,6 +95,9 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
         $plantilla->contenido   = $this->contenido;
         $plantilla->javascript  = $this->javascript;
         $plantilla->pie         = $this->pie;
+        // Evitar que se guarde en el cache del navegador
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         // Entregar
         return $plantilla->html();
     } // html

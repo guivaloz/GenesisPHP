@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase Menu
  */
-class Menu extends UtileriasParaDatos {
+abstract class Menu extends UtileriasParaDatos {
 
     public $clave;                         // Texto, clave de la página en uso, sirve para saber cuál es la opción activa
     public $permisos            = array(); // Arreglo, clave => permiso
@@ -126,9 +126,53 @@ class Menu extends UtileriasParaDatos {
     } // agregar
 
     /**
-     * Opciones Menu Principal
+     * Opciones Menu
      *
-     * Lo usa las plantillas.
+     * @return array Arreglo de arreglos asociativos
+     */
+    public function opciones_menu() {
+        // Validar clave
+        if (!is_string($this->clave) || ($this->clave == '')) {
+            throw new \Exception("Error en Menú: No está definida la clave de la página en uso.");
+        }
+        // En este arreglo se acumulará lo que se va entregar
+        $todos = array();
+        // Bucle en estructura, nivel primero
+        foreach ($this->estructura as $primero_clave => $primero_datos) {
+            // Si la clave de la página en uso es ésta clave o alguna del submenú
+            if (($this->clave == $primero_clave) || in_array($this->clave, $primero_datos)) {
+                $primero_activo = true;
+            } else {
+                $primero_activo = false;
+            }
+            // Iniciar arreglo para el segundo nivel
+            $segundo = array();
+            // Bucle en estructura, nivel segundo
+            foreach ($this->estructura[$primero_clave] as $segundo_clave) {
+                if ($this->datos[$segundo_clave]['oculto'] == true) {
+                    continue;
+                }
+                $segundo[] = array(
+                    'icono'    => $this->datos[$segundo_clave]['icono'],
+                    'etiqueta' => $this->datos[$segundo_clave]['etiqueta'],
+                    'url'      => $this->datos[$segundo_clave]['url'],
+                    'activo'   => ($this->clave == $segundo_clave));
+            }
+            // Acumular
+            $todos[] = array(
+                'icono'    => $this->datos[$primero_clave]['icono'],
+                'etiqueta' => $this->datos[$primero_clave]['etiqueta'],
+                'url'      => $this->datos[$primero_clave]['url'],
+                'activo'   => $primero_activo,
+                'oculto'   => $this->datos[$primero_clave]['oculto'],
+                'segundo'  => $segundo);
+        }
+        // Entregar
+        return $todos;
+    } // opciones_menu
+
+    /**
+     * Opciones Menu Principal
      *
      * @return array Arreglo de arreglos asociativos
      */
@@ -162,8 +206,6 @@ class Menu extends UtileriasParaDatos {
 
     /**
      * Opciones Menu Secundario
-     *
-     * Lo usa las plantillas.
      *
      * @return array Arreglo de arreglos asociativos
      */
