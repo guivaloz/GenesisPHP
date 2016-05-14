@@ -129,6 +129,8 @@ class TemaSBAdmin2HTML extends Tema {
         }
         // En este arreglo acumularemos la entrega
         $a = array();
+        // Acumular
+        $a[] = '  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">';
         // Acumular menu hamburguesa
         $a[] = '    <div class="navbar-header">';
         $a[] = '      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">';
@@ -147,9 +149,9 @@ class TemaSBAdmin2HTML extends Tema {
         }
         $a[] = '    </div>'; // navbar-header
         // Acumular menú izquierdo
-        $a[] = '  <div class="navbar-default sidebar" role="navigation">';
-        $a[] = '    <div class="sidebar-nav navbar-collapse">';
-        $a[] = '      <ul class="nav" id="side-menu">';
+        $a[] = '    <div class="navbar-default sidebar" role="navigation">';
+        $a[] = '      <div class="sidebar-nav navbar-collapse">';
+        $a[] = '        <ul class="nav" id="side-menu">';
         // Acumular buscador
         //~ $a[] = '        <li class="sidebar-search">';
         //~ $a[] = '          <div class="input-group custom-search-form">';
@@ -165,9 +167,9 @@ class TemaSBAdmin2HTML extends Tema {
             if (is_array($primero_datos['segundo']) && (count($primero_datos['segundo']) > 0)) {
                 // Inicio tag del primero
                 if ($primero_datos['activo']) {
-                    $a[] = sprintf('        <li class="active">');
+                    $a[] = sprintf('          <li class="active">');
                 } else {
-                    $a[] = sprintf('        <li>');
+                    $a[] = sprintf('          <li>');
                 }
                 // Icono y etiqueta del primero
                 if (strpos($primero_datos['icono'], 'glyphicon') === 0) {
@@ -175,32 +177,33 @@ class TemaSBAdmin2HTML extends Tema {
                 } else {
                     $icono = sprintf('<span class="navegacion-icono"><img src="imagenes/16x16/%s"></span>', $primero_datos['icono']);
                 }
-                $a[] = sprintf('          <a href="#">%s %s<span class="fa arrow"></span></a>', $icono, $this->formato_contenido($primero_datos['etiqueta']));
-                $a[] = '          <ul class="nav nav-second-level">';
+                $a[] = sprintf('            <a href="#">%s %s<span class="fa arrow"></span></a>', $icono, $this->formato_contenido($primero_datos['etiqueta']));
+                $a[] = '            <ul class="nav nav-second-level">';
                 // Bucle por el segundo nivel del menu
                 foreach ($primero_datos['segundo'] as $segundo_clave => $segundo_datos) {
                     if ($segundo_datos['activo']) {
-                        $a[] = sprintf('            <li class="active">%s</li>', $this->navegacion_vinculo_html($segundo_datos));
+                        $a[] = sprintf('              <li class="active">%s</li>', $this->navegacion_vinculo_html($segundo_datos));
                     } else {
-                        $a[] = sprintf('            <li>%s</li>', $this->navegacion_vinculo_html($segundo_datos));
+                        $a[] = sprintf('              <li>%s</li>', $this->navegacion_vinculo_html($segundo_datos));
                     }
                 }
                 // Termina tag del primero
-                $a[] = '          </ul>';
-                $a[] = '        </li>';
+                $a[] = '            </ul>';
+                $a[] = '          </li>';
             } else {
                 // No tiene segundo nivel
                 if ($primero_datos['activo']) {
-                    $a[] = sprintf('        <li class="active">%s</li>', $this->navegacion_vinculo_html($primero_datos));
+                    $a[] = sprintf('          <li class="active">%s</li>', $this->navegacion_vinculo_html($primero_datos));
                 } else {
-                    $a[] = sprintf('        <li>%s</li>', $this->navegacion_vinculo_html($primero_datos));
+                    $a[] = sprintf('          <li>%s</li>', $this->navegacion_vinculo_html($primero_datos));
                 }
             }
         }
         // Cerrar
-        $a[] = '      </ul>'; // nav
-        $a[] = '    </div>';  // sidebar-nav
-        $a[] = '  </div>';    // sidebar
+        $a[] = '        </ul>'; // class nav
+        $a[] = '      </div>';  // class sidebar-nav navbar-collapse
+        $a[] = '    </div>';    // class navbar-default sidebar
+        $a[] = '  </nav>';      // nav role navigation
         // Entregar
         return implode("\n", $a);
     } // navegacion_html
