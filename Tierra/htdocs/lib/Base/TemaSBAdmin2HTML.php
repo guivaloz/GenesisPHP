@@ -131,8 +131,8 @@ class TemaSBAdmin2HTML extends Tema {
         $a = array();
         // Acumular
         $a[] = '  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">';
-        // Acumular menu hamburguesa
         $a[] = '    <div class="navbar-header">';
+        // Acumular menu hamburguesa
         $a[] = '      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">';
         $a[] = '        <span class="sr-only">Toggle navigation</span>';
         $a[] = '        <span class="icon-bar"></span>';
@@ -148,6 +148,24 @@ class TemaSBAdmin2HTML extends Tema {
             $a[] = '      <a class="navbar-brand" href="index.html">GenesisPHP</a>';
         }
         $a[] = '    </div>'; // navbar-header
+        // En este arreglo acumularemos las opciones del menu principal
+        $principal = array();
+        // Acumular menu secundario
+        $a[] = '    <ul class="nav navbar-top-links navbar-right">';
+        foreach ($this->menu->opciones_menu() as $primero_clave => $primero_datos) {
+            // Si es para el menu principal
+            if ($primero_datos['posicion'] == 'izquierda') {
+                $principal[$primero_clave] = $primero_datos;
+                continue;
+            }
+            // Sin segundo nivel
+            if ($primero_datos['activo']) {
+                $a[] = sprintf('      <li class="active">%s</li>', $this->navegacion_vinculo_html($primero_datos));
+            } else {
+                $a[] = sprintf('      <li>%s</li>', $this->navegacion_vinculo_html($primero_datos));
+            }
+        }
+        $a[] = '    </ul>'; // nav navbar-top-links navbar-right
         // Acumular menú izquierdo
         $a[] = '    <div class="navbar-default sidebar" role="navigation">';
         $a[] = '      <div class="sidebar-nav navbar-collapse">';
@@ -161,8 +179,10 @@ class TemaSBAdmin2HTML extends Tema {
         //~ $a[] = '              </span>';
         //~ $a[] = '          </div>';
         //~ $a[] = '        </li>';
+        // En este arreglo acumularemos las opciones para el otro menu
+        $derecha = array();
         // Bucle por el primer nivel del menu
-        foreach ($this->menu->opciones_menu() as $primero_clave => $primero_datos) {
+        foreach ($principal as $primero_clave => $primero_datos) {
             // Si los datos es un arreglo
             if (is_array($primero_datos['segundo']) && (count($primero_datos['segundo']) > 0)) {
                 // Inicio tag del primero

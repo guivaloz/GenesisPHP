@@ -117,12 +117,13 @@ abstract class Menu extends UtileriasParaDatos {
         }
         // Acumular
         $this->estructura[$this->principal_actual][] = $in_clave;
-        $this->datos[$in_clave]                     = array(
+        $this->datos[$in_clave]                      = array(
             'etiqueta' => $in_etiqueta,
             'url'      => $in_url,
             'icono'    => $in_icono,
-            'oculto'   => false);
-        $this->permisos[$in_clave]                  = $in_permiso;
+            'oculto'   => false,
+            'posicion' => 'izquierda');
+        $this->permisos[$in_clave]                   = $in_permiso;
     } // agregar
 
     /**
@@ -156,6 +157,7 @@ abstract class Menu extends UtileriasParaDatos {
                     'icono'    => $this->datos[$segundo_clave]['icono'],
                     'etiqueta' => $this->datos[$segundo_clave]['etiqueta'],
                     'url'      => $this->datos[$segundo_clave]['url'],
+                    'posicion' => $this->datos[$segundo_clave]['posicion'],
                     'activo'   => ($this->clave == $segundo_clave));
             }
             // Acumular
@@ -163,6 +165,7 @@ abstract class Menu extends UtileriasParaDatos {
                 'icono'    => $this->datos[$primero_clave]['icono'],
                 'etiqueta' => $this->datos[$primero_clave]['etiqueta'],
                 'url'      => $this->datos[$primero_clave]['url'],
+                'posicion' => $this->datos[$primero_clave]['posicion'],
                 'activo'   => $primero_activo,
                 'oculto'   => $this->datos[$primero_clave]['oculto'],
                 'segundo'  => $segundo);
