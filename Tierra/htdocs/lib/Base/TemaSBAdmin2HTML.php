@@ -80,7 +80,10 @@ class TemaSBAdmin2HTML extends Tema {
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
         // Acumular CSS graficador morris.js
         $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
+        // Acumular FontAwesome
+        $a[] = '  <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">';
         // Acumular CSS de StartBootstrap Admin v2
+        $a[] = '  <link href="css/metisMenu.min.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/sb-admin-2.css" rel="stylesheet" type="text/css">';
         // Acumular CSS propio
         if ($this->css != '') {
@@ -110,12 +113,8 @@ class TemaSBAdmin2HTML extends Tema {
         }
         // Definir lo que se va a mostrar
         $mostrar = sprintf('%s %s', $icono, $this->formato_contenido($datos['etiqueta']));
-        // Si es la opcion activa
-        if ($datos['activo']) {
-            return sprintf('        <li class="active"><a href="%s">%s</a></li>', $datos['url'], $mostrar);
-        } else {
-            return sprintf('        <li><a href="%s">%s</a></li>', $datos['url'], $mostrar);
-        }
+        // Entregar
+        return sprintf('<a href="%s">%s</a>', $datos['url'], $mostrar);
     } // navegacion_vinculo_html
 
     /**
@@ -142,7 +141,7 @@ class TemaSBAdmin2HTML extends Tema {
         if (($this->menu_principal_logo != '') && ($this->sistema != '')) {
             $a[] = sprintf('      <a class="navbar-brand" href="index.php"><img class="navbar-brand-img" src="%s" alt="%s"></a>', $this->menu_principal_logo, $this->formato_contenido($this->sistema));
         } elseif ($this->sistema != '') {
-            $a[] = sprintf('      <a class="navbar-brand" href="index.html">%s</a>', $this->sistema);
+            $a[] = sprintf('      <a class="navbar-brand" href="index.php">%s</a>', $this->sistema);
         } else {
             $a[] = '      <a class="navbar-brand" href="index.html">GenesisPHP</a>';
         }
@@ -152,14 +151,14 @@ class TemaSBAdmin2HTML extends Tema {
         $a[] = '    <div class="sidebar-nav navbar-collapse">';
         $a[] = '      <ul class="nav" id="side-menu">';
         // Acumular buscador
-        $a[] = '        <li class="sidebar-search">';
-        $a[] = '          <div class="input-group custom-search-form">';
-        $a[] = '            <input type="text" class="form-control" placeholder="Buscar...">';
-        $a[] = '              <span class="input-group-btn">';
-        $a[] = '                <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>';
-        $a[] = '              </span>';
-        $a[] = '          </div>';
-        $a[] = '        </li>';
+        //~ $a[] = '        <li class="sidebar-search">';
+        //~ $a[] = '          <div class="input-group custom-search-form">';
+        //~ $a[] = '            <input type="text" class="form-control" placeholder="Buscar...">';
+        //~ $a[] = '              <span class="input-group-btn">';
+        //~ $a[] = '                <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>';
+        //~ $a[] = '              </span>';
+        //~ $a[] = '          </div>';
+        //~ $a[] = '        </li>';
         // Bucle por el primer nivel del menu
         foreach ($this->menu->opciones_menu() as $primero_clave => $primero_datos) {
             // Si los datos es un arreglo
@@ -181,9 +180,9 @@ class TemaSBAdmin2HTML extends Tema {
                 // Bucle por el segundo nivel del menu
                 foreach ($primero_datos['segundo'] as $segundo_clave => $segundo_datos) {
                     if ($segundo_datos['activo']) {
-                        $a[] = sprintf('        <li class="active">%s</li>', $this->navegacion_vinculo_html($segundo_datos));
+                        $a[] = sprintf('            <li class="active">%s</li>', $this->navegacion_vinculo_html($segundo_datos));
                     } else {
-                        $a[] = sprintf('        <li>%s</li>', $this->navegacion_vinculo_html($segundo_datos));
+                        $a[] = sprintf('            <li>%s</li>', $this->navegacion_vinculo_html($segundo_datos));
                     }
                 }
                 // Termina tag del primero
@@ -257,6 +256,9 @@ class TemaSBAdmin2HTML extends Tema {
         // Acumular graficador morris.js
         $a[] = '  <script src="js/raphael-min.js"></script>';
         $a[] = '  <script src="js/morris.min.js"></script>';
+        // Acumular StartBotttrap Admin v2
+        $a[] = '  <script src="js/metisMenu.min.js"></script>';
+        $a[] = '  <script src="js/sb-admin-2.js"></script>';
         // Acumular Javascript que se haya agregado desde fuera
         $a[] = $this->bloque_html($this->javascript, 'script');
         // Entregar
@@ -276,13 +278,13 @@ class TemaSBAdmin2HTML extends Tema {
         $a[] = '<html lang="es">';
         $a[] = $this->cabecera_html();
         $a[] = '<body>';
-        $a[] = '<div id="wrapper">';
+        $a[] = '<div id="wrapper">';        // wrapper
         $a[] = $this->navegacion_html();
-        $a[] = '  <div id="page-wrapper">';
+        $a[] = '  <div id="page-wrapper">'; // page-wrapper
         $a[] = $this->titulo_html();
         $a[] = $this->bloque_html($this->contenido, 'div');
-        $a[] = '  </div>';     // page-wrapper
-        $a[] = '</div>';       // wrapper
+        $a[] = '  </div>';                  // page-wrapper
+        $a[] = '</div>';                    // wrapper
         $a[] = $this->final_html();
         $a[] = '</body>';
         $a[] = '</html>';
