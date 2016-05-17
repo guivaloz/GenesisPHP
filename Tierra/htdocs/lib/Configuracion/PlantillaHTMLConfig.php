@@ -33,7 +33,7 @@ class PlantillaHTMLConfig {
     protected $autor                = 'guivaloz';
     protected $css                  = 'css/tierra.css';
     protected $favicon              = 'imagenes/favicon.png';
-    protected $modelo               = 'dashboard';
+    protected $modelo               = 'sbadmin2';
     protected $menu_principal_logo  = '';
     protected $modelo_ingreso_logos = array(
         array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'izquierda'),

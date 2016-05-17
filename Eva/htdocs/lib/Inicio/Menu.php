@@ -113,9 +113,9 @@ class Menu extends \Base\Menu {
             throw new \Exception('Error en Menú: La consulta no entregó registros para crear el menú.');
         }
         // Agregar opciones inicio, personalizar y salir
-        $this->agregar_principal_derecha('inicio',       $this->sesion->nom_corto, 'index.php',              'glyphicon glyphicon-home', 1);
-        $this->agregar(                  'personalizar', 'Personalizar',           'personalizar.php',       'glyphicon glyphicon-cog',  1);
-        $this->agregar_principal_derecha('salir',        '',                       'index.php?accion=salir', 'glyphicon glyphicon-off',  1);
+        $this->agregar_principal(        'inicio',        'Inicio',                 'index.php',              'glyphicon glyphicon-home', 1);
+        $this->agregar_principal_derecha('personalizar',  $this->sesion->nom_corto, 'personalizar.php',       'glyphicon glyphicon-cog',  1);
+        $this->agregar_principal_derecha('salir',        '',                        'index.php?accion=salir', 'glyphicon glyphicon-off',  1);
         // Primer bucle, porque un usuario puede pertenecer a varios departamento y tener dos permisos en la misma clave
         $antesala = array();
         foreach ($consulta->obtener_todos_los_registros() as $a) {

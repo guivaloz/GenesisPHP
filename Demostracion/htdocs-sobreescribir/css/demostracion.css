@@ -1,54 +1,82 @@
 /*
- * GenesisPHP - Demostración
+ * GenesisPHP - Demostracion
  */
 
-/* Menu principal */
+/* Global */
 
-.navbar { background-color:#BBB; }
+body      { font-family:'Liberation Sans',Verdana,Helvetica,Arial,sans-serif; font-size:10pt; background-color:#DDD; }
+a         { color:#04A; text-decoration:none; }
+a:link,
+a:visited { color:#04A; text-decoration:none; }
+a:hover,
+a:focus   { color:#06D; text-decoration:none; }
+table th  { background-color:#DDD; }
+
+/* Barra */
+
+.navbar-header .navbar-brand,
+.navbar-header .navbar-brand:link,
+.navbar-header .navbar-brand:visited { color:#222; }
+.navbar-header .navbar-brand:hover,
+.navbar-header .navbar-brand:focus   { color:#000; }
+
+/* Menus colores de los letras de los vinculos */
+
+.nav > li > a,
+.nav > li > a:link,
+.nav > li > a:visited { color:#444; }
 .nav > li > a:hover,
-.nav > li > a:focus { background-color:#AAA; }
+.nav > li > a:focus   { color:#000; }
 
-a.navbar-brand,
-a.navbar-brand:link,
-a.navbar-brand:visited { color:#222; }
-a.navbar-brand:hover,
-a.navbar-brand:focus   { color:#000; background-color:#AAA; }
+.navbar-top-links li a,
+.navbar-top-links li a:link,
+.navbar-top-links li a:visited { color:#CCC; }
+.navbar-top-links li a:hover,
+.navbar-top-links li a:focus   { color:#FFF; }
 
-.navbar-nav > li > a,
-.navbar-nav > li > a:link,
-.navbar-nav > li > a:visited { color:#444; }
-.navbar-nav > li > a:hover,
-.navbar-nav > li > a:focus   { color:#000; background-color:#AAA; }
+.navbar-static-top .navbar-header .navbar-brand,
+.navbar-static-top .navbar-header .navbar-brand:link,
+.navbar-static-top .navbar-header .navbar-brand:visited { color:#CCC; }
+.navbar-static-top .navbar-header .navbar-brand:hover,
+.navbar-static-top .navbar-header .navbar-brand:focus   { color:#FFF; }
 
-.navbar-nav > li.active { background-color:#CCC; }
+/* Menus fondos */
 
-/* Menú secundario */
+.navbar { background-color:#DDD; }
 
-#menu-secundario { background-color:#DDD; border-right:2px solid #888; }
+.navbar-static-top                                    { background-color:#444; }
+.navbar-static-top .navbar-header .navbar-brand:hover,
+.navbar-static-top .navbar-header .navbar-brand:focus { background-color:#666; }
+.navbar-top-links li a:hover,
+.navbar-top-links li a:focus                          { background-color:#666; }
+.navbar-top-links li a.active                         { background-color:#222; }
 
-#menu-secundario .nav > li > a,
-#menu-secundario .nav > li > a:link,
-#menu-secundario .nav > li > a:visited { color:#444; }
-#menu-secundario .nav > li > a:hover,
-#menu-secundario .nav > li > a:focus   { color:#000; background-color:#CCC; }
-
-#menu-secundario .nav > li.active { background-color:#EEE; }
+.sidebar ul  li a,
+.sidebar ul  li a:link,
+.sidebar ul  li a:visited { background-color:#DDD; }
+.sidebar ul  li a:hover,
+.sidebar ul  li a:focus   { background-color:#FFF; }
+.sidebar ul  li a.active  { background-color:#BBB; }
 
 /* Contenido */
 
 #contenido { background-color:#FFF; }
 
+.page-header { margin-top:0; margin-bottom:20px; padding-top:12px; border-bottom:none; }
+
 /* Lenguetas */
+
+.nav-tabs { border-bottom:none; }
 
 ul.lenguetas > li > a,
 ul.lenguetas > li > a:link,
-ul.lenguetas > li > a:visited { color:#444; background-color:#DDD; border-color:#CCC; border-bottom:none; }
+ul.lenguetas > li > a:visited { color:#888; background-color:#DDD; border-color:#CCC; border-bottom:none; }
 ul.lenguetas > li > a:hover,
 ul.lenguetas > li > a:focus   { color:#000; background-color:#CCC; border-color:#444; border-bottom:none; }
 
 ul.lenguetas > li.active > a,
 ul.lenguetas > li.active > a:hover,
-ul.lenguetas > li.active > a:focus { color:#000; background-color:#FFF; border-color:#CCC; border-bottom:none; }
+ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-color:#CCC; border-bottom:none; }
 
 /* Piezas de Tierra */
 
@@ -59,7 +87,7 @@ ul.lenguetas > li.active > a:focus { color:#000; background-color:#FFF; border-c
 .formulario,
 .mapa,
 .grafica,
-.mensaje    { border:1px solid #CCC; }
+.mensaje    { padding:4px; border:1px solid #CCC; }
 
 /* Piezas de Tierra dentro de collapse */
 
@@ -71,5 +99,4 @@ ul.lenguetas > li.active > a:focus { color:#000; background-color:#FFF; border-c
 .panel-body .mensaje,
 .panel-body .mapa,
 .panel-body .grafica,
-.panel-body .tren       { border:none; }
-
+.panel-body .tren       { margin:4px; border:none; }
