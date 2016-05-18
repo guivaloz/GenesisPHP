@@ -5,7 +5,7 @@
 /* Global */
 
 body      { font-family:'Liberation Sans',Verdana,Helvetica,Arial,sans-serif; font-size:10pt; background-color:#DDD; }
-a         { color:#04A; text-decoration:none; }
+a,
 a:link,
 a:visited { color:#04A; text-decoration:none; }
 a:hover,
@@ -51,12 +51,12 @@ table th  { background-color:#DDD; }
 .navbar-top-links li a:focus                          { background-color:#666; }
 .navbar-top-links li a.active                         { background-color:#222; }
 
-.sidebar ul  li a,
-.sidebar ul  li a:link,
-.sidebar ul  li a:visited { background-color:#DDD; }
-.sidebar ul  li a:hover,
-.sidebar ul  li a:focus   { background-color:#FFF; }
-.sidebar ul  li a.active  { background-color:#BBB; }
+.sidebar ul li a,
+.sidebar ul li a:link,
+.sidebar ul li a:visited { background-color:#DDD; }
+.sidebar ul li a:hover,
+.sidebar ul li a:focus   { background-color:#FFF; }
+.sidebar ul li a.active  { background-color:#BBB; }
 
 /* Contenido */
 
