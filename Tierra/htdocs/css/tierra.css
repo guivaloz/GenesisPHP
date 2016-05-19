@@ -12,15 +12,7 @@ a:hover,
 a:focus   { color:#06D; text-decoration:none; }
 table th  { background-color:#DDD; }
 
-/* Barra */
-
-.navbar-header .navbar-brand,
-.navbar-header .navbar-brand:link,
-.navbar-header .navbar-brand:visited { color:#222; }
-.navbar-header .navbar-brand:hover,
-.navbar-header .navbar-brand:focus   { color:#000; }
-
-/* Menus colores de los letras de los vinculos */
+/* Menus colores los vinculos */
 
 .nav > li > a,
 .nav > li > a:link,

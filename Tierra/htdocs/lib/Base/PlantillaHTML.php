@@ -69,20 +69,20 @@ class PlantillaHTML extends \Configuracion\PlantillaHTMLConfig {
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
                 break;
-            case 'sbadmin2':
-                $plantilla = new TemaSBAdmin2HTML();
-                $plantilla->titulo              = $this->titulo;
-                $plantilla->menu_principal_logo = $this->menu_principal_logo;
-                $plantilla->icono               = $this->icono;
-                $plantilla->menu                = $this->menu;
-                break;
             case 'fluida':
             case 'fluido':
-            default:
                 $plantilla = new TemaFluidoHTML();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->modelo_fluido_logos = $this->modelo_fluido_logos;
+                $plantilla->icono               = $this->icono;
+                $plantilla->menu                = $this->menu;
+                break;
+            case 'sbadmin2':
+            default:
+                $plantilla = new TemaSBAdmin2HTML();
+                $plantilla->titulo              = $this->titulo;
+                $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
         }
