@@ -124,21 +124,12 @@ class TemaIngresoHTML extends Tema {
     } // footer_html
 
     /**
-     * HTML
+     * Imágenes Izquierda HTML
      *
      * @return string HTML con la pagina web
      */
-    public function html() {
-        // En este arreglo acumulamos
+    protected function imagenes_izquierda_html() {
         $a = array();
-        // Acumular header
-        $a[] = $this->header_html();
-        // Acumular interior
-        $a[] = '<!-- CONTENIDO PLANTILLA INGRESO INICIA -->';
-        $a[] = '  <div class="container">';
-        $a[] = '    <div class="row">';
-        // Primer columna
-        $a[] = '      <div class="col-md-4">';
         if (is_array($this->modelo_ingreso_logos)) {
             foreach ($this->modelo_ingreso_logos as $datos) {
                 if ($datos['pos'] == 'izquierda') {
@@ -155,6 +146,51 @@ class TemaIngresoHTML extends Tema {
                 }
             }
         }
+        return implode("\n", $a);
+    } // imagenes_izquierda_html
+
+    /**
+     * Imágenes Derecha HTML
+     *
+     * @return string HTML con la pagina web
+     */
+    protected function imagenes_derecha_html() {
+        $a = array();
+        if (is_array($this->modelo_ingreso_logos)) {
+            foreach ($this->modelo_ingreso_logos as $datos) {
+                if ($datos['pos'] == 'derecha') {
+                    $img_tag = "<img src=\"{$datos['url']}\"";
+                    if ($datos['class'] != '') {
+                        $img_tag .= " class=\"{$datos['class']}\"";
+                    }
+                    $img_tag .= '>';
+                    if ($datos['style'] != '') {
+                        $a[] = "      <p style=\"{$datos['style']}\">$img_tag</p>";
+                    } else {
+                        $a[] = "      <p>$img_tag</p>";
+                    }
+                }
+            }
+        }
+        return implode("\n", $a);
+    } // imagenes_derecha_html
+
+    /**
+     * HTML
+     *
+     * @return string HTML con la pagina web
+     */
+    public function html() {
+        // En este arreglo acumulamos
+        $a = array();
+        // Acumular header
+        $a[] = $this->header_html();
+        // Acumular interior
+        $a[] = '  <div class="container">';
+        $a[] = '    <div class="row">';
+        // Primer columna
+        $a[] = '      <div class="col-md-4">';
+        $a[] = $this->imagenes_izquierda_html();
         $a[] = '      </div>';
         // Segunda columna
         $a[] = '      <div class="col-md-4">';
@@ -174,27 +210,11 @@ class TemaIngresoHTML extends Tema {
         $a[] = '      </div>';
         // Tercer columna
         $a[] = '      <div class="col-md-4">';
-        if (is_array($this->modelo_ingreso_logos)) {
-            foreach ($this->modelo_ingreso_logos as $datos) {
-                if ($datos['pos'] == 'derecha') {
-                    $img_tag = "<img src=\"{$datos['url']}\"";
-                    if ($datos['class'] != '') {
-                        $img_tag .= " class=\"{$datos['class']}\"";
-                    }
-                    $img_tag .= '>';
-                    if ($datos['style'] != '') {
-                        $a[] = "      <p style=\"{$datos['style']}\">$img_tag</p>";
-                    } else {
-                        $a[] = "      <p>$img_tag</p>";
-                    }
-                }
-            }
-        }
+        $a[] = $this->imagenes_derecha_html();
         $a[] = '      </div>';
         // Cerrar columnas
         $a[] = '    </div>';
         $a[] = '  </div>';
-        $a[] = '<!-- CONTENIDO PLANTILLA INGRESO TERMINA -->';
         // Acumular footer
         $a[] = $this->footer_html();
         // Entregar
