@@ -92,3 +92,17 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .panel-body .mapa,
 .panel-body .grafica,
 .panel-body .tren       { margin:4px; border:none; }
+
+/* Colores */
+
+.blanco      { background-color:#FFFFFF; }
+.gris        { background-color:#E5E5E5; }
+.oscuro      { background-color:#BFBFBF; }
+.rosa        { background-color:#EAD4DF; }
+.rosafuerte  { background-color:#EAA4C7; }
+.rojo        { background-color:#FFD3D3; }
+.naranja     { background-color:#FFDAAE; }
+.amarillo    { background-color:#FFFFCC; }
+.verde       { background-color:#D9FFD9; }
+.verdeoscuro { background-color:#95BC95; }
+.azul        { background-color:#DADAFF; }

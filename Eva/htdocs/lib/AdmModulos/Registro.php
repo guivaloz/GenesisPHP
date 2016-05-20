@@ -363,7 +363,7 @@ class Registro extends \Base\Registro {
         try {
             $base_datos->comando(sprintf("
                 UPDATE
-                    modulos
+                    adm_modulos
                 SET
                     orden = %s, clave = %s, nombre = %s, pagina = %s, icono = %s, padre = %s, permiso_maximo = %s, poder_minimo = %s, estatus = %s
                 WHERE

@@ -61,7 +61,7 @@ class Celda {
         switch ($this->formato) {
             case 'cantidad':
             case 'entero':
-                $formateado = formato_entero($this->valor);
+                $formateado = UtileriasParaFormatos::formato_entero($this->valor);
                 break;
             case 'caracter':
                 if (array_key_exists($this->valor, $this->descripciones)) {
@@ -73,25 +73,25 @@ class Celda {
             case 'decimal':
             case 'flotante':
                 if ($this->decimales === null) {
-                    $formateado = formato_flotante($this->valor);
+                    $formateado = UtileriasParaFormatos::formato_flotante($this->valor);
                 } else {
-                    $formateado = formato_flotante($this->valor, $this->decimales);
+                    $formateado = UtileriasParaFormatos::formato_flotante($this->valor, $this->decimales);
                 }
                 break;
             case 'dinero':
-                $formateado = formato_dinero($this->valor);
+                $formateado = UtileriasParaFormatos::formato_dinero($this->valor);
                 break;
             case 'fecha':
-                $formateado = formato_fecha($this->valor);
+                $formateado = UtileriasParaFormatos::formato_fecha($this->valor);
                 break;
             case 'nd':
                 $formateado = 'ND';
                 break;
             case 'porcentaje':
                 if ($this->decimales === null) {
-                    $formateado = formato_porcentaje($this->valor);
+                    $formateado = UtileriasParaFormatos::formato_porcentaje($this->valor);
                 } else {
-                    $formateado = formato_porcentaje($this->valor, $this->decimales);
+                    $formateado = UtileriasParaFormatos::formato_porcentaje($this->valor, $this->decimales);
                 }
                 break;
             case 'texto':

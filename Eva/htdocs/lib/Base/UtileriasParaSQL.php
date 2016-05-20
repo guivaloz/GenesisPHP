@@ -25,7 +25,7 @@ namespace Base;
 /**
  * Clase Utilerias para SQL
  */
-class UtileriasParaSQL {
+abstract class UtileriasParaSQL {
 
     /**
      * SQL Texto

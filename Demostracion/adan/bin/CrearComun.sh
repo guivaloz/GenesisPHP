@@ -159,6 +159,14 @@ if [ "$?" -ne $EXITO ]; then
     echo "$SOY ERROR: No pude copiar los archivos de la raiz."
     exit $E_FATAL
 fi
+if ls ../htdocs-sobreescribir/*.php 1> /dev/null 2>&1; then
+    echo "$SOY Copiando *.php desde htdocs-sobreescribir..."
+    cp ../htdocs-sobreescribir/*.php .
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude copiar los archivos php de la raiz desde htdocs-sobreescribir"
+        exit $E_FATAL
+    fi
+fi
 
 # Copiar favicon
 if [ -e ../htdocs-sobreescribir/favicon.ico ]; then
@@ -250,4 +258,3 @@ ln -s ../imagenes .
 
 echo "Script terminado."
 exit $EXITO
-
