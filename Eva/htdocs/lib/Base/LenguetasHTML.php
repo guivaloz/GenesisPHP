@@ -51,7 +51,7 @@ class LenguetasHTML {
      * @param  integer Cantidad de caracteres, por defecto 8
      * @return string  Caracteres al azar
      */
-    function caracteres_azar($in_cantidad=8) {
+    protected function caracteres_azar($in_cantidad=8) {
         $primera = ord('a');
         $ultima  = ord('z');
         $c       = array();
