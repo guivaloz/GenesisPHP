@@ -166,6 +166,40 @@ abstract class UtileriasParaValidar {
     } // validar_entero
 
     /**
+     * Validar serial
+     *
+     * Entero positivo mayor a cero
+     *
+     * @param  string  Número serial a validar
+     * @return boolean Verdadero si es válido
+     */
+    public static function validar_serial($serial) {
+        if (is_string($serial)) {
+            if (preg_match('/^[0-9]+$/', $serial) && (intval($serial) > 0)) {
+                return true;
+            } else {
+                return false;
+            }
+        } elseif (is_int($serial) && (intval($serial) > 0)) {
+            return true;
+        } else {
+            return false;
+        }
+    } // validar_serial
+
+    /**
+     * Validar cantidad
+     *
+     * Entero positivo mayor a cero
+     *
+     * @param  string  Número serial a validar
+     * @return boolean Verdadero si es válido
+     */
+    public static function validar_cantidad($cantidad) {
+        return self::validar_serial($cantidad);
+    } // validar_cantidad
+
+    /**
      * Validar flotante
      *
      * @param  string  Número con decimales a validar
@@ -354,6 +388,20 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_telefono($telefono) {
         if (preg_match('/^[0-9()\- ]+$/', $telefono)) {
+            return true;
+        } else {
+            return false;
+        }
+    } // validar_telefono
+
+    /**
+     * Validar celular
+     *
+     * @param  string  Teléfono a validar
+     * @return boolean Verdadero si es válido
+     */
+    public static function validar_celular($celular) {
+        if (preg_match('/^[0-9]{10}$/', $celular)) {
             return true;
         } else {
             return false;
