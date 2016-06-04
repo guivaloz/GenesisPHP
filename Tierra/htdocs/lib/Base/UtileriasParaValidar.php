@@ -190,13 +190,23 @@ abstract class UtileriasParaValidar {
     /**
      * Validar cantidad
      *
-     * Entero positivo mayor a cero
+     * Entero positivo mayor o igual a cero
      *
      * @param  string  Número serial a validar
      * @return boolean Verdadero si es válido
      */
     public static function validar_cantidad($cantidad) {
-        return self::validar_serial($cantidad);
+        if (is_string($cantidad)) {
+            if (preg_match('/^[0-9]+$/', $cantidad) && (intval($cantidad) > 0)) {
+                return true;
+            } else {
+                return false;
+            }
+        } elseif (is_int($cantidad) && ($cantidad > 0)) {
+            return true;
+        } else {
+            return false;
+        }
     } // validar_cantidad
 
     /**
