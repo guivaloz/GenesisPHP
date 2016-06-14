@@ -23,9 +23,9 @@
 namespace Base2;
 
 /**
- * Clase abstracta ImagenWeb
+ * Clase ImagenWeb
  */
-abstract class ImagenWeb implements SalidaWeb {
+class ImagenWeb implements SalidaWeb {
 
     /**
      * HTML
@@ -48,6 +48,6 @@ abstract class ImagenWeb implements SalidaWeb {
     public function javascript() {
     } // javascript
 
-} // Clase abstracta ImagenWeb
+} // Clase ImagenWeb
 
 ?>

@@ -23,9 +23,9 @@
 namespace Base2;
 
 /**
- * Clase abstracta ListadoWeb
+ * Clase ListadoWeb
  */
-abstract class ListadoWeb implements SalidaWeb {
+class ListadoWeb implements SalidaWeb {
 
     public $encabezado;              // Opcional, texto para el encabezado
     public $icono;                   // Opcional, URL al icono
@@ -480,6 +480,6 @@ abstract class ListadoWeb implements SalidaWeb {
         }
     } // javascript
 
-} // Clase abstracta ListadoWeb
+} // Clase ListadoWeb
 
 ?>

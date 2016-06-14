@@ -25,6 +25,19 @@ namespace Base2;
 /**
  * Clase abstracta Busqueda
  */
-abstract class Busqueda {}
+abstract class Busqueda {
+
+    protected $sesion;          // Instancia de \Inicio\Sesion
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        $this->sesion = $in_sesion;
+    } // constructor
+
+} // Clase abstracta Busqueda
 
 ?>

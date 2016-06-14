@@ -25,6 +25,25 @@ namespace Base2;
 /**
  * Clase abstracta Registro
  */
-abstract class Registro {}
+abstract class Registro {
+
+    public $consultado = false; // Verdadero si ya fue consultado
+    protected $sesion;          // Instancia de \Inicio\Sesion
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        $this->sesion = $in_sesion;
+    } // constructor
+
+    /**
+     * Consultar
+     */
+    abstract function consultar();
+
+} // Clase abstracta Registro
 
 ?>

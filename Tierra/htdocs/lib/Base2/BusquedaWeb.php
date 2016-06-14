@@ -25,7 +25,7 @@ namespace Base2;
 /**
  * Clase BusquedaWeb
  */
-class BusquedaWeb extends Busqueda implements SalidaWeb {
+class BusquedaWeb implements SalidaWeb {
 
     /**
      * HTML
