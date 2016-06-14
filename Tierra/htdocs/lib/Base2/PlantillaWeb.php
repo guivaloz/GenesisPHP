@@ -52,18 +52,18 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
         // Definir la plantilla según el modelo de diseño
         switch ($this->modelo) {
             case 'ingreso':
-                $plantilla = new TemaIngresoHTML();
+                $plantilla = new TemaWebIngreso();
                 $plantilla->modelo_ingreso_logos = $this->modelo_ingreso_logos;
                 break;
             case 'simple':
-                $plantilla = new TemaSimpleHTML();
+                $plantilla = new TemaWebSimple();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
                 break;
             case 'dashboard':
-                $plantilla = new TemaDashboardHTML();
+                $plantilla = new TemaWebDashboard();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;
@@ -71,7 +71,7 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
                 break;
             case 'fluida':
             case 'fluido':
-                $plantilla = new TemaFluidoHTML();
+                $plantilla = new TemaWebFluido();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->modelo_fluido_logos = $this->modelo_fluido_logos;
@@ -80,7 +80,7 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
                 break;
             case 'sbadmin2':
             default:
-                $plantilla = new TemaSBAdmin2HTML();
+                $plantilla = new TemaWebSBAdmin2();
                 $plantilla->titulo              = $this->titulo;
                 $plantilla->menu_principal_logo = $this->menu_principal_logo;
                 $plantilla->icono               = $this->icono;

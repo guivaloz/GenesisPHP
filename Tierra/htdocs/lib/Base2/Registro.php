@@ -40,6 +40,11 @@ abstract class Registro {
     } // constructor
 
     /**
+     * Encabezado
+     */
+    abstract function encabezado();
+
+    /**
      * Consultar
      */
     abstract function consultar();

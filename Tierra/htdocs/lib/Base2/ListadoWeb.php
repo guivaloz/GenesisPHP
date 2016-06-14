@@ -29,7 +29,7 @@ class ListadoWeb implements SalidaWeb {
 
     public $encabezado;              // Opcional, texto para el encabezado
     public $icono;                   // Opcional, URL al icono
-    public $barra;                   // Opcional, instancia de BarraHTML
+    public $barra;                   // Opcional, instancia de BarraWeb
     public $estructura;              // Arreglo asociativo con la estructura del listado
     public $listado       = array(); // Arreglo, resultado de la consulta
     public $panal         = array();
@@ -72,19 +72,19 @@ class ListadoWeb implements SalidaWeb {
      */
     protected function validar() {
         if (!is_array($this->estructura)) {
-            throw new ListadoExceptionValidacion('Error en ListadoHTML: La estructura es incorrecta.');
+            throw new ListadoExceptionValidacion('Error en ListadoWeb: La estructura es incorrecta.');
         }
         if (count($this->estructura) == 0) {
-            throw new ListadoExceptionValidacion('Error en ListadoHTML: La estructura está vacía.');
+            throw new ListadoExceptionValidacion('Error en ListadoWeb: La estructura está vacía.');
         }
         if (!is_array($this->listado)) {
-            throw new ListadoExceptionValidacion('Error en ListadoHTML: El listado es incorrecto.');
+            throw new ListadoExceptionValidacion('Error en ListadoWeb: El listado es incorrecto.');
         }
         if (!is_array($this->panal)) {
-            throw new ListadoExceptionValidacion('Error en ListadoHTML: El panal es incorrecto.');
+            throw new ListadoExceptionValidacion('Error en ListadoWeb: El panal es incorrecto.');
         }
         if ((count($this->listado) == 0) && (count($this->panal) == 0)) {
-            throw new ListadoExceptionValidacion('Aviso en ListadoHTML: No hay registros a mostrar.');
+            throw new ListadoExceptionValidacion('Aviso en ListadoWeb: No hay registros a mostrar.');
         }
     } // validar
 
@@ -98,11 +98,11 @@ class ListadoWeb implements SalidaWeb {
         $a   = array();
         $a[] = '<div class="listado">';
         // Elaborar Barra
-        if (is_object($this->barra) && ($this->barra instanceof BarraHTML)) {
+        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
             $a[]                = $this->barra->html();
             $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
-            $barra              = new BarraHTML();
+            $barra              = new BarraWeb();
             $barra->encabezado  = $this->encabezado;
             $barra->icono       = $this->icono;
             $a[]                = $barra->html();

@@ -25,7 +25,7 @@ namespace Base2;
 /**
  * Clase abstracta PaginaWeb
  */
-abstract class PaginaWeb extends PlantillaHTML {
+abstract class PaginaWeb extends PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;

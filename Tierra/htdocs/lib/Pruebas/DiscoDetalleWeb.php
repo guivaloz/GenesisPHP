@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Celebridad DetalleHTML
+ * GenesisPHP - Disco DetalleHTML
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,19 +23,22 @@
 namespace Pruebas;
 
 /**
- * Clase CelebridadDetalleHTML
+ * Clase DiscoDetalleWeb
  */
-class CelebridadDetalleHTML extends CelebridadRegistro {
+class DiscoDetalleWeb extends DiscoRegistro {
 
     // protected $sesion;
     // protected $consultado;
-    // public $nombre;
-    // public $sexo;
-    // public $sexo_descrito;
-    // public $nacimiento_fecha;
-    // public $nacimiento_lugar;
-    // public $nacionalidad;
-    protected $detalle; // Instancia de DetalleHTML
+    // public $titulo;
+    // public $lanzamiento;
+    // public $artista;
+    // public $genero;
+    // public $canciones_cantidad;
+    // public $origen;
+    // public $origen_descrito;
+    // static public $origen_descripciones;
+    // static public $origen_colores;
+    protected $detalle; // Instancia de DetalleWeb
 
     /**
      * Constructor
@@ -44,7 +47,7 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
         // Iniciar DetalleHTML
-        $this->detalle = new \Base\DetalleHTML();
+        $this->detalle = new \Base2\DetalleWeb();
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -59,21 +62,16 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Elaborar Imagen
-        $imagen = new \Base\ImagenHTML('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
-        $imagen->configurar_para_detalle();
-        $imagen->cargar(1, 'qwerty', 'middle');
-        $imagen->vincular('big');
         // Cargar Detalle
-        $this->detalle->encabezado = $this->nombre;
-        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
-        $this->detalle->seccion('Clasificación científica');
-        $this->detalle->dato('Nombre',              $this->nombre);
-        $this->detalle->dato('Sexo',                $this->sexo_descrito);
-        $this->detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
-        $this->detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
-        $this->detalle->dato('Nacionalidad',        $this->nacionalidad);
-        $this->detalle->imagen($imagen);
+        $this->detalle->encabezado = $this->titulo;
+        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
+        $this->detalle->seccion('Disco');
+        $this->detalle->dato('Título',                $this->titulo);
+        $this->detalle->dato('Lanzamiento',           $this->lanzamiento);
+        $this->detalle->dato('Artista',               $this->artista);
+        $this->detalle->dato('Género',                $this->genero);
+        $this->detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
+        $this->detalle->dato('Origen',                $this->origen_descrito);
         // Entregar
         return $this->detalle->html();
     } // html
@@ -87,6 +85,6 @@ class CelebridadDetalleHTML extends CelebridadRegistro {
         return $this->detalle->javascript();
     } // javascript
 
-} // Clase CelebridadDetalleHTML
+} // Clase DiscoDetalleWeb
 
 ?>

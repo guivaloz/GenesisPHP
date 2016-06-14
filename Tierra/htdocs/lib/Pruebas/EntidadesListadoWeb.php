@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Disco DetalleHTML
+ * GenesisPHP - EntidadesListadoWeb
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,22 +23,18 @@
 namespace Pruebas;
 
 /**
- * Clase DiscoDetalleHTML
+ * Clase EntidadesListadoWeb
  */
-class DiscoDetalleHTML extends DiscoRegistro {
+class EntidadesListadoWeb extends EntidadesListado {
 
     // protected $sesion;
+    // public $listado;
+    // public $panal;
+    // public $cantidad_registros;
+    // public $limit;
+    // public $offset;
     // protected $consultado;
-    // public $titulo;
-    // public $lanzamiento;
-    // public $artista;
-    // public $genero;
-    // public $canciones_cantidad;
-    // public $origen;
-    // public $origen_descrito;
-    // static public $origen_descripciones;
-    // static public $origen_colores;
-    protected $detalle; // Instancia de DetalleHTML
+    protected $listado_controlado; // Instancia de ListadoControladoHTML
 
     /**
      * Constructor
@@ -46,8 +42,14 @@ class DiscoDetalleHTML extends DiscoRegistro {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
-        // Iniciar DetalleHTML
-        $this->detalle = new \Base\DetalleHTML();
+        // Iniciar ListadoControladoHTML
+        $this->listado_controlado = new \Base2\ListadoWebControlado();
+        // Cargar la estructura
+        $this->listado_controlado->estructura = array(
+            'nombre'    => array('enca' => 'Estado'),
+            'capital'   => array('enca' => 'Capital'),
+            'poblacion' => array('enca' => 'Población'),
+            'fundacion' => array('enca' => 'Fecha de fundación'));
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -62,18 +64,12 @@ class DiscoDetalleHTML extends DiscoRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
-        // Cargar Detalle
-        $this->detalle->encabezado = $this->titulo;
-        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_formulario');
-        $this->detalle->seccion('Disco');
-        $this->detalle->dato('Título',                $this->titulo);
-        $this->detalle->dato('Lanzamiento',           $this->lanzamiento);
-        $this->detalle->dato('Artista',               $this->artista);
-        $this->detalle->dato('Género',                $this->genero);
-        $this->detalle->dato('Cantidad de canciones', $this->canciones_cantidad);
-        $this->detalle->dato('Origen',                $this->origen_descrito);
+        // Cargar Listado Controlado
+        $this->listado_controlado->encabezado = $this->encabezado();
+        $this->listado_controlado->icono      = $this->sesion->menu->icono_en('tierra_prueba_listado');
+        $this->listado_controlado->listado    = $this->listado;
         // Entregar
-        return $this->detalle->html();
+        return $this->listado_controlado->html();
     } // html
 
     /**
@@ -82,9 +78,9 @@ class DiscoDetalleHTML extends DiscoRegistro {
      * @return string Javascript
      */
     public function javascript() {
-        return $this->detalle->javascript();
+        return $this->listado_controlado->javascript();
     } // javascript
 
-} // Clase DiscoDetalleHTML
+} // Clase EntidadesListadoWeb
 
 ?>

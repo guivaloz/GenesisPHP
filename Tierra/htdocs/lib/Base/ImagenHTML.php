@@ -36,11 +36,11 @@ class ImagenHTML extends Imagen {
     // protected $ancho;
     // protected $alto;
     // protected $ruta;
-    public $pie;                       // TEXTO A MOSTRAR DEBAJO DE LA IMAGEN
-    public $url       = '#';           // VINCULO A CREAR
-    public $a_class   = 'thumbnail';   // CLASE CSS PARA EL TAG a
-    public $img_class = '';            // CLASE CSS PARA EL TAG img
-    public $p_class   = 'text-center'; // CLASE CSS PARA EL TAG p
+    public $pie;                       // Texto a mostrar debajo de la imagen
+    public $url       = '#';           // Vinculo a crear
+    public $a_class   = 'thumbnail';   // Clase CSS para el tag a
+    public $img_class = '';            // Clase CSS para el tag img
+    public $p_class   = 'text-center'; // Clase CSS para el tag p
 
     /**
      * Configurar para Detalle
@@ -92,7 +92,7 @@ class ImagenHTML extends Imagen {
     public function html() {
         // Obtener URL a la imagen
         try {
-            $imagen_url = $this->obtener_url(); // PUEDE PROVOCAR UNA EXCEPCION
+            $imagen_url = $this->obtener_url();
         } catch (\Exception $e) {
             $mensaje = new MensajeHTML($e->getMessage());
             return $mensaje->html('Error');

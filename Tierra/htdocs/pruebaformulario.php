@@ -25,7 +25,7 @@ require_once('lib/Base/AutocargadorClases.php');
 /**
  * Clase PaginaPruebaFormulario
  */
-class PaginaPruebaFormulario extends \Base\PlantillaHTML {
+class PaginaPruebaFormulario extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -65,7 +65,7 @@ class PaginaPruebaFormulario extends \Base\PlantillaHTML {
      */
     public function html() {
         // Formulario de disco
-        $disco              = new \Pruebas\DiscoFormularioHTML($this->sesion);
+        $disco              = new \Pruebas\DiscoFormularioWeb($this->sesion);
         $this->contenido[]  = $disco->html();
         $this->javascript[] = $disco->javascript();
         // Ejecutar el padre y entregar su resultado

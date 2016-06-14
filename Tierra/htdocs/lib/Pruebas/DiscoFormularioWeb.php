@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Disco FormularioHTML
+ * GenesisPHP - Pruebas DiscoFormularioWeb
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 namespace Pruebas;
 
 /**
- * Clase DiscoFormularioHTML
+ * Clase DiscoFormularioWeb
  */
-class DiscoFormularioHTML extends DiscoDetalleHTML {
+class DiscoFormularioWeb extends DiscoDetalleWeb {
 
     // protected $sesion;
     // protected $consultado;
@@ -39,7 +39,7 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
     // static public $origen_descripciones;
     // static public $origen_colores;
     // protected $detalle;
-    protected $formulario;                        // Instancia de FormularioHTML
+    protected $formulario;                        // Instancia de FormularioWeb
     static public $form_name = 'discoformulario'; // Name del formulario
 
     /**
@@ -49,7 +49,7 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
         // Iniciar FormularioHTML
-        $this->formulario = new \Base\FormularioHTML(self::$form_name);
+        $this->formulario = new \Base2\FormularioWeb(self::$form_name);
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -78,12 +78,12 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
      * Recibir los valores del formulario
      */
     protected function recibir_formulario() {
-        $this->titulo             = \Base\FormularioHTML::post_texto($_POST['titulo']);
-        $this->lanzamiento        = \Base\FormularioHTML::post_texto($_POST['lanzamiento']);
-        $this->artista            = \Base\FormularioHTML::post_texto($_POST['artista']);
-        $this->genero             = \Base\FormularioHTML::post_texto($_POST['genero']);
-        $this->canciones_cantidad = \Base\FormularioHTML::post_texto($_POST['canciones_cantidad']);
-        $this->origen             = \Base\FormularioHTML::post_select($_POST['origen']);
+        $this->titulo             = \Base2\UtileriasParaFormularios::post_texto($_POST['titulo']);
+        $this->lanzamiento        = \Base2\UtileriasParaFormularios::post_texto($_POST['lanzamiento']);
+        $this->artista            = \Base2\UtileriasParaFormularios::post_texto($_POST['artista']);
+        $this->genero             = \Base2\UtileriasParaFormularios::post_texto($_POST['genero']);
+        $this->canciones_cantidad = \Base2\UtileriasParaFormularios::post_texto($_POST['canciones_cantidad']);
+        $this->origen             = \Base2\UtileriasParaFormularios::post_select($_POST['origen']);
     } // recibir_formulario
 
     /**
@@ -106,17 +106,17 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
                 // Acumular detalle
                 $a[] = parent::html();
                 // Acumular mensaje
-                $mensaje = new \Base\MensajeHTML("Se recibió el formulario satisfactoriamente");
+                $mensaje = new \Base2\MensajeWeb("Se recibió el formulario satisfactoriamente");
                 $a[]     = $mensaje->html('Éxito');
                 // Entregar detalle y mensaje
                 return implode("\n", $a);
-            } catch (\Base\RegistroExceptionValidacion $e) {
+            } catch (\Base2\RegistroExceptionValidacion $e) {
                 // Falló la validación, mostrar mensaje y el formulario de nuevo
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
                 $a[]     = $mensaje->html('Validación');
             } catch (\Exception $e) {
                 // Error fatal
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
                 $a[]     = $mensaje->html('Error');
             }
         } else {
@@ -140,6 +140,6 @@ class DiscoFormularioHTML extends DiscoDetalleHTML {
             $this->formulario->javascript()));
     } // javascript
 
-} // Clase DiscoFormularioHTML
+} // Clase DiscoFormularioWeb
 
 ?>

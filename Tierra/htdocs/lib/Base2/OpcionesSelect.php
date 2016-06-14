@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Busqueda
+ * GenesisPHP - OpcionesSelect
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,11 +23,12 @@
 namespace Base2;
 
 /**
- * Clase abstracta Busqueda
+ * Clase abstracta OpcionesSelect
  */
-abstract class Busqueda {
+abstract class OpcionesSelect {
 
-    protected $sesion; // Instancia de \Inicio\Sesion
+    public $consultado = false; // Verdadero si ya fue consultado
+    protected $sesion;          // Instancia de \Inicio\Sesion
 
     /**
      * Constructor
@@ -38,6 +39,11 @@ abstract class Busqueda {
         $this->sesion = $in_sesion;
     } // constructor
 
-} // Clase abstracta Busqueda
+    /**
+     * Opciones
+     */
+    abstract function opciones();
+
+} // Clase abstracta OpcionesSelect
 
 ?>

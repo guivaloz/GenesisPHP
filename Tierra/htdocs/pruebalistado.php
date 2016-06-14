@@ -25,7 +25,7 @@ require_once('lib/Base/AutocargadorClases.php');
 /**
  * Clase PaginaPruebaListado
  */
-class PaginaPruebaListado extends \Base\PlantillaHTML {
+class PaginaPruebaListado extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -65,7 +65,7 @@ class PaginaPruebaListado extends \Base\PlantillaHTML {
      */
     public function html() {
         // Listado de entidades
-        $entidades          = new \Pruebas\EntidadesListadoHTML($this->sesion);
+        $entidades          = new \Pruebas\EntidadesListadoWeb($this->sesion);
         $this->contenido[]  = $entidades->html();
         $this->javascript[] = $entidades->javascript();
         // Ejecutar el padre y entregar su resultado

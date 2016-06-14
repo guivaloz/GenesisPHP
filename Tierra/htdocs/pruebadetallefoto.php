@@ -25,7 +25,7 @@ require_once('lib/Base/AutocargadorClases.php');
 /**
  * Clase PaginaPruebaDetalleFoto
  */
-class PaginaPruebaDetalleFoto extends \Base\PlantillaHTML {
+class PaginaPruebaDetalleFoto extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -65,7 +65,7 @@ class PaginaPruebaDetalleFoto extends \Base\PlantillaHTML {
      */
     public function html() {
         // Detalle del cactus
-        $celebridad         = new \Pruebas\CelebridadDetalleHTML($this->sesion);
+        $celebridad         = new \Pruebas\CelebridadDetalleWeb($this->sesion);
         $this->contenido[]  = $celebridad->html();
         $this->javascript[] = $celebridad->javascript();
         // Ejecutar el padre y entregar su resultado

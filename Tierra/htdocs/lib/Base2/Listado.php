@@ -27,13 +27,13 @@ namespace Base2;
  */
 abstract class Listado {
 
-    public $consultado      = false; // Verdadero si ya fue consultado
-    protected $sesion;               // Instancia de \Inicio\Sesion
-    public $listado;                 // Arreglo de arreglos asociativos columna => valor
-    public $panal;                   // Arreglo de arreglos con instancias columna => Celda
-    public $cantidad_registros = 0;  // Entero, cantidad total de registros de la consulta
-    public $limit              = 0;  // Entero, límite de registros a consultar, es también la máxima cantidad de renglones que se obtendrán
-    public $offset             = 0;  // Entero, desplazamiento para la consulta
+    public $consultado         = false; // Verdadero si ya fue consultado
+    protected $sesion;                  // Instancia de \Inicio\Sesion
+    public $listado;                    // Arreglo de arreglos asociativos columna => valor
+    public $panal;                      // Arreglo de arreglos con instancias columna => Celda
+    public $cantidad_registros = 0;     // Entero, cantidad total de registros de la consulta
+    public $limit              = 0;     // Entero, límite de registros a consultar, es también la máxima cantidad de renglones que se obtendrán
+    public $offset             = 0;     // Entero, desplazamiento para la consulta
 
     /**
      * Constructor
@@ -48,13 +48,13 @@ abstract class Listado {
      * Validar
      */
     public function validar() {
-        if (!$this->validar_entero($this->limit)) {
+        if (!UtileriasParaValidar::validar_entero($this->limit)) {
             throw new ListadoExceptionValidacion('Error: Valor de "limit" incorrecto.');
         }
-        if (!$this->validar_entero($this->offset)) {
+        if (!UtileriasParaValidar::validar_entero($this->offset)) {
             throw new ListadoExceptionValidacion('Error: Valor de "offset" incorrecto.');
         }
-        if (!$this->validar_entero($this->cantidad_registros)) {
+        if (!UtileriasParaValidar::validar_entero($this->cantidad_registros)) {
             throw new ListadoExceptionValidacion('Error: Cantidad de registros es incorrecto.');
         }
     } // validar

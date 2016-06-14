@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Disco Registro
+ * GenesisPHP - Pruebas DiscoRegistro
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase DiscoRegistro
  */
-class DiscoRegistro extends \Base\Registro {
+class DiscoRegistro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -56,27 +56,34 @@ class DiscoRegistro extends \Base\Registro {
         $this->origen             = 'E';
         $this->origen_descrito    = self::$origen_descripciones[$this->origen];
         // Ya fue consultado
-        $this->consultado = true;
+        $this->consultado         = true;
     } // consultar
+
+    /**
+     * Encabezado
+     */
+    public function encabezado() {
+        return $this->titulo;
+    } // encabezado
 
     /**
      * Validar
      */
     public function validar() {
         // Validar
-        if (!$this->validar_nombre($this->titulo)) {
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->titulo)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Título incorrecto.');
         }
-        if (!$this->validar_fecha($this->lanzamiento)) {
+        if (!\Base2\UtileriasParaValidar::validar_fecha($this->lanzamiento)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Lanzamiento incorrecto.');
         }
-        if (!$this->validar_nombre($this->artista)) {
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->artista)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Artista incorrecto.');
         }
-        if (!$this->validar_nombre($this->genero)) {
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->genero)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Género incorrecto.');
         }
-        if (!$this->validar_entero($this->canciones_cantidad)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->canciones_cantidad)) {
             throw new \Base\RegistroExceptionValidacion('Aviso: Cantidad de canciones incorrecto.');
         }
         if (!array_key_exists($this->origen, self::$origen_descripciones)) {

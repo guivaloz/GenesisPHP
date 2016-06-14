@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Cactus DetalleHTML
+ * GenesisPHP - Pruebas CelebridadDetalleWeb
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,23 +23,19 @@
 namespace Pruebas;
 
 /**
- * Clase CactusDetalleHTML
+ * Clase CelebridadDetalleWeb
  */
-class CactusDetalleHTML extends CactusRegistro {
+class CelebridadDetalleWeb extends CelebridadRegistro {
 
     // protected $sesion;
     // protected $consultado;
     // public $nombre;
-    // public $reino;
-    // public $division;
-    // public $clase;
-    // public $orden;
-    // public $familia;
-    // public $subfamilia;
-    // public $tribu;
-    // public $genero;
-    // public $descripcion;
-    protected $detalle; // Instancia de DetalleHTML
+    // public $sexo;
+    // public $sexo_descrito;
+    // public $nacimiento_fecha;
+    // public $nacimiento_lugar;
+    // public $nacionalidad;
+    protected $detalle; // Instancia de DetalleWeb
 
     /**
      * Constructor
@@ -48,7 +44,7 @@ class CactusDetalleHTML extends CactusRegistro {
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
         // Iniciar DetalleHTML
-        $this->detalle = new \Base\DetalleHTML();
+        $this->detalle = new \Base2\DetalleWeb();
         // Ejecutar constructor en el padre
         parent::__construct($in_sesion);
     } // constructor
@@ -63,19 +59,21 @@ class CactusDetalleHTML extends CactusRegistro {
         if (!$this->consultado) {
             $this->consultar();
         }
+        // Elaborar Imagen
+        $imagen = new \Base2\ImagenWeb('imagenes/pruebas', array('small' => 200, 'middle' => 400, 'big' => 1024));
+        $imagen->configurar_para_detalle();
+        $imagen->cargar(1, 'qwerty', 'middle');
+        $imagen->vincular('big');
         // Cargar Detalle
         $this->detalle->encabezado = $this->nombre;
-        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle');
+        $this->detalle->icono      = $this->sesion->menu->icono_en('tierra_prueba_detalle_foto');
         $this->detalle->seccion('Clasificación científica');
-        $this->detalle->dato('Reino',       $this->reino);
-        $this->detalle->dato('División',    $this->division);
-        $this->detalle->dato('Clase',       $this->clase);
-        $this->detalle->dato('Orden',       $this->orden);
-        $this->detalle->dato('Familia',     $this->familia);
-        $this->detalle->dato('Subfamilia',  $this->subfamilia);
-        $this->detalle->dato('Tribu',       $this->tribu);
-        $this->detalle->dato('Género',      $this->genero);
-        $this->detalle->dato('Descripción', $this->descripcion);
+        $this->detalle->dato('Nombre',              $this->nombre);
+        $this->detalle->dato('Sexo',                $this->sexo_descrito);
+        $this->detalle->dato('Fecha de nacimiento', $this->nacimiento_fecha);
+        $this->detalle->dato('Lugar de nacimiento', $this->nacimiento_lugar);
+        $this->detalle->dato('Nacionalidad',        $this->nacionalidad);
+        $this->detalle->imagen($imagen);
         // Entregar
         return $this->detalle->html();
     } // html
@@ -89,6 +87,6 @@ class CactusDetalleHTML extends CactusRegistro {
         return $this->detalle->javascript();
     } // javascript
 
-} // Clase CactusDetalleHTML
+} // Clase CelebridadDetalleWeb
 
 ?>

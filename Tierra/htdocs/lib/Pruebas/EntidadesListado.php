@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Entidades Listado
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase EntidadesListado
  */
-class EntidadesListado extends \Base\Listado {
+class EntidadesListado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -34,15 +34,6 @@ class EntidadesListado extends \Base\Listado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-
-    /**
-     * Encabezado
-     *
-     * @return string Texto del encabezado
-     */
-    public function encabezado() {
-        return 'Entidades Federativas de México';
-    } // encabezado
 
     /**
      * Consultar
@@ -87,6 +78,15 @@ class EntidadesListado extends \Base\Listado {
         // Poner como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
+
+    /**
+     * Encabezado
+     *
+     * @return string Texto del encabezado
+     */
+    public function encabezado() {
+        return 'Entidades Federativas de México';
+    } // encabezado
 
 } // Clase EntidadesListado
 

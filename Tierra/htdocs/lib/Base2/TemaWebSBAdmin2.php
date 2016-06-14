@@ -58,7 +58,7 @@ class TemaWebSBAdmin2 extends TemaWeb {
             $icono = '<span class="glyphicon glyphicon-folder-close"></span>';
         }
         // Definir lo que se va a mostrar
-        $mostrar = sprintf('%s %s', $icono, $this->formato_contenido($datos['etiqueta']));
+        $mostrar = sprintf('%s %s', $icono, UtileriasParaFormatos::formato_contenido($datos['etiqueta']));
         // Entregar
         return sprintf('<a href="%s">%s</a>', $datos['url'], $mostrar);
     } // navegacion_vinculo_html
@@ -87,7 +87,7 @@ class TemaWebSBAdmin2 extends TemaWeb {
         $a[] = '      </button>';
         // Acumular branding
         if (($this->menu_principal_logo != '') && ($this->sistema != '')) {
-            $a[] = sprintf('      <a class="navbar-brand" href="index.php"><img class="navbar-brand-img" src="%s" alt="%s"></a>', $this->menu_principal_logo, $this->formato_contenido($this->sistema));
+            $a[] = sprintf('      <a class="navbar-brand" href="index.php"><img class="navbar-brand-img" src="%s" alt="%s"></a>', $this->menu_principal_logo, UtileriasParaFormatos::formato_contenido($this->sistema));
         } elseif ($this->sistema != '') {
             $a[] = sprintf('      <a class="navbar-brand" href="index.php">%s</a>', $this->sistema);
         } else {
@@ -143,7 +143,7 @@ class TemaWebSBAdmin2 extends TemaWeb {
                 } else {
                     $icono = sprintf('<span class="navegacion-icono"><img src="imagenes/16x16/%s"></span>', $primero_datos['icono']);
                 }
-                $a[] = sprintf('            <a href="#">%s %s<span class="fa arrow"></span></a>', $icono, $this->formato_contenido($primero_datos['etiqueta']));
+                $a[] = sprintf('            <a href="#">%s %s<span class="fa arrow"></span></a>', $icono, UtileriasParaFormatos::formato_contenido($primero_datos['etiqueta']));
                 $a[] = '            <ul class="nav nav-second-level">';
                 // Bucle por el segundo nivel del menu
                 foreach ($primero_datos['segundo'] as $segundo_clave => $segundo_datos) {
@@ -217,17 +217,17 @@ class TemaWebSBAdmin2 extends TemaWeb {
         $a[] = '  <meta http-equiv="X-UA-Compatible" content="IE=edge">';
         $a[] = '  <meta name="viewport" content="width=device-width, initial-scale=1.0">';
         if ($this->descripcion != '') {
-            $a[] = sprintf('  <meta name="description" content="%s">', $this->formato_contenido($this->descripcion));
+            $a[] = sprintf('  <meta name="description" content="%s">', UtileriasParaFormatos::formato_contenido($this->descripcion));
         }
         if ($this->autor != '') {
-            $a[] = sprintf('  <meta name="author" content="%s">', $this->formato_contenido($this->autor));
+            $a[] = sprintf('  <meta name="author" content="%s">', UtileriasParaFormatos::formato_contenido($this->autor));
         }
         if (($this->titulo != '') && ($this->sistema != '')) {
-            $a[] = sprintf('  <title>%s - %s</title>', $this->formato_contenido($this->titulo), $this->formato_contenido($this->sistema));
+            $a[] = sprintf('  <title>%s - %s</title>', UtileriasParaFormatos::formato_contenido($this->titulo), UtileriasParaFormatos::formato_contenido($this->sistema));
         } elseif ($this->titulo != '') {
-            $a[] = sprintf('  <title>%s</title>', $this->formato_contenido($this->titulo));
+            $a[] = sprintf('  <title>%s</title>', UtileriasParaFormatos::formato_contenido($this->titulo));
         } elseif ($this->sistema != '') {
-            $a[] = sprintf('  <title>Sin título - %s</title>', $this->formato_contenido($this->sistema));
+            $a[] = sprintf('  <title>Sin título - %s</title>', UtileriasParaFormatos::formato_contenido($this->sistema));
         } else {
             $a[] = '  <title>GenesisPHP</title>';
         }

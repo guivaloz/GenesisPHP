@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaPruebaDetalle
  */
-class PaginaPruebaDetalle extends \Base\PlantillaHTML {
+class PaginaPruebaDetalle extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -65,7 +65,7 @@ class PaginaPruebaDetalle extends \Base\PlantillaHTML {
      */
     public function html() {
         // Detalle del cactus
-        $cactus             = new \Pruebas\CactusDetalleHTML($this->sesion);
+        $cactus             = new \Pruebas\CactusDetalleWeb($this->sesion);
         $this->contenido[]  = $cactus->html();
         $this->javascript[] = $cactus->javascript();
         // Ejecutar el padre y entregar su resultado

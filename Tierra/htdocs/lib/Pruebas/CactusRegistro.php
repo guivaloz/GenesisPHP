@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Cactus Registro
+ * GenesisPHP - Pruebas CactusRegistro
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase CactusRegistro
  */
-class CactusRegistro extends \Base\Registro {
+class CactusRegistro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -58,6 +58,13 @@ class CactusRegistro extends \Base\Registro {
         // Ya fue consultado
         $this->consultado = true;
     } // consultar
+
+    /**
+     * Encabezado
+     */
+    public function encabezado() {
+        return $this->nombre;
+    } // encabezado
 
 } // Clase CactusRegistro
 

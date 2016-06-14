@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaInicial
  */
-class PaginaInicial extends \Base\PlantillaHTML {
+class PaginaInicial extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -62,7 +62,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
      */
     public function html() {
         // Mensaje de bienvenida
-        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
+        $mensaje           = new \Base2\MensajeWeb('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
         $mensaje->tipo     = 'tip';
         $this->contenido[] = $mensaje->html('Acerca de estas páginas');
         // Ejecutar el padre y entregar su resultado

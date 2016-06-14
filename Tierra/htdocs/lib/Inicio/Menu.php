@@ -25,7 +25,7 @@ namespace Inicio;
 /**
  *  Clase Menu
  */
-class Menu extends \Base\Menu {
+class Menu extends \Base2\Menu {
 
     // public $clave;
     // public $permisos;

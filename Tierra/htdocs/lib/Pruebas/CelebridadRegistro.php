@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Celebridad Registro
+ * GenesisPHP - Pruebas CelebridadRegistro
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase CelebridadRegistro
  */
-class CelebridadRegistro extends \Base\Registro {
+class CelebridadRegistro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -54,8 +54,15 @@ class CelebridadRegistro extends \Base\Registro {
         $this->nacionalidad     = 'Norteamericano';
         $this->sexo_descrito    = self::$sexo_descripciones[$this->sexo];
         // Ya fue consultado
-        $this->consultado = true;
+        $this->consultado       = true;
     } // consultar
+
+    /**
+     * Encabezado
+     */
+    public function encabezado() {
+        return $this->nombre;
+    } // encabezado
 
 } // Clase CelebridadRegistro
 

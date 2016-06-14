@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Busqueda
+ * GenesisPHP - BusquedaExceptionValidacion
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,21 +23,8 @@
 namespace Base2;
 
 /**
- * Clase abstracta Busqueda
+ * Clase BusquedaExceptionValidacion
  */
-abstract class Busqueda {
-
-    protected $sesion; // Instancia de \Inicio\Sesion
-
-    /**
-     * Constructor
-     *
-     * @param mixed Sesion
-     */
-    public function __construct(\Inicio\Sesion $in_sesion) {
-        $this->sesion = $in_sesion;
-    } // constructor
-
-} // Clase abstracta Busqueda
+class BusquedaExceptionValidacion extends \Exception {}
 
 ?>

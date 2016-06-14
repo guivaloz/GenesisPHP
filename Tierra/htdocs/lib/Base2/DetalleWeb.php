@@ -84,7 +84,7 @@ class DetalleWeb implements SalidaWeb {
      *
      * @param mixed Instacia de la Clase Imagen con el ID y los caracteres al azar ya cargados
      */
-    public function imagen(ImagenHTML $in_imagen) {
+    public function imagen(ImagenWeb $in_imagen) {
         $this->imagenes[] = $in_imagen;
     } // imagen
 

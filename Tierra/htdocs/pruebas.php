@@ -25,7 +25,7 @@ require_once('lib/Base/AutocargadorClases.php');
 /**
  * Clase PaginaPruebas
  */
-class PaginaPruebas extends \Base\PlantillaHTML {
+class PaginaPruebas extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
