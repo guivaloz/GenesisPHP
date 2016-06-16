@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Inicio Sesión
+ * GenesisPHP - Tierra Inicio Sesión
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

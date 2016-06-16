@@ -25,7 +25,7 @@ namespace AdmBitacora;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -87,11 +87,11 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar la bitácora por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar la bitácora por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -106,11 +106,11 @@ class Registro extends \Base\Registro {
                     AND b.id = %d",
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la bitácora.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la bitácora.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró el registro en la bitácora.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró el registro en la bitácora.');
         }
         // Definir propiedades
         $a = $consulta->obtener_registro();
@@ -136,11 +136,11 @@ class Registro extends \Base\Registro {
         $this->usuario_nom_corto = $this->sesion->nom_corto;
         $this->pagina            = $this->sesion->pagina;
         // Validaciones
-        if (($this->pagina_id != null) && !$this->validar_entero($this->pagina_id)) {
-            throw new \Base\RegistroExceptionValidacion('Error en bitácora: Número para pagina_id incorrecto.');
+        if (($this->pagina_id != null) && !\Base2\UtileriasParaValidar::validar_entero($this->pagina_id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error en bitácora: Número para pagina_id incorrecto.');
         }
         if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Error en bitácora: Tipo incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Error en bitácora: Tipo incorrecto.');
         }
         // Si no esta definido el url, lo hacemos
         if ($this->url == '') {
@@ -150,8 +150,8 @@ class Registro extends \Base\Registro {
             }
         }
         // Validar notas
-        if (($this->notas != '') && !$this->validar_notas($this->notas)) {
-            // throw new \Base\RegistroExceptionValidacion('Error en bitácora: Notas incorrectas.');
+        if (($this->notas != '') && !\Base2\UtileriasParaValidar::validar_notas($this->notas)) {
+            // throw new \Base2\RegistroExceptionValidacion('Error en bitácora: Notas incorrectas.');
             $this->notas = 'Error en Bitácora: Notas incorrectas.';
         }
     } // validar
@@ -169,7 +169,7 @@ class Registro extends \Base\Registro {
             return;
         }
         // Insertamos el registro
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
@@ -177,11 +177,11 @@ class Registro extends \Base\Registro {
                 VALUES
                     (%d, %s, %s, %s, %s, %s)",
                 $this->usuario,
-                $this->sql_texto($this->pagina),
-                $this->sql_entero($this->pagina_id),
-                $this->sql_texto($this->tipo),
-                $this->sql_texto($this->url),
-                $this->sql_texto($this->notas)), true); // Tiene el true para tronar en caso de error
+                \Base2\UtileriasParaSQL::sql_texto($this->pagina),
+                \Base2\UtileriasParaSQL::sql_entero($this->pagina_id),
+                \Base2\UtileriasParaSQL::sql_texto($this->tipo),
+                \Base2\UtileriasParaSQL::sql_texto($this->url),
+                \Base2\UtileriasParaSQL::sql_texto($this->notas)), true); // Tiene el true para tronar en caso de error
         } catch (\Exception $e) {
             die("Error en bitácora: Al tratar de insertar un registro.");
         }

@@ -25,7 +25,7 @@ require_once('lib/Base/AutocargadorClases.php');
 /**
  * Clase PaginaInicial
  */
-class PaginaInicial extends \Base\PlantillaHTML {
+class PaginaInicial extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -68,12 +68,12 @@ class PaginaInicial extends \Base\PlantillaHTML {
         try {
             $this->menu->consultar();
         } catch (\Exception $e) {
-            $mensaje           = new \Base\MensajeHTML($e->getMessage());
+            $mensaje           = new \Base2\MensajeWeb($e->getMessage());
             $this->contenido[] = $mensaje->html('Error en menú');
         }
         // Si viene el formulario del cambio de contraseña
-        $personalizar = new \Personalizar\ContrasenaFormularioHTML($this->sesion);
-        if ($_POST['formulario'] == \Personalizar\ContrasenaFormularioHTML::$form_name) {
+        $personalizar = new \Personalizar\ContrasenaFormularioWeb($this->sesion);
+        if ($_POST['formulario'] == \Personalizar\ContrasenaFormularioWeb::$form_name) {
             // Mostrar el resultado de recibirlo
             $this->contenido[] = $personalizar->html();
         } else {
@@ -86,7 +86,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
                 $this->contenido[] = $personalizar->html();
             } else {
                 // Mensaje de bienvenida
-                $mensaje           = new \Base\MensajeHTML(array(
+                $mensaje           = new \Base2\MensajeWeb(array(
                     'En la parte superior tiene el menú principal que siempre es visible.',
                     'Del lado izquierdo, está el menú secundario el cual cambia según la opción del menú primario elegida.',
                     'Su nombre, arriba a la derecha, le mostrará los datos de su cuenta.'));
@@ -115,7 +115,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
                 return parent::html();
             } catch (\Exception $e) {
                 // Error, mostramos el ingreso y el mensaje
-                $mensaje           = new \Base\MensajeHTML($e->getMessage());
+                $mensaje           = new \Base2\MensajeWeb($e->getMessage());
                 $this->contenido[] = $mensaje->html('Error al salir');
                 $this->modelo      = 'ingreso';
                 return parent::html();
@@ -138,7 +138,7 @@ class PaginaInicial extends \Base\PlantillaHTML {
                 return parent::html();
             } catch (\Exception $e) {
                 // Error, mostramos el ingreso y el mensaje
-                $mensaje           = new \Base\MensajeHTML($e->getMessage());
+                $mensaje           = new \Base2\MensajeWeb($e->getMessage());
                 $this->contenido[] = $mensaje->html('Error al iniciar sesión');
                 $this->modelo      = 'ingreso';
                 return parent::html();

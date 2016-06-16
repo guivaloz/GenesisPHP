@@ -25,7 +25,7 @@ namespace AdmIntegrantes;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -58,7 +58,7 @@ class Listado extends \Base\Listado {
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
-                throw new \Base\ListadoExceptionValidacion('Aviso: Usuario incorrecto.');
+                throw new \Base2\ListadoExceptionValidacion('Aviso: Usuario incorrecto.');
             }
             $this->usuario_nombre = $usuario->nombre;
         } else {
@@ -70,7 +70,7 @@ class Listado extends \Base\Listado {
             try {
                 $departamento->consultar($this->departamento);
             } catch (\Exception $e) {
-                throw new \Base\ListadoExceptionValidacion('Aviso: Departamento incorrecto.');
+                throw new \Base2\ListadoExceptionValidacion('Aviso: Departamento incorrecto.');
             }
             $this->departamento_nombre = $departamento->nombre;
         } else {
@@ -78,7 +78,7 @@ class Listado extends \Base\Listado {
         }
         // Validar filtros
         if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Reseteamos el arreglo asociativo
         $this->filtros_param = array();
@@ -151,7 +151,7 @@ class Listado extends \Base\Listado {
             $filtros_sql = '';
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -174,11 +174,11 @@ class Listado extends \Base\Listado {
                 $filtros_sql,
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar integrantes para hacer listado.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar integrantes para hacer listado.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en integrantes.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron registros en integrantes.');
         }
         // Pasamos la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
@@ -198,7 +198,7 @@ class Listado extends \Base\Listado {
                         %s",
                     $filtros_sql));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los integrantes para determinar la cantidad de registros.', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los integrantes para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

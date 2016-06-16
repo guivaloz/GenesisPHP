@@ -25,15 +25,15 @@ namespace Inicio;
 /**
  *  Clase Menu
  */
-class Menu extends \Base\Menu {
+class Menu extends \Base2\Menu {
 
     // public $clave;
     // public $permisos;
     // protected $principal_actual;
     // protected $estructura;
     // protected $datos;
-    protected $sesion;  // Instancia con la sesion
-    public $usuario;    // Entero, id del usuario
+    protected $sesion;  // Instancia con la Sesion
+    public $usuario;    // Entero, ID del usuario
 
     /*
      * Permisos
@@ -71,11 +71,11 @@ class Menu extends \Base\Menu {
         if ($in_usuario != '') {
             $this->usuario = $in_usuario;
         }
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception("Error en Menu: ID de usuario incorrecto.");
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -106,7 +106,7 @@ class Menu extends \Base\Menu {
                     m.orden ASC",
                 $this->usuario));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error en Menú: En el comando SQL para hacer la consulta.', $e->getMessage());
+            throw new \Exception('Error en Menú: En el comando SQL para hacer la consulta.');
         }
         // Si no hay registros
         if ($consulta->cantidad_registros() == 0) {

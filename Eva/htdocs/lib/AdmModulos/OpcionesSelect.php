@@ -25,7 +25,7 @@ namespace AdmModulos;
 /**
  * Clase OpcionesSelect
  */
-class OpcionesSelect extends \Base\OpcionesSelect {
+class OpcionesSelect extends \Base2\OpcionesSelect {
 
     // protected $sesion;
     // protected $consultado;
@@ -37,7 +37,7 @@ class OpcionesSelect extends \Base\OpcionesSelect {
      */
     public function opciones_padre() {
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando("
                 SELECT
@@ -49,11 +49,11 @@ class OpcionesSelect extends \Base\OpcionesSelect {
                 ORDER BY
                     orden ASC");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos padre para hacer opciones.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos padre para hacer opciones.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron módulos padre.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron módulos padre.');
         }
         // Juntar como arreglo asociativo
         $a = array();
@@ -73,7 +73,7 @@ class OpcionesSelect extends \Base\OpcionesSelect {
         // Consultar padres
         $padres = $this->opciones_padre();
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando("
                 SELECT
@@ -85,11 +85,11 @@ class OpcionesSelect extends \Base\OpcionesSelect {
                 ORDER BY
                     orden ASC");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos para hacer opciones.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos para hacer opciones.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron módulos.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron módulos.');
         }
         // Juntar como arreglo asociativo
         $a = array();

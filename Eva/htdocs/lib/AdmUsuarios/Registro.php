@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -99,11 +99,11 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el usuario por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar el usuario por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -120,17 +120,17 @@ class Registro extends \Base\Registro {
                     id = %d",
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el usuario.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el usuario.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al usuario.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró al usuario.');
         }
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
         if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_usuarios')) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
         $this->nombre            = $a['nombre'];
@@ -211,36 +211,36 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validamos las propiedades
-        if (!$this->validar_nom_corto($this->nom_corto)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre corto incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_nom_corto($this->nom_corto)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Nombre corto incorrecto.');
         }
         $this->nom_corto = strtolower($this->nom_corto);
-        if (!$this->validar_nombre($this->nombre)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->nombre)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->puesto != '') && !$this->validar_nombre($this->puesto)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Puesto incorrecto.');
+        if (($this->puesto != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->puesto)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Puesto incorrecto.');
         }
         if (!array_key_exists($this->tipo, self::$tipo_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Tipo incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Tipo incorrecto.');
         }
-        if (($this->email != '') && !$this->validar_email($this->email)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Correo electrónico incorrecto.');
+        if (($this->email != '') && !\Base2\UtileriasParaValidar::validar_email($this->email)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Correo electrónico incorrecto.');
         }
-        if (($this->contrasena != '') && !$this->validar_contrasena($this->contrasena)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
+        if (($this->contrasena != '') && !\Base2\UtileriasParaValidar::validar_contrasena($this->contrasena)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
         }
-        if (!$this->validar_entero($this->sesiones_maximas)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de ingresos por día es incorrecta.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->sesiones_maximas)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La cantidad de ingresos por día es incorrecta.');
         }
-        if (!$this->validar_entero($this->listado_renglones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La cantidad de renglones en los listados es incorrecta.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->listado_renglones)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La cantidad de renglones en los listados es incorrecta.');
         }
-        if (($this->notas != '') && !$this->validar_nombre($this->notas)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La nota es incorrecta.');
+        if (($this->notas != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->notas)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La nota es incorrecta.');
         }
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Definimos los descritos
         $this->tipo_descrito    = self::$tipo_descripciones[$this->tipo];
@@ -291,11 +291,11 @@ class Registro extends \Base\Registro {
         // Validar
         $this->validar();
         // Validar contraseña, no debe estar vacía
-        if (($this->contrasena == '') || !$this->validar_contrasena($this->contrasena)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
+        if (($this->contrasena == '') || !\Base2\UtileriasParaValidar::validar_contrasena($this->contrasena)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Contraseña incorrecta.');
         }
         // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
@@ -303,18 +303,18 @@ class Registro extends \Base\Registro {
                     (nom_corto, nombre, puesto, tipo, email, contrasena, sesiones_maximas, listado_renglones, notas, estatus)
                 VALUES
                     (%s, %s, %s, %s, %s, %s, %d, %d, %s, %s)",
-                $this->sql_texto($this->nom_corto),
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->puesto),
-                $this->sql_texto($this->tipo),
-                $this->sql_texto($this->email),
-                $this->sql_texto($this->contrasena),
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto($this->nombre),
+                \Base2\UtileriasParaSQL::sql_texto($this->puesto),
+                \Base2\UtileriasParaSQL::sql_texto($this->tipo),
+                \Base2\UtileriasParaSQL::sql_texto($this->email),
+                \Base2\UtileriasParaSQL::sql_texto($this->contrasena),
                 $this->sesiones_maximas,
                 $this->listado_renglones,
-                $this->sql_texto($this->notas),
-                $this->sql_texto($this->estatus)));
+                \Base2\UtileriasParaSQL::sql_texto($this->notas),
+                \Base2\UtileriasParaSQL::sql_texto($this->estatus)));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el usuario. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el usuario. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
@@ -324,7 +324,7 @@ class Registro extends \Base\Registro {
                 FROM
                     adm_usuarios_id_seq");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del usuario. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del usuario. ', $e->getMessage());
         }
         $a        = $consulta->obtener_registro();
         $this->id = intval($a['id']);
@@ -395,12 +395,12 @@ class Registro extends \Base\Registro {
         }
         // Si no hay cambios, provoca excepcion de validacion
         if (count($a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No hay cambios.');
         } else {
             $msg = "Modificado el usuario {$this->nom_corto} con ".implode(', ', $a);
         }
         // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -411,18 +411,18 @@ class Registro extends \Base\Registro {
                     notas = %s, estatus = %s
                 WHERE
                     id = %d",
-                $this->sql_texto($this->nom_corto),
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->puesto),
-                $this->sql_texto($this->tipo),
-                $this->sql_texto($this->email),
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto($this->nombre),
+                \Base2\UtileriasParaSQL::sql_texto($this->puesto),
+                \Base2\UtileriasParaSQL::sql_texto($this->tipo),
+                \Base2\UtileriasParaSQL::sql_texto($this->email),
                 $this->sesiones_maximas,
                 $this->listado_renglones,
-                $this->sql_texto($this->notas),
-                $this->sql_texto($this->estatus),
+                \Base2\UtileriasParaSQL::sql_texto($this->notas),
+                \Base2\UtileriasParaSQL::sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
         }
         // Actualizar contraseña, si la define
         if ($this->contrasena != '') {
@@ -437,10 +437,10 @@ class Registro extends \Base\Registro {
                         contrasena_expira = ((('now'::text)::date + '30 days'::interval))::date
                     WHERE
                         id = %d",
-                    $this->sql_texto($this->contrasena),
+                    \Base2\UtileriasParaSQL::sql_texto($this->contrasena),
                     $this->id));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
             }
         }
         // Agregar a la bitacora que se modifico el registro
@@ -466,7 +466,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'B') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el usuario porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede eliminarse el usuario porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'B';
@@ -491,7 +491,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'A') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el usuario porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede recuperarse el usuario porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'A';
@@ -516,11 +516,11 @@ class Registro extends \Base\Registro {
         }
         // Debe tener el estatus activo
         if ($this->estatus != 'A') {
-            throw new \Base\RegistroExceptionValidacion('ERROR: El usuario NO está activo.');
+            throw new \Base2\RegistroExceptionValidacion('ERROR: El usuario NO está activo.');
         }
         // Que este bloqueado
         if (!$this->esta_bloqueada) {
-            throw new \Base\RegistroExceptionValidacion('ERROR: El usuario NO está bloqueado.');
+            throw new \Base2\RegistroExceptionValidacion('ERROR: El usuario NO está bloqueado.');
         }
         // Determinar el comando sql y armar el mensaje
         if ($this->bloqueada_porque_fallas) {
@@ -547,7 +547,7 @@ class Registro extends \Base\Registro {
                     contrasena_expira = %s, contrasena_fallas = 0
                 WHERE
                     id = %d",
-                $this->sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)),
+                \Base2\UtileriasParaSQL::sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)),
                 $this->id);
         }
         if ($this->bloqueada_porque_sesiones) {
@@ -562,11 +562,11 @@ class Registro extends \Base\Registro {
                 $this->id);
         }
         // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando($comando_sql);
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al tratar de desbloquear el usuario. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al tratar de desbloquear el usuario. ', $e->getMessage());
         }
         // Bajar banderas y elaborar mensaje
         if ($this->bloqueada_porque_fallas) {

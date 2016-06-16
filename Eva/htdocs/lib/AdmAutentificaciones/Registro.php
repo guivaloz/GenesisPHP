@@ -25,7 +25,7 @@ namespace AdmAutentificaciones;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;

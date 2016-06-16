@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base Datos Configuración
+ * GenesisPHP - Tierra BaseDatosConfig
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,15 +23,15 @@
 namespace Configuracion;
 
 /**
- * Clase BaseDatosConfig
+ * Clase abstracta BaseDatosConfig
  */
-class BaseDatosConfig {
+abstract class BaseDatosConfig {
 
     protected $bd_nombre  = 'genesisphp_tierra';
     protected $servidor   = 'localhost';
     protected $usuario    = 'genesisphp';
     protected $password   = '';
 
-} // Clase BaseDatosConfig
+} // Clase abstracta BaseDatosConfig
 
 ?>

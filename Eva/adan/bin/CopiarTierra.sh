@@ -175,6 +175,24 @@ if [ "$?" -ne $EXITO ]; then
 fi
 
 #
+# lib/Base2
+#
+if [ ! -d htdocs/lib/Base2 ]; then
+    echo "$SOY Creando directorio lib/Base2..."
+    mkdir htdocs/lib/Base2
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: Falló con el directorio lib/Base2."
+        exit $E_FATAL
+    fi
+fi
+echo "$SOY Copiando lib/Base2..."
+cp -r ../$ORIGEN_DIR/htdocs/lib/Base2/* htdocs/lib/Base2/
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: Falló al copiar el directorio lib/Base2."
+    exit $E_FATAL
+fi
+
+#
 # lib/Configuracion
 #
 if [ ! -d htdocs/lib/Configuracion ]; then
@@ -196,4 +214,3 @@ fi
 
 echo "$SOY Script terminado."
 exit $EXITO
-

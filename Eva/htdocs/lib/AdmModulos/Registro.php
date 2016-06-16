@@ -25,7 +25,7 @@ namespace AdmModulos;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -90,11 +90,11 @@ class Registro extends \Base\Registro {
             return '';
         }
         // Validar
-        if (!$this->validar_entero($in_id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el padre del módulo por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($in_id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar el padre del módulo por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -105,11 +105,11 @@ class Registro extends \Base\Registro {
                     id = %d",
                 $in_id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el padre del módulo.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el padre del módulo.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al padre del módulo.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró al padre del módulo.');
         }
         // Definir propiedades
         $a = $consulta->obtener_registro();
@@ -132,11 +132,11 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el módulo por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar el módulo por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -147,17 +147,17 @@ class Registro extends \Base\Registro {
                     id = %d",
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar módulo.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar módulo.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al módulo.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró al módulo.');
         }
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
         if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_modulos')) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
         $this->orden                   = intval($a['orden']);
@@ -182,20 +182,20 @@ class Registro extends \Base\Registro {
      */
     public function validar() {
         // Validamos las propiedades
-        if (!$this->validar_entero($this->orden)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Número de orden incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->orden)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Número de orden incorrecto.');
         }
-        if (!$this->validar_nombre($this->clave)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Clave incorrecta.');
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->clave)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Clave incorrecta.');
         }
-        if (!$this->validar_nombre($this->nombre)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->nombre)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (!$this->validar_nombre($this->pagina)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Página incorrecta.');
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->pagina)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Página incorrecta.');
         }
-        if (!$this->validar_nombre($this->icono)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Icono incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_nombre($this->icono)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Icono incorrecto.');
         }
         if ($this->padre != '') {
             $this->padre_nombre = $this->consultar_padre($this->padre);
@@ -203,13 +203,13 @@ class Registro extends \Base\Registro {
             $this->padre_nombre = '';
         }
         if (!array_key_exists($this->permiso_maximo, self::$permiso_maximo_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
         }
         if (!array_key_exists($this->poder_minimo, self::$poder_minimo_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Poder mínimo incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Poder mínimo incorrecto.');
         }
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Definimos los descritos
         $this->permiso_maximo_descrito = self::$permiso_maximo_descripciones[$this->permiso_maximo];
@@ -260,23 +260,23 @@ class Registro extends \Base\Registro {
         // Validar
         $this->validar();
         // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO adm_modulos
                     (orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo)
                 VALUES
                     (%s, %s, %s, %s, %s, %s, %s, %s)",
-                $this->sql_entero($this->orden),
-                $this->sql_texto($this->clave),
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->pagina),
-                $this->sql_texto($this->icono),
-                $this->sql_texto($this->padre),
-                $this->sql_entero($this->permiso_maximo),
-                $this->sql_entero($this->poder_minimo)));
+                \Base2\UtileriasParaSQL::sql_entero($this->orden),
+                \Base2\UtileriasParaSQL::sql_texto($this->clave),
+                \Base2\UtileriasParaSQL::sql_texto($this->nombre),
+                \Base2\UtileriasParaSQL::sql_texto($this->pagina),
+                \Base2\UtileriasParaSQL::sql_texto($this->icono),
+                \Base2\UtileriasParaSQL::sql_texto($this->padre),
+                \Base2\UtileriasParaSQL::sql_entero($this->permiso_maximo),
+                \Base2\UtileriasParaSQL::sql_entero($this->poder_minimo)));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el módulo. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el módulo. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
@@ -286,7 +286,7 @@ class Registro extends \Base\Registro {
                 FROM
                     adm_modulos_id_seq");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del módulo. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del módulo. ', $e->getMessage());
         }
         $a        = $consulta->obtener_registro();
         $this->id = intval($a['id']);
@@ -354,12 +354,12 @@ class Registro extends \Base\Registro {
         }
         // Si no hay cambios, provoca excepcion de validacion
         if (count($a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No hay cambios.');
         } else {
             $msg = "Modificado el módulo {$this->nombre} con ".implode(', ', $a);
         }
         // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -368,18 +368,18 @@ class Registro extends \Base\Registro {
                     orden = %s, clave = %s, nombre = %s, pagina = %s, icono = %s, padre = %s, permiso_maximo = %s, poder_minimo = %s, estatus = %s
                 WHERE
                     id = %d",
-                $this->sql_entero($this->orden),
-                $this->sql_texto($this->clave),
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->pagina),
-                $this->sql_texto($this->icono),
-                $this->sql_texto($this->padre),
-                $this->sql_entero($this->permiso_maximo),
-                $this->sql_entero($this->poder_minimo),
-                $this->sql_texto($this->estatus),
+                \Base2\UtileriasParaSQL::sql_entero($this->orden),
+                \Base2\UtileriasParaSQL::sql_texto($this->clave),
+                \Base2\UtileriasParaSQL::sql_texto($this->nombre),
+                \Base2\UtileriasParaSQL::sql_texto($this->pagina),
+                \Base2\UtileriasParaSQL::sql_texto($this->icono),
+                \Base2\UtileriasParaSQL::sql_texto($this->padre),
+                \Base2\UtileriasParaSQL::sql_entero($this->permiso_maximo),
+                \Base2\UtileriasParaSQL::sql_entero($this->poder_minimo),
+                \Base2\UtileriasParaSQL::sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el módulo. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el módulo. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
         $bitacora = new \AdmBitacora\Registro($this->sesion);
@@ -404,7 +404,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'B') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el módulo porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede eliminarse el módulo porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'B';
@@ -429,7 +429,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'A') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el módulo porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede recuperarse el módulo porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'A';

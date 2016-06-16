@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase OpcionesSelect
  */
-class OpcionesSelect extends \Base\OpcionesSelect {
+class OpcionesSelect extends \Base2\OpcionesSelect {
 
     // protected $sesion;
     // protected $consultado;
@@ -37,7 +37,7 @@ class OpcionesSelect extends \Base\OpcionesSelect {
      */
     public function opciones() {
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando("
                 SELECT
@@ -49,11 +49,11 @@ class OpcionesSelect extends \Base\OpcionesSelect {
                 ORDER BY
                     nom_corto ASC");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar usuarios para hacer opciones.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar usuarios para hacer opciones.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron usuarios en uso.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron usuarios en uso.');
         }
         // Juntar como arreglo asociativo
         $a = array();

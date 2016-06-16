@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Usuarios
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ if ($_GET['csv'] == 'descargar') {
     $pagina_csv = new \AdmUsuarios\PaginaCSV();
     echo $pagina_csv->csv();
 } else {
-    // Mostrar la página HTML
-    $pagina_html = new \AdmUsuarios\PaginaHTML();
+    // Mostrar la página web
+    $pagina_html = new \AdmUsuarios\PaginaWeb();
     echo $pagina_html->html();
 }
 

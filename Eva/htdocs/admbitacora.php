@@ -27,8 +27,8 @@ if ($_GET['csv'] == 'descargar') {
     $pagina_csv = new \AdmBitacora\PaginaCSV();
     echo $pagina_csv->csv();
 } else {
-    // Mostrar la página HTML
-    $pagina_html = new \AdmBitacora\PaginaHTML();
+    // Mostrar la página web
+    $pagina_html = new \AdmBitacora\PaginaWeb();
     echo $pagina_html->html();
 }
 

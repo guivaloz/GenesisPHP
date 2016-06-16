@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -53,17 +53,17 @@ class Listado extends \Base\Listado {
             throw new \Exception('Aviso: No tiene permiso para ver los usuarios.');
         }
         // Validar filtros
-        if (($this->nom_corto != '') && !$this->validar_nom_corto($this->nom_corto)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Nombre corto incorrecto.');
+        if (($this->nom_corto != '') && !\Base2\UtileriasParaValidar::validar_nom_corto($this->nom_corto)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Nombre corto incorrecto.');
         }
-        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
+        if (($this->nombre != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->nombre)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
         }
         if (($this->tipo != '') && !array_key_exists($this->tipo, Registro::$tipo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
         }
         if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Reseteamos el arreglo asociativo
         $this->filtros_param = array();
@@ -145,7 +145,7 @@ class Listado extends \Base\Listado {
             $filtros_sql = '';
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -163,11 +163,11 @@ class Listado extends \Base\Listado {
                 $filtros_sql,
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar usuarios para hacer listado.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar usuarios para hacer listado.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron usuarios.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron usuarios.');
         }
         // Agregar columnas de contraseña, expira y sesiones
         $terminado = array();
@@ -237,7 +237,7 @@ class Listado extends \Base\Listado {
             try {
                 $consulta = $base_datos->comando(sprintf("SELECT COUNT(id) AS cantidad FROM adm_usuarios %s", $filtros_sql));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los usuarios para determinar la cantidad de registros.', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los usuarios para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

@@ -25,7 +25,7 @@ namespace AdmSesiones;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -50,11 +50,11 @@ class Registro extends \Base\Registro {
             $this->usuario = $in_usuario;
         }
         // Validar
-        if (!$this->validar_entero($this->usuario)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar la sesión por ID de usuario incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar la sesión por ID de usuario incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando("
                 SELECT
@@ -66,11 +66,11 @@ class Registro extends \Base\Registro {
                 WHERE
                     usuario = {$this->id}");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la sesión.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la sesión.', $e->getMessage());
         }
         // Si la consulta no entrego nada
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró la sesión.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró la sesión.');
         }
         // Resultado de la consulta
         $a = $consulta->obtener_registro();

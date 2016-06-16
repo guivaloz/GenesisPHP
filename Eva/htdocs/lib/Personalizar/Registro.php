@@ -25,7 +25,7 @@ namespace Personalizar;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -59,11 +59,11 @@ class Registro extends \Base\Registro {
             $this->id = $this->sesion->usuario;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: ID de usuario incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: ID de usuario incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando("
                 SELECT
@@ -75,11 +75,11 @@ class Registro extends \Base\Registro {
                 WHERE
                     id = {$this->id}");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el usuario.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el usuario.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al usuario.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró al usuario.');
         }
         // Definir propiedades
         $a = $consulta->obtener_registro();
@@ -141,29 +141,29 @@ class Registro extends \Base\Registro {
             throw new \Exception('Error: No ha sido consultado para cambiar la contraseña.');
         }
         // Validar contraseña actual
-        if (!$this->validar_contrasena($in_contrasena_actual)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña actual no es válida.');
+        if (!\Base2\UtileriasParaValidar::validar_contrasena($in_contrasena_actual)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La contraseña actual no es válida.');
         }
         // Validar contraseña nueva
-        if (!$this->validar_contrasena($in_contrasena_nueva)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña nueva no es válida. Debe tener un mínimo de 8 caracteres (letras y números solamente).');
+        if (!\Base2\UtileriasParaValidar::validar_contrasena($in_contrasena_nueva)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La contraseña nueva no es válida. Debe tener un mínimo de 8 caracteres (letras y números solamente).');
         }
         // Validar que sean iguales
         if ($in_contrasena_nueva !== $in_contrasena_verificar) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Las contraseñas nuevas no son iguales. Intente de nuevo.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Las contraseñas nuevas no son iguales. Intente de nuevo.');
         }
         // Validar que sea la nueva sea diferente a la actual
         if ($in_contrasena_actual === $in_contrasena_nueva) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña nueva es igual a la actual. Debe ser distinta.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: La contraseña nueva es igual a la actual. Debe ser distinta.');
         }
         // Validar contraseña actual
         if ($this->contrasena_encriptada != '') {
             if (md5($in_contrasena_actual) !== $this->contrasena_encriptada) {
-                throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña actual (cifrada) es incorrecta.');
+                throw new \Base2\RegistroExceptionValidacion('Aviso: La contraseña actual (cifrada) es incorrecta.');
             }
         } else {
             if ($in_contrasena_actual !== $this->contrasena) {
-                throw new \Base\RegistroExceptionValidacion('Aviso: La contraseña actual es incorrecta.');
+                throw new \Base2\RegistroExceptionValidacion('Aviso: La contraseña actual es incorrecta.');
             }
         }
         // Calculamos la fecha de expiracion
@@ -171,7 +171,7 @@ class Registro extends \Base\Registro {
         // Ciframos la contrasena
         $this->contrasena_encriptada = md5($in_contrasena_nueva);
         // Actualizar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -180,11 +180,11 @@ class Registro extends \Base\Registro {
                     contrasena_encriptada = %s, contrasena_expira = %s
                 WHERE
                     id = %d",
-                $this->sql_texto($this->contrasena_encriptada),
-                $this->sql_tiempo($this->contrasena_expira),
+                \Base2\UtileriasParaSQL::sql_texto($this->contrasena_encriptada),
+                \Base2\UtileriasParaSQL::sql_tiempo($this->contrasena_expira),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la contraseña. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la contraseña. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
         $bitacora = new \AdmBitacora\Registro($this->sesion);
@@ -205,11 +205,11 @@ class Registro extends \Base\Registro {
             throw new \Exception('Error: No ha sido consultado para cambiar la cantidad de renglones.');
         }
         // Validar la cantidad para el listado de renglones
-        if (!$this->validar_entero($in_listado_renglones) || ($in_listado_renglones < 5)) {
-            throw new \Base\RegistroExceptionValidacion("Aviso: La cantidad de reglones en los listados es incorrecta. Debe ser igual o mayor a cinco.");
+        if (!\Base2\UtileriasParaValidar::validar_entero($in_listado_renglones) || ($in_listado_renglones < 5)) {
+            throw new \Base2\RegistroExceptionValidacion("Aviso: La cantidad de reglones en los listados es incorrecta. Debe ser igual o mayor a cinco.");
         }
         // Actualizar usuario
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -221,7 +221,7 @@ class Registro extends \Base\Registro {
                 $in_listado_renglones,
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la cantidad de renglones. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la cantidad de renglones. ', $e->getMessage());
         }
         // Actualizar sesion
         try {
@@ -235,7 +235,7 @@ class Registro extends \Base\Registro {
                 $in_listado_renglones,
                 $this->id));
         } catch (Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError('Error: Al cambiar la cantidad de renglones en la sesión.');
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al cambiar la cantidad de renglones en la sesión.', $e->getMessage());
         }
         // Cambiar la propiedad
         $this->listado_renglones = $in_listado_renglones;

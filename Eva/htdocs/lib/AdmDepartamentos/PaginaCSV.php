@@ -25,7 +25,7 @@ namespace AdmDepartamentos;
 /**
  * Clase PaginaCSV
  */
-class PaginaCSV extends \Base\PaginaCSV {
+class PaginaCSV extends \Base2\PaginaCSV {
 
     // public $contenido;
     // public $csv_archivo;

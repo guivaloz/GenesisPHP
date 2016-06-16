@@ -25,7 +25,7 @@ namespace Inicio;
 /**
  * Clase Autentificar
  */
-class Autentificar extends \Base\UtileriasParaDatos {
+class Autentificar {
 
     static public $fallas_para_bloquear = 5;
 
@@ -40,14 +40,14 @@ class Autentificar extends \Base\UtileriasParaDatos {
         // Ponemos en minusculas el nombre corto
         $this->nom_corto = strtolower($in_nom_corto);
         // Validar parámetros
-        if (!$this->validar_nom_corto($this->nom_corto)) {
+        if (!\Base2\UtileriasParaValidar::validar_nom_corto($this->nom_corto)) {
             throw new AutentificarException(false, $this->nom_corto, 'datos incorrectos', 'Aviso: Nombre corto incorrecto.');
         }
-        if (!$this->validar_contrasena($in_contrasena)) {
+        if (!\Base2\UtileriasParaValidar::validar_contrasena($in_contrasena)) {
             throw new AutentificarException(false, $this->nom_corto, 'datos incorrectos', 'Aviso: Contraseña incorrecta.');
         }
         // Consultar usuario
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT

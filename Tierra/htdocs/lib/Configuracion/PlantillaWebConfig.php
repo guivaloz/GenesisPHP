@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - PlantillaWebConfig
+ * GenesisPHP - Tierra PlantillaWebConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

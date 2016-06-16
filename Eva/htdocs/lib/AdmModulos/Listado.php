@@ -25,7 +25,7 @@ namespace AdmModulos;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -55,20 +55,20 @@ class Listado extends \Base\Listado {
             throw new \Exception('Aviso: No tiene permiso para ver los módulos.');
         }
         // Validar filtros
-        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
+        if (($this->nombre != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->nombre)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
         }
-        if (($this->clave != '') && !$this->validar_nombre($this->clave)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Clave incorrecta.');
+        if (($this->clave != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->clave)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Clave incorrecta.');
         }
         if (($this->permiso_maximo != '') && !array_key_exists($this->permiso_maximo, Registro::$permiso_maximo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Permiso máximo incorrecto.');
         }
         if (($this->poder_minimo != '') && !array_key_exists($this->poder_minimo, Registro::$poder_minimo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Poder mínimo incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Poder mínimo incorrecto.');
         }
         if (($this->estatus != '') && !array_key_exists($this->estatus, Registro::$estatus_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Reseteamos el arreglo asociativo
         $this->filtros_param = array();
@@ -159,7 +159,7 @@ class Listado extends \Base\Listado {
             $filtros_sql = '';
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -173,11 +173,11 @@ class Listado extends \Base\Listado {
                 $filtros_sql,
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos para hacer listado.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar módulos para hacer listado.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en módulos.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron registros en módulos.');
         }
         // Pasamos la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
@@ -192,7 +192,7 @@ class Listado extends \Base\Listado {
                     %s",
                     $filtros_sql));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los módulos para determinar la cantidad de registros.', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar los módulos para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

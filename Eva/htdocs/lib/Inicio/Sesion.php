@@ -85,11 +85,11 @@ class Sesion extends Cookie {
         // Validar la cookie
         $this->validar(); // Si no hay cookie o ha caducado, provoca una excepción
         // Validar ID del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: Por ID del usuario incorrecto.');
         }
         // Consultar registro en la tabla de sesiones
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -124,7 +124,7 @@ class Sesion extends Cookie {
             throw new SesionException($this->usuario, $this->nom_corto, 'no tiene permiso', "No tiene permiso para esa página.");
         }
         // Cambiar la cantidad de renglones en los listados controlados
-        \Base\ControladoHTML::$limit_por_defecto = $this->listado_renglones;
+        \Base2\ControladoWeb::$limit_por_defecto = $this->listado_renglones;
         // Entregar el permiso de la página
         return $this->pagina_permiso;
     } // cargar

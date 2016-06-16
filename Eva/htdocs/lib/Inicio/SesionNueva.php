@@ -48,11 +48,11 @@ class SesionNueva extends Sesion {
      */
     private function consultar_usuario() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Consultar usuario
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -75,7 +75,7 @@ class SesionNueva extends Sesion {
         $this->tipo              = $a['tipo'];
         $this->listado_renglones = intval($a['listado_renglones']);
         // Cambiar la cantidad de renglones en los listados controlados
-        \Base\ControladoHTML::$limit_por_defecto = $this->listado_renglones;
+        \Base2\ControladoWeb::$limit_por_defecto = $this->listado_renglones;
     } // consultar_usuario
 
     /**
@@ -83,11 +83,11 @@ class SesionNueva extends Sesion {
      */
     private function eliminar_en_cadenero() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 DELETE FROM
@@ -105,11 +105,11 @@ class SesionNueva extends Sesion {
      */
     private function eliminar_sesion() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 DELETE FROM
@@ -127,11 +127,11 @@ class SesionNueva extends Sesion {
      */
     private function insertar_sesion() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Insertar sesion
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
@@ -155,7 +155,7 @@ class SesionNueva extends Sesion {
      */
     private function registrar_entrada() {
         // Insertar en autentificaciones
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO

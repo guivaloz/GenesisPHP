@@ -1,8 +1,8 @@
 <?php
 /**
- * GenesisPHP - Base Datos Configuración
+ * GenesisPHP - Eva BaseDatosConfig
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,15 +23,15 @@
 namespace Configuracion;
 
 /**
- * Clase BaseDatosConfig
+ * Clase abstracta BaseDatosConfig
  */
-class BaseDatosConfig {
+abstract class BaseDatosConfig {
 
     protected $bd_nombre  = 'genesisphp_demostracion';
     protected $servidor   = 'localhost';
     protected $usuario    = 'genesisphp';
     protected $password   = '';
 
-} // Clase BaseDatosConfig
+} // Clase abstracta BaseDatosConfig
 
 ?>

@@ -96,7 +96,7 @@ class ListadoCSV extends Listado {
 FINAL;
         }
         // Iniciar listado csv
-        $listado_csv             = new \Base\ListadoCSV();
+        $listado_csv             = new \Base2\ListadoCSV();
         $listado_csv->estructura = $this->estructura;
         $listado_csv->listado    = $this->listado;
         // Entregar

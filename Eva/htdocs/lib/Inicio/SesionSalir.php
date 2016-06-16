@@ -48,11 +48,11 @@ class SesionSalir extends Sesion {
      */
     private function eliminar_en_cadenero() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 DELETE FROM
@@ -70,11 +70,11 @@ class SesionSalir extends Sesion {
      */
     private function eliminar_sesion() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Eliminar la sesion existente
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 DELETE FROM
@@ -92,11 +92,11 @@ class SesionSalir extends Sesion {
      */
     private function registrar_salida() {
         // Validar id del usuario
-        if (!$this->validar_entero($this->usuario)) {
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->usuario)) {
             throw new \Exception('Error: ID del usuario incorrecto.');
         }
         // Insertar registro en autentificaciones
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 INSERT INTO

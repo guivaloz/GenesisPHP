@@ -25,7 +25,7 @@ namespace AdmBitacora;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -59,7 +59,7 @@ class Listado extends \Base\Listado {
             try {
                 $usuario->consultar($this->usuario);
             } catch (\Exception $e) {
-                throw new \Base\ListadoExceptionValidacion('Aviso: Usuario incorrecto.');
+                throw new \Base2\ListadoExceptionValidacion('Aviso: Usuario incorrecto.');
             }
             $this->usuario_nombre = $usuario->nombre;
         } else {
@@ -67,14 +67,14 @@ class Listado extends \Base\Listado {
         }
         // Validar tipo
         if (($this->tipo != '') && !array_key_exists($this->tipo, Registro::$tipo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
         }
         // Validar fechas
-        if (($this->fecha_desde != '') && !$this->validar_fecha($this->fecha_desde)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Fecha desde incorrecta.');
+        if (($this->fecha_desde != '') && !\Base2\UtileriasParaValidar::validar_fecha($this->fecha_desde)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Fecha desde incorrecta.');
         }
-        if (($this->fecha_hasta != '') && !$this->validar_fecha($this->fecha_hasta)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Fecha hasta incorrecta.');
+        if (($this->fecha_hasta != '') && !\Base2\UtileriasParaValidar::validar_fecha($this->fecha_hasta)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Fecha hasta incorrecta.');
         }
         // Reseteamos el arreglo asociativo
         $this->filtros_param = array();
@@ -156,7 +156,7 @@ class Listado extends \Base\Listado {
             $filtros_sql = '';
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -177,11 +177,11 @@ class Listado extends \Base\Listado {
                 $filtros_sql,
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar bitácora para hacer listado.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar bitácora para hacer listado.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en la bitácora.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron registros en la bitácora.');
         }
         // Pasamos la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
@@ -199,7 +199,7 @@ class Listado extends \Base\Listado {
                         %s",
                     $filtros_sql));
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar la bitácora para determinar la cantidad de registros.', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar la bitácora para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

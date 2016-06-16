@@ -25,7 +25,7 @@ namespace Inicio;
 /**
  * Clase SesionException
  */
-class SesionException extends \Base\Exception {
+class SesionException extends \Exception {
 
     /**
      * Constructor
@@ -51,7 +51,7 @@ class SesionException extends \Base\Exception {
                 die("FATAL: El error descrito '$in_tipo_descrito' no está definido.");
         }
         // Insertar registro en la tabla de autentificaciones
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
@@ -59,9 +59,9 @@ class SesionException extends \Base\Exception {
                 VALUES
                     (%s, %s, %s, %s)",
                 ($in_usuario == false) ? 'NULL' : $in_usuario,
-                $this->sql_texto($in_nom_corto),
-                $this->sql_texto($tipo),
-                $this->sql_texto($_SERVER['REMOTE_ADDR'])), true); // TIENE EL TRUE PARA TRONAR EN CASO DE ERROR
+                \Base2\UtileriasParaSQL::sql_texto($in_nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto($tipo),
+                \Base2\UtileriasParaSQL::sql_texto($_SERVER['REMOTE_ADDR'])), true); // TIENE EL TRUE PARA TRONAR EN CASO DE ERROR
         } catch (\Exception $e) {
             die('Error fatal al tratar de insertar registro en autentificaciones.');
         }

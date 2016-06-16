@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Personalizar Renglones FormularioHTML
+ * GenesisPHP - Personalizar RenglonesFormularioWeb
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Personalizar;
 
 /**
- * Clase RenglonesFormularioHTML
+ * Clase RenglonesFormularioWeb
  */
-class RenglonesFormularioHTML extends DetalleHTML {
+class RenglonesFormularioWeb extends DetalleWeb {
 
     // protected $sesion;
     // protected $consultado;
@@ -57,10 +57,10 @@ class RenglonesFormularioHTML extends DetalleHTML {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f = new \Base\FormularioHTML(self::$form_name);
+        $f = new \Base2\FormularioWeb(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
-        $cadenero = new \Base\Cadenero($this->sesion);
+        $cadenero = new \Base2\Cadenero($this->sesion);
         $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Seccion principal
         $f->texto_entero('listado_renglones', 'Cantidad de renglones', $this->listado_renglones);
@@ -81,7 +81,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
      */
     protected function recibir_formulario() {
         // Cadenero
-        $cadenero = new \Base\Cadenero($this->sesion);
+        $cadenero = new \Base2\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir el unico valor del formulario
         $this->listado_renglones = $this->post_texto($_POST['listado_renglones']);
@@ -99,7 +99,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
             try {
                 $this->consultar();
             } catch (\Exception $e) {
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
                 return $mensaje->html($in_encabezado);
             }
         }
@@ -110,15 +110,15 @@ class RenglonesFormularioHTML extends DetalleHTML {
                 $this->recibir_formulario();
                 $msg = $this->cambiar_cantidad_renglones($this->listado_renglones);
                 // Mostrar mensaje de exito
-                $mensaje = new \Base\MensajeHTML($msg);
+                $mensaje = new \Base2\MensajeWeb($msg);
                 return $mensaje->html($in_encabezado);
-            } catch (\Base\RegistroExceptionValidacion $e) {
+            } catch (\Base2\RegistroExceptionValidacion $e) {
                 // Fallo la validacion, se muestra el mensaje y formulario de nuevo
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
                 return $mensaje->html('Validación')."\n".$this->elaborar_formulario($in_encabezado);
             } catch (\Exception $e) {
                 // Error fatal
-                $mensaje = new \Base\MensajeHTML($e->getMessage());
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
                 return $mensaje->html('Error');
             }
         }
@@ -126,7 +126,7 @@ class RenglonesFormularioHTML extends DetalleHTML {
         try {
             return $this->elaborar_formulario($in_encabezado);
         } catch (\Exception $e) {
-            $mensaje = new \Base\MensajeHTML($e->getMessage());
+            $mensaje = new \Base2\MensajeWeb($e->getMessage());
             return $mensaje->html();
         }
     } // html
@@ -140,6 +140,6 @@ class RenglonesFormularioHTML extends DetalleHTML {
         return false;
     } // javascript
 
-} // Clase RenglonesFormularioHTML
+} // Clase RenglonesFormularioWeb
 
 ?>

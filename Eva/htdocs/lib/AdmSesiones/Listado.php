@@ -25,7 +25,7 @@ namespace AdmSesiones;
 /**
  * Clase Listado
  */
-class Listado extends \Base\Listado {
+class Listado extends \Base2\Listado {
 
     // protected $sesion;
     // public $listado;
@@ -49,11 +49,11 @@ class Listado extends \Base\Listado {
             throw new \Exception('Aviso: No tiene permiso para ver las sesiones.');
         }
         // Validar filtros
-        if (($this->nombre != '') && !$this->validar_nombre($this->nombre)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
+        if (($this->nombre != '') && !\Base2\UtileriasParaValidar::validar_nombre($this->nombre)) {
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Nombre incorrecto.');
         }
         if (($this->tipo != '') && !array_key_exists($this->tipo, Registro::$tipo_descripciones)) {
-            throw new \Base\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
+            throw new \Base2\ListadoExceptionValidacion('Aviso: Tipo incorrecto.');
         }
         // Reseteamos el arreglo asociativo
         $this->filtros_param = array();
@@ -116,7 +116,7 @@ class Listado extends \Base\Listado {
             $filtros_sql = '';
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -130,11 +130,11 @@ class Listado extends \Base\Listado {
                 %s",
                 $this->limit_offset_sql()));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar sesiones para hacer listado.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar sesiones para hacer listado.', $e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if ($consulta->cantidad_registros() == 0) {
-            throw new \Base\ListadoExceptionVacio('Aviso: No se encontraron registros en sesiones.');
+            throw new \Base2\ListadoExceptionVacio('Aviso: No se encontraron registros en sesiones.');
         }
         // Pasamos la consulta a la propiedad listado
         $this->listado = $consulta->obtener_todos_los_registros();
@@ -147,7 +147,7 @@ class Listado extends \Base\Listado {
                     FROM
                         adm_sesiones");
             } catch (\Exception $e) {
-                throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar las sesiones para determinar la cantidad de registros.', $e->getMessage());
+                throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al consultar las sesiones para determinar la cantidad de registros.', $e->getMessage());
             }
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);

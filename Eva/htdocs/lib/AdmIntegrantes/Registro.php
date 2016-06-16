@@ -25,7 +25,7 @@ namespace AdmIntegrantes;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -77,11 +77,11 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el integrante por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar el integrante por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -99,17 +99,17 @@ class Registro extends \Base\Registro {
                     AND i.id = %d",
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el integrante.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el integrante.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró al integrante.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró al integrante.');
         }
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
         if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_integrantes')) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
         $this->usuario             = intval($a['usuario']);
@@ -134,7 +134,7 @@ class Registro extends \Base\Registro {
         try {
             $departamento->consultar($this->departamento);
         } catch (\Exception $e) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Departamento incorrecto. '.$e->getMessage());
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Departamento incorrecto. '.$e->getMessage());
         }
         $this->departamento_nombre = $departamento->nombre;
         // Validar usuario
@@ -142,17 +142,17 @@ class Registro extends \Base\Registro {
         try {
             $usuario->consultar($this->usuario);
         } catch (\Exception $e) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Usuario incorrecto. '.$e->getMessage());
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Usuario incorrecto. '.$e->getMessage());
         }
         $this->usuario_nom_corto = $usuario->nom_corto;
         $this->usuario_nombre    = $usuario->nombre;
         // Validar poder
         if (!array_key_exists($this->poder, self::$poder_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Poder incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Poder incorrecto.');
         }
         // Validar estatus
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Definimos los descritos
         $this->poder_descrito   = self::$poder_descripciones[$this->poder];
@@ -199,18 +199,18 @@ class Registro extends \Base\Registro {
         // Validar
         $this->validar();
         // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
                     adm_integrantes (usuario, departamento, poder)
                 VALUES
                     (%s, %s, %s)",
-                $this->sql_entero($this->usuario),
-                $this->sql_entero($this->departamento),
-                $this->sql_entero($this->poder)));
+                \Base2\UtileriasParaSQL::sql_entero($this->usuario),
+                \Base2\UtileriasParaSQL::sql_entero($this->departamento),
+                \Base2\UtileriasParaSQL::sql_entero($this->poder)));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el integrante. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el integrante. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
@@ -220,7 +220,7 @@ class Registro extends \Base\Registro {
                 FROM
                     adm_integrantes_id_seq");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del integrante. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del integrante. ', $e->getMessage());
         }
         $a        = $consulta->obtener_registro();
         $this->id = intval($a['id']);
@@ -269,12 +269,12 @@ class Registro extends \Base\Registro {
         }
         // Si no hay cambios, provoca excepcion de validacion
         if (count($a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No hay cambios.');
         } else {
             $msg = "Modificado el integrante {$this->usuario_nombre} en {$this->departamento_nombre} con ".implode(', ', $a);
         }
         // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -283,13 +283,13 @@ class Registro extends \Base\Registro {
                     usuario = %d, departamento = %d, poder = %d, estatus = %s
                 WHERE
                     id = %d",
-                $this->sql_entero($this->usuario),
-                $this->sql_entero($this->departamento),
-                $this->sql_entero($this->poder),
-                $this->sql_texto($this->estatus),
+                \Base2\UtileriasParaSQL::sql_entero($this->usuario),
+                \Base2\UtileriasParaSQL::sql_entero($this->departamento),
+                \Base2\UtileriasParaSQL::sql_entero($this->poder),
+                \Base2\UtileriasParaSQL::sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el integrante. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el integrante. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
         $bitacora = new \AdmBitacora\Registro($this->sesion);
@@ -314,7 +314,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'B') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el integrante porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede eliminarse el integrante porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'B';
@@ -339,7 +339,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'A') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el integrante porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede recuperarse el integrante porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'A';

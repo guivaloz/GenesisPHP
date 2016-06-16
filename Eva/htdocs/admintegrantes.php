@@ -22,8 +22,8 @@
 
 require_once('lib/Base/AutocargadorClases.php');
 
-// Mostrar la página HTML
-$pagina_html = new \AdmIntegrantes\PaginaHTML();
+// Mostrar la página web
+$pagina_html = new \AdmIntegrantes\PaginaWeb();
 echo $pagina_html->html();
 
 ?>

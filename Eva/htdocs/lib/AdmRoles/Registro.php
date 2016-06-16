@@ -25,7 +25,7 @@ namespace AdmRoles;
 /**
  * Clase Registro
  */
-class Registro extends \Base\Registro {
+class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
@@ -72,11 +72,11 @@ class Registro extends \Base\Registro {
             $this->id = $in_id;
         }
         // Validar
-        if (!$this->validar_entero($this->id)) {
-            throw new \Base\RegistroExceptionValidacion('Error: Al consultar el rol por ID incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->id)) {
+            throw new \Base2\RegistroExceptionValidacion('Error: Al consultar el rol por ID incorrecto.');
         }
         // Consultar
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -94,17 +94,17 @@ class Registro extends \Base\Registro {
                     AND r.id = %d",
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el rol.', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el rol.', $e->getMessage());
         }
         // Si la consulta no entrego registros
         if ($consulta->cantidad_registros() < 1) {
-            throw new \Base\RegistroExceptionNoEncontrado('Aviso: No se encontró a el rol.');
+            throw new \Base2\RegistroExceptionNoEncontrado('Aviso: No se encontró a el rol.');
         }
         // Resultado de la consulta
         $a = $consulta->obtener_registro();
         // Validar que si esta eliminado tenga permiso para consultarlo
         if (($a['estatus'] == 'B') && !$this->sesion->puede_recuperar('adm_roles')) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');
         }
         // Definir propiedades
         $this->departamento            = intval($a['departamento']);
@@ -128,7 +128,7 @@ class Registro extends \Base\Registro {
         try {
             $departamento->consultar($this->departamento);
         } catch (\Exception $e) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Departamento incorrecto. '.$e->getMessage());
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Departamento incorrecto. '.$e->getMessage());
         }
         $this->departamento_nombre = $departamento->nombre;
         // Validar modulo
@@ -136,16 +136,16 @@ class Registro extends \Base\Registro {
         try {
             $modulo->consultar($this->modulo);
         } catch (\Exception $e) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Módulo incorrecto. '.$e->getMessage());
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Módulo incorrecto. '.$e->getMessage());
         }
         $this->modulo_nombre = $modulo->nombre;
         // Validar permiso maximo
-        if (!$this->validar_entero($this->permiso_maximo)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
+        if (!\Base2\UtileriasParaValidar::validar_entero($this->permiso_maximo)) {
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Permiso máximo incorrecto.');
         }
         // Validar estatus
         if (!array_key_exists($this->estatus, self::$estatus_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Estatus incorrecto.');
         }
         // Definimos los descritos
         $this->permiso_maximo_descrito = self::$permiso_maximo_descripciones[$this->permiso_maximo];
@@ -191,18 +191,18 @@ class Registro extends \Base\Registro {
         // Validar
         $this->validar();
         // Insertar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
                     adm_roles (departamento, modulo, permiso_maximo)
                 VALUES
                     (%s, %s, %s)",
-                $this->sql_entero($this->departamento),
-                $this->sql_entero($this->modulo),
-                $this->sql_entero($this->permiso_maximo)));
+                \Base2\UtileriasParaSQL::sql_entero($this->departamento),
+                \Base2\UtileriasParaSQL::sql_entero($this->modulo),
+                \Base2\UtileriasParaSQL::sql_entero($this->permiso_maximo)));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el rol. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el rol. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
         try {
@@ -212,7 +212,7 @@ class Registro extends \Base\Registro {
                 FROM
                     adm_roles_id_seq");
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del rol. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del rol. ', $e->getMessage());
         }
         $a        = $consulta->obtener_registro();
         $this->id = intval($a['id']);
@@ -265,12 +265,12 @@ class Registro extends \Base\Registro {
         }
         // Si no hay cambios, provoca excepcion de validacion
         if (count($a) == 0) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No hay cambios.');
         } else {
             $msg = "Modificado el rol para {$this->departamento_nombre} en {$this->modulo_nombre} con ".implode(', ', $a);
         }
         // Actualizar registro en la base de datos
-        $base_datos = new \Base\BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -279,13 +279,13 @@ class Registro extends \Base\Registro {
                     departamento = %s, modulo = %s, permiso_maximo = %s, estatus = %s
                 WHERE
                     id = %d",
-                $this->sql_entero($this->departamento),
-                $this->sql_entero($this->modulo),
-                $this->sql_entero($this->permiso_maximo),
-                $this->sql_texto($this->estatus),
+                \Base2\UtileriasParaSQL::sql_entero($this->departamento),
+                \Base2\UtileriasParaSQL::sql_entero($this->modulo),
+                \Base2\UtileriasParaSQL::sql_entero($this->permiso_maximo),
+                \Base2\UtileriasParaSQL::sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el rol. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el rol. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
         $bitacora = new \AdmBitacora\Registro($this->sesion);
@@ -310,7 +310,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'B') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede eliminarse el rol porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede eliminarse el rol porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'B';
@@ -335,7 +335,7 @@ class Registro extends \Base\Registro {
         }
         // Validar el estatus
         if ($this->estatus == 'A') {
-            throw new \Base\RegistroExceptionValidacion('Aviso: No puede recuperarse el rol porque ya lo está.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: No puede recuperarse el rol porque ya lo está.');
         }
         // Cambiar el estatus
         $this->estatus = 'A';

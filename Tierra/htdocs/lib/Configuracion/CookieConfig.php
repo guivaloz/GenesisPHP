@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - CookieConfig
+ * GenesisPHP - Tierra CookieConfig
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Configuracion;
 
 /**
- * Clase CookieConfig
+ * Clase abstracta CookieConfig
  */
-class CookieConfig {
+abstract class CookieConfig {
 
     protected $nom_cookie     = 'genesisphp_tierra';       // Nombre con el que se guardara la cookie en el navegador.
     protected $version_actual = 1;                         // Número entero que sirve para obligar a renover las cookies anteriores
@@ -33,6 +33,6 @@ class CookieConfig {
     protected $tiempo_renovar = 3600;                      // Tiempo en segundos para que se renueve la cookie, 60 x 60 = 3600 seg = 1 hora
     protected $key            = '1234123412341234';        // 16 caracteres o más que sean muy difíciles de adivinar para llave de cifrado
 
-} // Clase CookieConfig
+} // Clase abstracta CookieConfig
 
 ?>
