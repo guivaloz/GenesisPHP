@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase FormularioWeb
  */
-class FormularioWeb extends DetalleHTML {
+class FormularioWeb extends DetalleWeb {
 
     // protected $sesion;
     // protected $consultado;

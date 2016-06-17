@@ -126,6 +126,15 @@ class Registro extends \Base2\Registro {
     } // consultar
 
     /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return "{$this->usuario_nombre} es integrante de {$this->departamento_nombre}";
+    } // encabezado
+
+    /**
      * Validar
      */
     public function validar() {

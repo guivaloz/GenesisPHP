@@ -59,7 +59,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f = new \Base\FormularioHTML(self::$form_name);
+        $f = new \Base2\FormularioWeb(self::$form_name);
         $f->texto_nombre('nombre', 'Nombre', $this->nombre, 48);
         if ($this->sesion->puede_recuperar('adm_departamentos')) {
             $f->select_con_nulo('estatus', 'Estatus', Registro::$estatus_descripciones, $this->estatus);
@@ -99,7 +99,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
     /**
      * Consultar
      *
-     * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
+     * @return mixed Instancia con lo encontrado, falso si no se encontró nada
      */
     public function consultar() {
         // De inicio, no hay resultados
@@ -145,7 +145,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             $this->hay_resultados  = true;
             $this->entrego_detalle = false;
             // Entregar listado
-            $listado          = new ListadoHTML($this->sesion);
+            $listado          = new ListadoWeb($this->sesion);
             $listado->nombre  = $this->nombre;
             $listado->estatus = $this->estatus;
             return $listado;
@@ -155,12 +155,12 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             $this->entrego_detalle = true;
             // La cantidad de registros es uno, entregar detalle
             $a           = $consulta->obtener_registro();
-            $detalle     = new DetalleHTML($this->sesion);
+            $detalle     = new DetalleWeb($this->sesion);
             $detalle->id = intval($a['id']);
             return $detalle;
         } else {
             // No se encontró nada
-            throw new \Base2\BusquedaWebExceptionVacio('Aviso: La búsqueda no encontró departamentos con esos parámetros.');
+            throw new \Base2\BusquedaExceptionVacio('Aviso: La búsqueda no encontró departamentos con esos parámetros.');
         }
     } // consultar
 

@@ -25,7 +25,7 @@ namespace AdmRoles;
 /**
  * Clase FormularioWeb
  */
-class FormularioWeb extends DetalleHTML {
+class FormularioWeb extends DetalleWeb {
 
     // protected $sesion;
     // protected $consultado;
@@ -59,10 +59,10 @@ class FormularioWeb extends DetalleHTML {
         $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         $modulos       = new \AdmModulos\OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base\FormularioWeb(self::$form_name);
+        $f = new \Base2\FormularioWeb(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
-        $cadenero = new \Base\Cadenero($this->sesion);
+        $cadenero = new \Base2\Cadenero($this->sesion);
         $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
             $f->oculto('accion', 'agregar');
@@ -76,7 +76,7 @@ class FormularioWeb extends DetalleHTML {
         // Botones
         $f->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('%s?id=%d', DetalleHTML::RAIZ_PHP_ARCHIVO, $this->id));
+            $f->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -95,7 +95,7 @@ class FormularioWeb extends DetalleHTML {
      */
     protected function recibir_formulario() {
         // Cadenero
-        $cadenero = new \Base\Cadenero($this->sesion);
+        $cadenero = new \Base2\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Si la accion es agregar el estatus es "en uso"
         if ($_POST['accion'] == 'agregar') {
@@ -104,9 +104,9 @@ class FormularioWeb extends DetalleHTML {
             $this->id = $_POST['id'];
         }
         // Seccion rol
-        $this->departamento   = $this->post_select($_POST['departamento']);
-        $this->modulo         = $this->post_select($_POST['modulo']);
-        $this->permiso_maximo = $this->post_select($_POST['permiso_maximo']);
+        $this->departamento   = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
+        $this->modulo         = \Base2\UtileriasParaSQL::post_select($_POST['modulo']);
+        $this->permiso_maximo = \Base2\UtileriasParaSQL::post_select($_POST['permiso_maximo']);
     } // recibir_formulario
 
     /**

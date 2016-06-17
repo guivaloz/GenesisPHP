@@ -19,7 +19,7 @@ CREATE TABLE exp_personas (
     estado_civil         character(1)            NOT NULL,
     curp                 character(18),
 
-    nomina               integer                 UNIQUE,
+    nomina               integer                 NOT NULL UNIQUE,
     ingreso_fecha        date,
 
     notas                text,
@@ -36,4 +36,3 @@ CREATE TABLE exp_personas (
 --   D Divorciado
 --   U Unión libre
 --   V Viudo
-

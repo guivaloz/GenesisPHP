@@ -44,7 +44,7 @@ class ListadoWeb extends Listado {
     // static public $param_estatus;
     // public $filtros_param;
     public $viene_listado;         // Es verdadero si en el URL vienen filtros
-    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $listado_controlado; // Instancia de \Base2\ListadoWebControlado
     protected $estructura;         // Arreglo asociativo con datos de las columnas
 
     /**
@@ -110,7 +110,7 @@ class ListadoWeb extends Listado {
      * Barra
      *
      * @param  string Encabezado opcional
-     * @return mixed  Instancia de BarraHTML
+     * @return mixed  Instancia de \Base2\BarraWeb
      */
     protected function barra($in_encabezado='') {
         // Si viene el parametro se usa, si no, el encabezado por defecto
@@ -123,7 +123,7 @@ class ListadoWeb extends Listado {
         $barra             = new \Base2\BarraWeb();
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_usuarios');
-        $barra->boton_descargar(preg_replace('/\.php$/', '.csv', DetalleHTML::RAIZ_PHP_ARCHIVO), $this->filtros_param);
+        $barra->boton_descargar(preg_replace('/\.php$/', '.csv', DetalleWeb::RAIZ_PHP_ARCHIVO), $this->filtros_param);
         // Entregar
         return $barra;
     } // barra

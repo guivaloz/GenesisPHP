@@ -207,6 +207,15 @@ class Registro extends \Base2\Registro {
     } // consultar
 
     /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return "Usuario {$this->nombre}";
+    } // encabezado
+
+    /**
      * Validar
      */
     public function validar() {

@@ -27,23 +27,6 @@ namespace AdmRoles;
  */
 class ListadoCSV extends Listado {
 
-    // protected $sesion;
-    // public $listado;
-    // public $panal;
-    // public $cantidad_registros;
-    // public $limit;
-    // public $offset;
-    // protected $consultado;
-    // public $departamento;
-    // public $departamento_nombre;
-    // public $modulo;
-    // public $modulo_nombre;
-    // public $estatus;
-    // static public $param_departamento;
-    // static public $param_modulo;
-    // static public $param_estatus;
-    // public $filtros_param;
-
     /**
      * Constructor
      *
@@ -54,8 +37,6 @@ class ListadoCSV extends Listado {
 
     /**
      * CSV
-     *
-     * A diferencia de ListadoHTML, esta clase puede causar una excepcion si falla la consulta
      *
      * @return string CSV
      */

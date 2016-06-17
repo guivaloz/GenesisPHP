@@ -72,8 +72,6 @@ class ListadoCSV extends Listado {
     /**
      * CSV
      *
-     * A diferencia de ListadoHTML, esta clase puede causar una excepcion si falla la consulta
-     *
      * @return string CSV
      */
     public function csv() {

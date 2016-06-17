@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Eva PlantillaWebConfig
+ * GenesisPHP - Configuración PlantillaHTML
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -27,13 +27,13 @@ namespace Configuracion;
  */
 abstract class PlantillaWebConfig {
 
-    protected $sistema              = 'GenesisPHP Eva';
+    protected $sistema              = 'GenesisPHP Demostración';
     protected $titulo               = '';
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
-    protected $autor                = 'Guillermo Valdés Lozano';
-    protected $css;
+    protected $autor                = 'guivaloz';
+    protected $css                  = 'css/demostracion.css';
     protected $favicon              = 'imagenes/favicon.png';
-    protected $modelo               = 'dashboard';
+    protected $modelo               = 'sbadmin2';
     protected $menu_principal_logo  = '';
     protected $modelo_ingreso_logos = array(
         array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'izquierda'),

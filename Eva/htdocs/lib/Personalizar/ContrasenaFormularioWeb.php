@@ -25,7 +25,7 @@ namespace Personalizar;
 /**
  * Clase ContrasenaFormularioWeb
  */
-class ContrasenaFormularioWeb extends DetalleHTML {
+class ContrasenaFormularioWeb extends DetalleWeb {
 
     // protected $sesion;
     // protected $consultado;

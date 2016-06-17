@@ -132,11 +132,16 @@ class Sesion extends Cookie {
     /**
      * Puede ver
      *
-     * @param  string  Clave del módulo
+     * @param  string  Clave del módulo, opcional, si se omite se usa la clave de la página en uso
      * @return boolean Verdadero si SI tiene permiso
      */
-    public function puede_ver($in_clave) {
-        if ($this->permisos[$in_clave] >= Menu::$permiso_ver) {
+    public function puede_ver($in_clave=false) {
+        if ($in_clave === false) {
+            $clave = $this->pagina;
+        } else {
+            $clave = $in_clave;
+        }
+        if ($this->permisos[$clave] >= Menu::$permiso_ver) {
             return true;
         } else {
             return false;
@@ -146,11 +151,16 @@ class Sesion extends Cookie {
     /**
      * Puede modificar
      *
-     * @param  string  Clave del módulo
+     * @param  string  Clave del módulo, opcional, si se omite se usa la clave de la página en uso
      * @return boolean Verdadero si SI tiene permiso
      */
-    public function puede_modificar($in_clave) {
-        if ($this->permisos[$in_clave] >= Menu::$permiso_modificar) {
+    public function puede_modificar($in_clave=false) {
+        if ($in_clave === false) {
+            $clave = $this->pagina;
+        } else {
+            $clave = $in_clave;
+        }
+        if ($this->permisos[$clave] >= Menu::$permiso_modificar) {
             return true;
         } else {
             return false;
@@ -160,11 +170,16 @@ class Sesion extends Cookie {
     /**
      * Puede agregar
      *
-     * @param  string  Clave del módulo
+     * @param  string  Clave del módulo, opcional, si se omite se usa la clave de la página en uso
      * @return boolean Verdadero si SI tiene permiso
      */
-    public function puede_agregar($in_clave) {
-        if ($this->permisos[$in_clave] >= Menu::$permiso_agregar) {
+    public function puede_agregar($in_clave=false) {
+        if ($in_clave === false) {
+            $clave = $this->pagina;
+        } else {
+            $clave = $in_clave;
+        }
+        if ($this->permisos[$clave] >= Menu::$permiso_agregar) {
             return true;
         } else {
             return false;
@@ -174,11 +189,16 @@ class Sesion extends Cookie {
     /**
      * Puede eliminar
      *
-     * @param  string  Clave del módulo
+     * @param  string  Clave del módulo, opcional, si se omite se usa la clave de la página en uso
      * @return boolean Verdadero si SI tiene permiso
      */
-    public function puede_eliminar($in_clave) {
-        if ($this->permisos[$in_clave] >= Menu::$permiso_eliminar) {
+    public function puede_eliminar($in_clave=false) {
+        if ($in_clave === false) {
+            $clave = $this->pagina;
+        } else {
+            $clave = $in_clave;
+        }
+        if ($this->permisos[$clave] >= Menu::$permiso_eliminar) {
             return true;
         } else {
             return false;
@@ -188,11 +208,16 @@ class Sesion extends Cookie {
     /**
      * Puede recuperar
      *
-     * @param  string  Clave del módulo
+     * @param  string  Clave del módulo, opcional, si se omite se usa la clave de la página en uso
      * @return boolean Verdadero si SI tiene permiso
      */
-    public function puede_recuperar($in_clave) {
-        if ($this->permisos[$in_clave] >= Menu::$permiso_recuperar) {
+    public function puede_recuperar($in_clave=false) {
+        if ($in_clave === false) {
+            $clave = $this->pagina;
+        } else {
+            $clave = $in_clave;
+        }
+        if ($this->permisos[$clave] >= Menu::$permiso_recuperar) {
             return true;
         } else {
             return false;

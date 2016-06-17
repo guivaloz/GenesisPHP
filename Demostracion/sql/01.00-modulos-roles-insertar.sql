@@ -30,8 +30,8 @@ INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 11, 1);
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 12, 1);
 
 -- Menú Expedientes
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (101, 'exp_expedientes',         '-Expedientes', 'folder.png',       'exppersonas.php',           NULL); -- 13
-INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (111, 'exp_personas',            'Personas',     'folder.png',       'exppersonas.php',             13); -- 14
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (101, 'exp_expedientes',         '-Expedientes', 'user-info.png',    'exppersonas.php',           NULL); -- 13
+INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (111, 'exp_personas',            'Personas',     'warmux.png',       'exppersonas.php',             13); -- 14
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (115, 'exp_personas_fotos',      'Fotos',        'camera-photo.png', 'exppersonasfotos.php',        13); -- 15
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (121, 'exp_personas_domicilios', 'Domicilios',   'midori.png',       'exppersonasdomicilios.php',   13); -- 16
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre) VALUES (123, 'exp_personas_familiares', 'Familiares',   'system-users.png', 'exppersonasfamiliares.php',   13); -- 17
@@ -63,4 +63,3 @@ INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 14, 5);
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 15, 5);
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 16, 5);
 INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (4, 17, 5);
-

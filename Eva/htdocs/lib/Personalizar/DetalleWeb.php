@@ -76,6 +76,25 @@ class DetalleWeb extends Registro {
     } // situacion_html
 
     /**
+     * Barra
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de \Base2\BarraWeb
+     */
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->encabezado();
+        }
+        // Entregar
+        $barra             = new \Base2\BarraWeb();
+        $barra->encabezado = $encabezado;
+        return $barra;
+    } // barra
+
+    /**
      * HTML
      *
      * @param  string Encabezado opcional
@@ -112,13 +131,9 @@ class DetalleWeb extends Registro {
         } else {
             $detalle->dato('Su contraseña', str_replace('. ', '<br />', $this->contrasena_descrito));
         }
-        // Encabezado
-        if ($in_encabezado !== '') {
-            $encabezado = $in_encabezado;
-        } else {
-            $encabezado = $this->nombre;
-        }
-        // Entregar el HTML del detalle
+        // Pasar la barra
+        $detalle->barra = $this->barra($in_encabezado);
+        // Entregar
         return $detalle->html($encabezado, $this->sesion->menu->icono_en('personalizar'));
     } // html
 

@@ -110,7 +110,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
     /**
      * Consultar
      *
-     * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
+     * @return mixed Instancia con lo encontrado, falso si no se encontró nada
      */
     public function consultar() {
         // De inicio, no hay resultados
@@ -159,7 +159,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             // Hay resultados
             $this->hay_resultados = true;
             // Entregar listado
-            $listado          = new ListadoHTML($this->sesion);
+            $listado          = new ListadoWeb($this->sesion);
             $listado->nombre  = $this->nombre;
             $listado->puesto  = $this->puesto;
             $listado->estatus = $this->estatus;

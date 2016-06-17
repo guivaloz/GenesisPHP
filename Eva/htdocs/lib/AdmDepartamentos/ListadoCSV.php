@@ -27,14 +27,6 @@ namespace AdmDepartamentos;
  */
 class ListadoCSV extends Listado {
 
-    // protected $sesion;
-    // public $listado;
-    // public $panal;
-    // public $cantidad_registros;
-    // public $limit;
-    // public $offset;
-    // protected $consultado;
-
     /**
      * Constructor
      *
@@ -45,8 +37,6 @@ class ListadoCSV extends Listado {
 
     /**
      * CSV
-     *
-     * A diferencia de ListadoHTML, esta clase puede causar una excepcion si falla la consulta
      *
      * @return string CSV
      */

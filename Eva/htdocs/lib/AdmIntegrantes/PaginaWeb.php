@@ -120,14 +120,14 @@ class PaginaWeb extends \Base2\PaginaWeb {
                     $lenguetas->definir_activa();
                 }
                 // Eliminados
-                if ($this->sesion->puede_recuperar('adm_integrantes')) {
+                if ($this->sesion->puede_recuperar()) {
                     $listado = new ListadoWeb($this->sesion);
                     $listado->estatus = 'B';
                     $lenguetas->agregar('integrantesEliminados', 'Eliminados', $listado);
                 }
             }
             // Nuevo
-            if ($this->sesion->puede_agregar('adm_integrantes')) {
+            if ($this->sesion->puede_agregar()) {
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = 'agregar';
                 $lenguetas->agregar('integrantesNuevo', 'Nuevo', $formulario);

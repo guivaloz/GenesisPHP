@@ -14,12 +14,12 @@ CREATE TABLE adm_roles (
 );
 
 -- Desarrolladores
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  1, 5); -- usuarios
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  2, 1); --   autentificaciones
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  3, 1); --   bitácora
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  4, 1); --   sesiones
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  5, 5); --   departamentos
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  6, 5); --   módulos
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  7, 5); --   roles
-INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  8, 5); --   integrantes
-
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  1, 5); -- Sistema
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  2, 5); --   Usuarios
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  3, 1); --   Autentificaciones
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  4, 1); --   Bitácora
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  5, 1); --   Sesiones
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  6, 5); --   Departamentos
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  7, 5); --   Módulos
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  8, 5); --   Roles
+INSERT INTO adm_roles (departamento, modulo, permiso_maximo) VALUES (1,  9, 5); --   Integrantes

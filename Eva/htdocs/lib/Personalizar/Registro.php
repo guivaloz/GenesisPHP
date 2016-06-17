@@ -55,7 +55,7 @@ class Registro extends \Base2\Registro {
      */
     public function consultar($in_id=false) {
         // Si no se da el id del usuario, se toma de la sesion
-        if (($in_id == false) && !$this->validar_entero($this->id)) {
+        if ($in_id === false) {
             $this->id = $this->sesion->usuario;
         }
         // Validar
@@ -65,7 +65,7 @@ class Registro extends \Base2\Registro {
         // Consultar
         $base_datos = new \Base2\BaseDatosMotor();
         try {
-            $consulta = $base_datos->comando("
+            $consulta = $base_datos->comando(sprintf("
                 SELECT
                     nom_corto, nombre, tipo, email, listado_renglones,
                     contrasena, contrasena_encriptada, contrasena_expira, contrasena_fallas,
@@ -73,7 +73,8 @@ class Registro extends \Base2\Registro {
                 FROM
                     adm_usuarios
                 WHERE
-                    id = {$this->id}");
+                    id = %d",
+                $this->id));
         } catch (\Exception $e) {
             throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar el usuario.', $e->getMessage());
         }
@@ -126,6 +127,15 @@ class Registro extends \Base2\Registro {
         // Ponemos como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
+
+    /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return 'Personalizar';
+    } // encabezado
 
     /**
      * Cambiar Contrasena

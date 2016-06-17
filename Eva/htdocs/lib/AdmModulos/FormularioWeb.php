@@ -115,12 +115,12 @@ class FormularioWeb extends DetalleWeb {
             $this->id = $_POST['id'];
         }
         // Definir propiedades
-        $this->nombre         = $this->post_texto($_POST['nombre']);
+        $this->nombre         = \Base2\UtileriasParaSQL::post_texto($_POST['nombre']);
         $this->orden          = $_POST['orden'];
-        $this->clave          = $this->post_texto($_POST['clave']);
-        $this->pagina         = $this->post_texto($_POST['pagina']);
-        $this->icono          = $this->post_texto($_POST['icono']);
-        $this->padre          = $this->post_select($_POST['padre']);
+        $this->clave          = \Base2\UtileriasParaSQL::post_texto($_POST['clave']);
+        $this->pagina         = \Base2\UtileriasParaSQL::post_texto($_POST['pagina']);
+        $this->icono          = \Base2\UtileriasParaSQL::post_texto($_POST['icono']);
+        $this->padre          = \Base2\UtileriasParaSQL::post_select($_POST['padre']);
         $this->permiso_maximo = $_POST['permiso_maximo'];
         $this->poder_minimo   = $_POST['poder_minimo'];
     } // recibir_formulario

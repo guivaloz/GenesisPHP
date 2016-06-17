@@ -98,7 +98,7 @@ abstract class BusquedaWeb implements SalidaWeb {
                 // Validar
                 $this->validar();
                 // Consultar
-                $this->resultado = $this->consultar(); // Instancia de DetalleHTML o ListadoHTML
+                $this->resultado = $this->consultar();
                 // Mostrar resultado de la busqueda
                 $html                  = $this->resultado->html();
                 $this->javascript[]    = $this->resultado->javascript();

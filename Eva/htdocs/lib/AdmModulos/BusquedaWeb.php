@@ -117,7 +117,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
     /**
      * Consultar
      *
-     * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
+     * @return mixed Instancia con lo encontrado, falso si no se encontró nada
      */
     public function consultar() {
         // De inicio, no hay resultados
@@ -174,7 +174,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             // Hay resultados
             $this->hay_resultados = true;
             // Entregar listado
-            $listado                 = new ListadoHTML($this->sesion);
+            $listado                 = new ListadoWeb($this->sesion);
             $listado->nombre         = $this->nombre;
             $listado->clave          = $this->clave;
             $listado->permiso_maximo = $this->permiso_maximo;
@@ -186,7 +186,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             $this->hay_resultados = true;
             // La cantidad de registros es uno, entregar detalle
             $a           = $consulta->obtener_registro();
-            $detalle     = new DetalleHTML($this->sesion);
+            $detalle     = new DetalleWeb($this->sesion);
             $detalle->id = intval($a['id']);
             return $detalle;
         } else {

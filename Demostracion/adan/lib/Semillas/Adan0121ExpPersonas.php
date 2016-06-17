@@ -55,9 +55,9 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
             'descripciones' => array('S' => 'Soltero', 'C' => 'Casado', 'D' => 'Divorciado', 'U' => 'Unión libre', 'V' => 'Viudo'),
             'etiquetas'     => array('S' => 'Soltero', 'C' => 'Casado', 'D' => 'Divorciado', 'U' => 'Unión libre', 'V' => 'Viudo'),
             'colores'       => array('S' => 'verde',   'C' => 'rojo',   'D' => 'amarillo',   'U' => 'rosa',        'V' => 'naranja')),
-        'curp'             => array('tipo' => 'curp',     'etiqueta' => 'CURP',                  'validacion' => 2, 'agregar' => 1, 'modificar' => 1),
+        'curp'             => array('tipo' => 'curp',       'etiqueta' => 'CURP',                'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
 
-        'nomina'           => array('tipo' => 'entero',     'etiqueta' => 'Nómina',              'validacion' => 1, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11),
+        'nomina'           => array('tipo' => 'entero',     'etiqueta' => 'Nómina',              'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11),
         'ingreso_fecha'    => array('tipo' => 'fecha',      'etiqueta' => 'Fecha de ingreso',    'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
 
         'notas'            => array('tipo' => 'notas',      'etiqueta' => 'Notas',               'validacion' => 1, 'agregar' => 1, 'modificar' => 1),

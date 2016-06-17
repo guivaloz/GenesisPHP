@@ -86,7 +86,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
         $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         $modulos       = new \AdmModulos\OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base\FormularioHTML(self::$form_name);
+        $f = new \Base2\FormularioWeb(self::$form_name);
         $f->select_con_nulo('departamento', 'Departamento', $departamentos->opciones(), $this->departamento);
         $f->select_con_nulo('modulo',       'Módulo',       $modulos->opciones(),       $this->modulo);
         if ($this->sesion->puede_recuperar('adm_roles')) {
@@ -112,10 +112,10 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->departamento = $this->post_select($_POST['departamento']);
-            $this->modulo       = $this->post_select($_POST['modulo']);
+            $this->departamento = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
+            $this->modulo       = \Base2\UtileriasParaSQL::post_select($_POST['modulo']);
             if ($this->sesion->puede_recuperar('adm_roles')) {
-                $this->estatus  = $this->post_select($_POST['estatus']);
+                $this->estatus  = \Base2\UtileriasParaSQL::post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
@@ -128,7 +128,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
     /**
      * Consultar
      *
-     * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
+     * @return mixed Instancia con lo encontrado, falso si no se encontró nada
      */
     public function consultar() {
         // De inicio, no hay resultados
@@ -177,7 +177,7 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             // Hay resultados
             $this->hay_resultados = true;
             // Entregar listado
-            $listado               = new ListadoHTML($this->sesion);
+            $listado               = new ListadoWeb($this->sesion);
             $listado->departamento = $this->departamento;
             $listado->modulo       = $this->modulo;
             $listado->estatus      = $this->estatus;
@@ -187,12 +187,12 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
             $this->hay_resultados = true;
             // La cantidad de registros es uno, entregar detalle
             $a           = $consulta->obtener_registro();
-            $detalle     = new DetalleHTML($this->sesion);
+            $detalle     = new DetalleWeb($this->sesion);
             $detalle->id = intval($a['id']);
             return $detalle;
         } else {
             // No se encontró nada
-            throw new \Base\BusquedaWebExceptionVacio('Aviso: La búsqueda no encontró roles con esos parámetros.');
+            throw new \Base2\BusquedaExceptionVacio('Aviso: La búsqueda no encontró roles con esos parámetros.');
         }
     } // consultar
 

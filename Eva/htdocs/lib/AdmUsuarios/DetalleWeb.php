@@ -75,14 +75,14 @@ class DetalleWeb extends Registro {
      * Barra
      *
      * @param  string Encabezado opcional
-     * @return mixed  Instancia de BarraHTML
+     * @return mixed  Instancia de \Base2\BarraWeb
      */
     protected function barra($in_encabezado='') {
         // Si viene el parametro se usa, si no, el encabezado por defecto
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
         } else {
-            $encabezado = $this->nombre;
+            $encabezado = $this->encabezado();
         }
         // Crear la barra
         $barra             = new \Base2\BarraWeb();
@@ -159,8 +159,8 @@ class DetalleWeb extends Registro {
             $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra
-        $detalle->barra = $this->barra();
-        // Entregar HTML
+        $detalle->barra = $this->barra($in_encabezado);
+        // Entregar
         return $detalle->html();
     } // html
 

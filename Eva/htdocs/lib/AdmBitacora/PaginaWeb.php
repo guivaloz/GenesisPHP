@@ -25,7 +25,7 @@ namespace AdmBitacora;
 /**
  * Clase PaginaWeb
  */
-class PaginaWeb extends \Base\PaginaWeb {
+class PaginaWeb extends \Base2\PaginaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -62,16 +62,16 @@ class PaginaWeb extends \Base\PaginaWeb {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
             // Lenguetas
-            $lenguetas = new \Base\LenguetasHTML('lenguetasBitacora');
+            $lenguetas = new \Base2\LenguetasWeb('lenguetasBitacora');
             // Acciones para un registro
             if ($_GET['id'] != '') {
                 // Detalle
-                $detalle = new DetalleHTML($this->sesion);
+                $detalle = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar_activa('bitacoraDetalle', 'Detalle', $detalle);
             }
             // Busqueda, crea dos lenguetas si hay resultados
-            $busqueda        = new BusquedaHTML($this->sesion);
+            $busqueda        = new BusquedaWeb($this->sesion);
             $resultados_html = $busqueda->html();
             if ($busqueda->hay_resultados) {
                 $lenguetas->agregar('bitacoraBuscar', 'Buscar', $busqueda->formulario_html());
@@ -83,13 +83,13 @@ class PaginaWeb extends \Base\PaginaWeb {
             }
             $lenguetas->agregar_javascript($busqueda->javascript());
             // Listados
-            $listado = new ListadoHTML($this->sesion);
+            $listado = new ListadoWeb($this->sesion);
             if ($listado->viene_listado) {
                 // Viene un listado previo
                 $lenguetas->agregar_activa('bitacoraListado', 'Listado', $listado);
             } else {
                 // Listado bitacora
-                $bitacora = new ListadoHTML($this->sesion);
+                $bitacora = new ListadoWeb($this->sesion);
                 $lenguetas->agregar('bitacoraListado', 'Listado', $bitacora);
                 if ($lenguetas->activa == '') {
                     $lenguetas->definir_activa();

@@ -105,9 +105,9 @@ class SesionSalir extends Sesion {
                 VALUES
                     (%d, %s, %s, %s)",
                 $this->usuario,
-                $this->sql_texto($this->nom_corto),
-                $this->sql_texto('T'),
-                $this->sql_texto($_SERVER['REMOTE_ADDR'])));
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto('T'),
+                \Base2\UtileriasParaSQL::sql_texto($_SERVER['REMOTE_ADDR'])));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar la autentificación.');
         }

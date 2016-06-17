@@ -80,7 +80,7 @@ class BaseDatosMotor extends \Configuracion\BaseDatosConfig {
             if ($tronar_en_error) {
                 die("Error en BaseDatosMotor: ".$comando_sql);
             } else {
-                throw new BaseDatosExceptionSQLError(sprintf('Error SQL: %s. Comando: %s', pg_last_error($this->bd_recurso), $comando_sql);
+                throw new BaseDatosExceptionSQLError(sprintf('Error SQL: %s. Comando: %s', pg_last_error($this->bd_recurso), $comando_sql));
             }
         } elseif ($resultado === true) {
             // Los comandos INSERT, UPDATE y DELETE entregan verdadero

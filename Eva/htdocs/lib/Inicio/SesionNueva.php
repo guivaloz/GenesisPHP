@@ -140,10 +140,10 @@ class SesionNueva extends Sesion {
                 VALUES
                     (%d, %s, %s, %s, %s, %d)",
                 $this->usuario,
-                $this->sql_tiempo($this->ingreso),
-                $this->sql_texto($this->nombre),
-                $this->sql_texto($this->nom_corto),
-                $this->sql_texto($this->tipo),
+                \Base2\UtileriasParaSQL::sql_tiempo($this->ingreso),
+                \Base2\UtileriasParaSQL::sql_texto($this->nombre),
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto($this->tipo),
                 $this->listado_renglones));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar la sesión.');
@@ -164,9 +164,9 @@ class SesionNueva extends Sesion {
                 VALUES
                     (%d, %s, %s, %s)",
                 $this->usuario,
-                $this->sql_texto($this->nom_corto),
-                $this->sql_texto('A'),
-                $this->sql_texto($_SERVER['REMOTE_ADDR'])));
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto),
+                \Base2\UtileriasParaSQL::sql_texto('A'),
+                \Base2\UtileriasParaSQL::sql_texto($_SERVER['REMOTE_ADDR'])));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al tratar de insertar en autentificaciones el registro de la entrada.');
         }

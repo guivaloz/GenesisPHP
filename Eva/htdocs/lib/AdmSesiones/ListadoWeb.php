@@ -40,7 +40,7 @@ class ListadoWeb extends Listado {
     // static public $param_tipo;
     // public $filtros_param;
     public $viene_listado;         // Es verdadero si en el URL vienen filtros
-    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $listado_controlado; // Instancia de \Base2\ListadoWebControlado
     protected $estructura;         // Arreglo asociativo con datos de las columnas
 
     /**
@@ -65,7 +65,7 @@ class ListadoWeb extends Listado {
             'listado_renglones' => array(
                 'enca' => 'Renglones'));
         // Iniciar listado controlado html
-        $this->listado_controlado = new \Base\ListadoWebControlado();
+        $this->listado_controlado = new \Base2\ListadoWebControlado();
         // Su constructor toma estos parametros por url
         $this->limit              = $this->listado_controlado->limit;
         $this->offset             = $this->listado_controlado->offset;
@@ -84,7 +84,7 @@ class ListadoWeb extends Listado {
      * Barra
      *
      * @param  string Encabezado opcional
-     * @return mixed  Instancia de BarraHTML
+     * @return mixed  Instancia de \Base2\BarraWeb
      */
     protected function barra($in_encabezado='') {
         // Si viene el parametro se usa, si no, el encabezado por defecto

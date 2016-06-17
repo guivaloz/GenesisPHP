@@ -23,25 +23,10 @@
 namespace Configuracion;
 
 /*
- * Clase PlantillaHTMLConfig
+ * Clase abstracta PlantillaHTMLConfig
+ *
+ * TODO: Por compatibilidad con Base se tiene este alias. Espero retirarlo cuando migre todo a Base2.
  */
-class PlantillaHTMLConfig {
-
-    protected $sistema              = 'GenesisPHP Demostración';
-    protected $titulo               = '';
-    protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
-    protected $autor                = 'guivaloz';
-    protected $css                  = 'css/demostracion.css';
-    protected $favicon              = 'imagenes/favicon.png';
-    protected $modelo               = 'sbadmin2';
-    protected $menu_principal_logo  = '';
-    protected $modelo_ingreso_logos = array(
-        array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'izquierda'),
-        array('url' => 'imagenes/generic_company.png', 'class' => 'img-responsive', 'style' => 'margin:10px;', 'pos' => 'derecha'));
-    protected $modelo_fluido_logos  = array(
-        array('url' => 'imagenes/generic_company.png', 'style' => 'position:fixed; bottom:10px; left:10px;'));
-    protected $pie                  = 'Hecho con <a href="https://github.com/guivaloz/GenesisPHP" target="_blank">GenesisPHP</a>';
-
-} // Clase PlantillaHTMLConfig
+abstract class PlantillaHTMLConfig extends PlantillaWebConfig {}
 
 ?>

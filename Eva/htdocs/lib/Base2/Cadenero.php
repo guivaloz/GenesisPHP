@@ -63,7 +63,7 @@ class Cadenero extends Registro {
                     adm_cadenero
                 WHERE
                     clave = %s",
-                \Base2\UtileriasParaSQL::sql_texto($this->clave)));
+                UtileriasParaSQL::sql_texto($this->clave)));
         } catch (\Exception $e) {
             throw new BaseDatosExceptionSQLError('Error en cadenero: Al consultar en cadenero.');
         }
@@ -80,6 +80,59 @@ class Cadenero extends Registro {
         // Ponemos como verdadero el flag de consultado
         $this->consultado = true;
     } // consultar
+
+    /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return 'Cadenero';
+    } // encabezado
+
+    /**
+     * Crear clave
+     *
+     * @param  string Nombre del formulario para saber en donde ocurre
+     * @return string Clave unica para poner como campo oculto en el formulario
+     */
+    public function crear_clave($in_form_name) {
+        // Validar que no se haya consultado
+        if ($this->consultado) {
+            throw new \Exception('Error en cadenero: No se puede crear si ya se ha consultado.');
+        }
+        // Parametro nombre del formulario
+        $this->form_name = $in_form_name;
+        // Validar nombre del formulario
+        if (!is_string($this->form_name) || ($this->form_name == '')) {
+            throw new \Exception('Error en cadenero: Falta el nombre del formulario o es incorrecto.');
+        }
+        if (!is_string($this->form_name) || !preg_match('/^[a-zA-Z0-9_]+$/', $this->form_name)) {
+            throw new \Exception('Error en cadenero: Nombre del formulario incorrecto.');
+        }
+        // Tomar el usuario de la sesion
+        $this->usuario = $this->sesion->usuario;
+        // Determinar la clave unica
+        $this->clave = uniqid();
+        // Agregar a la base de datos
+        $base_datos = new BaseDatosMotor();
+        try {
+            $base_datos->comando(sprintf("
+                INSERT INTO
+                    adm_cadenero (usuario, form_name, clave)
+                VALUES
+                    (%s, %s, %s)",
+                UtileriasParaSQL::sql_entero($this->usuario),
+                UtileriasParaSQL::sql_texto($this->form_name),
+                UtileriasParaSQL::sql_texto($this->clave)));
+        } catch (\Exception $e) {
+            throw new BaseDatosExceptionSQLError($this->sesion, 'Error en cadenero: Al insertar registro en cadenero. ', $e->getMessage());
+        }
+        // Ponemos como verdadero el flag de consultado
+        $this->consultado = true;
+        // Entregar clave unica
+        return $this->clave;
+    } // crear_clave
 
     /**
      * Validar recepcion
@@ -131,7 +184,7 @@ class Cadenero extends Registro {
                     recibido = TRUE
                 WHERE
                     clave = %s",
-                \Base2\UtileriasParaSQL::sql_texto($this->clave)));
+                UtileriasParaSQL::sql_texto($this->clave)));
         } catch (Exception $e) {
             throw new BaseDatosExceptionSQLError('Error en cadenero: Al actualizar registro para cambiar recibido a verdadero.');
         }

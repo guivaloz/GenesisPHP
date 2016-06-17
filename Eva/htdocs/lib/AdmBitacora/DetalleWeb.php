@@ -47,14 +47,14 @@ class DetalleWeb extends Registro {
      * Barra
      *
      * @param  string Encabezado opcional
-     * @return mixed  Instancia de BarraHTML
+     * @return mixed  Instancia de \Base2\BarraWeb
      */
     protected function barra($in_encabezado='') {
         // Si viene el parametro se usa, si no, el encabezado por defecto
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
         } else {
-            $encabezado = $this->fecha;
+            $encabezado = $this->encabezado();
         }
         // Crear la barra
         $barra             = new \Base2\BarraWeb();
@@ -81,7 +81,7 @@ class DetalleWeb extends Registro {
             }
         }
         // Detalle
-        $detalle = new \Base\DetalleWeb();
+        $detalle = new \Base2\DetalleWeb();
         // Seccion general
         $detalle->seccion('General');
         $detalle->dato('Fecha',     $this->fecha);
@@ -92,7 +92,7 @@ class DetalleWeb extends Registro {
         $detalle->dato('Tipo',      $this->tipo_descrito);
         $detalle->dato('Notas',     $this->notas);
         // Pasar la barra
-        $detalle->barra = $this->barra();
+        $detalle->barra = $this->barra($in_encabezado);
         // Entregar
         return $detalle->html();
     } // html

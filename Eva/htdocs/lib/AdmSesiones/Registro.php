@@ -84,6 +84,15 @@ class Registro extends \Base2\Registro {
         $this->consultado = true;
     } // consultar
 
+    /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return "Sesión de {$this->nombre}";
+    } // encabezado
+
 } // Clase Registro
 
 ?>

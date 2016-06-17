@@ -120,6 +120,15 @@ class Registro extends \Base2\Registro {
     } // consultar
 
     /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return "Rol de {$this->departamento_nombre} en {$this->modulo_nombre}";
+    } // encabezado
+
+    /**
      * Validar
      */
     public function validar() {

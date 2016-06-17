@@ -105,9 +105,9 @@ class FormularioWeb extends DetalleWeb {
             $this->id = $_POST['id'];
         }
         // Seccion integrante
-        $this->usuario      = $this->post_select($_POST['usuario']);
-        $this->departamento = $this->post_select($_POST['departamento']);
-        $this->poder        = $this->post_select($_POST['poder']);
+        $this->usuario      = \Base2\UtileriasParaSQL::post_select($_POST['usuario']);
+        $this->departamento = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
+        $this->poder        = \Base2\UtileriasParaSQL::post_select($_POST['poder']);
     } // recibir_formulario
 
     /**

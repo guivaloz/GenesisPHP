@@ -58,7 +58,7 @@ class Autentificar {
                     adm_usuarios
                 WHERE
                     nom_corto = %s",
-                $this->sql_texto($this->nom_corto)));
+                \Base2\UtileriasParaSQL::sql_texto($this->nom_corto)));
         } catch (\Exception $e) {
             throw new \Exception('Error: Al ejecutar comando SQL para consultar usuario.');
         }

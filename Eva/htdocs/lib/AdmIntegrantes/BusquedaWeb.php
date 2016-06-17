@@ -25,7 +25,7 @@ namespace AdmIntegrantes;
 /**
  * Clase BusquedaWeb
  */
-class BusquedaWeb extends \Base\BusquedaWeb {
+class BusquedaWeb extends \Base2\BusquedaWeb {
 
     // public $hay_resultados;
     // public $entrego_detalle;
@@ -86,7 +86,7 @@ class BusquedaWeb extends \Base\BusquedaWeb {
         $usuarios      = new \AdmUsuarios\OpcionesSelect($this->sesion);
         $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base\FormularioHTML(self::$form_name);
+        $f = new \Base2\FormularioWeb(self::$form_name);
         $f->select_con_nulo('usuario',      'Usuario',      $usuarios->opciones(),      $this->usuario);
         $f->select_con_nulo('departamento', 'Departamento', $departamentos->opciones(), $this->departamento);
         if ($this->sesion->puede_recuperar('adm_integrantes')) {
@@ -112,10 +112,10 @@ class BusquedaWeb extends \Base\BusquedaWeb {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->usuario      = $this->post_select($_POST['usuario']);
-            $this->departamento = $this->post_select($_POST['departamento']);
+            $this->usuario      = \Base2\UtileriasParaSQL::post_select($_POST['usuario']);
+            $this->departamento = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
             if ($this->sesion->puede_recuperar('adm_integrantes')) {
-                $this->estatus  = $this->post_select($_POST['estatus']);
+                $this->estatus  = \Base2\UtileriasParaSQL::post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
@@ -128,7 +128,7 @@ class BusquedaWeb extends \Base\BusquedaWeb {
     /**
      * Consultar
      *
-     * @return mixed Objeto con el ListadoHTML, TrenHTML o DetalleHTML, falso si no se encontró nada
+     * @return mixed Instancia con lo encontrado, falso si no se encontró nada
      */
     public function consultar() {
         // De inicio, no hay resultados
@@ -177,7 +177,7 @@ class BusquedaWeb extends \Base\BusquedaWeb {
             // Hay resultados
             $this->hay_resultados = true;
             // Entregar listado
-            $listado               = new ListadoHTML($this->sesion);
+            $listado               = new ListadoWeb($this->sesion);
             $listado->usuario      = $this->usuario;
             $listado->departamento = $this->departamento;
             $listado->estatus      = $this->estatus;
@@ -187,12 +187,12 @@ class BusquedaWeb extends \Base\BusquedaWeb {
             $this->hay_resultados = true;
             // La cantidad de registros es uno, entregar detalle
             $a           = $consulta->obtener_registro();
-            $detalle     = new DetalleHTML($this->sesion);
+            $detalle     = new DetalleWeb($this->sesion);
             $detalle->id = intval($a['id']);
             return $detalle;
         } else {
             // No se encontró nada
-            throw new \Base2\BusquedaWebExceptionVacio('Aviso: La búsqueda no encontró integrantes con esos parámetros.');
+            throw new \Base2\BusquedaExceptionVacio('Aviso: La búsqueda no encontró integrantes con esos parámetros.');
         }
     } // consultar
 
