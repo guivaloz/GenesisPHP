@@ -47,23 +47,18 @@ class PaginaWeb extends \Base2\PaginaWeb {
             // Iniciar instancias para cada lengüeta
             $contrasena_form = new ContrasenaFormularioWeb($this->sesion);
             $renglones_form  = new RenglonesFormularioWeb($this->sesion);
-            $generales       = new DetalleWeb($this->sesion);
-            // Ejecutar método HTML para que los procedimientos se lleven a cabo
+            $informacion     = new DetalleWeb($this->sesion);
+            // Agregar instancias a lengüetas, note que la última es información, porque puede cambiar según las otras
+            $lenguetas->agregar('personalizarContrasena',  'Contraseña',  $contrasena_form);
+            $lenguetas->agregar('personalizarRenglones',   'Renglones',   $renglones_form);
+            $lenguetas->agregar('personalizarInformacion', 'Información', $informacion);
+            // Si viene cada formulario, activará su lengüeta correspondiente
             if ($_POST['formulario'] == ContrasenaFormularioWeb::$form_name) {
-                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form->html());
-                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form);
-                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
-                $lenguetas->definir_activa('personalizarContraseña');
+                $lenguetas->definir_activa('personalizarContrasena');
             } elseif ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
-                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form);
-                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form->html());
-                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
                 $lenguetas->definir_activa('personalizarRenglones');
             } else {
-                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form);
-                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form);
-                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
-                $lenguetas->definir_activa('personalizarGenerales');
+                $lenguetas->definir_activa('personalizarInformacion');
             }
             // Pasar el html y el javascript de las lenguetas al contenido
             $this->contenido[]  = $lenguetas->html();
