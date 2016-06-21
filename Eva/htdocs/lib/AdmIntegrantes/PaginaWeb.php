@@ -27,25 +27,6 @@ namespace AdmIntegrantes;
  */
 class PaginaWeb extends \Base2\PaginaWeb {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // public $clave;
-    // public $menu;
-    // public $contenido;
-    // public $javascript;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
-
     /**
      * Constructor
      */
@@ -65,29 +46,22 @@ class PaginaWeb extends \Base2\PaginaWeb {
             $lenguetas = new \Base2\LenguetasWeb('lenguetasintegrantes');
             // Acciones para un registro
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
-                // Modificar
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = $_GET['id'];
                 $lenguetas->agregar_activa('integrantesModificar', 'Modificar', $formulario);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_eliminar)) {
-                // Eliminar
-                $eliminar     = new DetalleWeb($this->sesion);
+                $eliminar     = new EliminarWeb($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesEliminar', 'Eliminar', $eliminar->eliminar_html());
-                $lenguetas->agregar_javascript($eliminar->javascript());
+                $lenguetas->agregar_activa('integrantesEliminar', 'Eliminar', $eliminar);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_recuperar)) {
-                // Recuperar
-                $recuperar     = new DetalleWeb($this->sesion);
+                $recuperar     = new RecuperarWeb($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesRecuperar', 'Recuperar', $recuperar->recuperar_html());
-                $lenguetas->agregar_javascript($recuperar->javascript());
+                $lenguetas->agregar_activa('integrantesRecuperar', 'Recuperar', $recuperar);
             } elseif ($_GET['id'] != '') {
-                // Detalle
                 $detalle     = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar_activa('integrantesDetalle', 'Detalle', $detalle);
             } elseif ($_POST['formulario'] == FormularioWeb::$form_name) {
-                // Viene el formulario
                 $formulario = new FormularioWeb($this->sesion);
                 $lenguetas->agregar_activa('integrantesFormulario', 'Formulario', $formulario);
             }

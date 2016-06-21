@@ -37,10 +37,23 @@ class DetalleWeb extends Registro {
     // public $estatus_descrito;
     // static public $estatus_descripciones;
     // static public $estatus_colores;
+    protected $detalle; // Instancia de \Base2\DetalleWeb
     static public $accion_modificar = 'departamentoModificar';
     static public $accion_eliminar  = 'departamentoEliminar';
     static public $accion_recuperar = 'departamentoRecuperar';
     const RAIZ_PHP_ARCHIVO          = 'admdepartamentos.php';
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * Barra
@@ -91,53 +104,21 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Detalle
-        $detalle = new \Base2\DetalleWeb();
         // Seccion departamento
-        $detalle->seccion('Departamento');
-        $detalle->dato('Nombre', $this->nombre);
-        $detalle->dato('Clave',  $this->clave);
+        $this->detalle->seccion('Departamento');
+        $this->detalle->dato('Nombre', $this->nombre);
+        $this->detalle->dato('Clave',  $this->clave);
         // Seccion registro
-        $detalle->seccion('Registro');
-        $detalle->dato('Notas',  $this->notas);
+        $this->detalle->seccion('Registro');
+        $this->detalle->dato('Notas',  $this->notas);
         if ($this->sesion->puede_eliminar('adm_departamentos')) {
-            $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html();
+        return $this->detalle->html();
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->eliminar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->recuperar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // recuperar_html
 
     /**
      * Javascript
@@ -145,7 +126,7 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase DetalleWeb

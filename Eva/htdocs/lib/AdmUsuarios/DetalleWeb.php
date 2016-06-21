@@ -65,11 +65,24 @@ class DetalleWeb extends Registro {
     // static public $estatus_descripciones;
     // static public $estatus_colores;
     // static public $dias_expira_contrasena;
+    protected $detalle; // Instancia de \Base2\DetalleWeb
     static public $accion_modificar   = 'usuarioModificar';
     static public $accion_eliminar    = 'usuarioEliminar';
     static public $accion_recuperar   = 'usuarioRecuperar';
     static public $accion_desbloquear = 'usuarioDesbloquear';
     const RAIZ_PHP_ARCHIVO            = 'admusuarios.php';
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * Barra
@@ -131,83 +144,36 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Detalle
-        $detalle = new \Base2\DetalleWeb();
         // Seccion general
-        $detalle->seccion('General');
-        $detalle->dato('Nombre corto', $this->nom_corto);
-        $detalle->dato('Nombre',       sprintf('<a href="%s?id=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, $this->id, $this->nombre));
-        $detalle->dato('Puesto',       $this->puesto);
-        $detalle->dato('Tipo',         $this->tipo_descrito);
-        $detalle->dato('e-mail', ($this->email != '') ? sprintf('<a href="mailto:%s">%s</a>', $this->email, $this->email) : '');
+        $this->detalle->seccion('General');
+        $this->detalle->dato('Nombre corto', $this->nom_corto);
+        $this->detalle->dato('Nombre',       sprintf('<a href="%s?id=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, $this->id, $this->nombre));
+        $this->detalle->dato('Puesto',       $this->puesto);
+        $this->detalle->dato('Tipo',         $this->tipo_descrito);
+        $this->detalle->dato('e-mail', ($this->email != '') ? sprintf('<a href="mailto:%s">%s</a>', $this->email, $this->email) : '');
         // Seccion contraseña
-        $detalle->seccion('Contraseña');
-        $detalle->dato('Estado',                  $this->contrasena_descrito);
-        $detalle->dato('No cifrada',              $this->contrasena_no_cifrada_descrito,   'amarillo');
-        $detalle->dato('Bloqueada porque expiró', $this->bloqueada_porque_expiro_descrito, 'rojo');
-        $detalle->dato('Bloqueada por fallas',    $this->bloqueada_porque_fallas_descrito, 'rojo');
+        $this->detalle->seccion('Contraseña');
+        $this->detalle->dato('Estado',                  $this->contrasena_descrito);
+        $this->detalle->dato('No cifrada',              $this->contrasena_no_cifrada_descrito,   'amarillo');
+        $this->detalle->dato('Bloqueada porque expiró', $this->bloqueada_porque_expiro_descrito, 'rojo');
+        $this->detalle->dato('Bloqueada por fallas',    $this->bloqueada_porque_fallas_descrito, 'rojo');
         // Seccion sesion
-        $detalle->seccion('Sesión');
-        $detalle->dato('Estado', $this->sesiones_descrito);
-        $detalle->dato('Bloqueada por sesiones', $this->bloqueada_porque_sesiones_descrito, 'rojo');
-        $detalle->dato('Último ingreso',         $this->sesiones_ultima);
-        $detalle->dato('Listados',               "Con {$this->listado_renglones} renglones.");
+        $this->detalle->seccion('Sesión');
+        $this->detalle->dato('Estado', $this->sesiones_descrito);
+        $this->detalle->dato('Bloqueada por sesiones', $this->bloqueada_porque_sesiones_descrito, 'rojo');
+        $this->detalle->dato('Último ingreso',         $this->sesiones_ultima);
+        $this->detalle->dato('Listados',               "Con {$this->listado_renglones} renglones.");
         // Seccion registro
-        $detalle->seccion('Registro');
-        $detalle->dato('Notas',   $this->notas);
+        $this->detalle->seccion('Registro');
+        $this->detalle->dato('Notas',   $this->notas);
         if ($this->sesion->puede_eliminar('adm_usuarios')) {
-            $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html();
+        return $this->detalle->html();
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->eliminar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->recuperar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // recuperar_html
-
-    /**
-     * Desbloquear HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function desbloquear_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->desbloquear());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // desbloquear_html
 
     /**
      * Javascript
@@ -215,7 +181,7 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase DetalleWeb

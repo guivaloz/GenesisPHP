@@ -89,9 +89,9 @@ class ContrasenaFormularioWeb extends DetalleWeb {
         $cadenero = new \Base2\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir los valores del formulario
-        $this->formulario_contrasena_actual    = $this->post_texto($_POST['actual']);
-        $this->formulario_contrasena_nueva     = $this->post_texto($_POST['nueva']);
-        $this->formulario_contrasena_confirmar = $this->post_texto($_POST['confirmar']);
+        $this->formulario_contrasena_actual    = \Base2\UtileriasParaFormularios::post_texto($_POST['actual']);
+        $this->formulario_contrasena_nueva     = \Base2\UtileriasParaFormularios::post_texto($_POST['nueva']);
+        $this->formulario_contrasena_confirmar = \Base2\UtileriasParaFormularios::post_texto($_POST['confirmar']);
     } // recibir_formulario
 
     /**

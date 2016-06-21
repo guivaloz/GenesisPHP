@@ -42,10 +42,23 @@ class DetalleWeb extends Registro {
     // static public $permiso_maximo_colores;
     // static public $estatus_descripciones;
     // static public $estatus_colores;
+    protected $detalle; // Instancia de \Base2\DetalleWeb
     static public $accion_modificar = 'rolModificar';
     static public $accion_eliminar  = 'rolEliminar';
     static public $accion_recuperar = 'rolRecuperar';
     const RAIZ_PHP_ARCHIVO          = 'admroles.php';
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * Barra
@@ -96,53 +109,21 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Detalle
-        $detalle = new \Base2\DetalleWeb();
         // Seccion rol
-        $detalle->seccion('Rol');
-        $detalle->dato('Departamento',   sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoWeb::$param_departamento, $this->departamento, $this->departamento_nombre));
-        $detalle->dato('Módulo',         sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoWeb::$param_modulo, $this->modulo, $this->modulo_nombre));
-        $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
+        $this->detalle->seccion('Rol');
+        $this->detalle->dato('Departamento',   sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoWeb::$param_departamento, $this->departamento, $this->departamento_nombre));
+        $this->detalle->dato('Módulo',         sprintf('<a href="%s?%s=%d">%s</a>', self::RAIZ_PHP_ARCHIVO, ListadoWeb::$param_modulo, $this->modulo, $this->modulo_nombre));
+        $this->detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
         // Seccion registro
         if ($this->sesion->puede_eliminar('adm_roles')) {
-            $detalle->seccion('Registro');
-            $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+            $this->detalle->seccion('Registro');
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html();
+        return $this->detalle->html();
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->eliminar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->recuperar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // recuperar_html
 
     /**
      * Javascript
@@ -150,7 +131,7 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase DetalleWeb

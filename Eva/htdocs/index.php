@@ -72,18 +72,18 @@ class PaginaInicial extends \Base2\PlantillaWeb {
             $this->contenido[] = $mensaje->html('Error en menú');
         }
         // Si viene el formulario del cambio de contraseña
-        $personalizar = new \Personalizar\ContrasenaFormularioWeb($this->sesion);
+        $contrasena_form = new \Personalizar\ContrasenaFormularioWeb($this->sesion);
         if ($_POST['formulario'] == \Personalizar\ContrasenaFormularioWeb::$form_name) {
             // Mostrar el resultado de recibirlo
-            $this->contenido[] = $personalizar->html();
+            $this->contenido[] = $contrasena_form->html();
         } else {
             // Mostrar la situacion de la cuenta
-            $situacion_mensaje = $personalizar->situacion_html();
+            $situacion         = new \Personalizar\SituacionWeb($this->sesion);
+            $this->contenido[] = $situacion->html(); // Definirá contrasena_alerta
             // Si se necesita el cambio de contraseña
-            if ($personalizar->contrasena_alerta) {
+            if ($situacion->contrasena_alerta) {
                 // Pone el mensaje y el formulario para cambiarla
-                $this->contenido[] = $situacion_mensaje;
-                $this->contenido[] = $personalizar->html();
+                $this->contenido[] = $contrasena_form->html();
             } else {
                 // Mensaje de bienvenida
                 $mensaje           = new \Base2\MensajeWeb(array(

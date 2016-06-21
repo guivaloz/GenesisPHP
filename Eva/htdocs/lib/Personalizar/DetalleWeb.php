@@ -47,33 +47,19 @@ class DetalleWeb extends Registro {
     // static public $dias_expira_contrasena_aviso;
     // protected $contrasena;
     // protected $contrasena_encriptada;
+    protected $detalle; // Instancia de \Base2\DetalleWeb
 
     /**
-     * Situacion HTML
+     * Constructor
      *
-     * @return string HTML
+     * @param mixed Sesion
      */
-    public function situacion_html() {
-        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
-        if (!$this->consultado) {
-            try {
-                $this->consultar();
-            } catch (\Exception $e) {
-                $mensaje = new \Base2\MensajeWeb($e->getMessage());
-                return $mensaje->html($in_encabezado);
-            }
-        }
-        // Elaborar y entregar mensaje
-        if ($this->contrasena_alerta) {
-            $mensaje       = new \Base2\MensajeWeb($this->contrasena_descrito);
-            $mensaje->tipo = 'aviso';
-            return $mensaje->html('CAMBIE SU CONTRASEÑA');
-        } else {
-            $mensaje       = new \Base2\MensajeWeb('Su cuenta está en perfecto estado.');
-            $mensaje->info = 'info';
-            return $mensaje->html('Su cuenta');
-        }
-    } // situacion_html
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * Barra
@@ -110,32 +96,39 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Detalle
-        $detalle = new \Base2\DetalleWeb();
         // Seccion general
-        $detalle->seccion('General');
-        $detalle->dato('Nombre',       $this->nombre);
-        $detalle->dato('Nombre corto', $this->nom_corto);
-        $detalle->dato('Tipo',         $this->tipo_descrito);
-        $detalle->dato('e-mail',       $this->email);
-        $detalle->dato('Listados',     "Con {$this->listado_renglones} renglones.");
+        $this->detalle->seccion('General');
+        $this->detalle->dato('Nombre',       $this->nombre);
+        $this->detalle->dato('Nombre corto', $this->nom_corto);
+        $this->detalle->dato('Tipo',         $this->tipo_descrito);
+        $this->detalle->dato('e-mail',       $this->email);
+        $this->detalle->dato('Listados',     "Con {$this->listado_renglones} renglones.");
         // Seccion sesiones y contraseña
-        $detalle->seccion('Sesiones y contraseña');
+        $this->detalle->seccion('Sesiones y contraseña');
         if ($this->sesiones_alerta) {
-            $detalle->dato('Sus sesiones', '<span class="alerta">'.str_replace('. ', '.<br />', $this->sesiones_descrito).'</span>');
+            $this->detalle->dato('Sus sesiones', '<span class="alerta">'.str_replace('. ', '.<br />', $this->sesiones_descrito).'</span>');
         } else {
-            $detalle->dato('Sus sesiones', str_replace('. ', '<br />', $this->sesiones_descrito));
+            $this->detalle->dato('Sus sesiones', str_replace('. ', '<br />', $this->sesiones_descrito));
         }
         if ($this->contrasena_alerta) {
-            $detalle->dato('Su contraseña', '<span class="alerta">'.str_replace('. ', '.<br />', $this->contrasena_descrito).'</span>');
+            $this->detalle->dato('Su contraseña', '<span class="alerta">'.str_replace('. ', '.<br />', $this->contrasena_descrito).'</span>');
         } else {
-            $detalle->dato('Su contraseña', str_replace('. ', '<br />', $this->contrasena_descrito));
+            $this->detalle->dato('Su contraseña', str_replace('. ', '<br />', $this->contrasena_descrito));
         }
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html($encabezado, $this->sesion->menu->icono_en('personalizar'));
+        return $this->detalle->html();
     } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        return $this->detalle->javascript();
+    } // javascript
 
 } // Clase DetalleWeb
 

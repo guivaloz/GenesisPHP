@@ -49,10 +49,23 @@ class DetalleWeb extends Registro {
     // static public $poder_minimo_colores;
     // static public $estatus_descripciones;
     // static public $estatus_colores;
+    protected $detalle; // Instancia de \Base2\DetalleWeb
     static public $accion_modificar = 'moduloModificar';
     static public $accion_eliminar  = 'moduloEliminar';
     static public $accion_recuperar = 'moduloRecuperar';
     const RAIZ_PHP_ARCHIVO          = 'admmodulos.php';
+
+    /**
+     * Constructor
+     *
+     * @param mixed Sesion
+     */
+    public function __construct(\Inicio\Sesion $in_sesion) {
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
+    } // constructor
 
     /**
      * Barra
@@ -103,58 +116,26 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Detalle
-        $detalle = new \Base2\DetalleWeb();
         // Seccion modulo
-        $detalle->seccion('Módulo');
-        $detalle->dato('Ícono',          sprintf('<img src="imagenes/32x32/%s" />', $this->icono));
-        $detalle->dato('Nombre',         $this->nombre);
-        $detalle->dato('Orden',          $this->orden);
-        $detalle->dato('Clave',          $this->clave);
-        $detalle->dato('Página',         sprintf('<a href="%s">%s</a>', $this->pagina, $this->pagina));
-        $detalle->dato('Padre',          $this->padre_nombre);
-        $detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
-        $detalle->dato('Poder mínimo',   $this->poder_minimo_descrito, parent::$poder_minimo_colores[$this->poder_minimo]);
+        $this->detalle->seccion('Módulo');
+        $this->detalle->dato('Ícono',          sprintf('<img src="imagenes/32x32/%s" />', $this->icono));
+        $this->detalle->dato('Nombre',         $this->nombre);
+        $this->detalle->dato('Orden',          $this->orden);
+        $this->detalle->dato('Clave',          $this->clave);
+        $this->detalle->dato('Página',         sprintf('<a href="%s">%s</a>', $this->pagina, $this->pagina));
+        $this->detalle->dato('Padre',          $this->padre_nombre);
+        $this->detalle->dato('Permiso máximo', $this->permiso_maximo_descrito, parent::$permiso_maximo_colores[$this->permiso_maximo]);
+        $this->detalle->dato('Poder mínimo',   $this->poder_minimo_descrito, parent::$poder_minimo_colores[$this->poder_minimo]);
         // Seccion registro
         if ($this->sesion->puede_eliminar('adm_modulos')) {
-            $detalle->seccion('Registro');
-            $detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
+            $this->detalle->seccion('Registro');
+            $this->detalle->dato('Estatus', $this->estatus_descrito, parent::$estatus_colores[$this->estatus]);
         }
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html();
+        return $this->detalle->html();
     } // html
-
-    /**
-     * Eliminar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function eliminar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->eliminar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // eliminar_html
-
-    /**
-     * Recuperar HTML
-     *
-     * @return string HTML con el detalle y el mensaje
-     */
-    public function recuperar_html() {
-        try {
-            $mensaje = new \Base2\MensajeWeb($this->recuperar());
-            return $mensaje->html().$this->html();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
-        }
-    } // recuperar_html
 
     /**
      * Javascript
@@ -162,7 +143,7 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        return $this->detalle->javascript();
     } // javascript
 
 } // Clase DetalleWeb
