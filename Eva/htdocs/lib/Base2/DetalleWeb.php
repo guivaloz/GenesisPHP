@@ -201,6 +201,7 @@ FIN;
      * @return string Código Javascript
      */
     public function javascript() {
+        return false;
     } // javascript
 
 } // Clase DetalleWeb

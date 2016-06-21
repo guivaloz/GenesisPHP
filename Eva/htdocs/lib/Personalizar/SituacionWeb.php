@@ -60,13 +60,19 @@ class SituacionWeb extends Registro {
         // Elaborar y entregar mensaje
         if ($this->contrasena_alerta) {
             $this->mensaje->tipo      = 'aviso';
-            $this->mensaje->contenido = 'CAMBIE SU CONTRASEÑA';
+            $this->mensaje->contenido = $this->contrasena_descrito; // 'CAMBIE SU CONTRASEÑA'
         } else {
             $this->mensaje->info      = 'info';
             $this->mensaje->contenido = 'Su cuenta está bien';
         }
+        // Definir encabezado
+        if ($in_encabezado == '') {
+            $encabezado = $this->encabezado();
+        } else {
+            $encabezado = $in_encabezado;
+        }
         // Entregar
-        return $this->mensaje->html($in_encabezado);
+        return $this->mensaje->html($encabezado);
     } // html
 
     /**

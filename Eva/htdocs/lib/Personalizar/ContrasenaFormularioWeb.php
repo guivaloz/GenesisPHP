@@ -60,7 +60,7 @@ class ContrasenaFormularioWeb extends DetalleWeb {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f = new \Base2\FormularioWeb(self::$form_name);
+        $f          = new \Base2\FormularioWeb(self::$form_name);
         $f->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);

@@ -42,30 +42,28 @@ class PaginaWeb extends \Base2\PaginaWeb {
     public function html() {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
-            // Lenguetas
+            // Iniciar lengüetas
             $lenguetas = new \Base2\LenguetasWeb();
-            // Generales
-            $detalle = new DetalleWeb($this->sesion);
-            $lenguetas->agregar('personalizarGenerales', 'Generales', $detalle);
-            // Formulario contraseña
-            $contrasena_formulario = new ContrasenaFormularioWeb($this->sesion);
-            $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_formulario);
+            // Iniciar instancias para cada lengüeta
+            $contrasena_form = new ContrasenaFormularioWeb($this->sesion);
+            $renglones_form  = new RenglonesFormularioWeb($this->sesion);
+            $generales       = new DetalleWeb($this->sesion);
+            // Ejecutar método HTML para que los procedimientos se lleven a cabo
             if ($_POST['formulario'] == ContrasenaFormularioWeb::$form_name) {
-                $lenguetas->definir_activa();
-                // Para que los cambios se vean reflejados en generales, recargamos
-                $this->sesion->cargar($this->clave);
-                $detalle->consultar();
-                $lenguetas->agregar('personalizarGenerales', 'Generales !', $detalle);
-            }
-            // Formulario renglones
-            $renglones_formulario = new RenglonesFormularioWeb($this->sesion);
-            $lenguetas->agregar('personalizarRenglones', 'Renglones', $renglones_formulario);
-            if ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
-                $lenguetas->definir_activa();
-                // Para que los cambios se vean reflejados en generales, recargamos
-                $this->sesion->cargar($this->clave);
-                $detalle->consultar();
-                $lenguetas->agregar('personalizarGenerales', 'Generales !', $detalle);
+                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form->html());
+                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form);
+                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
+                $lenguetas->definir_activa('personalizarContraseña');
+            } elseif ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
+                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form);
+                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form->html());
+                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
+                $lenguetas->definir_activa('personalizarRenglones');
+            } else {
+                $lenguetas->agregar('personalizarContraseña', 'Contraseña', $contrasena_form);
+                $lenguetas->agregar('personalizarRenglones',  'Renglones',  $renglones_form);
+                $lenguetas->agregar('personalizarGenerales',  'Generales',  $generales);
+                $lenguetas->definir_activa('personalizarGenerales');
             }
             // Pasar el html y el javascript de las lenguetas al contenido
             $this->contenido[]  = $lenguetas->html();

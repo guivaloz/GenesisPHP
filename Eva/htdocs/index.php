@@ -87,9 +87,9 @@ class PaginaInicial extends \Base2\PlantillaWeb {
             } else {
                 // Mensaje de bienvenida
                 $mensaje           = new \Base2\MensajeWeb(array(
-                    'En la parte superior tiene el menú principal que siempre es visible.',
-                    'Del lado izquierdo, está el menú secundario el cual cambia según la opción del menú primario elegida.',
-                    'Su nombre, arriba a la derecha, le mostrará los datos de su cuenta.'));
+                    'Use el menú para ir a los módulos de este sistema.',
+                    'De clic en su nombre de usuario para personalizar su cuenta.',
+                    'Para salir del sistema use el botón de apagado. Debe usarlo antes de cerrar la ventana del navegador.'));
                 $mensaje->tipo     = 'tip';
                 $this->contenido[] = $mensaje->html('Bienvenido');
             }

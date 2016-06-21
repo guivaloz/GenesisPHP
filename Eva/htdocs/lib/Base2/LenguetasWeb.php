@@ -176,8 +176,14 @@ class LenguetasWeb implements SalidaWeb {
         foreach ($this->lenguetas as $lengueta) {
             // Acumular el Javascript que viene en cada lengüeta
             $js = $lengueta->javascript();
-            if ($js !== false) {
+            if (is_string($js) && ($js != '')) {
                 $a[] = $js;
+            } elseif (is_array($js) && (count($js) > 0)) {
+                foreach ($js as $j) {
+                    if ($j != '') {
+                        $a[] = $j;
+                    }
+                }
             }
         }
         // Javascript de Twitter Bootstrap Tabs

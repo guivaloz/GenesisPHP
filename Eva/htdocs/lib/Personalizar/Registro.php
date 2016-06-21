@@ -36,6 +36,7 @@ class Registro extends \Base2\Registro {
     public $tipo_descrito;
     public $email;
     public $listado_renglones;
+    public $contrasena_expira;
     public $contrasena_descrito;                     // Texto que describe la situación de la contraseña
     public $contrasena_alerta = false;
     public $sesiones_maximas;
@@ -92,6 +93,7 @@ class Registro extends \Base2\Registro {
         $this->listado_renglones     = intval($a['listado_renglones']);
         $this->contrasena            = $a['contrasena'];
         $this->contrasena_encriptada = $a['contrasena_encriptada'];
+        $this->contrasena_expira     = $a['contrasena_expira'];
         $this->sesiones_maximas      = $a['sesiones_maximas'];
         $this->sesiones_contador     = $a['sesiones_contador'];
         $this->estatus               = $a['estatus'];
@@ -134,7 +136,15 @@ class Registro extends \Base2\Registro {
      * @return string Encabezado
      */
     public function encabezado() {
-        return 'Personalizar';
+        $expira = floor(strtotime($this->contrasena_expira)/(60*60*24));
+        $hoy    = floor(strtotime(date('Y-m-d'))/(60*60*24));
+        if ($expira - $hoy <= self::$dias_expira_contrasena_aviso) {
+            return 'Contraseña a punto de expirar, debe cambiarla';
+        } elseif ($this->contrasena_encriptada == '') {
+            return 'Contraseña temporal, debe definir una nueva';
+        } else {
+            return 'Cuenta en buen estado';
+        }
     } // encabezado
 
     /**
