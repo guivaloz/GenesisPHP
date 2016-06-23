@@ -46,6 +46,7 @@ class FormularioWeb extends DetalleWeb {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     protected $es_nuevo;
+    protected $formulario;   // Instancia de \Base2\FormularioWeb
     static public $form_name = 'adm_rol';
 
     /**
@@ -59,24 +60,24 @@ class FormularioWeb extends DetalleWeb {
         $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         $modulos       = new \AdmModulos\OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
-            $f->oculto('accion', 'agregar');
+            $this->formulario->oculto('accion', 'agregar');
         } else {
-            $f->oculto('id', $this->id);
+            $this->formulario->oculto('id', $this->id);
         }
         // Seccion rol
-        $f->select_con_nulo('departamento',   'Departamento *',   $departamentos->opciones(),            $this->departamento,   1);
-        $f->select_con_nulo('modulo',         'Módulo *',         $modulos->opciones(),                  $this->modulo,         1);
-        $f->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Ponga límite al permiso.');
+        $this->formulario->select_con_nulo('departamento',   'Departamento *',   $departamentos->opciones(),            $this->departamento,   1);
+        $this->formulario->select_con_nulo('modulo',         'Módulo *',         $modulos->opciones(),                  $this->modulo,         1);
+        $this->formulario->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Ponga límite al permiso.');
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
+            $this->formulario->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -87,7 +88,7 @@ class FormularioWeb extends DetalleWeb {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_roles'));
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -188,7 +189,9 @@ class FormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase FormularioWeb

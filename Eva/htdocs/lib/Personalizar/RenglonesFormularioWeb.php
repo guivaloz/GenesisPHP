@@ -47,6 +47,7 @@ class RenglonesFormularioWeb extends DetalleWeb {
     // static public $dias_expira_contrasena_aviso;
     // protected $contrasena;
     // protected $contrasena_encriptada;
+    protected $formulario;  // Instancia de \Base2\FormularioWeb
     static public $form_name = 'personalizar_renglones';
 
     /**
@@ -57,15 +58,15 @@ class RenglonesFormularioWeb extends DetalleWeb {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f          = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario          = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Seccion principal
-        $f->texto_entero('listado_renglones', 'Cantidad de renglones', $this->listado_renglones);
+        $this->formulario->texto_entero('listado_renglones', 'Cantidad de renglones', $this->listado_renglones);
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         // Encabezado
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
@@ -73,7 +74,7 @@ class RenglonesFormularioWeb extends DetalleWeb {
             $encabezado = 'Renglones de los listados';
         }
         // Entregar
-        return $f->html($encabezado);
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -137,7 +138,9 @@ class RenglonesFormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase RenglonesFormularioWeb

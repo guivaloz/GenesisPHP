@@ -53,6 +53,7 @@ class FormularioWeb extends DetalleWeb {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     protected $es_nuevo;
+    protected $formulario;   // Instancia de \Base2\FormularioWeb
     static public $form_name = 'admmodulo';
 
     /**
@@ -65,29 +66,29 @@ class FormularioWeb extends DetalleWeb {
         // Opciones para escoger el padre de este modulo
         $modulos = new OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name)); // CADENERO CREAR CLAVE PUEDE PROVOCAR UNA EXCEPCION
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
-            $f->oculto('accion', 'agregar');
+            $this->formulario->oculto('accion', 'agregar');
         } else {
-            $f->oculto('id', $this->id);
+            $this->formulario->oculto('id', $this->id);
         }
         // Sección modulo
-        $f->texto_nombre('nombre',            'Nombre *',         $this->nombre, 48, 'Texto como aparecerá en el menú.');
-        $f->texto_entero('orden',             'Orden *',          $this->orden,   6, 'Número entero, determina su posición.');
-        $f->texto_nombre('clave',             'Clave *',          $this->clave,  48, 'Texto identificador, debe ser único.'); // en minúsculas y sin espacios; puede usar guiones
-        $f->texto_nombre('pagina',            'Página *',         $this->pagina, 48, 'Nombre del archivo PHP con la página.'); // Use minúsculas y guiones, sin espacios.
-        $f->texto_nombre('icono',             'Ícono *',          $this->icono,  48, 'Nombre del archivo PNG.'); // Use minúsculas y guiones, sin espacios.
-        $f->select_con_nulo('padre',          'Padre',            $modulos->opciones_padre(),            $this->padre,          1, 'Deje en blanco para ser padre.'); // Será una rama de este menú.
-        $f->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Máximo permiso de este módulo.');
-        $f->select_con_nulo('poder_minimo',   'Poder mínimo *',   parent::$poder_minimo_descripciones,   $this->poder_minimo,   1, 'Aparecerá a los que tengan igual o mayor a éste.');
+        $this->formulario->texto_nombre('nombre',            'Nombre *',         $this->nombre, 48, 'Texto como aparecerá en el menú.');
+        $this->formulario->texto_entero('orden',             'Orden *',          $this->orden,   6, 'Número entero, determina su posición.');
+        $this->formulario->texto_nombre('clave',             'Clave *',          $this->clave,  48, 'Texto identificador, debe ser único.'); // en minúsculas y sin espacios; puede usar guiones
+        $this->formulario->texto_nombre('pagina',            'Página *',         $this->pagina, 48, 'Nombre del archivo PHP con la página.'); // Use minúsculas y guiones, sin espacios.
+        $this->formulario->texto_nombre('icono',             'Ícono *',          $this->icono,  48, 'Nombre del archivo PNG.'); // Use minúsculas y guiones, sin espacios.
+        $this->formulario->select_con_nulo('padre',          'Padre',            $modulos->opciones_padre(),            $this->padre,          1, 'Deje en blanco para ser padre.'); // Será una rama de este menú.
+        $this->formulario->select_con_nulo('permiso_maximo', 'Permiso máximo *', parent::$permiso_maximo_descripciones, $this->permiso_maximo, 1, 'Máximo permiso de este módulo.');
+        $this->formulario->select_con_nulo('poder_minimo',   'Poder mínimo *',   parent::$poder_minimo_descripciones,   $this->poder_minimo,   1, 'Aparecerá a los que tengan igual o mayor a éste.');
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
+            $this->formulario->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -98,7 +99,7 @@ class FormularioWeb extends DetalleWeb {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_modulos'));
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -204,7 +205,9 @@ class FormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase FormularioWeb

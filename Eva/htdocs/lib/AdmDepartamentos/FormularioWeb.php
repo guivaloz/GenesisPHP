@@ -41,6 +41,7 @@ class FormularioWeb extends DetalleWeb {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     protected $es_nuevo;
+    protected $formulario;   // Instancia de \Base2\FormularioWeb
     static public $form_name = 'admdepartamento';
 
     /**
@@ -51,26 +52,26 @@ class FormularioWeb extends DetalleWeb {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name)); // CADENERO CREAR CLAVE PUEDE PROVOCAR UNA EXCEPCION
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
-            $f->oculto('accion', 'agregar');
+            $this->formulario->oculto('accion', 'agregar');
         } else {
-            $f->oculto('id', $this->id);
+            $this->formulario->oculto('id', $this->id);
         }
         // Seccion departamento
-        $f->texto_nombre('nombre',   'Nombre *', $this->nombre, 64);
-        $f->texto_nom_corto('clave', 'Clave *',  $this->clave,   4);
+        $this->formulario->texto_nombre('nombre',   'Nombre *', $this->nombre, 64);
+        $this->formulario->texto_nom_corto('clave', 'Clave *',  $this->clave,   4);
         // Seccion registro
-        $f->seccion('seccion_registro', 'Registro');
-        $f->area_texto('notas', 'Notas', $this->notas, 64, 5);
+        $this->formulario->seccion('seccion_registro', 'Registro');
+        $this->formulario->area_texto('notas', 'Notas', $this->notas, 64, 5);
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
+            $this->formulario->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -81,7 +82,7 @@ class FormularioWeb extends DetalleWeb {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_departamentos'));
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -183,7 +184,9 @@ class FormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase FormularioWeb

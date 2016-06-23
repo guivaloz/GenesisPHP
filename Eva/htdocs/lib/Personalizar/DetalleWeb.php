@@ -50,18 +50,6 @@ class DetalleWeb extends Registro {
     protected $detalle; // Instancia de \Base2\DetalleWeb
 
     /**
-     * Constructor
-     *
-     * @param mixed Sesion
-     */
-    public function __construct(\Inicio\Sesion $in_sesion) {
-        // Iniciar detalle
-        $this->detalle = new \Base2\DetalleWeb();
-        // Ejecutar el constructor del padre
-        parent::__construct($in_sesion);
-    } // constructor
-
-    /**
      * Barra
      *
      * @param  string Encabezado opcional
@@ -127,7 +115,9 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return $this->detalle->javascript();
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase DetalleWeb

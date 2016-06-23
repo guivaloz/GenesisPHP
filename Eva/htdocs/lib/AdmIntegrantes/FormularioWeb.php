@@ -47,6 +47,7 @@ class FormularioWeb extends DetalleWeb {
     // static public $accion_eliminar;
     // static public $accion_recuperar;
     protected $es_nuevo;
+    protected $formulario;   // Instancia de \Base2\FormularioWeb
     static public $form_name = 'admintegrante';
 
     /**
@@ -60,24 +61,24 @@ class FormularioWeb extends DetalleWeb {
         $usuarios      = new \AdmUsuarios\OpcionesSelect($this->sesion);
         $departamentos = new \AdmDepartamentos\OpcionesSelect($this->sesion);
         // Formulario
-        $f = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
-            $f->oculto('accion', 'agregar');
+            $this->formulario->oculto('accion', 'agregar');
         } else {
-            $f->oculto('id', $this->id);
+            $this->formulario->oculto('id', $this->id);
         }
         // Seccion integrante
-        $f->select_con_nulo('usuario',      'Usuario *',      $usuarios->opciones(),        $this->usuario);
-        $f->select_con_nulo('departamento', 'Departamento *', $departamentos->opciones(),   $this->departamento);
-        $f->select_con_nulo('poder',        'Poder *',        parent::$poder_descripciones, $this->poder, 1, 'Un Director puede administrar su Departamento. El Webmaster puede administrar todo.');
+        $this->formulario->select_con_nulo('usuario',      'Usuario *',      $usuarios->opciones(),        $this->usuario);
+        $this->formulario->select_con_nulo('departamento', 'Departamento *', $departamentos->opciones(),   $this->departamento);
+        $this->formulario->select_con_nulo('poder',        'Poder *',        parent::$poder_descripciones, $this->poder, 1, 'Un Director puede administrar su Departamento. El Webmaster puede administrar todo.');
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         if (!$this->es_nuevo) {
-            $f->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
+            $this->formulario->boton_cancelar(sprintf('%s?id=%d', DetalleWeb::RAIZ_PHP_ARCHIVO, $this->id));
         }
         // Encabezado
         if ($in_encabezado !== '') {
@@ -88,7 +89,7 @@ class FormularioWeb extends DetalleWeb {
             $encabezado = $this->nombre;
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('adm_integrantes'));
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -189,7 +190,9 @@ class FormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase FormularioWeb

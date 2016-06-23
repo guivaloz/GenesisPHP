@@ -47,9 +47,10 @@ class ContrasenaFormularioWeb extends DetalleWeb {
     // static public $dias_expira_contrasena_aviso;
     // protected $contrasena;
     // protected $contrasena_encriptada;
-    protected $formulario_contrasena_actual;
-    protected $formulario_contrasena_nueva;
-    protected $formulario_contrasena_confirmar;
+    protected $formulario;  // Instancia de \Base2\FormularioWeb
+    protected $contrasena_actual;
+    protected $contrasena_nueva;
+    protected $contrasena_confirmar;
     static public $form_name = 'personalizar_contrasena';
 
     /**
@@ -60,17 +61,17 @@ class ContrasenaFormularioWeb extends DetalleWeb {
      */
     protected function elaborar_formulario($in_encabezado='') {
         // Formulario
-        $f          = new \Base2\FormularioWeb(self::$form_name);
-        $f->mensaje = '(*) Campos obligatorios.';
+        $this->formulario          = new \Base2\FormularioWeb(self::$form_name);
+        $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
-        $f->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
+        $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Seccion principal
-        $f->password('actual',    'Contraseña actual');
-        $f->password('nueva',     'Contraseña nueva');
-        $f->password('confirmar', 'Confirme la contraseña nueva');
+        $this->formulario->password('actual',    'Contraseña actual');
+        $this->formulario->password('nueva',     'Contraseña nueva');
+        $this->formulario->password('confirmar', 'Confirme la contraseña nueva');
         // Botones
-        $f->boton_guardar();
+        $this->formulario->boton_guardar();
         // Encabezado
         if ($in_encabezado !== '') {
             $encabezado = $in_encabezado;
@@ -78,7 +79,7 @@ class ContrasenaFormularioWeb extends DetalleWeb {
             $encabezado = 'Cambiar contraseña';
         }
         // Entregar
-        return $f->html($encabezado, $this->sesion->menu->icono_en('personalizar'));
+        return $this->formulario->html($encabezado);
     } // elaborar_formulario
 
     /**
@@ -89,9 +90,9 @@ class ContrasenaFormularioWeb extends DetalleWeb {
         $cadenero = new \Base2\Cadenero($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir los valores del formulario
-        $this->formulario_contrasena_actual    = \Base2\UtileriasParaFormularios::post_texto($_POST['actual']);
-        $this->formulario_contrasena_nueva     = \Base2\UtileriasParaFormularios::post_texto($_POST['nueva']);
-        $this->formulario_contrasena_confirmar = \Base2\UtileriasParaFormularios::post_texto($_POST['confirmar']);
+        $this->contrasena_actual    = \Base2\UtileriasParaFormularios::post_texto($_POST['actual']);
+        $this->contrasena_nueva     = \Base2\UtileriasParaFormularios::post_texto($_POST['nueva']);
+        $this->contrasena_confirmar = \Base2\UtileriasParaFormularios::post_texto($_POST['confirmar']);
     } // recibir_formulario
 
     /**
@@ -115,7 +116,7 @@ class ContrasenaFormularioWeb extends DetalleWeb {
             try {
                 // Recibir el formulario y cambiar la contraseña
                 $this->recibir_formulario();
-                $msg = $this->cambiar_contrasena($this->formulario_contrasena_actual, $this->formulario_contrasena_nueva, $this->formulario_contrasena_confirmar);
+                $msg = $this->cambiar_contrasena($this->contrasena_actual, $this->contrasena_nueva, $this->contrasena_confirmar);
                 // Mostrar mensaje de exito
                 $mensaje = new \Base2\MensajeWeb($msg);
                 return $mensaje->html($in_encabezado);
@@ -144,7 +145,9 @@ class ContrasenaFormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            return $this->formulario->javascript();
+        }
     } // javascript
 
 } // Clase ContrasenaFormularioWeb

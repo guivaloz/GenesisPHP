@@ -56,18 +56,6 @@ class DetalleWeb extends Registro {
     const RAIZ_PHP_ARCHIVO          = 'admmodulos.php';
 
     /**
-     * Constructor
-     *
-     * @param mixed Sesion
-     */
-    public function __construct(\Inicio\Sesion $in_sesion) {
-        // Iniciar detalle
-        $this->detalle = new \Base2\DetalleWeb();
-        // Ejecutar el constructor del padre
-        parent::__construct($in_sesion);
-    } // constructor
-
-    /**
      * Barra
      *
      * @param  string Encabezado opcional
@@ -116,6 +104,8 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
         // Seccion modulo
         $this->detalle->seccion('Módulo');
         $this->detalle->dato('Ícono',          sprintf('<img src="imagenes/32x32/%s" />', $this->icono));
@@ -143,7 +133,9 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return $this->detalle->javascript();
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            return $this->detalle->javascript();
+        }
     } // javascript
 
 } // Clase DetalleWeb
