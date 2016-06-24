@@ -27,12 +27,37 @@ namespace AdmDepartamentos;
  */
 class ListadoCSV extends Listado {
 
+    // protected $sesion;
+    // public $listado;
+    // public $panal;
+    // public $cantidad_registros;
+    // public $limit;
+    // public $offset;
+    // protected $consultado;
+    // public $nombre;
+    // public $estatus;
+    // static public $param_nombre;
+    // static public $param_estatus;
+    // public $filtros_param;
+    protected $estructura;
+    const RAIZ_CSV_ARCHIVO = 'admdepartamentos.csv';
+
     /**
      * Constructor
      *
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
+        // Filtros que puede recibir por el URL
+        $this->nombre  = $_GET[parent::$param_nombre];
+        $this->estatus = $_GET[parent::$param_estatus];
+        // Estructura
+        $this->estructura = array(
+            'nombre'  => array('enca' => 'Nombre'),
+            'clave'   => array('enca' => 'Clave'),
+            'estatus' => array('enca' => 'Estatus','cambiar' => Registro::$estatus_descripciones));
+        // Ejecutar el constructor del padre
+        parent::__construct($in_sesion);
     } // constructor
 
     /**
@@ -41,6 +66,16 @@ class ListadoCSV extends Listado {
      * @return string CSV
      */
     public function csv() {
+        // Consultar si no se ha hecho
+        if (!$this->consultado) {
+            $this->consultar();
+        }
+        // Iniciar listado csvniciar listado csv
+        $listado_csv             = new \Base2\ListadoCSV();
+        $listado_csv->estructura = $this->estructura;
+        $listado_csv->listado    = $this->listado;
+        // Entregar
+        return $listado_csv->csv();
     } // csv
 
 } // Clase ListadoCSV

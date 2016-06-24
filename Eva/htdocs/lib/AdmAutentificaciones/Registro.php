@@ -24,6 +24,8 @@ namespace AdmAutentificaciones;
 
 /**
  * Clase Registro
+ *
+ * AdmAutentificaciones NO tiene consulta por registro, la tabla carece de ID o de forma de identificar un solo registro
  */
 class Registro extends \Base2\Registro {
 
@@ -52,17 +54,11 @@ class Registro extends \Base2\Registro {
 
     /**
      * Consultar
-     *
-     * @param integer ID del registro
      */
-    public function consultar($in_id=false) {
+    public function consultar() {
         // Que tenga permiso para consultar
         if (!$this->sesion->puede_ver('adm_autentificaciones')) {
             throw new \Exception('Aviso: No tiene permiso para consultar autentificaciones.');
-        }
-        // Parametros
-        if ($in_id !== false) {
-            $this->id = $in_id;
         }
     } // consultar
 

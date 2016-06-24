@@ -42,6 +42,7 @@ class FormularioWeb extends DetalleWeb {
     // static public $permiso_maximo_colores;
     // static public $estatus_descripciones;
     // static public $estatus_colores;
+    // protected $detalle;   // Instancia de \Base2\DetalleWeb
     // static public $accion_modificar;
     // static public $accion_eliminar;
     // static public $accion_recuperar;
@@ -189,9 +190,14 @@ class FormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        if ($this->formulario instanceof \Base2\FormularioWeb) {
-            return $this->formulario->javascript();
+        $a = array();
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            $a[] = $this->detalle->javascript();
         }
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            $a[] = $this->formulario->javascript();
+        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase FormularioWeb

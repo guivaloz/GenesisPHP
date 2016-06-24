@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - AdmAutentificaciones DetalleWeb
+ * GenesisPHP - AdmBitacora DetalleWeb
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -24,31 +24,17 @@ namespace AdmAutentificaciones;
 
 /**
  * Clase DetalleWeb
+ *
+ * AdmAutentificaciones NO tiene consulta por registro, la tabla carece de ID o de forma de identificar un solo registro
  */
 class DetalleWeb extends Registro {
 
     // protected $sesion;
     // protected $consultado;
-    // static public $tipo_descripciones
-    // static public $tipo_colores
+    // static public $tipo_descripciones;
+    // static public $tipo_colores;
+    const RAIZ_PHP_ARCHIVO = 'admautentificaciones.php';
 
-    /**
-     * HTML
-     *
-     * @param  string Encabezado opcional
-     * @return string HTML
-     */
-    public function html($in_encabezado='') {
-    } // html
-
-    /**
-     * Javascript
-     *
-     * @return string Javascript
-     */
-    public function javascript() {
-        return false;
-    } // javascript
 
 } // Clase DetalleWeb
 

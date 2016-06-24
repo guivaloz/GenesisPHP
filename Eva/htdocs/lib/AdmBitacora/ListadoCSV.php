@@ -45,6 +45,7 @@ class ListadoCSV extends Listado {
     // static public $param_fecha_hasta;
     // public $filtros_param;
     protected $estructura;
+    const RAIZ_CSV_ARCHIVO = 'admbitacora.csv';
 
     /**
      * Constructor
@@ -52,7 +53,7 @@ class ListadoCSV extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
-        // Filtros que puede recibir por el url
+        // Filtros que puede recibir por el URL
         $this->usuario     = $_GET[parent::$param_usuario];
         $this->tipo        = $_GET[parent::$param_tipo];
         $this->fecha_desde = $_GET[parent::$param_fecha_desde];
@@ -75,25 +76,11 @@ class ListadoCSV extends Listado {
      * @return string CSV
      */
     public function csv() {
-        // Consultar
-        try {
+        // Consultar si no se ha hecho
+        if (!$this->consultado) {
             $this->consultar();
-        } catch (\Exception $e) {
-            return <<<FINAL
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-  <head>
-    <title>Error al tratar de consultar para elaborar el archivo CSV</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <h2>Error al tratar de consultar para elaborar el archivo CSV</h2>
-    <p>{$e->getMessage()}</p>
-  </body>
-</html>
-FINAL;
         }
-        // Iniciar listado csv
+        // Iniciar listado csvniciar listado csv
         $listado_csv             = new \Base2\ListadoCSV();
         $listado_csv->estructura = $this->estructura;
         $listado_csv->listado    = $this->listado;

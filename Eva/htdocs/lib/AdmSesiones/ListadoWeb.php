@@ -56,8 +56,7 @@ class ListadoWeb extends Listado {
         $this->estructura = array(
             'nombre' => array(
                 'enca' => 'Usuario',
-                'pag'  => \AdmUsuarios\DetalleWeb::RAIZ_PHP_ARCHIVO,
-                'id'   => 'usuario'),
+                'pag'  => DetalleWeb::RAIZ_PHP_ARCHIVO),
             'ingreso' => array(
                 'enca' => 'Ingreso'),
             'tipo' => array(
@@ -97,7 +96,6 @@ class ListadoWeb extends Listado {
         $barra             = new \Base2\BarraWeb();
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_sesiones');
-    //  $barra->boton_descargar('adm_sesiones.csv', $this->filtros_param);
         // Entregar
         return $barra;
     } // barra

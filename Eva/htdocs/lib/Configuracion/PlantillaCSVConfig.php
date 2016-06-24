@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - AdmDepartamentos PaginaCSV
+ * GenesisPHP - Eva PlantillaCSVConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,34 +20,33 @@
  * @package GenesisPHP
  */
 
-namespace AdmDepartamentos;
+namespace Configuracion;
 
-/**
- * Clase PaginaCSV
+/*
+ * Clase abstracta PlantillaCSVConfig
  */
-class PaginaCSV extends \Base2\PaginaCSV {
-
-    // public $contenido;
-    // public $csv_archivo;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
+abstract class PlantillaCSVConfig {
 
     /**
-     * Constructor
+     * Cabecera tipo de contenido - Mejor opción UTF-8
      */
-    public function __construct() {
-    } // constructor
+    protected $cabecera_tipo_contenido = 'Content-Type: text/csv; charset=utf-8';
 
     /**
-     * CSV
-     *
-     * @return string CSV
+     * Cabecera tipo de contenido - Para clientes con MS Excel en Windows es ISO-8859-1
      */
-    public function csv() {
-    } // csv
+ // protected $cabecera_tipo_contenido = 'Content-Type: text/csv; charset=iso-8859-1';
 
-} // Clase PaginaCSV
+    /**
+     * Recodificación - Mejor opción es sin recodificación, es decir, se entrega UTF-8
+     */
+    protected $recodificacion = '';
+
+    /**
+     * Recodificación - Para clientes con MS Excel en Windows a ISO-8859-1
+     */
+ // protected $recodificacion = 'ISO-8859-1';
+
+} // Clase abstracta PlantillaCSVConfig
 
 ?>

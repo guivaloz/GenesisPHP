@@ -29,11 +29,35 @@ class DetalleWeb extends Registro {
 
     // protected $sesion;
     // protected $consultado;
+    // public $usuario;
     // public $nombre;
     // public $nom_corto;
     // public $tipo;
     // public $ingreso;
     // public $listado_renglones;
+    protected $detalle;  // Instancia de \Base2\DetalleWeb
+    const RAIZ_PHP_ARCHIVO = 'admsesiones.php';
+
+    /**
+     * Barra
+     *
+     * @param  string Encabezado opcional
+     * @return mixed  Instancia de \Base2\BarraWeb
+     */
+    protected function barra($in_encabezado='') {
+        // Si viene el parametro se usa, si no, el encabezado por defecto
+        if ($in_encabezado !== '') {
+            $encabezado = $in_encabezado;
+        } else {
+            $encabezado = $this->encabezado();
+        }
+        // Crear la barra
+        $barra             = new \Base2\BarraWeb();
+        $barra->encabezado = $encabezado;
+        $barra->icono      = $this->sesion->menu->icono_en('adm_sesiones');
+        // Entregar
+        return $barra;
+    } // barra
 
     /**
      * HTML
@@ -42,6 +66,28 @@ class DetalleWeb extends Registro {
      * @return string HTML
      */
     public function html($in_encabezado='') {
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
+                $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
+                return $mensaje->html($in_encabezado);
+            }
+        }
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Seccion departamento
+        $this->detalle->seccion('Sesión');
+        $this->detalle->dato('Nombre',                $this->nombre);
+        $this->detalle->dato('Nombre corto',          $this->nom_corto);
+        $this->detalle->dato('Tipo',                  $this->tipo);
+        $this->detalle->dato('Ingreso',               $this->ingreso);
+        $this->detalle->dato('Renglones en listados', $this->listado_renglones);
+        // Pasar la barra
+        $this->detalle->barra = $this->barra($in_encabezado);
+        // Entregar
+        return $this->detalle->html();
     } // html
 
     /**
@@ -50,7 +96,9 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            return $this->detalle->javascript();
+        }
     } // javascript
 
 } // Clase DetalleWeb

@@ -27,6 +27,25 @@ namespace AdmModulos;
  */
 class PaginaWeb extends \Base2\PaginaWeb {
 
+    // protected $sistema;
+    // protected $titulo;
+    // protected $descripcion;
+    // protected $autor;
+    // protected $favicon;
+    // protected $modelo;
+    // protected $menu_principal_logo;
+    // protected $modelo_ingreso_logos;
+    // protected $modelo_fluido_logos;
+    // protected $pie;
+    // protected $menu;
+    // protected $contenido;
+    // protected $javascript;
+    // protected $clave;
+    // protected $sesion;
+    // protected $sesion_exitosa;
+    // protected $usuario;
+    // protected $usuario_nombre;
+
     /**
      * Constructor
      */

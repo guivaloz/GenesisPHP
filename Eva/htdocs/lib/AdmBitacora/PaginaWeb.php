@@ -37,10 +37,10 @@ class PaginaWeb extends \Base2\PaginaWeb {
     // protected $modelo_ingreso_logos;
     // protected $modelo_fluido_logos;
     // protected $pie;
-    // public $clave;
-    // public $menu;
-    // public $contenido;
-    // public $javascript;
+    // protected $menu;
+    // protected $contenido;
+    // protected $javascript;
+    // protected $clave;
     // protected $sesion;
     // protected $sesion_exitosa;
     // protected $usuario;

@@ -50,7 +50,7 @@ class ListadoWeb extends Listado {
      * @param mixed Sesion
      */
     public function __construct(\Inicio\Sesion $in_sesion) {
-        // Filtros que puede recibir por el url
+        // Filtros que puede recibir por el URL
         $this->usuario = $_GET[parent::$param_usuario];
         $this->tipo    = $_GET[parent::$param_tipo];
         // Estructura
@@ -97,7 +97,7 @@ class ListadoWeb extends Listado {
         $barra             = new \Base2\BarraWeb();
         $barra->encabezado = $encabezado;
         $barra->icono      = $this->sesion->menu->icono_en('adm_autentificaciones');
-    //  $barra->boton_descargar('adm_autentificaciones.csv', $this->filtros_param);
+        $barra->boton_descargar(ListadoCSV::RAIZ_CSV_ARCHIVO, $this->filtros_param);
         // Entregar
         return $barra;
     } // barra

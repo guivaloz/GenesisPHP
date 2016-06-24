@@ -22,10 +22,10 @@
 
 require_once('lib/Base/AutocargadorClases.php');
 
-// Si se solicita la descarga de CSV
+// Si se solicita la descarga de archivo CSV
 if ($_GET['csv'] == 'descargar') {
-    $pagina_csv = new \AdmBitacora\PaginaCSV();
-    echo $pagina_csv->csv();
+    $descargar_listado_csv = new \AdmBitacora\DescargarListadoCSV();
+    echo $descargar_listado_csv->csv();
 } else {
     // Mostrar la página web
     $pagina_html = new \AdmBitacora\PaginaWeb();

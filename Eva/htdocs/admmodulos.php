@@ -22,8 +22,14 @@
 
 require_once('lib/Base/AutocargadorClases.php');
 
-// Mostrar la página web
-$pagina_html = new \AdmModulos\PaginaWeb();
-echo $pagina_html->html();
+// Si se solicita la descarga de archivo CSV
+if ($_GET['csv'] == 'descargar') {
+    $descargar_listado_csv = new \AdmModulos\DescargarListadoCSV();
+    echo $descargar_listado_csv->csv();
+} else {
+    // Mostrar la página web
+    $pagina_html = new \AdmModulos\PaginaWeb();
+    echo $pagina_html->html();
+}
 
 ?>

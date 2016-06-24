@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - AdmAutentificaciones PaginaWeb
+ * GenesisPHP - AdmDepartamentos DescargarListadoCSV
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,26 +20,17 @@
  * @package GenesisPHP
  */
 
-namespace AdmAutentificaciones;
+namespace AdmDepartamentos;
 
 /**
- * Clase PaginaWeb
+ * Clase DescargarListadoCSV
  */
-class PaginaWeb extends \Base2\PaginaWeb {
+class DescargarListadoCSV extends \Base2\DescargarCSV {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // protected $menu;
+    // protected $cabecera_tipo_contenido;
+    // protected $recodificacion;
     // protected $contenido;
-    // protected $javascript;
+    // protected $csv_archivo;
     // protected $clave;
     // protected $sesion;
     // protected $sesion_exitosa;
@@ -50,30 +41,32 @@ class PaginaWeb extends \Base2\PaginaWeb {
      * Constructor
      */
     public function __construct() {
-        parent::__construct('adm_autentificaciones');
+        parent::__construct('adm_departamentos');
     } // constructor
 
     /**
-     * HTML
+     * CSV
      *
-     * @return string Código HTML
+     * @return string CSV
      */
-    public function html() {
+    public function csv() {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
-            // Lenguetas
-            $lenguetas = new \Base2\LenguetasWeb('lenguetasautentificaciones');
-            // Listado autentificaciones
-            $autentificaciones = new ListadoWeb($this->sesion);
-            $lenguetas->agregar_activa('autentificacionesListado', 'Listado', $autentificaciones);
-            // Pasar el html y el javascript de las lenguetas al contenido
-            $this->contenido[]  = $lenguetas->html();
-            $this->javascript[] = $lenguetas->javascript();
+            $listado          = new ListadoCSV($this->sesion);
+            $listado->estatus = 'A';
+            try {
+                $this->contenido = $listado->csv();
+            } catch (\Exception $e) {
+                $pagina_web = new \Base2\PaginaWeb($this->clave);
+                $pagina_web->agregar_mensaje_error('Error al descargar archivo CSV', $e->getMessage());
+                return $pagina_web->html();
+            }
+            $this->csv_archivo = ListadoCSV::RAIZ_CSV_ARCHIVO;
         }
         // Ejecutar el padre y entregar su resultado
-        return parent::html();
-    } // html
+        return parent::csv();
+    } // csv
 
-} // Clase PaginaWeb
+} // Clase DescargarListadoCSV
 
 ?>

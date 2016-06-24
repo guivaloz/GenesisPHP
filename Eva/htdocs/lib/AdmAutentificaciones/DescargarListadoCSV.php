@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - AdmUsuarios PaginaCSV
+ * GenesisPHP - AdmAutentificaciones DescargarListadoCSV
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,15 +20,18 @@
  * @package GenesisPHP
  */
 
-namespace AdmUsuarios;
+namespace AdmAutentificaciones;
 
 /**
- * Clase PaginaCSV
+ * Clase DescargarListadoCSV
  */
-class PaginaCSV extends \Base2\PaginaCSV {
+class DescargarListadoCSV extends \Base2\DescargarCSV {
 
-    // public $contenido;
-    // public $csv_archivo;
+    // protected $cabecera_tipo_contenido;
+    // protected $recodificacion;
+    // protected $contenido;
+    // protected $csv_archivo;
+    // protected $clave;
     // protected $sesion;
     // protected $sesion_exitosa;
     // protected $usuario;
@@ -38,7 +41,7 @@ class PaginaCSV extends \Base2\PaginaCSV {
      * Constructor
      */
     public function __construct() {
-        parent::__construct('adm_usuarios');
+        parent::__construct('adm_autentificaciones');
     } // constructor
 
     /**
@@ -49,16 +52,21 @@ class PaginaCSV extends \Base2\PaginaCSV {
     public function csv() {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
-            if ($_GET['csv'] == 'descargar') {
-                $listado          = new ListadoCSV($this->sesion);
-                $listado->estatus = 'A';
-                $this->contenido  = $listado->csv();
+            $listado          = new ListadoCSV($this->sesion);
+            $listado->estatus = 'A';
+            try {
+                $this->contenido = $listado->csv();
+            } catch (\Exception $e) {
+                $pagina_web = new \Base2\PaginaWeb($this->clave);
+                $pagina_web->agregar_mensaje_error('Error al descargar archivo CSV', $e->getMessage());
+                return $pagina_web->html();
             }
+            $this->csv_archivo = ListadoCSV::RAIZ_CSV_ARCHIVO;
         }
         // Ejecutar el padre y entregar su resultado
         return parent::csv();
     } // csv
 
-} // Clase PaginaCSV
+} // Clase DescargarListadoCSV
 
 ?>

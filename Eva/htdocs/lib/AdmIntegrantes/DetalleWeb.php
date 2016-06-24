@@ -43,7 +43,7 @@ class DetalleWeb extends Registro {
     // static public $poder_colores;
     // static public $estatus_descripciones;
     // static public $estatus_colores;
-    protected $detalle; // Instancia de \Base2\DetalleWeb
+    protected $detalle;  // Instancia de \Base2\DetalleWeb
     static public $accion_modificar = 'integranteModificar';
     static public $accion_eliminar  = 'integranteEliminar';
     static public $accion_recuperar = 'integranteRecuperar';

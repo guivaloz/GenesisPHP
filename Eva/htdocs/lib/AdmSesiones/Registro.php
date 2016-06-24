@@ -29,6 +29,7 @@ class Registro extends \Base2\Registro {
 
     // protected $sesion;
     // protected $consultado;
+    public $usuario;
     public $nombre;
     public $nom_corto;
     public $tipo;
@@ -38,9 +39,9 @@ class Registro extends \Base2\Registro {
     /**
      * Consultar
      *
-     * @param integer ID del registro
+     * @param integer ID del usuario
      */
-    public function consultar($in_id=false) {
+    public function consultar($in_usuario=false) {
         // Que tenga permiso para consultar
         if (!$this->sesion->puede_ver('adm_sesiones')) {
             throw new \Exception('Aviso: No tiene permiso para consultar la sesión.');
@@ -64,7 +65,7 @@ class Registro extends \Base2\Registro {
                 FROM
                     adm_sesiones
                 WHERE
-                    usuario = {$this->id}");
+                    usuario = {$this->usuario}");
         } catch (\Exception $e) {
             throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al consultar la sesión.', $e->getMessage());
         }

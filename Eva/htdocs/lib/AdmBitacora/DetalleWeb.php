@@ -41,6 +41,7 @@ class DetalleWeb extends Registro {
     // public $notas;
     // static public $tipo_descripciones;
     // static public $tipo_colores;
+    protected $detalle;  // Instancia de \Base2\DetalleWeb
     const RAIZ_PHP_ARCHIVO = 'admbitacora.php';
 
     /**
@@ -81,20 +82,20 @@ class DetalleWeb extends Registro {
             }
         }
         // Detalle
-        $detalle = new \Base2\DetalleWeb();
+        $this->detalle = new \Base2\DetalleWeb();
         // Seccion general
-        $detalle->seccion('General');
-        $detalle->dato('Fecha',     $this->fecha);
-        $detalle->dato('Usuario',   $this->usuario_nom_corto);
-        $detalle->dato('Página',    $this->pagina);
-        $detalle->dato('Página ID', $this->pagina_id);
-        $detalle->dato('URL',       $this->url);
-        $detalle->dato('Tipo',      $this->tipo_descrito);
-        $detalle->dato('Notas',     $this->notas);
+        $this->detalle->seccion('General');
+        $this->detalle->dato('Fecha',     $this->fecha);
+        $this->detalle->dato('Usuario',   $this->usuario_nom_corto);
+        $this->detalle->dato('Página',    $this->pagina);
+        $this->detalle->dato('Página ID', $this->pagina_id);
+        $this->detalle->dato('URL',       $this->url);
+        $this->detalle->dato('Tipo',      $this->tipo_descrito);
+        $this->detalle->dato('Notas',     $this->notas);
         // Pasar la barra
-        $detalle->barra = $this->barra($in_encabezado);
+        $this->detalle->barra = $this->barra($in_encabezado);
         // Entregar
-        return $detalle->html();
+        return $this->detalle->html();
     } // html
 
     /**
@@ -103,7 +104,9 @@ class DetalleWeb extends Registro {
      * @return string Javascript
      */
     public function javascript() {
-        return false;
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            return $this->detalle->javascript();
+        }
     } // javascript
 
 } // Clase DetalleWeb
