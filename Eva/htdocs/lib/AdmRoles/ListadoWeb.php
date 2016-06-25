@@ -122,12 +122,14 @@ class ListadoWeb extends Listado {
      * @return string HTML
      */
     public function html($in_encabezado='') {
-        // Consultar
-        try {
-            $this->consultar();
-        } catch (\Exception $e) {
-            $mensaje = new \Base2\MensajeWeb($e->getMessage());
-            return $mensaje->html($in_encabezado);
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
+        if (!$this->consultado) {
+            try {
+                $this->consultar();
+            } catch (\Exception $e) {
+                $mensaje = new \Base2\MensajeWeb($e->getMessage());
+                return $mensaje->html($in_encabezado);
+            }
         }
         // Eliminar columnas de la estructura que sean filtros aplicados
         if ($this->departamento != '') {

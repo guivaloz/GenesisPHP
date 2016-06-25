@@ -35,7 +35,6 @@ class DetalleWeb extends Registro {
     // static public $tipo_colores;
     const RAIZ_PHP_ARCHIVO = 'admautentificaciones.php';
 
-
 } // Clase DetalleWeb
 
 ?>

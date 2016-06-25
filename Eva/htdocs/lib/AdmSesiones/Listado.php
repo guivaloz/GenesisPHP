@@ -152,6 +152,8 @@ class Listado extends \Base2\Listado {
             $a = $consulta->obtener_registro();
             $this->cantidad_registros = intval($a['cantidad']);
         }
+        // Ponemos como verdadero el flag de consultado
+        $this->consultado = true;
     } // consultar
 
 } // Clase Listado
