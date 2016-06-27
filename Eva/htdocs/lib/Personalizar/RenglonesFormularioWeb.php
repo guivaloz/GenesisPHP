@@ -60,12 +60,12 @@ class RenglonesFormularioWeb extends DetalleWeb {
         // Formulario
         $this->formulario          = new \Base2\FormularioWeb(self::$form_name);
         $this->formulario->mensaje = '(*) Campos obligatorios.';
-        // Campos ocultos
+        // Formulario campos ocultos
         $cadenero = new \Base2\Cadenero($this->sesion);
         $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
-        // Seccion principal
+        // Formulario sección principal
         $this->formulario->texto_entero('listado_renglones', 'Cantidad de renglones', $this->listado_renglones);
-        // Botones
+        // Formualrio botones
         $this->formulario->boton_guardar();
         // Encabezado
         if ($in_encabezado !== '') {
@@ -138,9 +138,14 @@ class RenglonesFormularioWeb extends DetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        if ($this->formulario instanceof \Base2\FormularioWeb) {
-            return $this->formulario->javascript();
+        $a = array();
+        if ($this->detalle instanceof \Base2\DetalleWeb) {
+            $a[] = $this->detalle->javascript();
         }
+        if ($this->formulario instanceof \Base2\FormularioWeb) {
+            $a[] = $this->formulario->javascript();
+        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase RenglonesFormularioWeb

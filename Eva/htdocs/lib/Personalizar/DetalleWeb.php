@@ -84,14 +84,16 @@ class DetalleWeb extends Registro {
                 return $mensaje->html($in_encabezado);
             }
         }
-        // Seccion general
+        // Iniciar detalle
+        $this->detalle = new \Base2\DetalleWeb();
+        // Detalle sección general
         $this->detalle->seccion('General');
         $this->detalle->dato('Nombre',       $this->nombre);
         $this->detalle->dato('Nombre corto', $this->nom_corto);
         $this->detalle->dato('Tipo',         $this->tipo_descrito);
         $this->detalle->dato('e-mail',       $this->email);
         $this->detalle->dato('Listados',     "Con {$this->listado_renglones} renglones.");
-        // Seccion sesiones y contraseña
+        // Detalle sección sesiones y contraseña
         $this->detalle->seccion('Sesiones y contraseña');
         if ($this->sesiones_alerta) {
             $this->detalle->dato('Sus sesiones', '<span class="alerta">'.str_replace('. ', '.<br />', $this->sesiones_descrito).'</span>');
@@ -116,7 +118,7 @@ class DetalleWeb extends Registro {
      */
     public function javascript() {
         if ($this->detalle instanceof \Base2\DetalleWeb) {
-            return $this->formulario->javascript();
+            return $this->detalle->javascript();
         }
     } // javascript
 
