@@ -27,10 +27,10 @@ namespace Base2;
  */
 class PanelWeb implements SalidaWeb {
 
-    public $encabezado;
-    public $contenido;
-    public $pie;
-    public $tipo;
+    public $encabezado;                       // Texto
+    public $contenido;                        // Texto, instancia
+    public $pie;                              // Texto
+    public $tipo;                             // Texto
     static protected $tipos_clases = array(
         'normal'    => 'panel panel-default', // gris
         'destacado' => 'panel panel-primary', // azul
@@ -54,35 +54,37 @@ class PanelWeb implements SalidaWeb {
             $a[] = '<div class="panel panel-default">';
         }
         // Acumular encabezado
+        $a[] = '  <div class="panel-heading">';
         if (is_string($this->encabezado) && ($this->encabezado != '')) {
-            $a[] = '  <div class="panel-heading">';
             $a[] = sprintf('    <h3 class="panel-title">%s</h3>', htmlentities($this->encabezado));
-            $a[] = '  </div>';
         } else {
-            $a[] = '  <div class="panel-heading">';
             $a[] = '    <h3 class="panel-title">Panel sin título</h3>';
-            $a[] = '  </div>';
         }
+        $a[] = '  </div>';
         // Acumular contenido
+        $a[] = '  <div class="panel-body">';
+        if (is_string($this->contenido) && ($this->contenido != '')) {
+            $a[] = $this->contenido;
+        } elseif (is_object($this->contenido) && ($this->contenido instanceof \Base2\SalidaWeb)) {
+            $a[] = $this->contenido->html();
+        } elseif (is_array($this->contenido)) {
+            foreach ($this->contenido as $c) {
+                if (is_string($c) && ($c != '')) {
+                    $a[] = $c;
+                } elseif (is_object($c) && ($c instanceof \Base2\SalidaWeb)) {
+                }
+            }
+        }
+        $a[] = '  </div>';
         // Acumular pie
+        if (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = sprintf('  <div class="panel-footer">%s</div>', htmlentities($this->pie));
+        }
+        // Cerrar panel
         $a[] = '</div>';
         // Entregar
         return implode("\n", $a);
     } // html
-
-/*
-  <div class="panel-body">
-    Panel content
-  </div>
-  <div class="panel-footer">Panel footer</div>
-</div>
-*
-<div class="panel panel-primary">...</div>
-<div class="panel panel-success">...</div>
-<div class="panel panel-info">...</div>
-<div class="panel panel-warning">...</div>
-<div class="panel panel-danger">...</div>
-*/
 
     /**
      * Javascript
@@ -90,7 +92,11 @@ class PanelWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        return false;
+        if (is_object($this->contenido) && ($this->contenido instanceof SalidaWeb)) {
+            return $this->contenido->javascript();
+        } else {
+            return false;
+        }
     } // javascript
 
 } // Clase PanelWeb
