@@ -67,11 +67,12 @@ class PanelWeb implements SalidaWeb {
             $a[] = $this->contenido;
         } elseif (is_object($this->contenido) && ($this->contenido instanceof \Base2\SalidaWeb)) {
             $a[] = $this->contenido->html();
-        } elseif (is_array($this->contenido)) {
+        } elseif (is_array($this->contenido) && (count($this->contenido) > 0)) {
             foreach ($this->contenido as $c) {
                 if (is_string($c) && ($c != '')) {
                     $a[] = $c;
                 } elseif (is_object($c) && ($c instanceof \Base2\SalidaWeb)) {
+                    $a[] = $c->html();
                 }
             }
         }
@@ -94,6 +95,14 @@ class PanelWeb implements SalidaWeb {
     public function javascript() {
         if (is_object($this->contenido) && ($this->contenido instanceof SalidaWeb)) {
             return $this->contenido->javascript();
+        } elseif (is_array($this->contenido) && (count($this->contenido) > 0)) {
+            $a = array();
+            foreach ($this->contenido as $c) {
+                if (is_object($c) && ($c instanceof \Base2\SalidaWeb)) {
+                    $a[] = $c->javascript();
+                }
+            }
+            return implode("\n", $a);
         } else {
             return false;
         }

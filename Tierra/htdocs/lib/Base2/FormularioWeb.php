@@ -35,6 +35,7 @@ class FormularioWeb implements SalidaWeb {
     public $method                       = 'post';   // Texto, método post o get
     protected $secciones                 = array();  // Arreglo de arreglos, guarda las secciones y los elementos de cada una
     protected $seccion_actual;                       // Texto, identificador de la sección en uso
+    protected $grupos                    = array();  // Arreglo asociativo, guarda los grupos
     protected $etiquetas                 = array();  // Arreglo asociativo, guarda las etiquetas
     protected $contenidos                = array();  // Arreglo asociativo, guarda el contenido HTML
     protected $contenidos_clases         = array();  // Arreglo asociativo, guarda las clases de los tamaños
@@ -120,6 +121,105 @@ class FormularioWeb implements SalidaWeb {
     } // fijo
 
     /**
+     * Grupo
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $id = $this->name.'_'.$in_identificador;
+        if ($in_etiqueta_posterior !== '') {
+            $tag  = sprintf('<span class="input-group-addon">%s</span>', htmlentities($in_etiqueta));
+            $tag .= sprintf('<input type="text" class="form-control" name="%s"', $in_identificador);
+        } else {
+            $tag  = sprintf('<span class="input-group-addon" id="%s">%s</span>', $id, htmlentities($in_etiqueta));
+            $tag .= sprintf('<input type="text" class="form-control" name="%s" aria-describedby="%s"', $in_identificador, $id);
+        }
+        if ($in_valor !== '') {
+            $tag .= sprintf(' value="%s"', htmlentities($in_valor));
+        }
+        if ($in_descripcion !== '') {
+            $tag .= sprintf(' placeholder="%s"', htmlentities($in_descripcion));
+        }
+        $tag .= '>';
+        if ($in_etiqueta_posterior !== '') {
+            $tag .= sprintf('<span class="input-group-addon">%s</span>', htmlentities($in_etiqueta_posterior));
+        }
+        $this->grupos[$in_identificador]          = 'input-group';
+        $this->etiquetas[$in_identificador]       = '';
+        $this->contenidos[$in_identificador]      = $tag;
+        $this->secciones[$this->seccion_actual][] = $in_identificador;
+    } // grupo
+
+    /**
+     * Grupo entero
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo_entero($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $this->grupo($in_identificador, $in_etiqueta, $in_valor, $in_descripcion, $in_etiqueta_posterior);
+    } // grupo_entero
+
+    /**
+     * Grupo flotante
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo_flotante($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $this->grupo($in_identificador, $in_etiqueta, $in_valor, $in_descripcion, $in_etiqueta_posterior);
+    } // grupo_flotante
+
+    /**
+     * Grupo nombre corto
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo_nom_corto($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $this->grupo($in_identificador, $in_etiqueta, $in_valor, $in_descripcion, $in_etiqueta_posterior);
+    } // grupo_nom_corto
+
+    /**
+     * Grupo nombre
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo_nombre($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $this->grupo($in_identificador, $in_etiqueta, $in_valor, $in_descripcion, $in_etiqueta_posterior);
+    } // grupo_nombre
+
+    /**
+     * Grupo porcentaje
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, descripción
+     * @param string Opcional, etiqueta posterior
+     */
+    public function grupo_porcentaje($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
+        $this->grupo($in_identificador, $in_etiqueta, $in_valor, $in_descripcion, $in_etiqueta_posterior);
+    } // grupo_porcentaje
+
+    /**
      * Texto
      *
      * @param string Identificador
@@ -148,35 +248,6 @@ class FormularioWeb implements SalidaWeb {
         $this->etiquetas[$in_identificador]       = $in_etiqueta;
         $this->secciones[$this->seccion_actual][] = $in_identificador;
     } // texto
-
-    /**
-     * Texto nombre
-     *
-     * @param string Identificador
-     * @param string Etiqueta
-     * @param string Opcional, valor
-     * @param string Opcional, longitud de caracteres
-     * @param string Opcional, comentario
-     * @param string Opcional, JavaScript
-     */
-    public function texto_nombre($in_identificador, $in_etiqueta, $in_valor='', $in_tamano='', $in_texto_posterior='', $in_js='') {
-        $this->texto($in_identificador, $in_etiqueta, $in_valor, $in_tamano, $in_texto_posterior, $in_js);
-    } // texto_nombre
-
-    /**
-     * Texto nombre corto
-     *
-     * @param string Identificador
-     * @param string Etiqueta
-     * @param string Opcional, valor
-     * @param string Opcional, longitud de caracteres
-     * @param string Opcional, comentario
-     * @param string Opcional, JavaScript
-     */
-    public function texto_nom_corto($in_identificador, $in_etiqueta, $in_valor='', $in_tamano=32, $in_texto_posterior='', $in_js='') {
-        $this->texto($in_identificador, $in_etiqueta, $in_valor, $in_tamano, $in_texto_posterior, $in_js);
-        $this->contenidos_clases[$in_identificador] = 'col-md-4';
-    } // texto_nom_corto
 
     /**
      * Texto número entero
@@ -222,6 +293,35 @@ class FormularioWeb implements SalidaWeb {
     public function texto_flotante($in_identificador, $in_etiqueta, $in_valor='', $in_tamano='', $in_texto_posterior='', $in_js='') {
         $this->texto_entero($in_identificador, $in_etiqueta, $in_valor, $in_tamano, $in_texto_posterior, $in_js);
     } // texto_flotante
+
+    /**
+     * Texto nombre corto
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, longitud de caracteres
+     * @param string Opcional, comentario
+     * @param string Opcional, JavaScript
+     */
+    public function texto_nom_corto($in_identificador, $in_etiqueta, $in_valor='', $in_tamano=32, $in_texto_posterior='', $in_js='') {
+        $this->texto($in_identificador, $in_etiqueta, $in_valor, $in_tamano, $in_texto_posterior, $in_js);
+        $this->contenidos_clases[$in_identificador] = 'col-md-4';
+    } // texto_nom_corto
+
+    /**
+     * Texto nombre
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param string Opcional, valor
+     * @param string Opcional, longitud de caracteres
+     * @param string Opcional, comentario
+     * @param string Opcional, JavaScript
+     */
+    public function texto_nombre($in_identificador, $in_etiqueta, $in_valor='', $in_tamano='', $in_texto_posterior='', $in_js='') {
+        $this->texto($in_identificador, $in_etiqueta, $in_valor, $in_tamano, $in_texto_posterior, $in_js);
+    } // texto_nombre
 
     /**
      * Texto número porcentaje
@@ -812,16 +912,22 @@ RANGO;
             if (in_array($seccion, $secciones_con_visibles)) {
                 foreach ($identificadores as $identificador) {
                     if (strpos($this->contenidos[$identificador], 'type="hidden"') === false) {
-                        $a[] = '      <div class="form-group">';
-                        $a[] = "        <label for=\"$identificador\" class=\"col-md-2 control-label\">{$this->etiquetas[$identificador]}</label>";
-                        if ($this->contenidos_clases[$identificador] != '') {
-                            $a[] = "        <div class=\"{$this->contenidos_clases[$identificador]}\">";
+                        if ($this->grupos[$identificador] != '') {
+                            $a[] = sprintf('      <div class="%s">', $this->grupos[$identificador]);
+                            $a[] = "        {$this->contenidos[$identificador]}";
+                            $a[] = '      </div>';
                         } else {
-                            $a[] = '        <div class="col-md-10">';
+                            $a[] = '      <div class="form-group">';
+                            $a[] = "        <label for=\"$identificador\" class=\"col-md-2 control-label\">{$this->etiquetas[$identificador]}</label>";
+                            if ($this->contenidos_clases[$identificador] != '') {
+                                $a[] = "        <div class=\"{$this->contenidos_clases[$identificador]}\">";
+                            } else {
+                                $a[] = '        <div class="col-md-10">';
+                            }
+                            $a[] = "          {$this->contenidos[$identificador]}";
+                            $a[] = '        </div>';
+                            $a[] = '      </div>';
                         }
-                        $a[] = "          {$this->contenidos[$identificador]}";
-                        $a[] = '        </div>';
-                        $a[] = '      </div>';
                     }
                 }
             }
