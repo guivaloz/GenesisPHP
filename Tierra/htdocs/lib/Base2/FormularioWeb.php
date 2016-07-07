@@ -843,39 +843,13 @@ RANGO;
     } // boton_cancelar_icono
 
     /**
-     * HTML
+     * Elaborar formulario
      *
-     * @param  string Encabezado opcional
      * @return string Código HTML
      */
-    public function html($in_encabezado='') {
-        // Si viene el encabezado como parámetro
-        if ($in_encabezado != '') {
-            $this->encabezado = $in_encabezado;
-        }
-        // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono
-        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
-            $this->encabezado = '';
-            $this->icono      = '';
-        }
-        // Si ya se elaboro el HTML, sólo se entrega y se termina
-        if ($this->html_elaborado != '') {
-            return $this->html_elaborado;
-        }
+    protected function elaborar_formulario() {
         // Acumularemos el HTML en este arreglo
-        $a   = array();
-        $a[] = '<div class="formulario">';
-        // Elaborar Barra
-        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
-            $a[]                = $this->barra->html();
-            $this->javascript[] = $this->barra->javascript();
-        } elseif ($this->encabezado != '') {
-            $barra              = new BarraWeb();
-            $barra->encabezado  = $this->encabezado;
-            $barra->icono       = $this->icono;
-            $a[]                = $barra->html();
-            $this->javascript[] = $barra->javascript();
-        }
+        $a = array();
         // Form
         if ($this->subir_archivo) {
             $a[] = sprintf('  <form id="%s" name="%s" action="%s" method="%s" enctype="multipart/form-data" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method);
@@ -944,7 +918,55 @@ RANGO;
         }
         // Form cerrar
         $a[] = '  </form>';
-        $a[] = '</div>';
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_formulario
+
+    /**
+     * HTML
+     *
+     * @param  string Encabezado opcional
+     * @return string Código HTML
+     */
+    public function html($in_encabezado='') {
+        // Si viene el encabezado como parámetro
+        if (is_string($in_encabezado) && ($in_encabezado != '')) {
+            $this->encabezado = $in_encabezado;
+        }
+        // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono
+        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
+            $this->encabezado = '';
+            $this->icono      = '';
+        }
+        // Si ya se elaboro el HTML, sólo se entrega y se termina
+        if ($this->html_elaborado != '') {
+            return $this->html_elaborado;
+        }
+        //
+        if (count($this->grupos) == 0) {
+            // Acumularemos el HTML en este arreglo
+            $a   = array();
+            $a[] = '<div class="formulario">';
+            // Elaborar Barra
+            if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
+                $a[]                = $this->barra->html();
+                $this->javascript[] = $this->barra->javascript();
+            } elseif ($this->encabezado != '') {
+                $barra              = new BarraWeb();
+                $barra->encabezado  = $this->encabezado;
+                $barra->icono       = $this->icono;
+                $a[]                = $barra->html();
+                $this->javascript[] = $barra->javascript();
+            }
+            $a[] = $this->elaborar_formulario();
+            $a[] = '</div>'; // Formulario
+        } else {
+            $panel             = new PanelWeb();
+            $panel->encabezado = $in_encabezado;
+            $panel->contenido  = $this->elaborar_formulario();
+            $panel->pie        = 'Pendiente';
+            $a[]               = $panel->html();
+        }
         // Guardar el html elaborado
         $this->html_elaborado = implode("\n", $a);
         // Entregar

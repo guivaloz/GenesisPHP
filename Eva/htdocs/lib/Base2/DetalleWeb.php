@@ -111,7 +111,7 @@ class DetalleWeb implements SalidaWeb {
      */
     public function html($in_encabezado='') {
         // Si viene el encabezado como parámetro
-        if ($in_encabezado != '') {
+        if (is_string($in_encabezado) && ($in_encabezado != '')) {
             $this->encabezado = $in_encabezado;
         }
         // Si está definida la barra, se ponen en blanco las propiedades encabezado e icono

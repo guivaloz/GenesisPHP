@@ -46,6 +46,10 @@ class PanelWeb implements SalidaWeb {
      * @return string Código HTML
      */
     public function html($in_encabezado='') {
+        // Encabezado
+        if (is_string($in_encabezado) && ($in_encabezado != '')) {
+            $this->encabezado = $in_encabezado;
+        }
         // Iniciar arreglo donde acumularemos la entrega
         $a = array();
         if (is_string($this->tipo) && in_array($this->tipo, self::$tipos_clases)) {
@@ -79,7 +83,17 @@ class PanelWeb implements SalidaWeb {
         $a[] = '  </div>';
         // Acumular pie
         if (is_string($this->pie) && ($this->pie != '')) {
-            $a[] = sprintf('  <div class="panel-footer">%s</div>', htmlentities($this->pie));
+            $a[] = sprintf('  <div class="panel-footer">%s</div>', $this->pie);
+        } elseif (is_array($this->pie) && (count($this->pie) > 0)) {
+            $a[] = '  <div class="panel-footer">';
+            foreach ($this->pie as $p) {
+                if (is_string($p) && ($p != '')) {
+                    $a[] = '  '.$p;
+                } elseif (is_object($p) && ($p instanceof \Base2\SalidaWeb)) {
+                    $a[] = '  '.$p->html();
+                }
+            }
+            $a[] = '  </div>';
         }
         // Cerrar panel
         $a[] = '</div>';

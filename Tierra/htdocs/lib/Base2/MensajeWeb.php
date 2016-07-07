@@ -115,7 +115,7 @@ class MensajeWeb implements SalidaWeb {
      */
     public function html($in_encabezado='') {
         // Si viene el encabezado como parámetro
-        if ($in_encabezado != '') {
+        if (is_string($in_encabezado) && ($in_encabezado != '')) {
             $this->encabezado = $in_encabezado;
         }
         // Si no hay contenido, no se entrega nada
@@ -182,8 +182,16 @@ class MensajeWeb implements SalidaWeb {
             $a[] = "  <p>{$this->contenido}</p>";
         }
         // Acumular pie
-        if (is_array($this->pie) && (count($this->pie) > 0)) {
-            $a[] = '  '.implode(' ', $this->pie);
+        if (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = '  '.$this->pie;
+        } elseif (is_array($this->pie) && (count($this->pie) > 0)) {
+            foreach ($this->pie as $p) {
+                if (is_string($p) && ($p != '')) {
+                    $a[] = '  '.$p;
+                } elseif (is_object($p) && ($p instanceof \Base2\SalidaWeb)) {
+                    $a[] = '  '.$p->html();
+                }
+            }
         }
         // Twitter Bootstrap Alert termnina
         $a[] = '</div>';
