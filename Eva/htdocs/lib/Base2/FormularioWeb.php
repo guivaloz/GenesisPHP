@@ -220,6 +220,49 @@ class FormularioWeb implements SalidaWeb {
     } // grupo_porcentaje
 
     /**
+     * Grupo select
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param array  Opciones a mostrar, arreglo asociativo con clave y valor
+     * @param string Opcional, valor seleccionado
+     */
+    public function grupo_select($in_identificador, $in_etiqueta, $in_opciones, $in_seleccionado='') {
+        $id  = $this->name.'_'.$in_identificador;
+        $a   = array();
+        $a[] = sprintf('<span class="input-group-addon" id="%s">%s</span>', $id, htmlentities($in_etiqueta));
+        $a[] = sprintf('        <select class="form-control" name="%s" aria-describedby="%s">', $in_identificador, $id);
+        foreach ($in_opciones as $clave => $valor) {
+            if ($clave == $in_seleccionado) {
+                $a[] = sprintf('          <option value="%s" selected>%s</option>', $clave, $valor);
+            } else {
+                $a[] = sprintf('          <option value="%s">%s</option>', $clave, $valor);
+            }
+        }
+        $a[] = '        </select>';
+        $this->grupos[$in_identificador]          = 'input-group';
+        $this->etiquetas[$in_identificador]       = $in_etiqueta;
+        $this->contenidos[$in_identificador]      = implode("\n", $a);
+        $this->secciones[$this->seccion_actual][] = $in_identificador;
+    } // grupo_select
+
+    /**
+     * Grupo select con nulo
+     *
+     * @param string Identificador
+     * @param string Etiqueta
+     * @param array  Opciones a mostrar, arreglo asociativo con clave y valor
+     * @param string Opcional, valor seleccionado
+     */
+    public function grupo_select_con_nulo($in_identificador, $in_etiqueta, $in_opciones, $in_seleccionado='') {
+        $a = array('-' => '');
+        foreach ($in_opciones as $clave => $valor) {
+            $a[$clave] = $valor;
+        }
+        $this->grupo_select($in_identificador, $in_etiqueta, $a, $in_seleccionado);
+    } // grupo_select_con_nulo
+
+    /**
      * Texto
      *
      * @param string Identificador
@@ -843,23 +886,30 @@ RANGO;
     } // boton_cancelar_icono
 
     /**
-     * Elaborar formulario
+     * Elaborar form inicial
      *
      * @return string Código HTML
      */
-    protected function elaborar_formulario() {
-        // Acumularemos el HTML en este arreglo
-        $a = array();
-        // Form
+    protected function elaborar_form_inicial() {
         if ($this->subir_archivo) {
-            $a[] = sprintf('  <form id="%s" name="%s" action="%s" method="%s" enctype="multipart/form-data" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method);
+            return sprintf('  <form id="%s" name="%s" action="%s" method="%s" enctype="multipart/form-data" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method);
         } else {
             if ($this->onkeypress != '') {
-                $a[] = sprintf('  <form id="%s" name="%s" action="%s" method="%s" onKeyPress="%s" onsubmit="return false" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method, $this->onkeypress);
+                return sprintf('  <form id="%s" name="%s" action="%s" method="%s" onKeyPress="%s" onsubmit="return false" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method, $this->onkeypress);
             } else {
-                $a[] = sprintf('  <form id="%s" name="%s" action="%s" method="%s" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method);
+                return sprintf('  <form id="%s" name="%s" action="%s" method="%s" class="form-horizontal" role="form">', $this->name, $this->name, $this->action, $this->method);
             }
         }
+    } // elaborar_form_inicial
+
+    /**
+     * Elaborar form campos
+     *
+     * @return string Código HTML
+     */
+    protected function elaborar_form_campos() {
+        // Acumularemos el HTML en este arreglo
+        $a = array();
         // Campo oculto el que lleva el nombre del formulario
         $a[] = sprintf('    <input name="formulario" type="hidden" value="%s">', $this->name);
         // Campo oculto si va a subir archivos el tamaño maximo
@@ -906,18 +956,70 @@ RANGO;
                 }
             }
         }
-        // Pie
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_form_campos
+
+    /**
+     * Elaborar form pie
+     *
+     * @return string Código HTML
+     */
+    protected function elaborar_form_pie() {
+        // Acumularemos el HTML en este arreglo
+        $a = array();
         if (count($this->pie) > 0) {
-            $a[] = '    <div class="form-group">';
-            $a[] = '      <div class="col-sm-offset-2 col-md-10">';
-            foreach ($this->pie as $identificador => $tag) {
-                $a[] = sprintf('          %s', $tag);
+            if (count($this->grupos) == 0) {
+                $a[] = '    <div class="form-group">';
+                $a[] = '      <div class="col-sm-offset-2 col-md-10">';
+                foreach ($this->pie as $identificador => $tag) {
+                    $a[] = sprintf('          %s', $tag);
+                }
+                $a[] = '      </div>';
+                $a[] = '    </div>';
+            } else {
+                foreach ($this->pie as $identificador => $tag) {
+                    $a[] = sprintf('          %s', $tag);
+                }
             }
-            $a[] = '      </div>';
-            $a[] = '    </div>';
         }
-        // Form cerrar
-        $a[] = '  </form>';
+        // Entregar
+        return implode("\n", $a);
+    } // elaborar_form_pie
+
+    /**
+     * Elaborar form termino
+     *
+     * @return string Código HTML
+     */
+    protected function elaborar_form_termino() {
+        return '  </form>';
+    } // elaborar_form_termino
+
+    /**
+     * Elaborar formulario
+     *
+     * @return string Código HTML
+     */
+    protected function elaborar_formulario() {
+        // Acumularemos el HTML en este arreglo
+        $a = array();
+        // Si se usaron grupos se usan un PanelWeb
+        if (count($this->pie) > 0) {
+            if (count($this->grupos) == 0) {
+                $a[] = '    <div class="form-group">';
+                $a[] = '      <div class="col-sm-offset-2 col-md-10">';
+                foreach ($this->pie as $identificador => $tag) {
+                    $a[] = sprintf('          %s', $tag);
+                }
+                $a[] = '      </div>';
+                $a[] = '    </div>';
+            } else {
+                foreach ($this->pie as $identificador => $tag) {
+                    $a[] = sprintf('          %s', $tag);
+                }
+            }
+        }
         // Entregar
         return implode("\n", $a);
     } // elaborar_formulario
@@ -942,7 +1044,7 @@ RANGO;
         if ($this->html_elaborado != '') {
             return $this->html_elaborado;
         }
-        //
+        // Si se usaron grupos se usan un PanelWeb
         if (count($this->grupos) == 0) {
             // Acumularemos el HTML en este arreglo
             $a   = array();
@@ -958,14 +1060,19 @@ RANGO;
                 $a[]                = $barra->html();
                 $this->javascript[] = $barra->javascript();
             }
-            $a[] = $this->elaborar_formulario();
+            $a[] = $this->elaborar_form_inicial();
+            $a[] = $this->elaborar_form_campos();
+            $a[] = $this->elaborar_form_pie();
+            $a[] = $this->elaborar_form_termino();
             $a[] = '</div>'; // Formulario
         } else {
+            $a[]               = $this->elaborar_form_inicial();
             $panel             = new PanelWeb();
             $panel->encabezado = $in_encabezado;
-            $panel->contenido  = $this->elaborar_formulario();
-            $panel->pie        = 'Pendiente';
+            $panel->contenido  = $this->elaborar_form_campos();
+            $panel->pie        = $this->elaborar_form_pie();
             $a[]               = $panel->html();
+            $a[]               = $this->elaborar_form_termino();
         }
         // Guardar el html elaborado
         $this->html_elaborado = implode("\n", $a);

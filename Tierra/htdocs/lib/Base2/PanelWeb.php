@@ -52,7 +52,7 @@ class PanelWeb implements SalidaWeb {
         }
         // Iniciar arreglo donde acumularemos la entrega
         $a = array();
-        if (is_string($this->tipo) && in_array($this->tipo, self::$tipos_clases)) {
+        if (is_string($this->tipo) && array_key_exists($this->tipo, self::$tipos_clases)) {
             $a[] = sprintf('<div class="%s">', self::$tipos_clases[$this->tipo]);
         } else {
             $a[] = '<div class="panel panel-default">';
