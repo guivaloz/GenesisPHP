@@ -41,7 +41,7 @@ abstract class PaginaWeb extends PlantillaWeb {
     // public $menu;
     // public $contenido;
     // public $javascript;
-    protected $sesion;          // Instancia de Sesion
+    protected $sesion;          // Instancia de \Inicio\Sesion
     protected $sesion_exitosa;  // Boleano, verdadero si se cargó con éxito la sesión
     protected $usuario;         // Entero, ID del usuario
     protected $usuario_nombre;  // Texto, nombre del usuario

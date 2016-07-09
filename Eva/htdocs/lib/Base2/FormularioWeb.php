@@ -130,13 +130,14 @@ class FormularioWeb implements SalidaWeb {
      * @param string Opcional, etiqueta posterior
      */
     public function grupo($in_identificador, $in_etiqueta, $in_valor='', $in_descripcion='', $in_etiqueta_posterior='') {
-        $id = $this->name.'_'.$in_identificador;
         if ($in_etiqueta_posterior !== '') {
             $tag  = sprintf('<span class="input-group-addon">%s</span>', htmlentities($in_etiqueta));
             $tag .= sprintf('<input type="text" class="form-control" name="%s"', $in_identificador);
         } else {
-            $tag  = sprintf('<span class="input-group-addon" id="%s">%s</span>', $id, htmlentities($in_etiqueta));
-            $tag .= sprintf('<input type="text" class="form-control" name="%s" aria-describedby="%s"', $in_identificador, $id);
+            $etiqueta_id = sprintf('%s-etiqueta', $in_identificador);
+            $campo_id    = $in_identificador;
+            $tag         = sprintf('<span class="input-group-addon" id="%s">%s</span>', $etiqueta_id, htmlentities($in_etiqueta));
+            $tag        .= sprintf('<input type="text" class="form-control" name="%s" aria-describedby="%s" id="%s"', $in_identificador, $etiqueta_id, $campo_id);
         }
         if ($in_valor !== '') {
             $tag .= sprintf(' value="%s"', htmlentities($in_valor));
@@ -228,10 +229,11 @@ class FormularioWeb implements SalidaWeb {
      * @param string Opcional, valor seleccionado
      */
     public function grupo_select($in_identificador, $in_etiqueta, $in_opciones, $in_seleccionado='') {
-        $id  = $this->name.'_'.$in_identificador;
-        $a   = array();
-        $a[] = sprintf('<span class="input-group-addon" id="%s">%s</span>', $id, htmlentities($in_etiqueta));
-        $a[] = sprintf('        <select class="form-control" name="%s" aria-describedby="%s">', $in_identificador, $id);
+        $etiqueta_id = sprintf('%s-etiqueta', $in_identificador);
+        $campo_id    = $in_identificador;
+        $a           = array();
+        $a[]         = sprintf('      <span class="input-group-addon" id="%s">%s</span>', $etiqueta_id, htmlentities($in_etiqueta));
+        $a[]         = sprintf('        <select class="form-control" name="%s" aria-describedby="%s" id="%s">', $in_identificador, $etiqueta_id, $campo_id);
         foreach ($in_opciones as $clave => $valor) {
             if ($clave == $in_seleccionado) {
                 $a[] = sprintf('          <option value="%s" selected>%s</option>', $clave, $valor);

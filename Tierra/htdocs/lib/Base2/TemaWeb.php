@@ -27,8 +27,8 @@ namespace Base2;
  */
 abstract class TemaWeb {
 
-    public $sistema;
-    public $titulo;
+    public $sistema;               // Nombre del sistema
+    public $titulo;                // Título de la página
     public $descripcion;
     public $autor;
     public $css;
