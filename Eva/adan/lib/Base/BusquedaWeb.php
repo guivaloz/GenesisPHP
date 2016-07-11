@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base Raiz
+ * GenesisPHP - Base BusquedaWeb
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Base;
 
 /**
- * Clase Raiz
+ * Clase BusquedaWeb
  */
-class Raiz extends Plantilla {
+class BusquedaWeb extends Plantilla {
 
     /**
      * PHP
@@ -33,54 +33,42 @@ class Raiz extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        if ($this->adan->si_hay_que_crear('listadocsv')) {
-            // Pagina con descarga de archivo csv
-            $contenido = <<<FINAL
+        // Definir instancias con las partes
+        $propiedades                = new \BusquedaWeb\Propiedades($this->adan);
+        $metodo_validar             = new \BusquedaWeb\Validar($this->adan);
+        $metodo_elaborar_formulario = new \BusquedaWeb\ElaborarFormulario($this->adan);
+        $metodo_recibir_formulario  = new \BusquedaWeb\RecibirFormulario($this->adan);
+        $metodo_consultar           = new \BusquedaWeb\Consultar($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_PLURAL Raiz
+ * SED_SISTEMA - SED_TITULO_SINGULAR BusquedaWeb
  *
  * @package SED_PAQUETE
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+namespace SED_CLASE_PLURAL;
 
-// Si se solicita el archivo CSV, descargarlo, de lo contrario mostrar la página HTML
-if (\$_GET['csv'] == 'descargar') {
-    \$pagina_csv = new \\SED_CLASE_PLURAL\\PaginaCSV();
-    echo \$pagina_csv->csv();
-} else {
-    \$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();
-    echo \$pagina_web->html();
-}
-
-?>
-
-FINAL;
-        } else {
-            // Entregar pagina con descarga de archivo csv
-            $contenido = <<<FINAL
-<?php
 /**
- * SED_SISTEMA - Página SED_TITULO_PLURAL
- *
- * @package SED_PAQUETE
+ * Clase BusquedaWeb
  */
+class BusquedaWeb extends \\Base2\\BusquedaWeb {
 
-require_once('lib/Base/AutocargadorClases.php');
-
-// Mostrar página web
-\$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();
-echo \$pagina_web->html();
+{$propiedades->php()}
+{$metodo_validar->php()}
+{$metodo_elaborar_formulario->php()}
+{$metodo_recibir_formulario->php()}
+{$metodo_consultar->php()}
+} // Clase BusquedaWeb
 
 ?>
 
 FINAL;
-        }
         // Realizar sustituciones y entregar
         return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase Raiz
+} // Clase BusquedaWeb
 
 ?>

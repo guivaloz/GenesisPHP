@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base Raiz
+ * GenesisPHP - Base TrenWeb
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Base;
 
 /**
- * Clase Raiz
+ * Clase TrenWeb
  */
-class Raiz extends Plantilla {
+class TrenWeb extends Plantilla {
 
     /**
      * PHP
@@ -33,54 +33,42 @@ class Raiz extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        if ($this->adan->si_hay_que_crear('listadocsv')) {
-            // Pagina con descarga de archivo csv
-            $contenido = <<<FINAL
+        // Definir instancias con las partes
+        $propiedades        = new \TrenWeb\Propiedades($this->adan);
+        $metodo_constructor = new \TrenWeb\Constructor($this->adan);
+        $metodo_barra       = new \TrenWeb\Barra($this->adan);
+        $metodo_html        = new \TrenWeb\HTML($this->adan);
+        $metodo_javascript  = new \TrenWeb\JavaScript($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_PLURAL Raiz
+ * SED_SISTEMA - SED_TITULO_PLURAL TrenHTML
  *
  * @package SED_PAQUETE
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+namespace SED_CLASE_PLURAL;
 
-// Si se solicita el archivo CSV, descargarlo, de lo contrario mostrar la página HTML
-if (\$_GET['csv'] == 'descargar') {
-    \$pagina_csv = new \\SED_CLASE_PLURAL\\PaginaCSV();
-    echo \$pagina_csv->csv();
-} else {
-    \$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();
-    echo \$pagina_web->html();
-}
-
-?>
-
-FINAL;
-        } else {
-            // Entregar pagina con descarga de archivo csv
-            $contenido = <<<FINAL
-<?php
 /**
- * SED_SISTEMA - Página SED_TITULO_PLURAL
- *
- * @package SED_PAQUETE
+ * Clase TrenWeb
  */
+class TrenWeb extends Listado {
 
-require_once('lib/Base/AutocargadorClases.php');
-
-// Mostrar página web
-\$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();
-echo \$pagina_web->html();
+{$propiedades->php()}
+{$metodo_constructor->php()}
+{$metodo_barra->php()}
+{$metodo_html->php()}
+{$metodo_javascript->php()}
+} // Clase TrenWeb
 
 ?>
 
 FINAL;
-        }
         // Realizar sustituciones y entregar
         return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase Raiz
+} // Clase TrenWeb
 
 ?>

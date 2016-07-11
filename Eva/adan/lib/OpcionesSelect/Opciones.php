@@ -68,7 +68,7 @@ class Opciones extends \Base\Plantilla {
                     if (is_array($this->relaciones[$columna])) {
                         $relacion = $this->relaciones[$columna];
                     } else {
-                        die("Error en Listado: Falta obtener datos de Serpiente para la relación $columna.");
+                        die("Error en OpcionesSelect, Opciones: Falta obtener datos de Serpiente para la relación $columna.");
                     }
                     // Si vip es texto
                     if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -94,7 +94,7 @@ class Opciones extends \Base\Plantilla {
                                             $vips[$n][] = "{$columna}_{$vip}";
                                         }
                                     } else {
-                                        die("Error en OpcionesSelect: No está definido el VIP en Serpiente para $vip.");
+                                        die("Error en OpcionesSelect, Opciones: No está definido el VIP en Serpiente para $vip.");
                                     }
                                 } elseif ($vip_datos['tipo'] == 'caracter') {
                                     // Es caracter, usaremos su descrito
@@ -121,7 +121,7 @@ class Opciones extends \Base\Plantilla {
         }
         // Si no se encuentra ninguno, error
         if (count($vips) == 0) {
-            die('Error en OpcionesSelect: No hay columnas con VIP con valor mayor a cero.');
+            die('Error en OpcionesSelect, Opciones: No hay columnas con VIP con valor mayor a cero.');
         }
         // Del vip mayor (izquierda) al mayor (derecha), ir juntando
         $a = array();

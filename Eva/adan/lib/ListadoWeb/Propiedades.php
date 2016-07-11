@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base OpcionesSelect
+ * GenesisPHP - ListadoWeb Propiedades
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace ListadoWeb;
 
 /**
- * Clase OpcionesSelect
+ * Clase Propiedades
  */
-class OpcionesSelect extends Plantilla {
+class Propiedades extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,36 +33,19 @@ class OpcionesSelect extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        // Definir instancias con las partes
-        $propiedades     = new \OpcionesSelect\Propiedades($this->adan);
-        $metodo_opciones = new \OpcionesSelect\Opciones($this->adan);
-        // Armar el contenido con las partes
-        $contenido = <<<FINAL
-<?php
-/**
- * SED_SISTEMA - SED_TITULO_SINGULAR OpcionesSelect
- *
- * @package SED_PAQUETE
- */
-
-namespace SED_CLASE_PLURAL;
-
-/**
- * Clase OpcionesSelect
- */
-class OpcionesSelect {
-
-{$propiedades->php()}
-{$metodo_opciones->php()}
-} // Clase OpcionesSelect
-
-?>
+        // Propiedades comentadas
+        $propiedades = new \Listado\Propiedades($this->adan);
+        // Entregar
+        return <<<FINAL
+{$propiedades->php_comentado()}
+    public \$viene_listado; // Se usa en la pagina, si es verdadero debe mostrar el listado
+    protected \$estructura;
+    protected \$listado_controlado;
+    protected \$javascript = array();
 
 FINAL;
-        // Realizar sustituciones y entregar
-        return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase OpcionesSelect
+} // Clase Propiedades
 
 ?>

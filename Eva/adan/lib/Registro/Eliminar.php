@@ -53,14 +53,14 @@ class Eliminar extends \Base\Plantilla {
         }
         // Validar que no esté eliminado
         if (\$this->estatus == '{$this->estatus['eliminado']}') {
-            throw new \\Base\\RegistroExceptionValidacion('Aviso: No puede eliminarse SED_MENSAJE_SINGULAR porque ya lo está.');
+            throw new \\Base2\\RegistroExceptionValidacion('Aviso: No puede eliminarse SED_MENSAJE_SINGULAR porque ya lo está.');
         }
         // Cambiar el estatus
         \$this->estatus = '{$this->estatus['eliminado']}';
         // Validar
         \$this->validar();
         // Actualizar la base de datos
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
             \$base_datos->comando(sprintf("
                 UPDATE
@@ -72,7 +72,7 @@ class Eliminar extends \Base\Plantilla {
                 \$this->estatus,
                 \$this->id));
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al eliminar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al eliminar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Eliminó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";
@@ -82,7 +82,6 @@ class Eliminar extends \Base\Plantilla {
         // Entregar mensaje
         return \$msg;
     } // eliminar
-
 
 FIN;
         }

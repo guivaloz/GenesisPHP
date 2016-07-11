@@ -162,7 +162,7 @@ FIN;
         if (is_array($this->estatus)) {
             $a[] = "        // Validar que si esta eliminado tenga permiso para consultarlo";
             $a[] = "        if ((\$a['estatus'] == '{$this->estatus['eliminado']}') && !\$this->sesion->puede_recuperar('SED_CLAVE')) {";
-            $a[] = "            throw new \Base\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');";
+            $a[] = "            throw new \\Base2\\RegistroExceptionValidacion('Aviso: No tiene permiso de consultar un registro eliminado.');";
             $a[] = "        }";
         }
         // Definir propiedades
@@ -390,19 +390,19 @@ FIN;
             \$this->id = \$in_id;
         }
         // Validar
-        if (!\$this->validar_entero(\$this->id)) {
-            throw new \\Base\\RegistroExceptionValidacion('Error: Al consultar SED_MENSAJE_SINGULAR por ID incorrecto.');
+        if (!\\Base2\\UtileriasParaValidar::validar_entero(\$this->id)) {
+            throw new \\Base2\\RegistroExceptionValidacion('Error: Al consultar SED_MENSAJE_SINGULAR por ID incorrecto.');
         }
         // Consultar
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
 {$this->elaborar_consultar_select()}
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
         }
         // Si la consulta no entrego nada
         if (\$consulta->cantidad_registros() < 1) {
-            throw new \\Base\\RegistroExceptionNoEncontrado('Aviso: No se encontró SED_MENSAJE_SINGULAR.');
+            throw new \\Base2\\RegistroExceptionNoEncontrado('Aviso: No se encontró SED_MENSAJE_SINGULAR.');
         }
 {$this->elaborar_consultar_propiedades()}
 {$this->elaborar_consultar_propiedades_relacionadas()}

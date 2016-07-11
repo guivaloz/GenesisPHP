@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base OpcionesSelect
+ * GenesisPHP - TrenWeb JavaScript
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace TrenWeb;
 
 /**
- * Clase OpcionesSelect
+ * Clase JavaScript
  */
-class OpcionesSelect extends Plantilla {
+class JavaScript extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,36 +33,33 @@ class OpcionesSelect extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        // Definir instancias con las partes
-        $propiedades     = new \OpcionesSelect\Propiedades($this->adan);
-        $metodo_opciones = new \OpcionesSelect\Opciones($this->adan);
-        // Armar el contenido con las partes
-        $contenido = <<<FINAL
-<?php
-/**
- * SED_SISTEMA - SED_TITULO_SINGULAR OpcionesSelect
- *
- * @package SED_PAQUETE
- */
-
-namespace SED_CLASE_PLURAL;
-
-/**
- * Clase OpcionesSelect
- */
-class OpcionesSelect {
-
-{$propiedades->php()}
-{$metodo_opciones->php()}
-} // Clase OpcionesSelect
-
-?>
+        return <<<FINAL
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+        if (is_array(\$this->javascript) && (count(\$this->javascript) > 0)) {
+            \$a = array();
+            foreach (\$this->javascript as \$js) {
+                if (is_string(\$js) && (\$js != '')) {
+                    \$a[] = \$js;
+                }
+            }
+            if (count(\$a) > 0) {
+                return implode("\\n", \$a);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } // javascript
 
 FINAL;
-        // Realizar sustituciones y entregar
-        return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase OpcionesSelect
+} // Clase JavaScript
 
 ?>

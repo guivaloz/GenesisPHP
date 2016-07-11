@@ -543,15 +543,15 @@ class Consultar extends \Base\Plantilla {
 {$this->elaborar_consultar_filtros()}
 {$this->elaborar_consultar_orden()}
         // Consultar
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
             \$consulta = \$base_datos->comando("\$columnas_sql \$tablas_sql \$filtros_sql \$orden_sql ".\$this->limit_offset_sql());
         } catch (Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para hacer listado.', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para hacer listado.', \$e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if (\$consulta->cantidad_registros() == 0) {
-            throw new \\Base\\ListadoExceptionVacio('Aviso: No se encontraron registros en SED_MENSAJE_PLURAL.');
+            throw new \\Base2\\ListadoExceptionVacio('Aviso: No se encontraron registros en SED_MENSAJE_PLURAL.');
         }
         // Pasamos la consulta a la propiedad listado
         \$this->listado = \$consulta->obtener_todos_los_registros();
@@ -559,8 +559,8 @@ class Consultar extends \Base\Plantilla {
         if ((\$this->limit > 0) && (\$this->cantidad_registros == 0)) {
             try {
                 \$consulta = \$base_datos->comando("SELECT COUNT(*) AS cantidad \$tablas_sql \$filtros_sql");
-            } catch (Exception \$e) {
-                throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para determinar la cantidad de registros.', \$e->getMessage());
+            } catch (\\Exception \$e) {
+                throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para determinar la cantidad de registros.', \$e->getMessage());
             }
             \$a = \$consulta->obtener_registro();
             \$this->cantidad_registros = intval(\$a['cantidad']);

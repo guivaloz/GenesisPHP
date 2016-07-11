@@ -112,31 +112,31 @@ class Modificar extends \Base\Plantilla {
                     case 'nom_corto':
                     case 'telefono':
                     case 'variable':
-                        $parametro = "                \$this->sql_texto(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto(\$this->{$columna})";
                         break;
                     case 'cuip':
                     case 'curp':
                     case 'mayusculas':
                     case 'rfc':
-                        $parametro = "                \$this->sql_texto_mayusculas(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto_mayusculas(\$this->{$columna})";
                         break;
                     case 'entero':
                     case 'relacion':
-                        $parametro = "                \$this->sql_entero(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_entero(\$this->{$columna})";
                         break;
                     case 'estatura':
                     case 'dinero':
                     case 'flotante':
                     case 'porcentaje':
                     case 'peso':
-                        $parametro = "                \$this->sql_flotante(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_flotante(\$this->{$columna})";
                         break;
                     case 'fecha':
                     case 'fecha_hora':
-                        $parametro = "                \$this->sql_tiempo(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_tiempo(\$this->{$columna})";
                         break;
                     case 'geopunto':
-                        $parametro = "                \$this->sql_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
                         break;
                     default:
                         die("Error en Registro Modificar: Tipo de dato {$datos['tipo']} no programado en elaborar_modificar_sql");
@@ -203,14 +203,14 @@ FIN;
 {$this->elaborar_comparaciones()}
         // Si no hay cambios, provoca excepcion de validacion
         if (count(\$a) == 0) {
-            throw new \\Base\\RegistroExceptionValidacion('Aviso: No hay cambios.');
+            throw new \\Base2\\RegistroExceptionValidacion('Aviso: No hay cambios.');
         }
         // Actualizar la base de datos
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
             \$base_datos->comando({$this->elaborar_update_sql()});
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Modificó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()} con ".implode(', ', \$a);
@@ -220,7 +220,6 @@ FIN;
         // Entregar mensaje
         return \$msg;
     } // modificar
-
 
 FIN;
     } // php

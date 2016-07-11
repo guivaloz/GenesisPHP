@@ -298,7 +298,6 @@ class Nuevo extends \Base\Plantilla {
         \$this->consultado = true;
     } // nuevo
 
-
 FIN;
     } // php
 

@@ -53,14 +53,14 @@ class Recuperar extends \Base\Plantilla {
         }
         // Validar que esté eliminado
         if (\$this->estatus != '{$this->estatus['eliminado']}') {
-            throw new \\Base\\RegistroExceptionValidacion('Aviso: No puede recuperarse SED_MENSAJE_SINGULAR porque ya lo está.');
+            throw new \\Base2\\RegistroExceptionValidacion('Aviso: No puede recuperarse SED_MENSAJE_SINGULAR porque ya lo está.');
         }
         // Cambiar el estatus
         \$this->estatus = '{$this->estatus['enuso']}';
         // Validar
         \$this->validar();
         // Actualizar la base de datos
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
             \$base_datos->comando(sprintf("
                 UPDATE
@@ -72,7 +72,7 @@ class Recuperar extends \Base\Plantilla {
                 \$this->estatus,
                 \$this->id));
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Recuperó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";
@@ -82,7 +82,6 @@ class Recuperar extends \Base\Plantilla {
         // Entregar mensaje
         return \$msg;
     } // recuperar
-
 
 FIN;
         }

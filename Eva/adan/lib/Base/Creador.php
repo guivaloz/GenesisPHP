@@ -100,13 +100,23 @@ class Creador {
         // Crear Registro
         $registro = new Registro($this->adan);
         $m[]      = $this->crear_archivo_libreria($modulo, "Registro.php", $registro->php());
-        // Crear DetalleHTML
-        $detalle_html = new DetalleHTML($this->adan);
-        $m[]          = $this->crear_archivo_libreria($modulo, "DetalleHTML.php", $detalle_html->php());
-        // Crear FormularioHTML
+        // Crear DetalleWeb
+        $detalle_web = new DetalleWeb($this->adan);
+        $m[]         = $this->crear_archivo_libreria($modulo, "DetalleWeb.php", $detalle_web->php());
+        // Crear EliminarWeb
+        if ($this->adan->si_hay_que_crear('eliminar')) {
+            $eliminar_web = new EliminarWeb($this->adan);
+            $m[]          = $this->crear_archivo_libreria($modulo, "EliminarWeb.php", $eliminar_web->php());
+        }
+        // Crear RecuperarWeb
+        if ($this->adan->si_hay_que_crear('recuperar')) {
+            $recuperar_web = new RecuperarWeb($this->adan);
+            $m[]           = $this->crear_archivo_libreria($modulo, "RecuperarWeb.php", $recuperar_web->php());
+        }
+        // Crear FormularioWeb
         if ($this->adan->si_hay_que_crear('formulario')) {
-            $formulario_html = new FormularioHTML($this->adan);
-            $m[]             = $this->crear_archivo_libreria($modulo, "FormularioHTML.php", $formulario_html->php());
+            $formulario_web = new FormularioWeb($this->adan);
+            $m[]            = $this->crear_archivo_libreria($modulo, "FormularioWeb.php", $formulario_web->php());
         }
         // Crear Listado
         $listado = new Listado($this->adan);
@@ -118,20 +128,20 @@ class Creador {
             //~ $pagina_csv  = new PaginaCSV($this->adan);
             //~ $m[]         = $this->crear_archivo_libreria($modulo, "PaginaCSV.php", $pagina_csv->php());
         //~ }
-        // Crear ListadoHTML
+        // Crear ListadoWeb
         if ($this->adan->si_hay_que_crear('listado')) {
-            $listado_html = new ListadoHTML($this->adan);
-            $m[]          = $this->crear_archivo_libreria($modulo, "ListadoHTML.php", $listado_html->php());
+            $listado_web = new ListadoWeb($this->adan);
+            $m[]         = $this->crear_archivo_libreria($modulo, "ListadoWeb.php", $listado_web->php());
         }
-        // Crear TrenHTML
+        // Crear TrenWeb
         if ($this->adan->si_hay_que_crear('tren')) {
-            $tren_html = new TrenHTML($this->adan);
-            $m[]       = $this->crear_archivo_libreria($modulo, "TrenHTML.php", $tren_html->php());
+            $tren_web = new TrenWeb($this->adan);
+            $m[]      = $this->crear_archivo_libreria($modulo, "TrenWeb.php", $tren_web->php());
         }
-        // Crear BusquedaHTML
+        // Crear BusquedaWeb
         if ($this->adan->si_hay_que_crear('busqueda')) {
-            $busqueda_html = new BusquedaHTML($this->adan);
-            $m[]           = $this->crear_archivo_libreria($modulo, "BusquedaHTML.php", $busqueda_html->php());
+            $busqueda_web = new BusquedaWeb($this->adan);
+            $m[]          = $this->crear_archivo_libreria($modulo, "BusquedaWeb.php", $busqueda_web->php());
         }
         // Crear Select Opciones
         if ($this->adan->si_hay_que_crear('select_opciones')) {
@@ -140,14 +150,14 @@ class Creador {
         }
         // Crear Impresion
         //~ if ($this->adan->si_hay_que_crear('impresiones')) {
-            //~ $impresion      = new Impresion($this->adan);
-            //~ $m[]            = $this->crear_archivo_libreria($modulo, "Impresion.php", $impresion->php());
-            //~ $impresion_html = new ImpresionHTML($this->adan);
-            //~ $m[]            = $this->crear_archivo_libreria($modulo, "ImpresionHTML.php", $impresion_html->php());
+            //~ $impresion     = new Impresion($this->adan);
+            //~ $m[]           = $this->crear_archivo_libreria($modulo, "Impresion.php", $impresion->php());
+            //~ $impresion_web = new ImpresionWeb($this->adan);
+            //~ $m[]           = $this->crear_archivo_libreria($modulo, "ImpresionWeb.php", $impresion_web->php());
         //~ }
-        // Crear PaginaHTML
-        $pagina_html = new PaginaHTML($this->adan);
-        $m[]         = $this->crear_archivo_libreria($modulo, "PaginaHTML.php", $pagina_html->php());
+        // Crear PaginaWeb
+        $pagina_web = new PaginaWeb($this->adan);
+        $m[]        = $this->crear_archivo_libreria($modulo, "PaginaWeb.php", $pagina_web->php());
         // Crear raiz
         $raiz = new Raiz($this->adan);
         $m[]  = $this->crear_archivo_pagina($this->adan->sustituciones['SED_ARCHIVO_PLURAL'].".php", $raiz->php());

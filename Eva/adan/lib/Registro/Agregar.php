@@ -78,31 +78,31 @@ class Agregar extends \Base\Plantilla {
                     case 'telefono':
                     case 'frase':
                     case 'variable':
-                        $parametro = "                \$this->sql_texto(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto(\$this->{$columna})";
                         break;
                     case 'mayusculas':
                     case 'cuip':
                     case 'curp':
                     case 'rfc':
-                        $parametro = "                \$this->sql_texto_mayusculas(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto_mayusculas(\$this->{$columna})";
                         break;
                     case 'entero':
                     case 'relacion':
-                        $parametro = "                \$this->sql_entero(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_entero(\$this->{$columna})";
                         break;
                     case 'flotante':
                     case 'dinero':
                     case 'porcentaje':
                     case 'peso':
                     case 'estatura':
-                        $parametro = "                \$this->sql_flotante(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_flotante(\$this->{$columna})";
                         break;
                     case 'fecha':
                     case 'fecha_hora':
-                        $parametro = "                \$this->sql_tiempo(\$this->{$columna})";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_tiempo(\$this->{$columna})";
                         break;
                     case 'geopunto':
-                        $parametro = "                \$this->sql_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
                         break;
                     default:
                         die("Error en Registro Agregar: Tipo de dato {$datos['tipo']} no programado en elaborar_agregar_sql");
@@ -157,17 +157,17 @@ FIN;
         // Validar
         \$this->validar();
         // Insertar en la base de datos
-        \$base_datos = new \\Base\\BaseDatosMotor();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
             \$base_datos->comando({$this->elaborar_insert_sql()});
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Obtener el id de lo recién insertado
         try {
             \$consulta = \$base_datos->comando("SELECT last_value AS id FROM {$this->tabla_nombre}_id_seq");
         } catch (\\Exception \$e) {
-            throw new \\Base\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         \$a        = \$consulta->obtener_registro();
         \$this->id = intval(\$a['id']);
@@ -179,7 +179,6 @@ FIN;
         // Entregar mensaje
         return \$msg;
     } // agregar
-
 
 FIN;
         } else {

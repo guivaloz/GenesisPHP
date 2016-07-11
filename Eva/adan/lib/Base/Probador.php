@@ -50,30 +50,30 @@ class Probador {
             case 'registro':
                 $registro = new Registro($this->adan);
                 return $registro->php();
-            case 'detallehtml':
-                $detalle_html = new DetalleHTML($this->adan);
-                return $detalle_html->php();
-            case 'formulariohtml':
-                $formulario_html = new FormularioHTML($this->adan);
-                return $formulario_html->php();
+            case 'detalleweb':
+                $detalle_web = new DetalleWeb($this->adan);
+                return $detalle_web->php();
+            case 'formularioweb':
+                $formulario_web = new FormularioWeb($this->adan);
+                return $formulario_web->php();
             case 'listado':
                 $listado = new Listado($this->adan);
                 return $listado->php();
-            case 'listadohtml':
-                $listado_html = new ListadoHTML($this->adan);
-                return $listado_html->php();
-            case 'trenhtml':
-                $tren_html = new TrenHTML($this->adan);
-                return $tren_html->php();
-            case 'busquedahtml':
-                $busqueda_html = new BusquedaHTML($this->adan);
-                return $busqueda_html->php();
+            case 'listadoweb':
+                $listado_web = new ListadoWeb($this->adan);
+                return $listado_web->php();
+            case 'trenweb':
+                $tren_web = new TrenWeb($this->adan);
+                return $tren_web->php();
+            case 'busquedaweb':
+                $busqueda_web = new BusquedaWeb($this->adan);
+                return $busqueda_web->php();
             case 'opcionesselect':
                 $opciones_select = new OpcionesSelect($this->adan);
                 return $opciones_select->php();
-            case 'paginahtml':
-                $pagina_html = new PaginaHTML($this->adan);
-                return $pagina_html->php();
+            case 'paginaweb':
+                $pagina_web = new PaginaWeb($this->adan);
+                return $pagina_web->php();
             case 'raiz':
                 $raiz = new Raiz($this->adan);
                 return $raiz->php();

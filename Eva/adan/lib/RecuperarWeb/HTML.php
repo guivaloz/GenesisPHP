@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base OpcionesSelect
+ * GenesisPHP - RecuperarWeb HTML
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace RecuperarWeb;
 
 /**
- * Clase OpcionesSelect
+ * Clase HTML
  */
-class OpcionesSelect extends Plantilla {
+class HTML extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,36 +33,26 @@ class OpcionesSelect extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        // Definir instancias con las partes
-        $propiedades     = new \OpcionesSelect\Propiedades($this->adan);
-        $metodo_opciones = new \OpcionesSelect\Opciones($this->adan);
-        // Armar el contenido con las partes
-        $contenido = <<<FINAL
-<?php
-/**
- * SED_SISTEMA - SED_TITULO_SINGULAR OpcionesSelect
- *
- * @package SED_PAQUETE
- */
-
-namespace SED_CLASE_PLURAL;
-
-/**
- * Clase OpcionesSelect
- */
-class OpcionesSelect {
-
-{$propiedades->php()}
-{$metodo_opciones->php()}
-} // Clase OpcionesSelect
-
-?>
+        return <<<FINAL
+    /**
+     * HTML
+     *
+     * @param  string Encabezado opcional
+     * @return string HTML
+     */
+    public function html(\$in_encabezado='') {
+        try {
+            \$mensaje = new \\Base2\\MensajeWeb(\$this->recuperar());
+            return parent::html().\$mensaje->html(\$in_encabezado);
+        } catch (\\Exception \$e) {
+            \$mensaje = new \\Base2\\MensajeWeb(\$e->getMessage());
+            return \$mensaje->html(\$in_encabezado);
+        }
+    } // html
 
 FINAL;
-        // Realizar sustituciones y entregar
-        return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase OpcionesSelect
+} // Clase HTML
 
 ?>

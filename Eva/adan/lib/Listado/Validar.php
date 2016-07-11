@@ -42,7 +42,7 @@ class Validar extends \Base\Plantilla {
             $a[] = "            if ((\$this->estatus == '{$this->estatus['eliminado']}') && !\$this->sesion->puede_recuperar('SED_CLAVE')) {";
             $a[] = "                throw new \\Exception('Aviso: No tiene permiso para ver los registros eliminados.');";
             $a[] = "            } elseif (!array_key_exists(\$this->estatus, Registro::\$estatus_descripciones)) {";
-            $a[] = "                throw new \\Base\\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');";
+            $a[] = "                throw new \\Base2\\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');";
             $a[] = "            }";
             if ($this->estatus['enuso'] != '') {
                 $a[] = "        } elseif (!\$this->sesion->puede_recuperar('SED_CLAVE')) {";
@@ -55,7 +55,7 @@ class Validar extends \Base\Plantilla {
             $a[] = "        if (\$this->estatus != '') {";
             $a[] = "            // Viene el filtro por estatus, no es 'en uso'/'eliminado', se valida como caracter";
             $a[] = "            if (!array_key_exists(\$this->estatus, Registro::\$estatus_descripciones)) {";
-            $a[] = "                throw new \\Base\\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');";
+            $a[] = "                throw new \\Base2\\ListadoExceptionValidacion('Aviso: Estatus incorrecto.');";
             $a[] = "            }";
             $a[] = "        }";
         }
@@ -122,7 +122,7 @@ class Validar extends \Base\Plantilla {
         if (is_array($relacion['estatus'])) {
                 $a[] = "            // Si el padre esta eliminado y no tiene permiso";
                 $a[] = "            if (({$instancia}->estatus == '{$relacion['estatus']['eliminado']}') && !\$this->sesion->puede_recuperar('{$relacion['clave']}')) {";
-                $a[] = "                throw new \\Base\\ListadoExceptionValidacion('Aviso: El(la) {$relacion['etiqueta_singular']} está eliminado(a).');";
+                $a[] = "                throw new \\Base2\\ListadoExceptionValidacion('Aviso: El(la) {$relacion['etiqueta_singular']} está eliminado(a).');";
                 $a[] = "            }";
         }
         // Si la relacion no tiene valor, entonces se validaran los otros filtros que cuelgan de esta
@@ -200,44 +200,44 @@ class Validar extends \Base\Plantilla {
                 case 'entero':
                 case 'serial':
                     $funcion = array(
-                        'desde' => "!\$this->validar_entero(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_entero(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_entero(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_entero(\$this->{$columna}_hasta)");
                     break;
                 case 'flotante':
                 case 'dinero':
                     $funcion = array(
-                        'desde' => "!\$this->validar_flotante(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_flotante(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_flotante(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_flotante(\$this->{$columna}_hasta)");
                     break;
                 case 'porcentaje':
                     $funcion = array(
-                        'desde' => "!\$this->validar_porcentaje(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_porcentaje(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_porcentaje(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_porcentaje(\$this->{$columna}_hasta)");
                     break;
                 case 'peso':
                     $funcion = array(
-                        'desde' => "!\$this->validar_peso(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_peso(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_peso(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_peso(\$this->{$columna}_hasta)");
                     break;
                 case 'estatura':
                     $funcion = array(
-                        'desde' => "!\$this->validar_estatura(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_estatura(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_estatura(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_estatura(\$this->{$columna}_hasta)");
                     break;
                 case 'fecha':
                     $funcion = array(
-                        'desde' => "!\$this->validar_fecha(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_fecha(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_fecha(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_fecha(\$this->{$columna}_hasta)");
                     break;
                 case 'fecha_hora':
                     $funcion = array(
-                        'desde' => "!\$this->validar_fecha_hora(\$this->{$columna}_desde)",
-                        'hasta' => "!\$this->validar_fecha_hora(\$this->{$columna}_hasta)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_fecha_hora(\$this->{$columna}_desde)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_fecha_hora(\$this->{$columna}_hasta)");
                     break;
                 case 'geopunto':
                     $funcion = array(
-                        'desde' => "!\$this->validar_geopunto(\$this->{$columna}_desde_longitud, \$this->{$columna}_desde_latitud)",
-                        'hasta' => "!\$this->validar_geopunto(\$this->{$columna}_hasta_longitud, \$this->{$columna}_hasta_latitud)");
+                        'desde' => "!\\Base2\\UtileriasParaValidar::validar_geopunto(\$this->{$columna}_desde_longitud, \$this->{$columna}_desde_latitud)",
+                        'hasta' => "!\\Base2\\UtileriasParaValidar::validar_geopunto(\$this->{$columna}_hasta_longitud, \$this->{$columna}_hasta_latitud)");
                     break;
                 default:
                     die("Error en Listado, validar, elaborar_validar_declaracion: El tipo {$datos['tipo']} en $columna no puede validarse como rango.");
@@ -253,64 +253,64 @@ class Validar extends \Base\Plantilla {
                     }
                     break;
                 case 'clave':
-                    $funcion = "!\$this->validar_clave(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_clave(\$this->{$columna})";
                     break;
                 case 'cuip':
-                    $funcion = "!\$this->validar_cuip(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_cuip(\$this->{$columna})";
                     break;
                 case 'curp':
-                    $funcion = "!\$this->validar_curp(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_curp(\$this->{$columna})";
                     break;
                 case 'rfc':
-                    $funcion = "!\$this->validar_rfc(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_rfc(\$this->{$columna})";
                     break;
                 case 'email':
-                    $funcion = "!\$this->validar_email(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_email(\$this->{$columna})";
                     break;
                 case 'nombre':
                 case 'mayusculas':
-                    $funcion = "!\$this->validar_nombre(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_nombre(\$this->{$columna})";
                     break;
                 case 'notas':
-                    $funcion = "!\$this->validar_notas(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_notas(\$this->{$columna})";
                     break;
                 case 'nom_corto':
-                    $funcion = "!\$this->validar_nom_corto(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_nom_corto(\$this->{$columna})";
                     break;
                 case 'frase':
-                    $funcion = "!\$this->validar_frase(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_frase(\$this->{$columna})";
                     break;
                 case 'telefono':
-                    $funcion = "!\$this->validar_telefono(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_telefono(\$this->{$columna})";
                     break;
                 case 'variable':
-                    $funcion = "!\$this->validar_variable(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_variable(\$this->{$columna})";
                     break;
                 case 'entero':
                 case 'serial':
-                        $funcion = "!\$this->validar_entero(\$this->{$columna})";
+                        $funcion = "!\\Base2\\UtileriasParaValidar::validar_entero(\$this->{$columna})";
                     break;
                 case 'flotante':
                 case 'dinero':
-                    $funcion = "!\$this->validar_flotante(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_flotante(\$this->{$columna})";
                     break;
                 case 'porcentaje':
-                    $funcion = "!\$this->validar_porcentaje(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_porcentaje(\$this->{$columna})";
                     break;
                 case 'peso':
-                    $funcion = "!\$this->validar_peso(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_peso(\$this->{$columna})";
                     break;
                 case 'estatura':
-                    $funcion = "!\$this->validar_estatura(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_estatura(\$this->{$columna})";
                     break;
                 case 'fecha':
-                    $funcion = "!\$this->validar_fecha(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_fecha(\$this->{$columna})";
                     break;
                 case 'fecha_hora':
-                    $funcion = "!\$this->validar_fecha_hora(\$this->{$columna})";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_fecha_hora(\$this->{$columna})";
                     break;
                 case 'geopunto':
-                    $funcion = "!\$this->validar_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_geopunto(\$this->{$columna}_longitud, \$this->{$columna}_latitud)";
                     break;
                 case 'relacion':
                     $funcion = false;
@@ -332,14 +332,14 @@ class Validar extends \Base\Plantilla {
             // Varias funciones son varias validaciones
             foreach ($funcion as $c => $f) {
                 $a[] = "$espacios    if ((\$this->{$columna}_{$c} != '') && $f) {";
-                $a[] = "$espacios        throw new \\Base\\ListadoExceptionValidacion('Aviso: {$datos['etiqueta']} $c incorrecto(a).');";
+                $a[] = "$espacios        throw new \\Base2\\ListadoExceptionValidacion('Aviso: {$datos['etiqueta']} $c incorrecto(a).');";
                 $a[] = "$espacios    }";
             }
             return implode("\n", $a);
         } elseif (is_string($funcion) && ($funcion != '')) {
             // Una funcion es una validacion
             $a[] = "$espacios    if ((\$this->{$columna} != '') && $funcion) {";
-            $a[] = "$espacios        throw new \\Base\\ListadoExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
+            $a[] = "$espacios        throw new \\Base2\\ListadoExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
             $a[] = "$espacios    }";
             return implode("\n", $a);
         }
@@ -514,7 +514,7 @@ class Validar extends \Base\Plantilla {
     public function validar() {
         // Validar permiso
         if (!\$this->sesion->puede_ver('SED_CLAVE')) {
-            throw new \Exception('Aviso: No tiene permiso para ver SED_MENSAJE_PLURAL.');
+            throw new \\Exception('Aviso: No tiene permiso para ver SED_MENSAJE_PLURAL.');
         }
         // Validar los filtros
 {$this->elaborar_validaciones()}

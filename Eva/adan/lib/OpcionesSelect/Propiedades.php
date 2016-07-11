@@ -50,7 +50,7 @@ class Propiedades extends \Base\Plantilla {
                     if (is_array($this->relaciones[$columna])) {
                         $relacion = $this->relaciones[$columna];
                     } else {
-                        die("Error en Listado: Falta obtener datos de Serpiente para la relación $columna.");
+                        die("Error en OpcionesSelect, Opciones: Falta obtener datos de Serpiente para la relación $columna.");
                     }
                     // Si vip es texto
                     if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -81,7 +81,7 @@ class Propiedades extends \Base\Plantilla {
                                             $a[] = "    // public \${$columna}_{$vip}_{$this->relaciones[$vip]['vip']};";
                                         }
                                     } else {
-                                        die("Error en ListadoHTML: No está definido el VIP en Serpiente para $vip.");
+                                        die("Error en OpcionesSelect, Opciones: No está definido el VIP en Serpiente para $vip.");
                                     }
                                 } elseif ($vip_datos['tipo'] == 'caracter') {
                                     // Es caracter, habra el caracter y el descrito

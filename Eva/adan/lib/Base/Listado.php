@@ -52,7 +52,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase Listado
  */
-class Listado extends \\Base\\Listado {
+class Listado extends \\Base2\\Listado {
 
 {$propiedades->php()}
 {$metodo_validar->php()}

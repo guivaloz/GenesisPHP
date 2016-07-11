@@ -56,11 +56,12 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase Registro
  */
-class Registro extends \\Base\\Registro {
+class Registro extends \\Base2\\Registro {
 
 {$propiedades->php()}
 {$metodo_consultar->php()}
-{$metodo_validar->php()}{$metodo_nuevo->php()}{$metodo_agregar->php()}{$metodo_modificar->php()}{$metodo_eliminar->php()}{$metodo_recuperar->php()}} // Clase Registro
+{$metodo_validar->php()}{$metodo_nuevo->php()}{$metodo_agregar->php()}{$metodo_modificar->php()}{$metodo_eliminar->php()}{$metodo_recuperar->php()}
+} // Clase Registro
 
 ?>
 
