@@ -83,7 +83,7 @@ class HTML extends \Base\Plantilla {
                         if (is_array($this->relaciones[$columna])) {
                             $relacion = $this->relaciones[$columna];
                         } else {
-                            die("Error en ListadoWeb, HTML elaborar_html_eliminar_columnas: Falta obtener datos de Serpiente para la relación $columna.");
+                            die("Error en ListadoWeb, HTML: Falta obtener datos de Serpiente para la relación $columna.");
                         }
                         // Si vip es texto
                         if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -114,7 +114,7 @@ class HTML extends \Base\Plantilla {
                                                 $a[] = "        }";
                                             }
                                         } else {
-                                            die("Error en ListadoWeb, HTML elaborar_html_eliminar_columnas: No está definido el VIP en Serpiente para $vip.");
+                                            die("Error en ListadoWeb, HTML: No está definido el VIP en Serpiente para $vip.");
                                         }
                                     } else {
                                         // No es una relacion
@@ -163,16 +163,16 @@ class HTML extends \Base\Plantilla {
             if ($this->tabla[$columna]['tipo'] == 'geopunto') {
                 // Validar que esten los datos necesarios
                 if ($datos['categoria'] == '') {
-                    die("Error en ListadoWeb, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categoria'.");
+                    die("Error en ListadoWeb, HTML: Al arreglo mapa, para la columna $columna le falta el dato 'categoria'.");
                 }
                 if ($datos['categorias_colores'] == '') {
-                    die("Error en ListadoWeb, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_colores'.");
+                    die("Error en ListadoWeb, HTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_colores'.");
                 }
                 if ($datos['categorias_descripciones'] == '') {
-                    die("Error en ListadoWeb, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_descripciones'.");
+                    die("Error en ListadoWeb, HTML: Al arreglo mapa, para la columna $columna le falta el dato 'categorias_descripciones'.");
                 }
                 if ($datos['descripcion'] == '') {
-                    die("Error en ListadoWeb, HTML, elaborar_html_mapa: Al arreglo mapa, para la columna $columna le falta el dato 'descripcion'.");
+                    die("Error en ListadoWeb, HTML: Al arreglo mapa, para la columna $columna le falta el dato 'descripcion'.");
                 }
                 // Para que se vea bonito
                 $colores    = $datos['categorias_colores'];
@@ -222,8 +222,6 @@ class HTML extends \Base\Plantilla {
         \$this->listado_controlado->variables          = \$this->filtros_param;
         \$this->listado_controlado->limit              = \$this->limit;
         \$this->listado_controlado->barra              = \$this->barra(\$in_encabezado);
-        // Agregar el javascript
-        \$this->javascript[] = \$this->listado_controlado->javascript();
         // Entregar
         return \$this->listado_controlado->html();
     } // html

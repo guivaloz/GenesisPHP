@@ -61,6 +61,8 @@ class DiscoRegistro extends \Base2\Registro {
 
     /**
      * Encabezado
+     *
+     * @return string Encabezado
      */
     public function encabezado() {
         return $this->titulo;
@@ -72,22 +74,22 @@ class DiscoRegistro extends \Base2\Registro {
     public function validar() {
         // Validar
         if (!\Base2\UtileriasParaValidar::validar_nombre($this->titulo)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Título incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Título incorrecto.');
         }
         if (!\Base2\UtileriasParaValidar::validar_fecha($this->lanzamiento)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Lanzamiento incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Lanzamiento incorrecto.');
         }
         if (!\Base2\UtileriasParaValidar::validar_nombre($this->artista)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Artista incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Artista incorrecto.');
         }
         if (!\Base2\UtileriasParaValidar::validar_nombre($this->genero)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Género incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Género incorrecto.');
         }
         if (!\Base2\UtileriasParaValidar::validar_entero($this->canciones_cantidad)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Cantidad de canciones incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Cantidad de canciones incorrecto.');
         }
         if (!array_key_exists($this->origen, self::$origen_descripciones)) {
-            throw new \Base\RegistroExceptionValidacion('Aviso: Origen incorrecto.');
+            throw new \Base2\RegistroExceptionValidacion('Aviso: Origen incorrecto.');
         }
         // Definir los descritos
         $this->origen_descrito = self::$origen_descripciones[$this->origen];

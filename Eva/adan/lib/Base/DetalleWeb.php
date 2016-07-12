@@ -35,6 +35,7 @@ class DetalleWeb extends Plantilla {
     public function php() {
         // Definir instancias con las partes
         $propiedades       = new \DetalleWeb\Propiedades($this->adan);
+        $metodo_barra      = new \DetalleWeb\Barra($this->adan);
         $metodo_html       = new \DetalleWeb\HTML($this->adan);
         $metodo_javascript = new \DetalleWeb\JavaScript($this->adan);
         // Armar el contenido con las partes
@@ -54,6 +55,7 @@ namespace SED_CLASE_PLURAL;
 class DetalleWeb extends Registro {
 
 {$propiedades->php()}
+{$metodo_barra->php()}
 {$metodo_html->php()}
 {$metodo_javascript->php()}
 } // Clase DetalleWeb

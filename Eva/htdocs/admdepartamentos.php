@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Departamentos
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,16 +20,15 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
-// Si se solicita la descarga de archivo CSV
+// Si se solicita la descarga de archivo CSV, de lo contrario la página web
 if ($_GET['csv'] == 'descargar') {
     $descargar_listado_csv = new \AdmDepartamentos\DescargarListadoCSV();
     echo $descargar_listado_csv->csv();
 } else {
-    // Mostrar la página web
-    $pagina_html = new \AdmDepartamentos\PaginaWeb();
-    echo $pagina_html->html();
+    $pagina_web = new \AdmDepartamentos\PaginaWeb();
+    echo $pagina_web->html();
 }
 
 ?>

@@ -61,6 +61,8 @@ class CactusRegistro extends \Base2\Registro {
 
     /**
      * Encabezado
+     *
+     * @return string Encabezado
      */
     public function encabezado() {
         return $this->nombre;

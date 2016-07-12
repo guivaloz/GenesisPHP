@@ -198,13 +198,7 @@ class TemaWebIngreso extends TemaWeb {
         $a[] = "          <h2 class=\"form-signin-heading\">{$this->sistema}</h2>";
         $a[] = '          <input name="nom_corto" type="text" class="input-block-level" placeholder="nombre de usuario">';
         $a[] = '          <input name="contrasena" type="password" class="input-block-level" placeholder="contraseña">';
-        if ((is_array($this->contenido)) && (count($this->contenido) > 0)) {
-            foreach ($this->contenido as $c) {
-                $a[] = "          <p>$c</p>";
-            }
-        } elseif (is_string($this->contenido)) {
-            $a[] = "          <p>{$this->contenido}</p>";
-        }
+        $a[] = $this->bloque_html($this->contenido);
         $a[] = '          <button class="btn btn-large btn-primary" type="submit">Iniciar sesión</button>';
         $a[] = '        </form>';
         $a[] = '      </div>';

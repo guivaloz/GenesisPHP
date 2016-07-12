@@ -88,7 +88,7 @@ class Constructor extends \Base\Plantilla {
                 if (is_array($this->relaciones[$columna])) {
                     $relacion = $this->relaciones[$columna];
                 } else {
-                    die("Error en ListadoWeb, Constructor, elaborar_constructor_recibir_filtros: Falta obtener datos de Serpiente para la relación $columna.");
+                    die("Error en ListadoWeb, Constructor: Falta obtener datos de Serpiente para la relación $columna.");
                 }
                 // A continuacion, la parte complicada que viaja a traves de las relaciones
                 if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -107,7 +107,7 @@ class Constructor extends \Base\Plantilla {
                                         $a[] = $this->elaborar_constructor_recibir_filtros_declaracion("{$vip}_{$this->relaciones[$vip]['vip']}");
                                     }
                                 } else {
-                                    die("Error en ListadoWeb, Constructor, elaborar_constructor_recibir_filtros: No está definido el VIP en Serpiente para $vip.");
+                                    die("Error en ListadoWeb, Constructor: No está definido el VIP en Serpiente para $vip.");
                                 }
                             } else {
                                 $a[] = $this->elaborar_constructor_recibir_filtros_declaracion("{$columna}_{$vip}", $vip_datos);
@@ -148,7 +148,7 @@ class Constructor extends \Base\Plantilla {
                     if (is_array($this->relaciones[$columna])) {
                         $relacion = $this->relaciones[$columna];
                     } else {
-                        die("Error en ListadoWeb, Constructor, elaborar_constructor_estructura: Falta obtener datos de Serpiente para la relación $columna.");
+                        die("Error en ListadoWeb, Constructor: Falta obtener datos de Serpiente para la relación $columna.");
                     }
                     // Si vip es texto
                     if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
@@ -209,7 +209,7 @@ class Constructor extends \Base\Plantilla {
                                             $secuencia++;
                                         }
                                     } else {
-                                        die("Error en ListadoWeb, Constructor, elaborar_constructor_estructura: No está definido el VIP en Serpiente para $vip.");
+                                        die("Error en ListadoWeb, Constructor: No está definido el VIP en Serpiente para $vip.");
                                     }
                                 } elseif ($vip_datos['tipo'] == 'caracter') {
                                     // Es caracter, se muestra el descrito
@@ -243,7 +243,7 @@ class Constructor extends \Base\Plantilla {
                             }
                         }
                     } else {
-                        die("Error en ListadoWeb, Constructor, elaborar_constructor_estructura: Falta el 'vip' en Serpiente para la relación $columna.");
+                        die("Error en ListadoWeb, Constructor: Falta el 'vip' en Serpiente para la relación $columna.");
                     }
                 } elseif ($datos['tipo'] == 'caracter') {
                     // La columna es un caracter, sera sustituido por su descripcion

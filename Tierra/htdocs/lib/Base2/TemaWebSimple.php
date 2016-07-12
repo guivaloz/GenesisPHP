@@ -242,13 +242,7 @@ class TemaWebSimple extends TemaWeb {
         $a[] = $this->cabecera_html();
         $a[] = $this->menu_principal_html();
         $a[] = '<div class="container">';
-        if (is_array($this->contenido) && (count($this->contenido) > 0)) {
-            $a[] = implode("\n", $this->contenido);
-        } elseif (is_string($this->contenido) && ($this->contenido != '')) {
-            $a[] = $this->contenido;
-        } else {
-            $a[] = "No hay contenido.";
-        }
+        $a[] = $this->bloque_html($this->contenido);
         $a[] = '</div>';
         $a[] = $this->final_html();
         // Entregar

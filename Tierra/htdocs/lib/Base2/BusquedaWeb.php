@@ -27,12 +27,12 @@ namespace Base2;
  */
 abstract class BusquedaWeb implements SalidaWeb {
 
-    public $consultado = false;        // Booleano
-    protected $sesion;                 // Instancia de \Inicio\Sesion
+    public $consultado      = false;   // Booleano
     public $hay_resultados  = false;   // Verdadero si la búsqueda arrojo resultados
     public $entrego_detalle = false;   // Verdadero si la búsqueda arrojo un resultado, para que se muestren los hijos debajo del detalle
     public $hay_mensaje     = false;   // Verdadero si la búsqueda no encontro resultados, para que la página active la lengüeta y se vea el mensaje
     public $resultado;                 // Instancia con el resultado si tiene éxito, puede ser un detalle o un listado
+    protected $sesion;                 // Instancia de \Inicio\Sesion
     protected $javascript   = array(); // Arreglo, Javascript a colocar al final
 
     /**

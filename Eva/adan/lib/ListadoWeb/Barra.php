@@ -92,11 +92,11 @@ class Barra extends \Base\Plantilla {
      * @return mixed  Instancia de BarraHTML
      */
     public function barra(\$in_encabezado='') {
-        // Si viene el encabezado como parametro
+        // Si viene el encabezado como parametro se usa, de lo contrario se ejecuta el método encabezado
         if (\$in_encabezado !== '') {
             \$encabezado = \$in_encabezado;
         } else {
-            \$encabezado = \$this->encabezado(); // De lo contrario se toma el de listado
+            \$encabezado = \$this->encabezado();
         }
         // Crear la barra
         \$barra             = new \\Base2\\BarraWeb();

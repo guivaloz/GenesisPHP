@@ -196,10 +196,10 @@ class TemaWebSBAdmin2 extends TemaWeb {
             } else {
                 $icono = "<img src=\"imagenes/48x48/{$this->icono}\">";
             }
-            return "        <h1 class=\"page-header titulo\">$icono {$this->titulo}</h1>";
+            return "    <h1 class=\"page-header titulo\">$icono {$this->titulo}</h1>";
         } else {
             // Sin icono
-            return "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
+            return "    <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
     } // titulo_html
 
@@ -305,7 +305,7 @@ class TemaWebSBAdmin2 extends TemaWeb {
         $a[] = $this->navegacion_html();
         $a[] = '  <div id="page-wrapper">'; // page-wrapper
         $a[] = $this->titulo_html();
-        $a[] = $this->bloque_html($this->contenido, 'div');
+        $a[] = $this->bloque_html($this->contenido);
         $a[] = '  </div>';                  // page-wrapper
         $a[] = '</div>';                    // wrapper
         $a[] = $this->final_html();

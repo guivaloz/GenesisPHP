@@ -209,16 +209,18 @@ class BarraWeb implements SalidaWeb {
         }
         $a[] = '    </div>'; // navbar-header
         // Botones
-        $a[] = '    <div class="navbar-right">';
-        foreach ($this->botones as $etiqueta => $b) {
-            $clase = 'btn '.self::$botones_clases[$b['clase']].' navbar-btn';
-            if (is_array($this->confirmaciones[$etiqueta])) {
-                $a[] = sprintf('      <button class="%s" data-toggle="modal" data-target="#%s">%s</button>', $clase, $this->confirmaciones[$etiqueta]['accion'], $etiqueta);
-            } else {
-                $a[] = sprintf('      <button class="%s" onclick="location.href=\'%s\'">%s</button>', $clase, $b['url'], $etiqueta);
+        if (count($this->botones) > 0) {
+            $a[] = '    <div class="navbar-right">';
+            foreach ($this->botones as $etiqueta => $b) {
+                $clase = 'btn '.self::$botones_clases[$b['clase']].' navbar-btn';
+                if (is_array($this->confirmaciones[$etiqueta])) {
+                    $a[] = sprintf('      <button class="%s" data-toggle="modal" data-target="#%s">%s</button>', $clase, $this->confirmaciones[$etiqueta]['accion'], $etiqueta);
+                } else {
+                    $a[] = sprintf('      <button class="%s" onclick="location.href=\'%s\'">%s</button>', $clase, $b['url'], $etiqueta);
+                }
             }
+            $a[] = '    </div>'; // navbar-right
         }
-        $a[] = '    </div>'; // navbar-header
         $a[] = '  </div>'; // navbar
         // Navbar termina
         // Diálogos de confirmación
@@ -259,18 +261,8 @@ class BarraWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
-            $a = array();
-            foreach ($this->javascript as $js) {
-                if (is_string($js) && ($js != '')) {
-                    $a[] = $js;
-                }
-            }
-            if (count($a) > 0) {
-                return implode("\n", $a);
-            } else {
-                return false;
-            }
+        if (count($this->javascript) > 0) {
+            return implode("\n", $this->javascript);
         } else {
             return false;
         }

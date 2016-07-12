@@ -72,7 +72,7 @@ class PaginaInicial extends \Base2\PlantillaWeb {
 } // Clase PaginaInicial
 
 // Ejecutar y mostrar
-$pagina = new PaginaInicial();
-echo $pagina->html();
+$pagina_web = new PaginaInicial();
+echo $pagina_web->html();
 
 ?>

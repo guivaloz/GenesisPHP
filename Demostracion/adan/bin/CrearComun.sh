@@ -221,7 +221,8 @@ if [ "$?" -ne $EXITO ]; then
 fi
 
 # Copiar directorios de htdocs/lib
-for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base Base2 Configuracion Inicio Personalizar
+# NOTA: Ya quité Base, esta versión usa Base2
+for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base2 Configuracion Inicio Personalizar
 do
     echo "$SOY Copiando $DIR..."
     cp -r ../../../$ORIGEN_DIR/htdocs/lib/$DIR .

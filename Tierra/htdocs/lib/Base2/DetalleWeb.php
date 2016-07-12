@@ -27,9 +27,9 @@ namespace Base2;
  */
 class DetalleWeb implements SalidaWeb {
 
-    public $encabezado;                    // Opcional, texto para el encabezado
-    public $icono;                         // Opcional, URL al icono
-    public $barra;                         // Opcional, instancia de BarraWeb
+    public $encabezado;                  // Opcional, texto para el encabezado
+    public $icono;                       // Opcional, URL al icono
+    public $barra;                       // Opcional, instancia de BarraWeb
     protected $secciones      = array();
     protected $seccion_actual = 'Datos';
     protected $imagenes       = array();
@@ -153,31 +153,29 @@ class DetalleWeb implements SalidaWeb {
         $contenido = implode("\n", $a);
         // Elaborar Barra
         if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
-            $barra_html         = $this->barra->html();
-            $this->javascript[] = $this->barra->javascript();
+            $barra_html = $this->barra->html();
         } elseif ($this->encabezado != '') {
-            $barra              = new BarraWeb();
-            $barra->encabezado  = $this->encabezado;
-            $barra->icono       = $this->icono;
-            $barra_html         = $barra->html();
-            $this->javascript[] = $barra->javascript();
+            $this->barra              = new BarraWeb();
+            $this->barra->encabezado  = $this->encabezado;
+            $this->barra->icono       = $this->icono;
+            $barra_html = $this->barra->html();
         }
         // Si tiene imágenes
         if (count($this->imagenes) > 0) {
-            // Se toma la primera
+            // Se toma la primera imagen
             reset($this->imagenes);
             $imagen = current($this->imagenes);
             $imagen->configurar_para_detalle();
             try {
                 $imagen_html = $imagen->html();
             } catch (\Exception $e) {
-                $mensaje = new MensajeWeb($e->getMessage());
-                return $mensaje->html('Error');
+                $mensaje     = new MensajeWeb($e->getMessage());
+                $imagen_html = $mensaje->html('Error en la imagen');
             }
             // Entregar Twitter Bootstrap Media Object
             return <<<FIN
 <div class="media detalle">
-  {$imagen_html}
+{$imagen_html}
   <div class="media-body">
 {$barra_html}
 {$contenido}
@@ -201,7 +199,21 @@ FIN;
      * @return string Código Javascript
      */
     public function javascript() {
-        return false;
+        $a = array();
+        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
+            $a[] = $this->barra->javascript();
+        }
+        if (count($this->imagenes) > 0) {
+            reset($this->imagenes);
+            $imagen = current($this->imagenes);
+            $imagen->configurar_para_detalle();
+            try {
+                $a[] = $imagen->javascript();
+            } catch (\Exception $e) {
+                $a[] = '<!-- Imagen reporta falla en javascript -->';
+            }
+        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase DetalleWeb

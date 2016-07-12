@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaPruebaFormulario
@@ -75,7 +75,7 @@ class PaginaPruebaFormulario extends \Base2\PlantillaWeb {
 } // Clase PaginaPruebaFormulario
 
 // Ejecutar y mostrar
-$pagina = new PaginaPruebaFormulario();
-echo $pagina->html();
+$pagina_web = new PaginaPruebaFormulario();
+echo $pagina_web->html();
 
 ?>

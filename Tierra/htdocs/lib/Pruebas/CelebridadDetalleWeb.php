@@ -35,7 +35,7 @@ class CelebridadDetalleWeb extends CelebridadRegistro {
     // public $nacimiento_fecha;
     // public $nacimiento_lugar;
     // public $nacionalidad;
-    protected $detalle; // Instancia de DetalleWeb
+    protected $detalle;
 
     /**
      * Constructor

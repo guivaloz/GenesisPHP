@@ -38,7 +38,7 @@ class DiscoDetalleWeb extends DiscoRegistro {
     // public $origen_descrito;
     // static public $origen_descripciones;
     // static public $origen_colores;
-    protected $detalle; // Instancia de DetalleWeb
+    protected $detalle;
 
     /**
      * Constructor

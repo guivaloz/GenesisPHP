@@ -39,8 +39,8 @@ class DiscoFormularioWeb extends DiscoDetalleWeb {
     // static public $origen_descripciones;
     // static public $origen_colores;
     // protected $detalle;
-    protected $formulario;                        // Instancia de FormularioWeb
-    static public $form_name = 'discoformulario'; // Name del formulario
+    protected $formulario;
+    static public $form_name = 'discoformulario';
 
     /**
      * Constructor

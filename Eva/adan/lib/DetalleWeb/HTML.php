@@ -138,7 +138,7 @@ class HTML extends \Base\Plantilla {
                         $valor = "\$this->{$columna}_descrito";
                         break;
                     case 'dinero':
-                        $valor = "formato_dinero(\$this->{$columna})";
+                        $valor = "UtileriasParaFormatos::formato_dinero(\$this->{$columna})";
                         break;
                     case 'email':
                         $valor = "(\$this->{$columna} != '') ? sprintf('<a href=\"mailto:%s\">%s</a>', \$this->{$columna}, \$this->{$columna}) : ''";
@@ -158,7 +158,7 @@ class HTML extends \Base\Plantilla {
                 }
             }
             // Agregar al arreglo
-            $a[] = "        \$detalle->dato('{$datos['etiqueta']}', {$valor});";
+            $a[] = "        \$this->detalle->dato('{$datos['etiqueta']}', {$valor});";
         }
         // Entregar
         if (count($a) > 0) {
@@ -191,24 +191,24 @@ class HTML extends \Base\Plantilla {
         if ($bandera_notas && !$bandera_estatus) {
             return <<<FINAL
         // Seccion registro
-        \$detalle->seccion('Registro');
-        \$detalle->dato('Notas', \$this->notas);
+        \$this->detalle->seccion('Registro');
+        \$this->detalle->dato('Notas', \$this->notas);
 FINAL;
         } elseif ($bandera_estatus && !$bandera_notas) {
             return <<<FINAL
         // Seccion registro
         if (\$this->sesion->puede_recuperar('SED_CLAVE')) {
-            \$detalle->seccion('Registro');
-            \$detalle->dato('Estatus', \$this->estatus_descrito, parent::\$estatus_colores[\$this->estatus]);
+            \$this->detalle->seccion('Registro');
+            \$this->detalle->dato('Estatus', \$this->estatus_descrito, parent::\$estatus_colores[\$this->estatus]);
         }
 FINAL;
         } elseif ($bandera_estatus && $bandera_notas) {
             return <<<FINAL
         // Seccion registro
-        \$detalle->seccion('Registro');
-        \$detalle->dato('Notas', \$this->notas);
+        \$this->detalle->seccion('Registro');
+        \$this->detalle->dato('Notas', \$this->notas);
         if (\$this->sesion->puede_recuperar('SED_CLAVE')) {
-            \$detalle->dato('Estatus', \$this->estatus_descrito, parent::\$estatus_colores[\$this->estatus]);
+            \$this->detalle->dato('Estatus', \$this->estatus_descrito, parent::\$estatus_colores[\$this->estatus]);
         }
 FINAL;
         } else {
@@ -241,7 +241,7 @@ FINAL;
         \$imagen->configurar_para_detalle();
         \$imagen->cargar(\$this->id, \$this->{$caracteres}, 'middle'); // Pendiente que este tamaño se pueda controlar desde la semilla
         \$imagen->vincular('big');                                     // Pendiente que este tamaño se pueda controlar desde la semilla
-        \$detalle->imagen(\$imagen);
+        \$this->detalle->imagen(\$imagen);
 FINAL;
     } // elaborar_html_detalle_seccion_imagen
 
@@ -284,7 +284,7 @@ FINAL;
                 $a[] = "        \$mapa = new \\Base2\\MapaWeb('detalle');";
                 $a[] = "        \$mapa->agregar_categoria($categoria, $color);";
                 $a[] = "        \$mapa->agregar_geopunto(\$this->id, $geojson, $categoria, $popup);";
-                $a[] = "        \$detalle->al_final(\$mapa);";
+                $a[] = "        \$this->detalle->al_final(\$mapa);";
             }
         }
         // Entregar
@@ -304,10 +304,8 @@ FINAL;
         // En este arreglo juntaremos el codigo
         $a = array();
         // Seccion datos generales
-        $a[] = "        // Crear detalle";
-        $a[] = "        \$detalle = new \\Base2\\DetalleWeb();";
         $a[] = "        // Seccion datos generales";
-        $a[] = "        \$detalle->seccion('Datos Generales');";
+        $a[] = "        \$this->detalle->seccion('Datos Generales');";
         // Detalle de cada columna y las relaciones
         $a[] = $this->elaborar_html_detalle_propiedades();
         // Seccion registro
@@ -327,74 +325,6 @@ FINAL;
     } // elaborar_html_detalle
 
     /**
-     * Elaborar HTML Barra
-     *
-     * @return string Código PHP
-     */
-    protected function elaborar_html_barra() {
-        // Para los mensajes
-        $columnas_vip = $this->columnas_vip_para_mensaje();
-        // Juntaremos el codigo en este arreglo
-        $a = array();
-        // Encabezado
-        $a[] = "        // Encabezado";
-        $a[] = "        if (\$in_encabezado !== '') {";
-        $a[] = "            \$encabezado = \$in_encabezado;";
-        $a[] = "        } else {";
-        $a[] = "            \$encabezado = \"{$columnas_vip}\";";
-        $a[] = "        }";
-        // En la barra pondermos el encabezado y los botones
-        $a[] = "        // Si hay encabezado";
-        $a[] = "        if (\$encabezado != '') {";
-        $a[] = "            // Crear la barra";
-        $a[] = "            \$barra             = new \\Base2\\BarraWeb();";
-        $a[] = "            \$barra->encabezado = \$encabezado;";
-        $a[] = "            \$barra->icono      = \$this->sesion->menu->icono_en('SED_CLAVE');";
-        // Botones impresiones
-        if (is_array($this->hijos)) {
-            foreach ($this->hijos as $hijo) {
-                if ($hijo['contenido'] == 'impresiones') {
-                    $a[] = "            if (\$this->estatus != '{$this->estatus['eliminado']}') {";
-                    $a[] = "                \$barra->boton_imprimir_confirmacion(sprintf('{$hijo['archivo_plural']}.php?{$this->reptil['instancia_singular']}=%s&caracteresazar=%s', \$this->id, caracteres_azar()),";
-                    $a[] = "                    \"Confirme que va a imprimir {$hijo['mensaje_singular']}, de clic en el botón...\",";
-                    $a[] = "                    \"{$hijo['etiqueta_singular']}\",";
-                    $a[] = "                    \"{$hijo['instancia_singular']}\");";
-                    $a[] = '            }';
-                }
-            }
-        }
-        // Boton modificar
-        if ($this->adan->si_hay_que_crear('formulario')) {
-            $a[] = "            if ((\$this->estatus != '{$this->estatus['eliminado']}') && \$this->sesion->puede_modificar('SED_CLAVE')) {";
-            $a[] = "                \$barra->boton_modificar(sprintf('SED_ARCHIVO_PLURAL.php?id=%d&accion=%s', \$this->id, self::\$accion_modificar));";
-            $a[] = '            }';
-        }
-        // Boton eliminar
-        if (is_array($this->estatus) && $this->adan->si_hay_que_crear('eliminar')) {
-            $a[] = "            if ((\$this->estatus != '{$this->estatus['eliminado']}') && \$this->sesion->puede_eliminar('SED_CLAVE')) {";
-            $a[] = "                \$barra->boton_eliminar_confirmacion(sprintf('SED_ARCHIVO_PLURAL.php?id=%d&accion=%s', \$this->id, self::\$accion_eliminar),";
-            $a[] = "                    \"¿Está seguro de querer <strong>eliminar</strong> a SED_MENSAJE_SINGULAR {$columnas_vip}?\");";
-            $a[] = '            }';
-        }
-        // Boton recuperar
-        if (is_array($this->estatus) && $this->adan->si_hay_que_crear('recuperar')) {
-            $a[] = "            if ((\$this->estatus == '{$this->estatus['eliminado']}') && \$this->sesion->puede_recuperar('SED_CLAVE')) {";
-            $a[] = "                \$barra->boton_recuperar_confirmacion(sprintf('SED_ARCHIVO_PLURAL.php?id=%d&accion=%s', \$this->id, self::\$accion_recuperar),";
-            $a[] = "                    \"¿Está seguro de querer <strong>recuperar</strong> a SED_MENSAJE_SINGULAR {$columnas_vip}?\");";
-            $a[] = '            }';
-        }
-        $a[] = "            // Pasar la barra al detalle html";
-        $a[] = "            \$detalle->barra = \$barra;";
-        $a[] = "        }";
-        // Bitacora
-        $a[] = "        // Agregar a la bitacora que se vio este detalle";
-        $a[] = "        \$bitacora = new \\AdmBitacora\\Registro(\$this->sesion);";
-        $a[] = "        \$bitacora->agregar_vio_detalle(\$this->id, \"Vio SED_TITULO_SINGULAR {$columnas_vip}\");";
-        // Entregar
-        return implode("\n", $a);
-    } // elaborar_html_barra
-
-    /**
      * PHP
      *
      * @return string Código PHP
@@ -408,7 +338,7 @@ FINAL;
      * @return string HTML
      */
     public function html(\$in_encabezado='') {
-        // Consultar si no lo esta y si falla, se muestra mensaje
+        // Debe estar consultado, de lo contrario se consulta y si falla se muestra mensaje
         if (!\$this->consultado) {
             try {
                 \$this->consultar();
@@ -417,12 +347,13 @@ FINAL;
                 return \$mensaje->html(\$in_encabezado);
             }
         }
+        // Iniciar detalle
+        \$this->detalle = new \\Base2\\DetalleWeb();
 {$this->elaborar_html_detalle()}
-{$this->elaborar_html_barra()}
-        // Pasar la bolita, pasar el javascript del detalle
-        \$this->javascript[] = \$detalle->javascript();
-        // Entregar el html del detalle
-        return \$detalle->html();
+        // Pasar la barra
+        \$this->detalle->barra = \$this->barra(\$in_encabezado);
+        // Entregar
+        return \$this->detalle->html();
     } // html
 
 FINAL;

@@ -36,10 +36,11 @@ class Propiedades extends \Base\Plantilla {
         // Juntaremos el código en este arreglo
         $a = array();
         // Propiedades comentadas
-        $seccion_propiedades = new \Registro\Propiedades($this->adan);
-        $a[]                 = $seccion_propiedades->php_comentado();
-        // Javascript
-        $a[] = "    protected \$javascript = array();";
+        $comentadas = new \Registro\Propiedades($this->adan);
+        $a[]        = $comentadas->php_comentado();
+        // Propiedades
+        $a[] = "    protected \$detalle;";
+        $a[] = "    const RAIZ_PHP_ARCHIVO = 'SED_ARCHIVO_PLURAL.php';";
         // Acciones
         if ($this->adan->si_hay_que_crear('eliminar')) {
             $a[] = "    static public \$accion_eliminar  = 'SED_CLASE_SINGULAREliminar';";

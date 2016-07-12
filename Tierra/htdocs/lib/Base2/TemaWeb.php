@@ -43,13 +43,13 @@ abstract class TemaWeb {
     /**
      * Bloque HTML
      *
-     * Sirve para procesar el contenido, javascript y pie
+     * Procesar el contenido, javascript o pie; trabaja con textos o arreglos de textos y quita renglones en blanco
      *
      * @param  mixed  Arreglo o texto con el contenido
-     * @param  string Tag a poner antes y después del contenido
+     * @param  string Opcional, tag a poner antes y después del contenido; por ejemplo use 'script' con javascript
      * @return string Código HTML
      */
-    protected function bloque_html($in_contenido, $in_tag) {
+    protected function bloque_html($in_contenido, $in_tag='') {
         // Si es arreglo o es texto
         if (is_array($in_contenido)) {
             $a = array();
@@ -61,14 +61,22 @@ abstract class TemaWeb {
             }
             // Entregar
             if (count($a)) {
-                return "<$in_tag>\n".implode("\n", $a)."\n</$in_tag>";
+                if ($in_tag != '') {
+                    return "<$in_tag>\n".implode("\n", $a)."\n</$in_tag>";
+                } else {
+                    return implode("\n", $a);
+                }
             } else {
-                return '';
+                return '<!-- Bloque sin contenido -->';
             }
         } elseif (is_string($in_contenido) && ($in_contenido != '')) {
-            return "<$in_tag>\n$in_contenido\n</$in_tag>";
+            if ($in_tag != '') {
+                return "<$in_tag>\n$in_contenido\n</$in_tag>";
+            } else {
+                return $in_contenido;
+            }
         } else {
-            return '';
+            return '<!-- Bloque sin contenido -->';
         }
     } // bloque_html
 

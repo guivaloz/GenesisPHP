@@ -34,7 +34,7 @@ class EntidadesListadoWeb extends EntidadesListado {
     // public $limit;
     // public $offset;
     // protected $consultado;
-    protected $listado_controlado; // Instancia de ListadoControladoHTML
+    protected $listado_controlado;
 
     /**
      * Constructor

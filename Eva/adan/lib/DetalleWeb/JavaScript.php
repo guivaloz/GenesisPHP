@@ -40,18 +40,8 @@ class JavaScript extends \Base\Plantilla {
      * @return string Javascript
      */
     public function javascript() {
-        if (is_array(\$this->javascript) && (count(\$this->javascript) > 0)) {
-            \$a = array();
-            foreach (\$this->javascript as \$js) {
-                if (is_string(\$js) && (\$js != '')) {
-                    \$a[] = \$js;
-                }
-            }
-            if (count(\$a) > 0) {
-                return implode("\\n", \$a);
-            } else {
-                return false;
-            }
+        if (\$this->detalle instanceof \\Base2\\DetalleWeb) {
+            return \$this->detalle->javascript();
         } else {
             return false;
         }

@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Sesiones
  *
- * Copyright (C) 2015 Guillermo Valdés Lozano
+ * Copyright (C) 2016 Guillermo Valdés Lozano
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 // Mostrar la página web
-$pagina_html = new \AdmSesiones\PaginaWeb();
-echo $pagina_html->html();
+$pagina_web = new \AdmSesiones\PaginaWeb();
+echo $pagina_web->html();
 
 ?>

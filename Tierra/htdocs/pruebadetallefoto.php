@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaPruebaDetalleFoto
@@ -64,7 +64,7 @@ class PaginaPruebaDetalleFoto extends \Base2\PlantillaWeb {
      * @return string Código HTML
      */
     public function html() {
-        // Detalle del cactus
+        // Detalle de la celebridad
         $celebridad         = new \Pruebas\CelebridadDetalleWeb($this->sesion);
         $this->contenido[]  = $celebridad->html();
         $this->javascript[] = $celebridad->javascript();
@@ -75,7 +75,7 @@ class PaginaPruebaDetalleFoto extends \Base2\PlantillaWeb {
 } // Clase PaginaPruebaDetalleFoto
 
 // Ejecutar y mostrar
-$pagina = new PaginaPruebaDetalleFoto();
-echo $pagina->html();
+$pagina_web = new PaginaPruebaDetalleFoto();
+echo $pagina_web->html();
 
 ?>

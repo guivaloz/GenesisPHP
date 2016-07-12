@@ -274,7 +274,7 @@ class TemaWebDashboard extends TemaWeb {
         } else {
             $a[] = "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
-        $a[] = $this->bloque_html($this->contenido, 'div');
+        $a[] = $this->bloque_html($this->contenido);
         $a[] = '      </div>';
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid

@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaPruebas
@@ -62,7 +62,7 @@ class PaginaPruebas extends \Base2\PlantillaWeb {
      */
     public function html() {
         // Mensaje de bienvenida
-        $mensaje           = new \Base\MensajeHTML('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
+        $mensaje           = new \Base2\MensajeWeb('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
         $mensaje->tipo     = 'tip';
         $this->contenido[] = $mensaje->html('Acerca de estas páginas');
         // Ejecutar el padre y entregar su resultado
@@ -72,7 +72,7 @@ class PaginaPruebas extends \Base2\PlantillaWeb {
 } // Clase PaginaPruebas
 
 // Ejecutar y mostrar
-$pagina = new PaginaPruebas();
-echo $pagina->html();
+$pagina_web = new PaginaPruebas();
+echo $pagina_web->html();
 
 ?>

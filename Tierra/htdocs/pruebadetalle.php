@@ -75,7 +75,7 @@ class PaginaPruebaDetalle extends \Base2\PlantillaWeb {
 } // Clase PaginaPruebaDetalle
 
 // Ejecutar y mostrar
-$pagina = new PaginaPruebaDetalle();
-echo $pagina->html();
+$pagina_web = new PaginaPruebaDetalle();
+echo $pagina_web->html();
 
 ?>

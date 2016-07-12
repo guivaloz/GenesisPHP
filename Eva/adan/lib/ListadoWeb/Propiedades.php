@@ -33,17 +33,17 @@ class Propiedades extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Juntaremos el código en este arreglo
+        $a = array();
         // Propiedades comentadas
-        $propiedades = new \Listado\Propiedades($this->adan);
+        $comentadas = new \Listado\Propiedades($this->adan);
+        $a[]        = $comentadas->php_comentado();
+        // Propiedades
+        $a[] = "    protected \$viene_listado;";
+        $a[] = "    protected \$estructura;";
+        $a[] = "    protected \$listado_controlado;";
         // Entregar
-        return <<<FINAL
-{$propiedades->php_comentado()}
-    public \$viene_listado; // Se usa en la pagina, si es verdadero debe mostrar el listado
-    protected \$estructura;
-    protected \$listado_controlado;
-    protected \$javascript = array();
-
-FINAL;
+        return implode("\n", $a)."\n";
     } // php
 
 } // Clase Propiedades

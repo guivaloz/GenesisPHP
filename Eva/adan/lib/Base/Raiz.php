@@ -38,17 +38,17 @@ class Raiz extends Plantilla {
             $contenido = <<<FINAL
 <?php
 /**
- * SED_SISTEMA - SED_TITULO_PLURAL Raiz
+ * SED_SISTEMA - Página SED_TITULO_PLURAL
  *
  * @package SED_PAQUETE
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
-// Si se solicita el archivo CSV, descargarlo, de lo contrario mostrar la página HTML
+// Si se solicita la descarga de archivo CSV, de lo contrario la página web
 if (\$_GET['csv'] == 'descargar') {
-    \$pagina_csv = new \\SED_CLASE_PLURAL\\PaginaCSV();
-    echo \$pagina_csv->csv();
+    \$descargar_listado_csv = new \\SED_CLASE_PLURAL\\DescargarListadoCSV();
+    echo \$descargar_listado_csv->csv();
 } else {
     \$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();
     echo \$pagina_web->html();
@@ -67,7 +67,7 @@ FINAL;
  * @package SED_PAQUETE
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 // Mostrar página web
 \$pagina_web = new \\SED_CLASE_PLURAL\\PaginaWeb();

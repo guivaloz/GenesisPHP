@@ -309,13 +309,7 @@ class TemaWebFluido extends TemaWeb {
         } else {
             $a[] = "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
-        if (is_array($this->contenido) && (count($this->contenido) > 0)) {
-            $a[] = implode("\n", $this->contenido);
-        } elseif (is_string($this->contenido) && ($this->contenido != '')) {
-            $a[] = $this->contenido;
-        } else {
-            $a[] = "No hay contenido.";
-        }
+        $a[] = $this->bloque_html($this->contenido);
         $a[] = '      </div>';
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid

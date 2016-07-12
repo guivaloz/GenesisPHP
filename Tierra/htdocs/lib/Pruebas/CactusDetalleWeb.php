@@ -39,7 +39,7 @@ class CactusDetalleWeb extends CactusRegistro {
     // public $tribu;
     // public $genero;
     // public $descripcion;
-    protected $detalle; // Instancia de DetalleWeb
+    protected $detalle;
 
     /**
      * Constructor

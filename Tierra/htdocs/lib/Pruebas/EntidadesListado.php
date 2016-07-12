@@ -82,7 +82,7 @@ class EntidadesListado extends \Base2\Listado {
     /**
      * Encabezado
      *
-     * @return string Texto del encabezado
+     * @return string Encabezado
      */
     public function encabezado() {
         return 'Entidades Federativas de México';

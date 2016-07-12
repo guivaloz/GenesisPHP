@@ -20,7 +20,7 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 /**
  * Clase PaginaInicial
@@ -163,8 +163,8 @@ class PaginaInicial extends \Base2\PlantillaWeb {
 
 } // Clase PaginaInicial
 
-// Ejecutar y mostrar
-$pagina = new PaginaInicial();
-echo $pagina->html();
+// Mostrar la página web
+$pagina_web = new PaginaInicial();
+echo $pagina_web->html();
 
 ?>

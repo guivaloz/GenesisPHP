@@ -20,10 +20,10 @@
  * @package GenesisPHP
  */
 
-require_once('lib/Base/AutocargadorClases.php');
+require_once('lib/Base2/AutocargadorClases.php');
 
 // Mostrar la página web
-$pagina_html = new \Personalizar\PaginaWeb();
-echo $pagina_html->html();
+$pagina_web = new \Personalizar\PaginaWeb();
+echo $pagina_web->html();
 
 ?>
