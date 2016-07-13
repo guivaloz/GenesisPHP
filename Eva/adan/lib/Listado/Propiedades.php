@@ -240,11 +240,13 @@ class Propiedades extends \Base\Plantilla {
      */
     public function php() {
         return <<<FIN
+    // protected \$sesion;
+    // public \$consultado;
     // public \$listado;
+    // public \$panal;
     // public \$cantidad_registros;
     // public \$limit;
-    // protected \$offset;
-    // protected \$sesion;
+    // public \$offset;
 {$this->elaborar_propiedades()}
 {$this->elaborar_propiedades_parametros()}
     public \$filtros_param;

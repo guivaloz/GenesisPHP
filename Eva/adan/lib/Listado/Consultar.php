@@ -152,7 +152,7 @@ class Consultar extends \Base\Plantilla {
                 if (is_array($this->relaciones[$columna])) {
                     $relacion = $this->relaciones[$columna];
                 } else {
-                    die("Error en Listado, Consultar, elaborar_consultar_tablas: Falta obtener datos de Serpiente para la relación $columna.");
+                    die("Error en Listado, Consultar: Falta obtener datos de Serpiente para la relación $columna.");
                 }
                 // Agregamos la tabla de esta relacion
                 $t[] = $relacion['tabla'];
@@ -167,7 +167,7 @@ class Consultar extends \Base\Plantilla {
                                 if (is_array($this->relaciones[$vip])) {
                                     $t[] = $this->relaciones[$vip]['tabla'];
                                 } else {
-                                    die("Error en Listado, Consultar, elaborar_consultar_tablas: Falta declarar la relación para la columna $vip.");
+                                    die("Error en Listado, Consultar: Falta declarar la relación para la columna $vip.");
                                 }
                             }
                         } else {
@@ -465,11 +465,11 @@ class Consultar extends \Base\Plantilla {
         // Si hay relaciones
         if ($hay_relaciones) {
             // Como hay relaciones, siempre tendra where
-            $a[] = "        \$filtros_sql = 'WHERE '.implode(' AND ', \$this->arreglo_sin_valores_repetidos(\$f));";
+            $a[] = "        \$filtros_sql = 'WHERE '.\\Base2\\UtileriasParaSQL::sql_filtros_sin_valores_repetidos(\$f);";
         } else {
             // Hay posibilidad de que no se use ningun filtro, por lo que where puede usarse o no
             $a[] = "        if (count(\$f) > 0) {";
-            $a[] = "            \$filtros_sql = 'WHERE '.implode(' AND ', \$this->arreglo_sin_valores_repetidos(\$f));";
+            $a[] = "            \$filtros_sql = 'WHERE '.\\Base2\\UtileriasParaSQL::sql_filtros_sin_valores_repetidos(\$f);";
             $a[] = "        } else {";
             $a[] = "            \$filtros_sql = '';";
             $a[] = "        }";

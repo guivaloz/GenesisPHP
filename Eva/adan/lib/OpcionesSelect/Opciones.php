@@ -27,25 +27,83 @@ namespace OpcionesSelect;
  */
 class Opciones extends \Base\Plantilla {
 
-    /*
-     * Elaborar estatus activo
+    /**
+     * Obtener columnas VIP
+     *
+     * @return array Arreglo con los nombres de las columnas VIP
+     */
+    protected function obtener_columnas_vip() {
+        $vips = array();
+        foreach ($this->tabla as $columna => $datos) {
+            $n = $datos['vip'];
+            if ($n > 0) {
+                if ($datos['tipo'] != 'relacion') {
+                    $vips[$n][] = $columna;
+                }
+                if ($n > $mayor) {
+                    $mayor = $n;
+                }
+            }
+        }
+        if (count($vips) == 0) {
+            die('Error en OpcionesSelect, Opciones: No hay columnas con VIP con valor mayor a cero.');
+        }
+        $a = array();
+        for ($n=$mayor; $n>0; $n--) {
+            if (count($vips[$n]) > 0) {
+                foreach ($vips[$n] as $columna) {
+                    $a[] = $columna;
+                }
+            }
+        }
+        return $a;
+    } // obtener_columnas_vip
+
+    /**
+     * Elaborar Consultar Columnas
      *
      * @return string Código PHP
      */
-    protected function elaborar_estatus_activo() {
+    protected function elaborar_consultar_columnas() {
+        $columnas_separadas_por_comas = implode(', ', $this->obtener_columnas_vip());
+        return "        \$columnas_sql = \"SELECT id, $columnas_separadas_por_comas\";";
+    } // elaborar_consultar_columnas
+
+    /**
+     * Elaborar Consultar Tablas
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_consultar_tablas() {
+        return "        \$tablas_sql   = \"FROM {$this->tabla_nombre}\";";
+    }
+
+    /**
+     * Elaborar Consultar Filtros
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_consultar_filtros() {
         if (count($this->tabla['estatus']) > 0) {
             if ($this->tabla['estatus']['descripciones']['A'] != '') {
-                $a = array();
-                $a[] = "        // Filtrar solo los registros con estatus en uso";
-                $a[] = "        \$this->estatus = 'A';";
-                return implode("\n", $a);
+                return "        \$filtros_sql  = \"WHERE estatus = 'A'\";";
             } else {
-                return "        // No se usa 'A' en la columna estatus, entonces no se filtra";
+                return "        \$filtros_sql  = ''; //  Sin filtro, porque estatus no usa 'A'";
             }
         } else {
-            return "        // Informo que no hay columna estatus, entonces no se filtra";
+            return "        \$filtros_sql  = ''; // Sin filtro, no usa la columna estatus";
         }
-    } // elaborar_estatus_activo
+    } // elaborar_consultar_filtros
+
+    /**
+     * Elaborar Consultar Orden
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_consultar_orden() {
+        $columnas_separadas_por_comas = implode(', ', $this->obtener_columnas_vip());
+        return "        \$orden_sql    = \"ORDER BY $columnas_separadas_por_comas ASC\";";
+    } // elaborar_consultar_orden
 
     /*
      * Elaborar asignaciones de opciones
@@ -53,87 +111,11 @@ class Opciones extends \Base\Plantilla {
      * @return string Código PHP
      */
     protected function elaborar_opciones_asignacion() {
-        // Vamos a juntar los vip para tenerlos de mayor a menor
-        $vips  = array();
-        $mayor = 0;
-        // Bucle para cada columna
-        foreach ($this->tabla as $columna => $datos) {
-            // Tomamos el valor vip, si no está definido sera cero
-            $n = $datos['vip'];
-            // Si vip es mayor a cero
-            if ($n > 0) {
-                // Si es una relacion, mostrara la o las columnas vip
-                if ($datos['tipo'] == 'relacion') {
-                    // Se va usar mucho la relacion, asi que para simplificar
-                    if (is_array($this->relaciones[$columna])) {
-                        $relacion = $this->relaciones[$columna];
-                    } else {
-                        die("Error en OpcionesSelect, Opciones: Falta obtener datos de Serpiente para la relación $columna.");
-                    }
-                    // Si vip es texto
-                    if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
-                        // Solo un vip
-                        $vips[$n][] = "{$columna}_{$relacion['vip']}";
-                    } elseif (is_array($relacion['vip'])) {
-                        // Vip es un arreglo
-                        foreach ($relacion['vip'] as $vip => $vip_datos) {
-                            // Si es un arreglo
-                            if (is_array($vip_datos)) {
-                                // Si es una relacion
-                                if ($vip_datos['tipo'] == 'relacion') {
-                                    // Es una relacion y debe de existir en reptil
-                                    if (is_array($this->relaciones[$vip])) {
-                                        // Si el vip es un arreglo
-                                        if (is_array($this->relaciones[$vip]['vip'])) {
-                                            // Ese vip es un arreglo
-                                            foreach ($this->relaciones[$vip]['vip'] as $v => $vd) {
-                                                $vips[$n][] = "{$columna}_{$vip}_{$v}";
-                                            }
-                                        } else {
-                                            // Ese vip es texto
-                                            $vips[$n][] = "{$columna}_{$vip}";
-                                        }
-                                    } else {
-                                        die("Error en OpcionesSelect, Opciones: No está definido el VIP en Serpiente para $vip.");
-                                    }
-                                } elseif ($vip_datos['tipo'] == 'caracter') {
-                                    // Es caracter, usaremos su descrito
-                                    $vips[$n][] = "{$columna}_{$vip}"; // La consulta arroja el caracter, falta programar un bucle que los convierta a descrito
-                                } else {
-                                    // Es cualquier otro tipo
-                                    $vips[$n][] = "{$columna}_{$vip}";
-                                }
-                            } else {
-                                // Vip datos es un texto
-                                $vips[$n][] = "{$columna}_{$vip_datos}";
-                            }
-                        }
-                    }
-                } else {
-                    // No es una relacion, va directo el nombre de la columna
-                    $vips[$n][] = $columna;
-                }
-                // Guardar el numero mayor
-                if ($n > $mayor) {
-                    $mayor = $n;
-                }
-            }
-        }
-        // Si no se encuentra ninguno, error
-        if (count($vips) == 0) {
-            die('Error en OpcionesSelect, Opciones: No hay columnas con VIP con valor mayor a cero.');
-        }
-        // Del vip mayor (izquierda) al mayor (derecha), ir juntando
         $a = array();
-        for ($n=$mayor; $n>0; $n--) {
-            if (count($vips[$n]) > 0) {
-                foreach ($vips[$n] as $columna) {
-                    $a[] = "\$item['$columna']";
-                }
-            }
+        foreach ($this->obtener_columnas_vip() as $columna) {
+            $a[] = "\$item['$columna']";
         }
         $juntos = implode(".', '.", $a);
-        // Entregar
         return "            \$a[\$item['id']] = $juntos;";
     } // elaborar_opciones_asignacion
 
@@ -150,14 +132,29 @@ class Opciones extends \Base\Plantilla {
      * @return array Arreglo asociativo, id => descripcion
      */
     public function opciones() {
-{$this->elaborar_estatus_activo()}
+        // Definir comando SQL
+{$this->elaborar_consultar_columnas()}
+{$this->elaborar_consultar_tablas()}
+{$this->elaborar_consultar_filtros()}
+{$this->elaborar_consultar_orden()}
         // Consultar
-        \$this->consultar();
+        \$base_datos = new \\Base2\\BaseDatosMotor();
+        try {
+            \$consulta = \$base_datos->comando("\$columnas_sql \$tablas_sql \$filtros_sql \$orden_sql");
+        } catch (Exception \$e) {
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para hacer opciones.', \$e->getMessage());
+        }
+        // Provoca excepcion si no hay registros
+        if (\$consulta->cantidad_registros() == 0) {
+            throw new \\Base2\\ListadoExceptionVacio('Aviso: No se encontraron SED_MENSAJE_PLURAL para hacer opciones.');
+        }
         // Juntar como arreglo asociativo
         \$a = array();
-        foreach (\$this->listado as \$item) {
+        foreach (\$consulta->obtener_todos_los_registros() as \$item) {
 {$this->elaborar_opciones_asignacion()}
         }
+        // Poner en verdadero el flag consultado
+        \$this->consultado = true;
         // Entregar
         return \$a;
     } // opciones

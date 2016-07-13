@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Base OpcionesSelect
+ * GenesisPHP - Registro Encabezado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Base;
+namespace Registro;
 
 /**
- * Clase OpcionesSelect
+ * Clase Encabezado
  */
-class OpcionesSelect extends Plantilla {
+class Encabezado extends \Base\Plantilla {
 
     /**
      * PHP
@@ -33,36 +33,19 @@ class OpcionesSelect extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        // Definir instancias con las partes
-        $propiedades     = new \OpcionesSelect\Propiedades($this->adan);
-        $metodo_opciones = new \OpcionesSelect\Opciones($this->adan);
-        // Armar el contenido con las partes
-        $contenido = <<<FINAL
-<?php
-/**
- * SED_SISTEMA - SED_TITULO_SINGULAR OpcionesSelect
- *
- * @package SED_PAQUETE
- */
+        return <<<FIN
+    /**
+     * Encabezado
+     *
+     * @return string Encabezado
+     */
+    public function encabezado() {
+        return "{$this->columnas_vip_para_mensaje()}";
+    } // encabezado
 
-namespace SED_CLASE_PLURAL;
-
-/**
- * Clase OpcionesSelect
- */
-class OpcionesSelect extends \\Base2\\OpcionesSelect {
-
-{$propiedades->php()}
-{$metodo_opciones->php()}
-} // Clase OpcionesSelect
-
-?>
-
-FINAL;
-        // Realizar sustituciones y entregar
-        return $this->sustituir_sed($contenido);
+FIN;
     } // php
 
-} // Clase OpcionesSelect
+} // Clase Encabezado
 
 ?>

@@ -39,7 +39,7 @@ class Propiedades extends \Base\Plantilla {
         $comentadas = new \Listado\Propiedades($this->adan);
         $a[]        = $comentadas->php_comentado();
         // Propiedades
-        $a[] = "    protected \$viene_listado;";
+        $a[] = "    public \$viene_listado;";
         $a[] = "    protected \$estructura;";
         $a[] = "    protected \$listado_controlado;";
         // Entregar

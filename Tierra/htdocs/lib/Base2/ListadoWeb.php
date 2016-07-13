@@ -176,19 +176,19 @@ class ListadoWeb implements SalidaWeb {
                     // Si usa un formato
                     switch ($parametros['formato']) {
                         case 'fecha':
-                            $valor = $this->formato_fecha($fila[$columna]);
+                            $valor = UtileriasParaFormatos::formato_fecha($fila[$columna]);
                             break;
                         case 'entero':
-                            $valor = $this->formato_entero($fila[$columna]);
+                            $valor = UtileriasParaFormatos::formato_entero($fila[$columna]);
                             break;
                         case 'dinero':
-                            $valor = $this->formato_dinero($fila[$columna]);
+                            $valor = UtileriasParaFormatos::formato_dinero($fila[$columna]);
                             break;
                         case 'flotante':
-                            $valor = $this->formato_flotante($fila[$columna]);
+                            $valor = UtileriasParaFormatos::formato_flotante($fila[$columna]);
                             break;
                         case 'porcentaje':
-                            $valor = $this->formato_porcentaje($fila[$columna]);
+                            $valor = UtileriasParaFormatos::formato_porcentaje($fila[$columna]);
                             break;
                         default:
                             $valor = $fila[$columna]; // Pasa igual

@@ -362,22 +362,20 @@ class Validar extends \Base\Plantilla {
      */
     public function php() {
         // No hacer nada si no hay que crear formulario
-        if (!$this->adan->si_hay_que_crear('formulario')) {
-            return '';
-        }
-        // En este arreglo juntaremos el php
-        $a = array();
-        // Ejecutar cada metodo que hace su parte de validar
-        $validaciones_php = $this->elaborar_validar_validaciones();
-        $descritos_php    = $this->elaborar_validar_descritos();
-        $relaciones_php   = $this->elaborar_validar_relaciones();
-        // Agregar solo si tiene contenido
-        if ($relaciones_php != '')   $a[] = $relaciones_php;
-        if ($validaciones_php != '') $a[] = $validaciones_php;
-        if ($descritos_php != '')    $a[] = $descritos_php;
-        // Entregar
-        $validaciones = implode("\n", $a);
-        return <<<FIN
+        if ($this->adan->si_hay_que_crear('formulario')) {
+            // En este arreglo juntaremos el php
+            $a = array();
+            // Ejecutar cada metodo que hace su parte de validar
+            $validaciones_php = $this->elaborar_validar_validaciones();
+            $descritos_php    = $this->elaborar_validar_descritos();
+            $relaciones_php   = $this->elaborar_validar_relaciones();
+            // Agregar solo si tiene contenido
+            if ($relaciones_php != '')   $a[] = $relaciones_php;
+            if ($validaciones_php != '') $a[] = $validaciones_php;
+            if ($descritos_php != '')    $a[] = $descritos_php;
+            // Entregar
+            $validaciones = implode("\n", $a);
+            return <<<FIN
     /**
      * Validar
      *
@@ -388,6 +386,9 @@ $validaciones
     } // validar
 
 FIN;
+        } else {
+            return '';
+        }
     } // php
 
 } // Clase Validar

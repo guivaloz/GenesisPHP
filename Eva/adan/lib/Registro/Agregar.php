@@ -137,9 +137,8 @@ FIN;
      * @return string Código PHP
      */
     public function php() {
-        // No entregar nada si no hay que crear formulario
         if ($this->adan->si_hay_que_crear('formulario')) {
-        return <<<FIN
+            return <<<FIN
     /**
      * Agregar
      *

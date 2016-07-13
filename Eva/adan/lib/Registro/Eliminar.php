@@ -35,7 +35,6 @@ class Eliminar extends \Base\Plantilla {
     public function php() {
         // Verificar que se use estatus
         if (is_array($this->estatus) && $this->adan->si_hay_que_crear('eliminar')) {
-            // Entregar
             return <<<FIN
     /**
      * Eliminar
@@ -84,6 +83,8 @@ class Eliminar extends \Base\Plantilla {
     } // eliminar
 
 FIN;
+        } else {
+            return '';
         }
     } // php
 

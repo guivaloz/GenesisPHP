@@ -36,6 +36,7 @@ class Registro extends Plantilla {
         // Definir instancias con las partes
         $propiedades        = new \Registro\Propiedades($this->adan);
         $metodo_consultar   = new \Registro\Consultar($this->adan);
+        $metodo_encabezado  = new \Registro\Encabezado($this->adan);
         $metodo_validar     = new \Registro\Validar($this->adan);
         $metodo_nuevo       = new \Registro\Nuevo($this->adan);
         $metodo_agregar     = new \Registro\Agregar($this->adan);
@@ -60,6 +61,7 @@ class Registro extends \\Base2\\Registro {
 
 {$propiedades->php()}
 {$metodo_consultar->php()}
+{$metodo_encabezado->php()}
 {$metodo_validar->php()}{$metodo_nuevo->php()}{$metodo_agregar->php()}{$metodo_modificar->php()}{$metodo_eliminar->php()}{$metodo_recuperar->php()}
 } // Clase Registro
 

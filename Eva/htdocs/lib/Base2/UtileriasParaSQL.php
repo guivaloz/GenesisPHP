@@ -30,7 +30,8 @@ abstract class UtileriasParaSQL {
     /**
      * SQL Texto
      *
-     * @param string Texto
+     * @param  string Texto
+     * @return string Texto fragmento de SQL
      */
     public static function sql_texto($texto) {
         if (trim($texto) == '') {
@@ -43,8 +44,8 @@ abstract class UtileriasParaSQL {
     /**
      * SQL Texto en mayúsculas
      *
-     * @param  string
-     * @return string
+     * @param  string Texto
+     * @return string Texto fragmento de SQL
      */
     public static function sql_texto_mayusculas($texto) {
         $normalizar = array(
@@ -61,7 +62,8 @@ abstract class UtileriasParaSQL {
     /**
      * SQL Entero
      *
-     * @param mixed Texto o número entero
+     * @param  mixed  Texto o número entero
+     * @return string Texto fragmento de SQL
      */
     public static function sql_entero($dato) {
         if (is_string($dato)) {
@@ -86,7 +88,8 @@ abstract class UtileriasParaSQL {
     /**
      * SQL Tiempo
      *
-     * @param mixed Texto o número entero
+     * @param  mixed  Texto o número entero
+     * @return string Texto fragmento de SQL
      */
     public static function sql_tiempo($dato) {
         if (is_string($dato)) {
@@ -107,6 +110,25 @@ abstract class UtileriasParaSQL {
             return 'NULL';
         }
     } // sql_tiempo
+
+    /**
+     * SQL filtros sin valores repetidos
+     *
+     * @param  array  Arreglo con los filtros SQL de la forma columna = valor
+     * @return string Texto fragmento de SQL
+     */
+    public static function sql_filtros_sin_valores_repetidos($in_arreglo) {
+        if (!is_array($in_arreglo) || (count($in_arreglo) == 0)) {
+            return array();
+        }
+        $sin_valores_repetidos = array();
+        foreach ($in_arreglo as $a) {
+            if (!in_array($a, $sin_valores_repetidos)) {
+                $sin_valores_repetidos[] = $a;
+            }
+        }
+        return implode(' AND ', $sin_valores_repetidos);
+    } // sql_filtros_sin_valores_repetidos
 
 } // Clase abstracta UtileriasParaSQL
 

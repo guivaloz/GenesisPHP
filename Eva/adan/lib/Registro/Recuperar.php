@@ -35,7 +35,6 @@ class Recuperar extends \Base\Plantilla {
     public function php() {
         // Verificar que se use estatus
         if (is_array($this->estatus) && $this->adan->si_hay_que_crear('recuperar')) {
-            // Entregar
             return <<<FIN
     /**
      * Recuperar

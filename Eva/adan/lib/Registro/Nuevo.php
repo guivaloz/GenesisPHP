@@ -225,15 +225,11 @@ class Nuevo extends \Base\Plantilla {
     } // elaborar_propiedad_relacion
 
     /**
-     * PHP
+     * Elaborar propiedades iniciales
      *
      * @return string Código PHP
      */
-    public function php() {
-        // No hacer nada si no hay que crear formulario
-        if (!$this->adan->si_hay_que_crear('formulario')) {
-            return '';
-        }
+    protected function elaborar_propiedades_iniciales() {
         // En este arreglo juntaremos el codigo
         $a   = array();
         $a[] = "        // Definir valores por defecto";
@@ -282,9 +278,19 @@ class Nuevo extends \Base\Plantilla {
                 }
             }
         }
-        $asigaciones_por_defecto = implode("\n", $a);
         // Entregar
-        return <<<FIN
+        return implode("\n", $a);
+    } // elaborar_propiedades_iniciales
+
+    /**
+     * PHP
+     *
+     * @return string Código PHP
+     */
+    public function php() {
+        // No hacer nada si no hay que crear formulario
+        if ($this->adan->si_hay_que_crear('formulario')) {
+            return <<<FIN
     /**
      * Nuevo
      */
@@ -293,12 +299,15 @@ class Nuevo extends \Base\Plantilla {
         if (!\$this->sesion->puede_agregar('SED_CLAVE')) {
             throw new \\Exception('Aviso: No tiene permiso para agregar SED_MENSAJE_SINGULAR.');
         }
-{$asigaciones_por_defecto}
+{$this->elaborar_propiedades_iniciales()}
         // Ponemos como verdadero el flag de consultado
         \$this->consultado = true;
     } // nuevo
 
 FIN;
+        } else {
+            return '';
+        }
     } // php
 
 } // Clase Nuevo
