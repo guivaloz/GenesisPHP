@@ -569,7 +569,7 @@ class Consultar extends \Base\Plantilla {
 {$this->elaborar_consultar_filtros()}
         // Siempre debe haber por lo menos un filtro
         if (count(\$m) == 0) {
-            throw new \\Base2\\BusquedaWebExceptionValidacion('Aviso: Búsqueda vacía. Debe usar por lo menos un campo.');
+            throw new \\Base2\\BusquedaExceptionValidacion('Aviso: Búsqueda vacía. Debe usar por lo menos un campo.');
         }
         \$filtros_sql = implode(' AND ', \$f);
         \$msg         = 'Buscó SED_SUBTITULO_PLURAL con '.implode(', ', \$m);
@@ -602,7 +602,7 @@ class Consultar extends \Base\Plantilla {
             return \$detalle;
         } else {
             // No se encontró nada
-            throw new \\Base2\\BusquedaWebExceptionVacio('Aviso: La búsqueda no encontró módulos con esos parámetros.');
+            throw new \\Base2\\BusquedaExceptionVacio('Aviso: La búsqueda no encontró módulos con esos parámetros.');
         }
     } // consultar
 

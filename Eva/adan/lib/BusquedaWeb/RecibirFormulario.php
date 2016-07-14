@@ -42,14 +42,14 @@ class RecibirFormulario extends \Base\Plantilla {
         // De acuerdo al tipo
         switch ($datos['tipo']) {
             case 'caracter':
-                $a[] = "            \$this->{$columna} = \$this->post_select(\$_POST['{$columna}']);";
+                $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_select(\$_POST['{$columna}']);";
                 break;
             case 'clave':
             case 'cuip':
             case 'curp':
             case 'mayusculas':
             case 'rfc':
-                $a[] = "            \$this->{$columna} = \$this->post_texto_mayusculas_sin_acentos(\$_POST['{$columna}']);";
+                $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_texto_mayusculas_sin_acentos(\$_POST['{$columna}']);";
                 break;
             case 'nombre':
             case 'nom_corto':
@@ -57,10 +57,10 @@ class RecibirFormulario extends \Base\Plantilla {
             case 'telefono':
             case 'frase':
             case 'variable':
-                $a[] = "            \$this->{$columna} = \$this->post_texto(\$_POST['{$columna}']);";
+                $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_texto(\$_POST['{$columna}']);";
                 break;
             case 'email':
-                $a[] = "            \$this->{$columna} = \$this->post_texto_minusculas(\$_POST['{$columna}']);";
+                $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_texto_minusculas(\$_POST['{$columna}']);";
                 break;
             case 'entero':
             case 'flotante':
@@ -123,7 +123,7 @@ class RecibirFormulario extends \Base\Plantilla {
                                     $a[] = $this->elaborar_recibir_formulario_campo("{$vip}_{$v}", $vd);
                                 }
                             } else {
-                                $a[] = "            \$this->{$vip} = \$this->post_texto(\$_POST['{$vip}']);";
+                                $a[] = "            \$this->{$vip} = \\Base2\\UtileriasParaFormularios::post_texto(\$_POST['{$vip}']);";
                             }
                         } else {
                             die("Error en BusquedaWeb, RecibirFormulario, elaborar_recibir_formulario_relacion: No está definido el VIP en Serpiente para $vip.");
@@ -132,7 +132,7 @@ class RecibirFormulario extends \Base\Plantilla {
                         $a[] = $this->elaborar_recibir_formulario_campo("{$columna}_{$vip}", $vip_datos);
                     }
                 } else {
-                    $a[] = "            \$this->{$columna}_{$vip_datos} = \$this->post_texto(\$_POST['{$columna}_{$vip_datos}']);";
+                    $a[] = "            \$this->{$columna}_{$vip_datos} = \\Base2\\UtileriasParaFormularios::post_texto(\$_POST['{$columna}_{$vip_datos}']);";
                 }
             }
         }
@@ -152,7 +152,7 @@ class RecibirFormulario extends \Base\Plantilla {
         $a = array();
         // Para buscar por estatus, se requiere tener permiso
         $a[] = "            if (\$this->sesion->puede_recuperar('SED_CLAVE')) {";
-        $a[] = "                \$this->estatus = \$this->post_select(\$_POST['estatus']);";
+        $a[] = "                \$this->estatus = \\Base2\\UtileriasParaFormularios::post_select(\$_POST['estatus']);";
         $a[] = "            }";
         // Entregar
         return implode("\n", $a);

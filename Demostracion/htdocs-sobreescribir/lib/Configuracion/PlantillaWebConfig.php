@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Configuración PlantillaHTML
+ * GenesisPHP - Configuración PlantillaWeb
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *

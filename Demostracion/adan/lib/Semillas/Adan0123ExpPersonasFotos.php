@@ -89,7 +89,7 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
         $this->estatus               = $serpiente->obtener_estatus($this->nombre);
         // Este módulo gestiona imagenes
         $this->imagen = array(
-            'almacen_ruta' => 'imagenes/xxxrelacionesimagenes',
+            'almacen_ruta' => 'imagenes/exppersonasfotos',
             'tamaños'      => array(
                 'big'    => 1024,
                 'middle' => 300,

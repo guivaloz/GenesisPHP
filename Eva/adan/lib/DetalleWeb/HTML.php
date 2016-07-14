@@ -138,7 +138,7 @@ class HTML extends \Base\Plantilla {
                         $valor = "\$this->{$columna}_descrito";
                         break;
                     case 'dinero':
-                        $valor = "UtileriasParaFormatos::formato_dinero(\$this->{$columna})";
+                        $valor = "\\Base2\\UtileriasParaFormatos::formato_dinero(\$this->{$columna})";
                         break;
                     case 'email':
                         $valor = "(\$this->{$columna} != '') ? sprintf('<a href=\"mailto:%s\">%s</a>', \$this->{$columna}, \$this->{$columna}) : ''";

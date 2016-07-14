@@ -32,6 +32,30 @@ E_FATAL=99
 ORIGEN_DIR="Eva"
 DESTINO_DIR="Demostracion"
 
+#
+# Debe configurar este script para su sistema
+# Si no lo ha hecho, mostrará este mensaje
+#
+if [ -z "$DESTINO_DIR" ]; then
+    echo "GenesisPHP"
+    echo "  AVISO: No ha configurado este script."
+    echo
+    echo "Pasos a seguir:"
+    echo "1 Haga accesos directos de los directorios Eva y Tierra"
+    echo "    $ ln -s ../GenesisPHP/Eva"
+    echo "    $ ln -s ../GenesisPHP/Tierra"
+    echo
+    echo "2 Edite CrearComun.sh"
+    echo "  Cambie la constante DESTINO_DIR con el nombre"
+    echo "  del directorio del SISTEMA"
+    echo
+    echo "3 Ejecute este script y verifique que haya trabajado bien"
+    echo
+    echo "4 Elabore las semillas y serpiente en SISTEMA/adan/lib/"
+    echo
+    exit $E_FATAL
+fi
+
 # Cambiarse al directorio de destino
 if [ -d ../$DESTINO_DIR ]; then
     echo "$SOY O.K. Estoy en $DESTINO_DIR"
@@ -203,6 +227,9 @@ do
         fi
     fi
 done
+if [ -d imagenes/pruebas ]; then
+    rm -rf imagenes/pruebas
+fi
 
 # Crear el directorio htdocs/lib
 echo "$SOY Creando el directorio htdocs/lib..."
@@ -221,7 +248,6 @@ if [ "$?" -ne $EXITO ]; then
 fi
 
 # Copiar directorios de htdocs/lib
-# NOTA: Ya quité Base, esta versión usa Base2
 for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base2 Configuracion Inicio Personalizar
 do
     echo "$SOY Copiando $DIR..."
@@ -245,17 +271,40 @@ if [ -d ../../htdocs-sobreescribir/lib ]; then
     done
 fi
 
-# Estar en el directorio htdocs
-cd ..
+# Cambiarse al directorio htdocs/bin
+echo "$SOY Cambiándose a htdocs/bin..."
+cd ../bin
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar a htdocs/bin"
+    exit $E_FATAL
+fi
 
-#
 # Crear enlaces en bin
-#
-cd bin
 echo "$SOY Creando enlace de lib en bin..."
 ln -s ../lib .
 echo "$SOY Creando enlace de imagenes en bin..."
 ln -s ../imagenes .
+
+#
+# Inica exclusivo para Demostración
+#
+
+# Cambiarse al directorio htdocs/imagenes
+echo "$SOY Cambiándose a htdocs/imagenes..."
+cd ../imagenes
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar a htdocs/imagenes"
+    exit $E_FATAL
+fi
+
+# Fotos de expedientes personas
+mkdir -p exppersonasfotos/big
+mkdir -p exppersonasfotos/middle
+mkdir -p exppersonasfotos/small
+
+#
+# Termina exclusivo para Demostración
+#
 
 echo "Script terminado."
 exit $EXITO

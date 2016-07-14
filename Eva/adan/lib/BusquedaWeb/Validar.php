@@ -159,13 +159,13 @@ class Validar extends \Base\Plantilla {
         if (is_string($funcion) && ($funcion != '')) {
             // Normal, solo uno
             $a[] = "        if ((\$this->{$columna} != '') && $funcion) {";
-            $a[] = "            throw new \\Base2\\BusquedaWebExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
+            $a[] = "            throw new \\Base2\\BusquedaExceptionValidacion('Aviso: {$datos['etiqueta']} incorrecto(a).');";
             $a[] = "        }";
         } elseif (is_array($funcion)) {
             // Es un rango, desde y hasta
             foreach ($funcion as $c => $f) {
                 $a[] = "        if ((\$this->{$columna}_{$c} != '') && $f) {";
-                $a[] = "            throw new \\Base2\\BusquedaWebExceptionValidacion('Aviso: {$datos['etiqueta']} $c incorrecto(a).');";
+                $a[] = "            throw new \\Base2\\BusquedaExceptionValidacion('Aviso: {$datos['etiqueta']} $c incorrecto(a).');";
                 $a[] = "        }";
             }
         } else {
@@ -249,9 +249,9 @@ class Validar extends \Base\Plantilla {
             // Al buscar por estatus, se requiere tener permiso para buscar los eliminados
             $a[] = "        if (\$this->estatus != '') {";
             $a[] = "            if ((\$this->estatus == '{$this->estatus['eliminado']}') && !\$this->sesion->puede_recuperar('SED_CLAVE')) {";
-            $a[] = "                throw new \\Exception('Aviso: No tiene permiso para ver los registros eliminados.');";
+            $a[] = "                throw new \\Base2\\BusquedaExceptionValidacion('Aviso: No tiene permiso para ver los registros eliminados.');";
             $a[] = "            } elseif (!array_key_exists(\$this->estatus, Registro::\$estatus_descripciones)) {";
-            $a[] = "                throw new \\Base2\\BusquedaWebExceptionValidacion('Aviso: Estatus incorrecto.');";
+            $a[] = "                throw new \\Base2\\BusquedaExceptionValidacion('Aviso: Estatus incorrecto.');";
             $a[] = "            }";
             $a[] = "        }";
         }

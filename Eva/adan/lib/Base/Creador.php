@@ -143,7 +143,7 @@ class Creador {
             $busqueda_web = new BusquedaWeb($this->adan);
             $m[]          = $this->crear_archivo_libreria($modulo, "BusquedaWeb.php", $busqueda_web->php());
         }
-        // Crear Select Opciones
+        // Crear OpcionesSelect
         if ($this->adan->si_hay_que_crear('select_opciones')) {
             $opciones_select = new OpcionesSelect($this->adan);
             $m[]             = $this->crear_archivo_libreria($modulo, "OpcionesSelect.php", $opciones_select->php());
