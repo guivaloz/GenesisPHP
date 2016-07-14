@@ -46,7 +46,7 @@ class ListadoWebControlado extends ListadoWeb {
      * Constructor
      */
     public function __construct() {
-        // Iniciamos controlado html
+        // Iniciamos controlado web
         $this->controlado_web     = new ControladoWeb();
         // Tomamos estos valores que pueden venir por el url
         $this->limit              = $this->controlado_web->limit;
@@ -62,18 +62,14 @@ class ListadoWebControlado extends ListadoWeb {
      * @return string Código HTML
      */
     public function html($in_encabezado='') {
-        // Si viene el encabezado como parámetro
-        if ($in_encabezado != '') {
-            $this->encabezado = $in_encabezado;
-        }
-        // Le entregamos a controlado HTML
+        // Le entregamos a controlado web
         $this->controlado_web->cantidad_registros = $this->cantidad_registros;
         $this->controlado_web->variables          = $this->variables;
         $this->controlado_web->limit              = $this->limit; // Puede ponerse en cero para que no tenga botones
-        // Definimos el pie con los botones anterior-siguiente
+        // Definir el pie con los botones anterior-siguiente
         $this->pie = $this->controlado_web->html();
         // Ejecutar padre y entregar
-        return parent::html();
+        return parent::html($in_encabezado);
     } // html
 
 } // Clase ListadoWebControlado

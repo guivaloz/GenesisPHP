@@ -165,7 +165,7 @@ class LenguetaWeb {
             }
         }
         // Si hay Javascript
-        if ($this->javascript != '') {
+        if (is_string($this->javascript) && ($this->javascript != '')) {
             $a[] = $this->javascript;
         }
         // Entregar
@@ -178,7 +178,7 @@ $todo
 });
 FINAL;
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

@@ -40,7 +40,7 @@ class FormularioWeb implements SalidaWeb {
     protected $contenidos                = array();  // Arreglo asociativo, guarda el contenido HTML
     protected $contenidos_clases         = array();  // Arreglo asociativo, guarda las clases de los tamaños
     protected $pie                       = array();
-    protected $javascript                = array();
+    protected $javascript                = array();  // Arreglo con códigos javascript
     protected $onkeypress;
     protected $subir_archivo             = false;
     protected $html_elaborado;                       // El método HTML sólo se elabora una vez, después entrega el mismo HTML
@@ -1098,10 +1098,10 @@ RANGO;
             if (count($a) > 0) {
                 return implode("\n", $a);
             } else {
-                return false;
+                return '';
             }
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

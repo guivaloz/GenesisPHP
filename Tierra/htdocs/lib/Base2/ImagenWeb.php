@@ -158,7 +158,7 @@ class ImagenWeb extends Imagen implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        return false;
+        return ''; // ImagenWeb no genera javascript
     } // javascript
 
 } // Clase ImagenWeb

@@ -33,8 +33,7 @@ class DetalleWeb implements SalidaWeb {
     protected $secciones      = array();
     protected $seccion_actual = 'Datos';
     protected $imagenes       = array();
-    protected $pie            = array(); // Arreglo de objetos o códigos HTML para poner al final con al_final
-    protected $javascript     = array(); // Arreglo con Javascript
+    protected $pie            = array(); // Arreglo con instancias o códigos HTML para poner al final con al_final
 
     /**
      * Seccion
@@ -139,9 +138,8 @@ class DetalleWeb implements SalidaWeb {
         // Acumular pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
-                if (is_object($p)) {
-                    $a[]                = $p->html();
-                    $this->javascript[] = $p->javascript();
+                if (is_object($p) && ($p instanceof SalidaWeb)) {
+                    $a[] = $p->html();
                 } elseif (is_string($p)) {
                     $a[] = $p;
                 }
@@ -199,10 +197,13 @@ FIN;
      * @return string Código Javascript
      */
     public function javascript() {
+        // En este arreglo acumularemos lo que se va a entregar
         $a = array();
+        // Acumular javascript de la barra
         if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
             $a[] = $this->barra->javascript();
         }
+        // Acumular javascript de la imagen
         if (count($this->imagenes) > 0) {
             reset($this->imagenes);
             $imagen = current($this->imagenes);
@@ -213,6 +214,7 @@ FIN;
                 $a[] = '<!-- Imagen reporta falla en javascript -->';
             }
         }
+        // Entregar
         return implode("\n", $a);
     } // javascript
 

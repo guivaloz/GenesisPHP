@@ -32,7 +32,6 @@ class BarraWeb implements SalidaWeb {
     protected $botones            = array();
     protected $confirmaciones     = array();
     protected $opciones           = array();
-    protected $javascript         = array();
     static public $botones_clases = array(
         'default' => '',             // Blanco
         'primary' => 'btn-primary',  // Azul fuerte
@@ -261,11 +260,7 @@ class BarraWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        if (count($this->javascript) > 0) {
-            return implode("\n", $this->javascript);
-        } else {
-            return false;
-        }
+        return ''; // BarraWeb no genera javascript
     } // javascript
 
 } // Clase BarraWeb

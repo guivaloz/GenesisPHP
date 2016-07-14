@@ -168,13 +168,12 @@ class LenguetasWeb implements SalidaWeb {
     public function javascript() {
         // Si no hay lengüetas, no entrega nada
         if (count($this->lenguetas) == 0) {
-            return false;
+            return '';
         }
         // En este arreglo juntaremos el javascript
         $a = array();
-        // Bucle por las lengüetas
+        // Acumular el Javascript de cada lengüeta
         foreach ($this->lenguetas as $lengueta) {
-            // Acumular el Javascript que viene en cada lengüeta
             $js = $lengueta->javascript();
             if (is_string($js) && ($js != '')) {
                 $a[] = $js;
@@ -186,7 +185,7 @@ class LenguetasWeb implements SalidaWeb {
                 }
             }
         }
-        // Javascript de Twitter Bootstrap Tabs
+        // Acumular Javascript de Twitter Bootstrap para que lengüeta activa sea la que aparezca
         if ($this->activa === false) {
             $a[] = <<<FINAL
 // TWITTER BOOTSTRAP TABS, ESTABLECER QUE LA PRIMER LENGÜETA ES LA ACTIVA

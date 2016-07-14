@@ -148,10 +148,10 @@ abstract class BusquedaWeb implements SalidaWeb {
             if (count($a) > 0) {
                 return implode("\n", $a);
             } else {
-                return false;
+                return '';
             }
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

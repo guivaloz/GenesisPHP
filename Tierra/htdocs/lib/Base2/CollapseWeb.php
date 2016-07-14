@@ -138,23 +138,16 @@ class CollapseWeb implements SalidaWeb {
         }
         // Acumularemos el html en este arreglo
         $a = array();
-        //
-        if ($this->encabezado != '') {
-            $barra             = new BarraWeb();
-            $barra->encabezado = $this->encabezado;
-            $barra->icono      = $this->icono;
-            $a[]               = $barra->html();
-        }
         // Elaborar Barra
         if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
             $a[]                = $this->barra->html();
             $this->javascript[] = $this->barra->javascript();
         } elseif ($this->encabezado != '') {
-            $barra              = new BarraWeb();
-            $barra->encabezado  = $this->encabezado;
-            $barra->icono       = $this->icono;
-            $a[]                = $barra->html();
-            $this->javascript[] = $barra->javascript();
+            $this->barra             = new BarraWeb();
+            $this->barra->encabezado = $this->encabezado;
+            $this->barra->icono      = $this->icono;
+            $a[]                     = $this->barra->html();
+            $this->javascript[]      = $this->barra->javascript();
         }
         // Elaborar contenido
         $a[] = "<div class=\"panel-group\" id=\"{$this->collapse_id}\">";
@@ -187,6 +180,21 @@ class CollapseWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
+        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
+            $a = array();
+            foreach ($this->javascript as $js) {
+                if (is_string($js) && ($js != '')) {
+                    $a[] = $js;
+                }
+            }
+            if (count($a) > 0) {
+                return implode("\n", $a);
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
     } // javascript
 
 } // Clase CollapseWeb

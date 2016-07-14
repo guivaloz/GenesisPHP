@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - ListadoWebControlado
+ * GenesisPHP - TrenWebControlado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,16 +23,16 @@
 namespace Base2;
 
 /**
- * Clase ListadoWebControlado
+ * Clase TrenWebControlado
  */
-class ListadoWebControlado extends ListadoWeb {
+class TrenWebControlado extends TrenWeb {
 
     // public $encabezado;
     // public $icono;
     // public $barra;
-    // public $estructura;
-    // public $listado;
-    // public $panal;
+    // public $vagones;
+    // public $div_class;
+    // public $columnas;
     // protected $cabeza;
     // protected $pie;
     public $limit;
@@ -44,8 +44,10 @@ class ListadoWebControlado extends ListadoWeb {
 
     /**
      * Constructor
+     *
+     * @param array Opcional, arreglo de instancias que son los vagones
      */
-    public function __construct() {
+    public function __construct($in_vagones=false) {
         // Iniciamos controlado web
         $this->controlado_web     = new ControladoWeb();
         // Tomamos estos valores que pueden venir por el url
@@ -53,6 +55,8 @@ class ListadoWebControlado extends ListadoWeb {
         $this->offset             = $this->controlado_web->offset;
         $this->cantidad_registros = $this->controlado_web->cantidad_registros;
         $this->viene_listado      = $this->controlado_web->viene_listado;
+        // Ejecutamos al padre
+        parent::__construct($in_vagones);
     } // constructor
 
     /**
@@ -72,6 +76,6 @@ class ListadoWebControlado extends ListadoWeb {
         return parent::html($in_encabezado);
     } // html
 
-} // Clase ListadoWebControlado
+} // Clase TrenWebControlado
 
 ?>

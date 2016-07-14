@@ -33,9 +33,8 @@ class ListadoWeb implements SalidaWeb {
     public $estructura;              // Arreglo asociativo con la estructura del listado
     public $listado       = array(); // Arreglo, resultado de la consulta
     public $panal         = array();
-    protected $cabeza     = array(); // Arreglo de objetos o de códigos HTML a agregar al principio con el metodo al_principio
-    protected $pie        = array(); // Arreglo de objetos o de codigos HTML a agregar al final     con el metodo al_final
-    protected $javascript = array(); // Arreglo, Javascript a colocar al final de la página
+    protected $cabeza     = array(); // Arreglo con instancias o de códigos HTML a agregar al principio con el metodo al_principio
+    protected $pie        = array(); // Arreglo con instancias o de codigos HTML a agregar al final     con el metodo al_final
 
     /**
      * Al Principio
@@ -97,21 +96,19 @@ class ListadoWeb implements SalidaWeb {
         // Acumularemos la entrega en este arreglo
         $a   = array();
         $a[] = '<div class="listado">';
-        // Elaborar Barra
+        // Si la barra está definida
         if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
-            $a[]                = $this->barra->html();
-            $this->javascript[] = $this->barra->javascript();
+            $a[] = $this->barra->html();
         } elseif ($this->encabezado != '') {
-            $barra              = new BarraWeb();
-            $barra->encabezado  = $this->encabezado;
-            $barra->icono       = $this->icono;
-            $a[]                = $barra->html();
-            $this->javascript[] = $barra->javascript();
+            $this->barra             = new BarraWeb();
+            $this->barra->encabezado = $this->encabezado;
+            $this->barra->icono      = $this->icono;
+            $a[]                     = $this->barra->html();
         }
         // Si hay algo en la cabeza se agregará al contenido
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {
             foreach ($this->cabeza as $c) {
-                if (is_object($c)) {
+                if (is_object($c) && ($c instanceof SalidaWeb)) {
                     $a[] = $c->html();
                 } elseif (is_string($c)) {
                     $a[] = $c;
@@ -446,38 +443,30 @@ class ListadoWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
+        // En este arreglo acumularemos lo que se va a entregar
+        $a = array();
+        // Si hay javascript en la BarraWeb
+        if (is_object($this->barra) && ($this->barra instanceof BarraWeb)) {
+            $a[] = $this->barra->javascript();
+        }
         // Si hay Javascript en los objetos de la cabeza
         if (is_array($this->cabeza) && (count($this->cabeza) > 0)) {
-            foreach ($this->cabeza as $p) {
-                if (is_object($p)) {
-                    $this->javascript[] = $p->javascript();
+            foreach ($this->cabeza as $c) {
+                if (is_object($c) && ($c instanceof SalidaWeb)) {
+                    $a[] = $c->javascript();
                 }
             }
         }
         // Si hay Javascript en los objetos del pie
         if (is_array($this->pie) && (count($this->pie) > 0)) {
             foreach ($this->pie as $p) {
-                if (is_object($p)) {
-                    $this->javascript[] = $p->javascript();
+                if (is_object($p) && ($p instanceof SalidaWeb)) {
+                    $a[] = $p->javascript();
                 }
             }
         }
         // Entregar
-        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
-            $a = array();
-            foreach ($this->javascript as $js) {
-                if (is_string($js) && ($js != '')) {
-                    $a[] = $js;
-                }
-            }
-            if (count($a) > 0) {
-                return implode("\n", $a);
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase ListadoWeb
