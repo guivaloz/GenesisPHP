@@ -358,6 +358,22 @@ FINAL;
 FINAL;
     } // php
 
+/**
+ * CUANDO ES PADRE y un hijo tiene imágenes
+
+        // Pasar la última imagen
+        $imagen = new \ExpPersonasFotos\ImagenWebUltima($this->sesion);
+        $imagen->configurar_para_detalle();
+        try {
+            $imagen->consultar($this->id);
+            $imagen->usar_tamano('middle');
+            $imagen->vincular('big');
+            $this->detalle->imagen($imagen);
+        } catch (\Base2\ListadoExceptionVacio $e) {
+        }
+
+ */
+
 } // Clase HTML
 
 ?>

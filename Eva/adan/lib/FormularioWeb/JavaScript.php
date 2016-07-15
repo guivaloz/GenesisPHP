@@ -50,10 +50,10 @@ class JavaScript extends \Base\Plantilla {
             if (count(\$a) > 0) {
                 return implode("\\n", \$a);
             } else {
-                return false;
+                return '';
             }
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

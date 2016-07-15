@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DetalleWeb JavaScript
+ * GenesisPHP - ImagenWebUltima Constructor
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace DetalleWeb;
+namespace ImagenWebUltima;
 
 /**
- * Clase JavaScript
+ * Clase Constructor
  */
-class JavaScript extends \Base\Plantilla {
+class Constructor extends \Base\Plantilla {
 
     /**
      * PHP
@@ -35,21 +35,18 @@ class JavaScript extends \Base\Plantilla {
     public function php() {
         return <<<FINAL
     /**
-     * Javascript
+     * Constructor
      *
-     * @return string Javascript
+     * @param mixed Sesion
      */
-    public function javascript() {
-        if (\$this->detalle instanceof \\Base2\\DetalleWeb) {
-            return \$this->detalle->javascript();
-        } else {
-            return '';
-        }
-    } // javascript
+    public function __construct(\\Inicio\\Sesion \$in_sesion) {
+        \$this->sesion = \$in_sesion;
+        parent::__construct(Registro::\$imagen_almacen_ruta, Registro::\$imagen_tamanos);
+    } // constructor
 
 FINAL;
     } // php
 
-} // Clase JavaScript
+} // Clase Constructor
 
 ?>

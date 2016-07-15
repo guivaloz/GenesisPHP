@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DetalleWeb JavaScript
+ * GenesisPHP - ImagenWebUltima Consultar
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace DetalleWeb;
+namespace ImagenWebUltima;
 
 /**
- * Clase JavaScript
+ * Clase Consultar
  */
-class JavaScript extends \Base\Plantilla {
+class Consultar extends \Base\Plantilla {
 
     /**
      * PHP
@@ -34,22 +34,10 @@ class JavaScript extends \Base\Plantilla {
      */
     public function php() {
         return <<<FINAL
-    /**
-     * Javascript
-     *
-     * @return string Javascript
-     */
-    public function javascript() {
-        if (\$this->detalle instanceof \\Base2\\DetalleWeb) {
-            return \$this->detalle->javascript();
-        } else {
-            return '';
-        }
-    } // javascript
 
 FINAL;
     } // php
 
-} // Clase JavaScript
+} // Clase Consultar
 
 ?>

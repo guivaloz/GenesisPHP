@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DetalleWeb JavaScript
+ * GenesisPHP - ImagenWebUltima Propiedades
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace DetalleWeb;
+namespace ImagenWebUltima;
 
 /**
- * Clase JavaScript
+ * Clase Propiedades
  */
-class JavaScript extends \Base\Plantilla {
+class Propiedades extends \Base\Plantilla {
 
     /**
      * PHP
@@ -34,22 +34,24 @@ class JavaScript extends \Base\Plantilla {
      */
     public function php() {
         return <<<FINAL
-    /**
-     * Javascript
-     *
-     * @return string Javascript
-     */
-    public function javascript() {
-        if (\$this->detalle instanceof \\Base2\\DetalleWeb) {
-            return \$this->detalle->javascript();
-        } else {
-            return '';
-        }
-    } // javascript
+    // public \$id;
+    // public \$caracteres_azar;
+    // protected \$almacen_ruta;
+    // protected \$almacen_tamanos;
+    // protected \$tamano_en_uso;
+    // protected \$imagen;
+    // protected \$ancho;
+    // protected \$alto;
+    // protected \$ruta;
+    // public \$pie;
+    // public \$url;
+    // public \$a_class;
+    // public \$img_class;
+    // public \$p_class;
 
 FINAL;
     } // php
 
-} // Clase JavaScript
+} // Clase Propiedades
 
 ?>

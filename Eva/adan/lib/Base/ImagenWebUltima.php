@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - DetalleWeb JavaScript
+ * GenesisPHP - Base ImagenWebUltima
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace DetalleWeb;
+namespace Base;
 
 /**
- * Clase JavaScript
+ * Clase ImagenWebUltima
  */
-class JavaScript extends \Base\Plantilla {
+class ImagenWebUltima extends Plantilla {
 
     /**
      * PHP
@@ -33,23 +33,27 @@ class JavaScript extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        return <<<FINAL
-    /**
-     * Javascript
-     *
-     * @return string Javascript
-     */
-    public function javascript() {
-        if (\$this->detalle instanceof \\Base2\\DetalleWeb) {
-            return \$this->detalle->javascript();
-        } else {
-            return '';
-        }
-    } // javascript
+        // Definir instancias con las partes
+        $propiedades        = new \ImagenWebUltima\Propiedades($this->adan);
+        $metodo_constructor = new \ImagenWebUltima\Constructor($this->adan);
+        $metodo_consultar   = new \ImagenWebUltima\Consultar($this->adan);
+        // Armar el contenido con las partes
+        $contenido = <<<FINAL
+/**
+ * Clase ImagenWebUltima
+ */
+class ImagenWebUltima extends \\Base2\\ImagenWeb {
+
+{$propiedades->php()}
+{$metodo_constructor->php()}
+{$metodo_consultar->php()}
+} // Clase TrenWeb
 
 FINAL;
+        // Realizar sustituciones y entregar
+        return $this->sustituir_sed($contenido);
     } // php
 
-} // Clase JavaScript
+} // Clase ImagenWebUltima
 
 ?>
