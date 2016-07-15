@@ -82,15 +82,13 @@ class CollapseWeb implements SalidaWeb {
     /**
      * Agregar Javascript
      *
-     * @param  string  Javascript
-     * @return boolean Verdadero si se agrega con exito
+     * @param string Código Javascript
      */
     public function agregar_javascript($in_js) {
         // Si el javascript es texto, se agrega al arreglo
         if (is_string($in_js) && ($in_js != '')) {
             // Es texto
             $this->javascript[] = $in_js;
-            return true;
         } elseif (is_array($in_js) && (count($in_js) > 1)) {
             // Es un arreglo, revisar que cada dato sea un texto valido
             foreach ($in_js as $js) {
@@ -98,9 +96,6 @@ class CollapseWeb implements SalidaWeb {
                     $this->javascript[] = $js;
                 }
             }
-            return true;
-        } else {
-            return false; // No es del tipo correcto
         }
     } // agregar_javascript
 

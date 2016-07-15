@@ -33,6 +33,12 @@ class Encabezado extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        $columnas_vip = $this->columnas_vip_para_mensaje();
+        if ($columnas_vip !== '') {
+            $encabezado = $columnas_vip;
+        } else {
+            $encabezado = 'SED_TITULO_SINGULAR';
+        }
         return <<<FIN
     /**
      * Encabezado
@@ -40,7 +46,7 @@ class Encabezado extends \Base\Plantilla {
      * @return string Encabezado
      */
     public function encabezado() {
-        return "{$this->columnas_vip_para_mensaje()}";
+        return "$encabezado";
     } // encabezado
 
 FIN;

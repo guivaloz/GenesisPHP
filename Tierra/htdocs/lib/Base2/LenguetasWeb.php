@@ -175,11 +175,11 @@ class LenguetasWeb implements SalidaWeb {
         // Acumular el Javascript de cada lengüeta
         foreach ($this->lenguetas as $lengueta) {
             $js = $lengueta->javascript();
-            if (is_string($js) && ($js != '')) {
+            if (is_string($js) && (trim($js) != '')) {
                 $a[] = $js;
             } elseif (is_array($js) && (count($js) > 0)) {
                 foreach ($js as $j) {
-                    if ($j != '') {
+                    if (trim($js) != '') {
                         $a[] = $j;
                     }
                 }

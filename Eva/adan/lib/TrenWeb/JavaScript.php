@@ -40,20 +40,10 @@ class JavaScript extends \Base\Plantilla {
      * @return string Javascript
      */
     public function javascript() {
-        if (is_array(\$this->javascript) && (count(\$this->javascript) > 0)) {
-            \$a = array();
-            foreach (\$this->javascript as \$js) {
-                if (is_string(\$js) && (\$js != '')) {
-                    \$a[] = \$js;
-                }
-            }
-            if (count(\$a) > 0) {
-                return implode("\\n", \$a);
-            } else {
-                return false;
-            }
+        if (\$this->tren_controlado instanceof \\Base2\\TrenWebControlado) {
+            return \$this->tren_controlado->javascript();
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

@@ -205,7 +205,7 @@ class MensajeWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        return false;
+        return '';
     } // javascript
 
 } // Clase MensajeWeb

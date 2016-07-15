@@ -84,6 +84,7 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 /* Piezas de Tierra dentro de collapse */
 
 .panel-default          { border-color:#CCC; }
+.panel-body             { padding:4px; }
 .panel-body .barra,
 .panel-body .detalle,
 .panel-body .formulario,

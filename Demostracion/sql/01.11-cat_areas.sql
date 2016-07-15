@@ -13,7 +13,6 @@ CREATE TABLE cat_areas (
     estatus    character(1)              DEFAULT 'A'::char NOT NULL
 );
 
-INSERT INTO cat_areas (nombre) VALUES ('Área Administrativa'); -- 1
-INSERT INTO cat_areas (nombre) VALUES ('Área Producción');     -- 2
-INSERT INTO cat_areas (nombre) VALUES ('Área Ventas');         -- 3
-
+INSERT INTO cat_areas (nombre) VALUES ('Administrativa'); -- 1
+INSERT INTO cat_areas (nombre) VALUES ('Producción');     -- 2
+INSERT INTO cat_areas (nombre) VALUES ('Ventas');         -- 3

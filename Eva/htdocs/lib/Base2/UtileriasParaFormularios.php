@@ -68,7 +68,7 @@ abstract class UtileriasParaFormularios {
             'Ñ' => 'ñ',
             'Ü' => 'ü');
         $normalizado = strtr($dato, $normalizar);
-        return $this->post_texto(strtolower($normalizado));
+        return self::post_texto(strtolower($normalizado));
     } // post_texto_minusculas
 
     /**
@@ -86,7 +86,7 @@ abstract class UtileriasParaFormularios {
             'Ñ' => 'ñ',
             'Ü' => 'ü');
         $normalizado = strtr($dato, $normalizar);
-        return $this->post_texto(strtolower($normalizado));
+        return self::post_texto(strtolower($normalizado));
     } // post_texto_minusculas_sin_acentos
 
     /**
@@ -104,7 +104,7 @@ abstract class UtileriasParaFormularios {
             'ñ' => 'Ñ',
             'ü' => 'Ü');
         $normalizado = strtr($dato, $normalizar);
-        return $this->post_texto(strtoupper($normalizado));
+        return self::post_texto(strtoupper($normalizado));
     } // post_texto_mayusculas
 
     /**
@@ -122,7 +122,7 @@ abstract class UtileriasParaFormularios {
             'ñ' => 'Ñ',
             'ü' => 'Ü');
         $normalizado = strtr($dato, $normalizar);
-        return $this->post_texto(strtoupper($normalizado));
+        return self::post_texto(strtoupper($normalizado));
     } // post_texto_mayusculas_sin_acentos
 
     /**

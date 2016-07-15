@@ -96,7 +96,7 @@ FIN;
         return <<<FIN
 if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\$accion_eliminar)) {
                 // Eliminar
-                \$eliminar     = new DetalleWeb(\$this->sesion);
+                \$eliminar     = new EliminarWeb(\$this->sesion);
                 \$eliminar->id = \$_GET['id'];
                 \$lenguetas->agregar_activa('SED_CLASE_SINGULAREliminar', 'Eliminar', \$eliminar);
             }
@@ -121,7 +121,7 @@ FIN;
         return <<<FIN
 if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\$accion_recuperar)) {
                 // Recuperar
-                \$recuperar     = new DetalleWeb(\$this->sesion);
+                \$recuperar     = new RecuperarWeb(\$this->sesion);
                 \$recuperar->id = \$_GET['id'];
                 \$lenguetas->agregar_activa('SED_CLASE_SINGULARRecuperar', 'Recuperar', \$recuperar);
             }

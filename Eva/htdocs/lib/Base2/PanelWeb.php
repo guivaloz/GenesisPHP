@@ -118,7 +118,7 @@ class PanelWeb implements SalidaWeb {
             }
             return implode("\n", $a);
         } else {
-            return false;
+            return '';
         }
     } // javascript
 

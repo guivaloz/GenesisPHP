@@ -150,6 +150,20 @@ fi
 # Procesos para htdocs
 #
 
+#
+# Inica exclusivo para Demostración
+#
+
+# Respaldar fotos de expedientes personas
+if [ -d "htdocs/imagenes/exppersonasfotos" ]; then
+    echo "$SOY Resguardando imagenes/exppersonasfotos..."
+    mv htdocs/imagenes/exppersonasfotos .exppersonasfotos
+fi
+
+#
+# Termina exclusivo para Demostración
+#
+
 # Si existe htdocs será eliminado
 if [ -d "htdocs" ]; then
     echo "$SOY ELIMINANDO los directorios y archivos de htdocs..."
@@ -297,14 +311,23 @@ if [ "$?" -ne $EXITO ]; then
     exit $E_FATAL
 fi
 
-# Fotos de expedientes personas
-mkdir -p exppersonasfotos/big
-mkdir -p exppersonasfotos/middle
-mkdir -p exppersonasfotos/small
+# Restaurar fotos de expedientes personas
+if [ -d "../../.exppersonasfotos" ]; then
+    echo "$SOY Restaurando imagenes/exppersonasfotos..."
+    mv ../../.exppersonasfotos exppersonasfotos
+else
+    echo "$SOY Creando directorios para las fotos de expedientes..."
+    mkdir -p exppersonasfotos/big
+    mkdir -p exppersonasfotos/middle
+    mkdir -p exppersonasfotos/small
+    echo "$SOY Por favor INGRESE SU CONTRASEÑA para ejecutar sudo y cambiar los permisos de los directorios..."
+    sudo chgrp -R apache exppersonasfotos
+    chmod -R g+w exppersonasfotos
+fi
 
 #
 # Termina exclusivo para Demostración
 #
 
-echo "Script terminado."
+echo "$SOY Script terminado."
 exit $EXITO

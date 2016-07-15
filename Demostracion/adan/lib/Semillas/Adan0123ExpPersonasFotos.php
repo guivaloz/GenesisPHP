@@ -36,17 +36,14 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
     // Datos de la tabla
     public $tabla = array(
         'id'              => array('tipo' => 'serial'),
-        'persona'         => array('tipo' => 'relacion',   'etiqueta' => 'Persona',            'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 61),
-
-        'caracteres_azar' => array('tipo' => 'nombre',     'etiqueta' => 'Caracteres al azar', 'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11, 'orden' => 1, 'vip' => 2),
-
-        'creado'          => array('tipo' => 'fecha_hora', 'etiqueta' => 'Creado'),
+        'creado'          => array('tipo' => 'fecha_hora', 'etiqueta' => 'Creado',                                                                  'filtro' => 2, 'listado' => 11, 'orden' => -1, 'vip' => 2),
+        'persona'         => array('tipo' => 'relacion',   'etiqueta' => 'Persona',            'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 21,                'vip' => 1),
+        'caracteres_azar' => array('tipo' => 'nombre',     'etiqueta' => 'Caracteres al azar', 'validacion' => 2, 'agregar' => "\\Base2\\UtileriasParaFormatos::caracteres_azar()"),
         'estatus'         => array('tipo' => 'caracter',   'etiqueta' => 'Estatus',            'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
-            'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
-            'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
-            'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),
-            'colores'       => array('A' => 'blanco',                'B' => 'gris'),
-            'acciones'      => array('A' => 'listadoenuso',          'B' => 'listadoeliminados'))
+            'descripciones' => array('A' => 'En uso',       'B' => 'Eliminado'),
+            'etiquetas'     => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'colores'       => array('A' => 'blanco',       'B' => 'gris'),
+            'acciones'      => array('A' => 'listadoenuso', 'B' => 'listadoeliminados'))
     );
 
     // Reptil es leido por Serpiente

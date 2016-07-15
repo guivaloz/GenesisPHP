@@ -203,7 +203,7 @@ class ControladoWeb implements SalidaWeb {
      * @return string Código Javascript
      */
     public function javascript() {
-        return false;
+        return '';
     } // javascript
 
 } // Clase ControladoWeb

@@ -62,7 +62,12 @@ class Registro extends \\Base2\\Registro {
 {$propiedades->php()}
 {$metodo_consultar->php()}
 {$metodo_encabezado->php()}
-{$metodo_validar->php()}{$metodo_nuevo->php()}{$metodo_agregar->php()}{$metodo_modificar->php()}{$metodo_eliminar->php()}{$metodo_recuperar->php()}
+{$metodo_validar->php()}
+{$metodo_nuevo->php()}
+{$metodo_agregar->php()}
+{$metodo_modificar->php()}
+{$metodo_eliminar->php()}
+{$metodo_recuperar->php()}
 } // Clase Registro
 
 ?>

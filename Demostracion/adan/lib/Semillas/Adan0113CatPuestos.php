@@ -41,11 +41,10 @@ class Adan0113CatPuestos extends \Arbol\Adan {
 
         'notas'   => array('tipo' => 'notas',    'etiqueta' => 'Notas',   'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'estatus' => array('tipo' => 'caracter', 'etiqueta' => 'Estatus', 'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
-            'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
-            'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
-            'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),
-            'colores'       => array('A' => 'blanco',                'B' => 'gris'),
-            'acciones'      => array('A' => 'listadoenuso',          'B' => 'listadoeliminados'))
+            'descripciones' => array('A' => 'En uso',       'B' => 'Eliminado'),
+            'etiquetas'     => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'colores'       => array('A' => 'blanco',       'B' => 'gris'),
+            'acciones'      => array('A' => 'listadoenuso', 'B' => 'listadoeliminados'))
     );
 
     // Reptil es leido por Serpiente

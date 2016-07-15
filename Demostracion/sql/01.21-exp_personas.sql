@@ -9,8 +9,8 @@ CREATE TABLE exp_personas (
     area                 integer                 REFERENCES cat_areas   NOT NULL,
     puesto               integer                 REFERENCES cat_puestos NOT NULL,
 
-    nombres              character varying(128),
-    apellido_paterno     character varying(128),
+    nombres              character varying(128)  NOT NULL,
+    apellido_paterno     character varying(128)  NOT NULL,
     apellido_materno     character varying(128),
     nombre_completo      character varying(256)  NOT NULL,
 

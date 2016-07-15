@@ -41,7 +41,7 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
 
         'nombres'          => array('tipo' => 'nombre',     'etiqueta' => 'Nombres',             'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
         'apellido_paterno' => array('tipo' => 'nombre',     'etiqueta' => 'Apellido paterno',    'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
-        'apellido_materno' => array('tipo' => 'nombre',     'etiqueta' => 'Apellido materno',    'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
+        'apellido_materno' => array('tipo' => 'nombre',     'etiqueta' => 'Apellido materno',    'validacion' => 1, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1),
         'nombre_completo'  => array('tipo' => 'nombre',     'etiqueta' => 'Nombre completo',     'validacion' => 2,                                   'filtro' => 1, 'listado' => 21, 'orden' => 1, 'vip' => 2,
             'agregar'   => 'sprintf("%s, %s", trim($this->apellido_paterno.\' \'.$this->apellido_materno), $this->nombres)',
             'modificar' => 'sprintf("%s, %s", trim($this->apellido_paterno.\' \'.$this->apellido_materno), $this->nombres)'),
@@ -62,11 +62,10 @@ class Adan0121ExpPersonas extends \Arbol\Adan {
 
         'notas'            => array('tipo' => 'notas',      'etiqueta' => 'Notas',               'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'estatus'          => array('tipo' => 'caracter',   'etiqueta' => 'Estatus',             'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
-            'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
-            'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
-            'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),
-            'colores'       => array('A' => 'blanco',                'B' => 'gris'),
-            'acciones'      => array('A' => 'listadoenuso',          'B' => 'listadoeliminados'))
+            'descripciones' => array('A' => 'En uso',       'B' => 'Eliminado'),
+            'etiquetas'     => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'colores'       => array('A' => 'blanco',       'B' => 'gris'),
+            'acciones'      => array('A' => 'listadoenuso', 'B' => 'listadoeliminados'))
     );
 
     // Reptil es leido por Serpiente

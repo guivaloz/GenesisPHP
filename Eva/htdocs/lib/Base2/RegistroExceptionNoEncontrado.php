@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - RegistroExcepcionNoEncontrado
+ * GenesisPHP - RegistroExceptionNoEncontrado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,8 +23,8 @@
 namespace Base2;
 
 /**
- * Clase RegistroExcepcionNoEncontrado
+ * Clase RegistroExceptionNoEncontrado
  */
-class RegistroExcepcionNoEncontrado extends \Exception {}
+class RegistroExceptionNoEncontrado extends \Exception {}
 
 ?>

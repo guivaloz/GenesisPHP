@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - ListadoWeb JavaScript
+ * GenesisPHP - RegistroExceptionNoEncontrado
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,36 +20,11 @@
  * @package GenesisPHP
  */
 
-namespace ListadoWeb;
+namespace Base2;
 
 /**
- * Clase JavaScript
+ * Clase RegistroExceptionNoEncontrado
  */
-class JavaScript extends \Base\Plantilla {
-
-    /**
-     * PHP
-     *
-     * @return string Código PHP
-     */
-    public function php() {
-        return <<<FINAL
-    /**
-     * Javascript
-     *
-     * @return string Javascript
-     */
-    public function javascript() {
-        if (\$this->listado_controlado instanceof \\Base2\\ListadoWebControlado) {
-            return \$this->listado_controlado->javascript();
-        } else {
-            return '';
-        }
-    } // javascript
-
-FINAL;
-    } // php
-
-} // Clase JavaScript
+class RegistroExceptionNoEncontrado extends \Exception {}
 
 ?>

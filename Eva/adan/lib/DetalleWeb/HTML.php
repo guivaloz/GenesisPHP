@@ -238,9 +238,8 @@ FINAL;
         return <<<FINAL
         // Agregar imagen al detalle
         \$imagen = new \\Base2\\ImagenWeb(parent::\$imagen_almacen_ruta, parent::\$imagen_tamanos);
-        \$imagen->configurar_para_detalle();
-        \$imagen->cargar(\$this->id, \$this->{$caracteres}, 'middle'); // Pendiente que este tamaño se pueda controlar desde la semilla
-        \$imagen->vincular('big');                                     // Pendiente que este tamaño se pueda controlar desde la semilla
+        \$imagen->cargar(\$this->id, \$this->{$caracteres}, 'middle'); // TODO: que este tamaño se pueda controlar desde la semilla
+        \$imagen->vincular('big');
         \$this->detalle->imagen(\$imagen);
 FINAL;
     } // elaborar_html_detalle_seccion_imagen

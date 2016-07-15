@@ -57,7 +57,7 @@ class HTML extends \Base\Plantilla {
             $a[] = "            return \$mensaje->html(\$this->encabezado());";
         }
         $a[] = "        } catch (\\Exception \$e) {";
-        $a[] = "            \$mensaje = new \\Base\\MensajeWeb(\$e->getMessage());";
+        $a[] = "            \$mensaje = new \\Base2\\MensajeWeb(\$e->getMessage());";
         $a[] = "            return \$mensaje->html(\$this->encabezado());";
         $a[] = "        }";
         // Entregar
@@ -86,7 +86,7 @@ class HTML extends \Base\Plantilla {
         }
         // Alimentar vagones
         $a[] = "        // Alimentar los vagones con instancias de cada imagen";
-        $a[] = "        \$imagen = new \\Base\\ImagenWeb(Registro::\$imagen_almacen_ruta, Registro::\$imagen_tamanos);";
+        $a[] = "        \$imagen = new \\Base2\\ImagenWeb(Registro::\$imagen_almacen_ruta, Registro::\$imagen_tamanos);";
         $a[] = "        foreach (\$this->listado as \$a) {";
         $a[] = "            \$imagen->cargar(\$a['id'], \$a['$caracteres'], 'small');";
         $a[] = "            \$imagen->vincular(sprintf('SED_ARCHIVO_PLURAL.php?id=%d', \$a['id']));";
@@ -117,8 +117,7 @@ class HTML extends \Base\Plantilla {
         \$this->tren_controlado->cantidad_registros = \$this->cantidad_registros;
         \$this->tren_controlado->variables          = \$this->filtros_param;
         \$this->tren_controlado->limit              = \$this->limit;
-        // Agregar el javascript
-        \$this->javascript[] = \$this->tren_controlado->javascript();
+        \$this->tren_controlado->barra              = \$this->barra(\$in_encabezado);
         // Entregar
         return \$this->tren_controlado->html();
     } // html

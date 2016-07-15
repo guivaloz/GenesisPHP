@@ -78,7 +78,7 @@ class Barra extends \Base\Plantilla {
             \$encabezado = \$this->encabezado(); // De lo contrario se toma el de listado
         }
         // Crear la barra
-        \$barra             = new \\Base\\BarraWeb();
+        \$barra             = new \\Base2\\BarraWeb();
         \$barra->encabezado = \$encabezado;
         \$barra->icono      = \$this->sesion->menu->icono_en('SED_CLAVE');
 {$this->boton_agregar_registro()}        // Entregar

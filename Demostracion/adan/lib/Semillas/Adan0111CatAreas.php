@@ -41,19 +41,18 @@ class Adan0111CatAreas extends \Arbol\Adan {
 
         'notas'   => array('tipo' => 'notas',    'etiqueta' => 'Notas',   'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'estatus' => array('tipo' => 'caracter', 'etiqueta' => 'Estatus', 'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
-            'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
-            'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
-            'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),
-            'colores'       => array('A' => 'blanco',                'B' => 'gris'),
-            'acciones'      => array('A' => 'listadoenuso',          'B' => 'listadoeliminados'))
+            'descripciones' => array('A' => 'En uso',       'B' => 'Eliminado'),
+            'etiquetas'     => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'colores'       => array('A' => 'blanco',       'B' => 'gris'),
+            'acciones'      => array('A' => 'listadoenuso', 'B' => 'listadoeliminados'))
     );
 
     // Reptil es leido por Serpiente
     static public $reptil = array(
         'etiqueta_singular'  => 'Área',
         'etiqueta_plural'    => 'Áreas',
-        'nom_corto_singular' => 'area',
-        'nom_corto_plural'   => 'areas',
+        'nom_corto_singular' => 'área',
+        'nom_corto_plural'   => 'áreas',
         'mensaje_singular'   => 'el área',
         'mensaje_plural'     => 'las áreas',
         'clave'              => 'cat_areas',

@@ -114,6 +114,22 @@ abstract class UtileriasParaFormatos {
     } // formato_contenido
 
     /**
+     * Caracteres al azar
+     *
+     * @param  integer Cantidad de caracteres, por defecto 8
+     * @return string  Caracteres al azar
+     */
+    public static function caracteres_azar($in_cantidad=8) {
+        $primera = ord('a');
+        $ultima  = ord('z');
+        $c = array();
+        for ($i=0; $i<$in_cantidad; $i++) {
+            $c[] = chr(rand($primera, $ultima));
+        }
+        return implode('', $c);
+    } // caracteres_azar
+
+    /**
      * Caracteres para web
      *
      * @param  string  Nombre a convertir, puede tener a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ() .,_-
