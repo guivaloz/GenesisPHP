@@ -83,7 +83,7 @@ class Adan0125ExpPersonasDomicilios extends \Arbol\Adan {
      */
     public function __construct() {
         // Programas a escribir
-        $this->modulo_completo();
+        $this->modulo_sin_herederos();
         // Obtener de serpiente
         $serpiente = new Serpiente();
         // Relaciones, cada modulo con el que está relacionado sin incluir a los hijos

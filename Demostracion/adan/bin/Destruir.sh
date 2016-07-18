@@ -28,20 +28,48 @@ SOY="[Destruir]"
 EXITO=0
 E_FATAL=99
 
-# Validar que estemos en el directorio htdocs
-HTDOCS="htdocs"
-if [ ! -d "$HTDOCS" ]; then
-    HTDOCS="../../htdocs"
-fi
-if [ ! -d "$HTDOCS" ]; then
-    echo "$SOY ERROR: No se encuentra el directorio htdocs"
-    exit $E_FATAL
+# Directorio del sistema
+DESTINO_DIR="Demostracion"
+
+# Cambiarse al directorio de destino
+if [ -d ../$DESTINO_DIR ]; then
+    echo "$SOY O.K. Estoy en $DESTINO_DIR"
+elif [ -d ./$DESTINO_DIR ]; then
+    cd ./$DESTINO_DIR
+    echo "$SOY Me cambié al directorio $DESTINO_DIR"
+else
+    cd ../../
+    if [ -d ../$DESTINO_DIR ]; then
+        echo "$SOY O.K. Me cambié a $DESTINO_DIR"
+    else
+        echo "$SOY ERROR: No existe $DESTINO_DIR"
+        exit $E_FATAL
+    fi
 fi
 
-echo "$SOY DESTRUYENDO..."
-cd $HTDOCS
-rm -rf *
+#
+# Inica exclusivo para Demostración
+#
 
-echo "$SOY Destruido XD"
+# Respaldar fotos de expedientes personas
+if [ -d "htdocs/imagenes/exppersonasfotos" ]; then
+    echo "$SOY Resguardando imagenes/exppersonasfotos..."
+    mv htdocs/imagenes/exppersonasfotos .exppersonasfotos
+fi
+
+#
+# Termina exclusivo para Demostración
+#
+
+# Si existe htdocs será eliminado
+if [ -d "htdocs" ]; then
+    echo "$SOY ELIMINANDO los directorios y archivos de htdocs..."
+    rm -rf htdocs
+    if [ "$?" -ne $EXITO ]; then
+        echo "$SOY ERROR: No pude eliminar htdocs"
+        exit $E_FATAL
+    fi
+fi
+
+echo "$SOY Script terminado."
 exit $EXITO
-

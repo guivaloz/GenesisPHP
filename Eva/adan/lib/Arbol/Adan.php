@@ -132,33 +132,27 @@ class Adan {
      * Es un arreglo asociativo donde los que valen uno son los programas que serán creados.
      */
     protected $programas = array(
-        'formulario'      => 1,
-        'busqueda'        => 1,
-        'select_opciones' => 1,
-        'eliminar'        => 1,
-        'recuperar'       => 1,
-        'listado'         => 1,
-        'listadocsv'      => 0,
-        'tren'            => 0,
-        'impresiones'     => 0,
-        'gráficas'        => 0,
-        'mapa'            => 0);
+        'busqueda'          => 1,
+        'formulario'        => 1,
+        'eliminar'          => 1,
+        'imagen_web_ultima' => 0,
+        'listado'           => 1,
+        'recuperar'         => 1,
+        'select_opciones'   => 1,
+        'tren'              => 0);
 
     /**
      * Módulo completo
      */
     public function modulo_completo() {
-        $this->programas['formulario']        = 1;
         $this->programas['busqueda']          = 1;
-        $this->programas['select_opciones']   = 1;
+        $this->programas['formulario']        = 1;
         $this->programas['eliminar']          = 1;
-        $this->programas['recuperar']         = 1;
-        $this->programas['listado']           = 1;
-        $this->programas['tren']              = 0; // Sin tren
-        $this->programas['impresiones']       = 0; // Sin impresiones
-        $this->programas['gráficas']          = 0; // Sin gráficas
-        $this->programas['mapa']              = 0; // Sin mapa
         $this->programas['imagen_web_ultima'] = 0; // Sin imagen en detalle
+        $this->programas['listado']           = 1;
+        $this->programas['recuperar']         = 1;
+        $this->programas['select_opciones']   = 1;
+        $this->programas['tren']              = 0; // Sin tren
     } // modulo_completo
 
     /**
@@ -172,43 +166,7 @@ class Adan {
     } // modulo_imagenes
 
     /**
-     * Módulo para impresiones
-     */
-    public function modulo_impresiones() {
-        $this->programas['select_opciones'] = 0; // Sin select
-        $this->programas['listado']         = 1; // Usa listado
-        $this->programas['tren']            = 0; // Sin tren
-        $this->programas['impresiones']     = 1; // Impresiones
-        $this->programas['gráficas']        = 0; // Sin gráficas
-        $this->programas['mapa']            = 0; // Sin mapa
-    } // modulo_impresiones
-
-    /**
-     * Módulo para mapa
-     */
-    public function modulo_mapa() {
-        $this->programas['select_opciones'] = 0; // Sin select
-        $this->programas['listado']         = 1; // Usa listado
-        $this->programas['tren']            = 0; // Sin tren
-        $this->programas['impresiones']     = 0; // Sin impresiones
-        $this->programas['gráficas']        = 0; // Sin gráficas
-        $this->programas['mapa']            = 1; // Usa mapa
-    } // modulo_mapa
-
-    /**
-     * Módulo para gráficas
-     */
-    public function modulo_graficas() {
-        $this->programas['select_opciones'] = 0; // Sin select
-        $this->programas['listado']         = 1; // Usa listado
-        $this->programas['tren']            = 0; // Sin tren
-        $this->programas['impresiones']     = 0; // No son impresiones
-        $this->programas['gráficas']        = 1; // Son gráficas
-        $this->programas['mapa']            = 0; // Sin mapa
-    } // modulo_graficas
-
-    /**
-     * Módulo Sólo Consulta
+     * Módulo sólo consulta
      *
      * Sólo se crearán programas para consultar
      */

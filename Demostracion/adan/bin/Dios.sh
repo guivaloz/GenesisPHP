@@ -29,17 +29,16 @@ EXITO=0
 E_FATAL=99
 
 # Si estamos en el directorio base del sistema
-if [ -e "adan/bin/Destruir.sh" ] && [ -e "adan/bin/CrearComun.sh" ] && [ -e "adan/bin/CrearGenesis.php" ]; then
-    adan/bin/Destruir.sh && adan/bin/CrearComun.sh && adan/bin/CrearGenesis.php
+if [ -e "adan/bin/Destruir.sh" ] && [ -e "adan/bin/CrearComun.sh" ] && [ -e "adan/bin/CrearGenesisPHP.php" ]; then
+    adan/bin/Destruir.sh && adan/bin/CrearComun.sh && adan/bin/CrearGenesisPHP.php
     exit $?
 fi
 
 # Si estamos en adan/bin
-if [ -e "./Destruir.sh" ] && [ -e "./CrearComun.sh" ] && [ -e "./CrearGenesis.php" ]; then
-    ./Destruir.sh && ./CrearComun.sh && ./CrearGenesis.php
+if [ -e "./Destruir.sh" ] && [ -e "./CrearComun.sh" ] && [ -e "./CrearGenesisPHP.php" ]; then
+    ./Destruir.sh && ./CrearComun.sh && ./CrearGenesisPHP.php
     exit $?
 fi
 
-echo "$SOY ERROR: No existe Destruir.sh o CrearComun.sh o CrearGenesis.sh"
+echo "$SOY ERROR: No existe Destruir.sh o CrearComun.sh o CrearGenesisPHP.sh"
 exit $E_FATAL
-

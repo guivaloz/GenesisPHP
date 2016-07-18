@@ -65,8 +65,9 @@ class Barra extends \Base\Plantilla {
     protected function boton_descargar_csv() {
         // Lo que se va a entregar se juntara en este arreglo
         $a = array();
+        // TODO: Programar ListadosCSV
         // Boton para descargar csv
-        if ($this->adan->si_hay_que_crear('listadocsv') > 0) {
+        if (false) { // $this->adan->si_hay_que_crear('listado_csv')
             $a[] = "        // Botón descargar CSV";
             $a[] = "        \$barra->boton_descargar(\"SED_ARCHIVO_PLURAL.csv\", \$this->filtros_param, '<span class=\"glyphicon glyphicon-floppy-save\"></span> CSV');";
         }

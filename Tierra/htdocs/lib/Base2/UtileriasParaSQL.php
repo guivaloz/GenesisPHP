@@ -67,7 +67,7 @@ abstract class UtileriasParaSQL {
      */
     public static function sql_entero($dato) {
         if (is_string($dato)) {
-            if (trim($dato) == '') {
+            if (trim($dato) === '') {
                 return 'NULL';
             } elseif (trim($dato) == '0') {
                 return '0';
@@ -84,6 +84,33 @@ abstract class UtileriasParaSQL {
             return intval($dato);
         }
     } // sql_entero
+
+    /**
+     * SQL Flotante
+     *
+     * @param  mixed
+     * @return mixed
+     */
+    public static function sql_flotante($dato) {
+        //(($dato === '') || ($dato == '0') || ($dato == '0.') || ($dato == '.0') || ($dato == '0.0'))
+        if (is_string($dato)) {
+            if (trim($dato) === '') {
+                return 'NULL';
+            } elseif (preg_match('/^\-?0*\.?0+$/', trim($dato))) {
+                return 0;
+            } else {
+                return floatval($dato);
+            }
+        } elseif (is_int($dato) || is_float($dato)) {
+            if ($dato == 0) {
+                return 0;
+            } else {
+                return floatval($dato);
+            }
+        } else {
+            return floatval($dato);
+        }
+    } // sql_flotante
 
     /**
      * SQL Tiempo

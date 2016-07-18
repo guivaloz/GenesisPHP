@@ -154,7 +154,9 @@ class PaginaInicial extends \Base2\PlantillaWeb {
                 return parent::html();
             } catch (\Exception $e) {
                 // Error o no hay sesion, mostramos el ingreso y el mensaje
-                $this->contenido[] = $e->getMessage();
+                $mensaje           = new \Base2\MensajeWeb($e->getMessage());
+                $mensaje->tipo     = 'info';
+                $this->contenido[] = $mensaje->html();
                 $this->modelo      = 'ingreso';
                 return parent::html();
             }

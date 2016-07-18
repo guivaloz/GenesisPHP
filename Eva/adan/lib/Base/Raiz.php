@@ -33,7 +33,8 @@ class Raiz extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        if ($this->adan->si_hay_que_crear('listadocsv')) {
+        // TODO: Programar ListadosCSV
+        if (false) { // $this->adan->si_hay_que_crear('listado_csv')
             // Pagina con descarga de archivo csv
             $contenido = <<<FINAL
 <?php

@@ -62,9 +62,10 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
         'archivo_singular'   => 'exppersonafoto',
         'archivo_plural'     => 'exppersonasfotos',
         'tabla'              => 'exp_personas_fotos',
-        'vip'                => 'fecha',
         'listados'           => 'trenes',
-        'contenido'          => 'imagenes'
+        'contenido'          => 'imagenes',
+        'vip'                => array(
+            'creado' => array('tipo' => 'fecha_hora', 'etiqueta' => 'Fotografía', 'filtro' => 1))
     );
 
     /**
@@ -73,6 +74,7 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
     public function __construct() {
         // Programas a escribir, este módulo gestiona imagenes
         $this->modulo_imagenes();
+        $this->modulo_sin_herederos();
         // Obtener de serpiente
         $serpiente = new Serpiente();
         // Relaciones

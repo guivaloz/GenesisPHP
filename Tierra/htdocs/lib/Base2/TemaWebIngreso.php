@@ -210,7 +210,7 @@ class TemaWebIngreso extends TemaWeb {
         $a[] = '    </div>';
         $a[] = '  </div>';
         // Acumular footer
-        $a[] = $this->cabecera_html();
+        $a[] = $this->final_html();
         // Entregar
         return implode("\n", $a);
     } // html
