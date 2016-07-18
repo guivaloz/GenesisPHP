@@ -148,25 +148,27 @@ class Adan {
      * Módulo completo
      */
     public function modulo_completo() {
-        $this->programas['formulario']      = 1;
-        $this->programas['busqueda']        = 1;
-        $this->programas['select_opciones'] = 1;
-        $this->programas['eliminar']        = 1;
-        $this->programas['recuperar']       = 1;
-        $this->programas['listado']         = 1;
-        $this->programas['tren']            = 0; // Sin tren
-        $this->programas['impresiones']     = 0; // Sin impresiones
-        $this->programas['gráficas']        = 0; // Sin gráficas
-        $this->programas['mapa']            = 0; // Sin mapa
+        $this->programas['formulario']        = 1;
+        $this->programas['busqueda']          = 1;
+        $this->programas['select_opciones']   = 1;
+        $this->programas['eliminar']          = 1;
+        $this->programas['recuperar']         = 1;
+        $this->programas['listado']           = 1;
+        $this->programas['tren']              = 0; // Sin tren
+        $this->programas['impresiones']       = 0; // Sin impresiones
+        $this->programas['gráficas']          = 0; // Sin gráficas
+        $this->programas['mapa']              = 0; // Sin mapa
+        $this->programas['imagen_web_ultima'] = 0; // Sin imagen en detalle
     } // modulo_completo
 
     /**
      * Módulo para imágenes
      */
     public function modulo_imagenes() {
-        $this->programas['select_opciones'] = 0; // Sin select
-        $this->programas['listado']         = 0; // Sin listado
-        $this->programas['tren']            = 1; // Usa tren en lugar de listados
+        $this->programas['imagen_web_ultima'] = 1; // Poner la última imagen en el detalle
+        $this->programas['select_opciones']   = 0; // Sin select
+        $this->programas['listado']           = 0; // Sin listado
+        $this->programas['tren']              = 1; // Usa tren en lugar de listados
     } // modulo_imagenes
 
     /**

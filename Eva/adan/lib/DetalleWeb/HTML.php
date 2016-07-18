@@ -295,6 +295,45 @@ FINAL;
     } // elaborar_html_detalle_seccion_mapa
 
     /**
+     * Elaborar HTML ImagenWebUltima
+     *
+     * @return string Código PHP
+     */
+    protected function elaborar_html_imagen_web_ultima() {
+        // Si no tiene hijos, no hace nada
+        if (!is_array($this->hijos) || (count($this->hijos) == 0)) {
+            return false;
+        }
+        // Bucle para encotrar que un hijo sea de imágenes
+        $encontrado = false;
+        foreach ($this->hijos as $identificador => $reptil) {
+            if ($reptil['contenido'] == 'imagenes') {
+                $encontrado = true;
+                break;
+            }
+        }
+        // Si ningún hijo tiene imágenes, no hace nada
+        if (!$encontrado) {
+            return false;
+        }
+        // Entregar
+        $modulo = $reptil['clase_plural'];
+        return <<<FINAL
+        // Cargar la última imagen
+        \$imagen = new \\{$modulo}\\ImagenWebUltima(\$this->sesion);
+        \$imagen->configurar_para_detalle();
+        try {
+            \$imagen->consultar(\$this->id);
+            \$imagen->usar_tamano('middle');
+            \$imagen->vincular('big');
+            \$this->detalle->imagen(\$imagen);
+        } catch (\\Base2\\ListadoExceptionVacio \$e) {
+            // No tiene imágenes, por lo tanto no se carga nada
+        }
+FINAL;
+    } // elaborar_html_imagen_web_ultima
+
+    /**
      * Elaborar HTML Detalle
      *
      * @return string Código PHP
@@ -303,21 +342,22 @@ FINAL;
         // En este arreglo juntaremos el codigo
         $a = array();
         // Seccion datos generales
-        $a[] = "        // Seccion datos generales";
+        $a[] = "        // Sección datos generales";
         $a[] = "        \$this->detalle->seccion('Datos Generales');";
         // Detalle de cada columna y las relaciones
         $a[] = $this->elaborar_html_detalle_propiedades();
-        // Seccion registro
-        if ($seccion_registro = $this->elaborar_html_detalle_seccion_registro()) {
-            $a[] = $seccion_registro;
+        // Acumular secciones
+        if ($seccion = $this->elaborar_html_detalle_seccion_registro()) {
+            $a[] = $seccion;
         }
-        // Seccion imagen
-        if ($seccion_imagen = $this->elaborar_html_detalle_seccion_imagen()) {
-            $a[] = $seccion_imagen;
+        if ($seccion = $this->elaborar_html_detalle_seccion_imagen()) {
+            $a[] = $seccion;
         }
-        // Seccion mapa
-        if ($seccion_mapa = $this->elaborar_html_detalle_seccion_mapa()) {
-            $a[] = $seccion_mapa;
+        if ($seccion = $this->elaborar_html_imagen_web_ultima()) {
+            $a[] = $seccion;
+        }
+        if ($seccion = $this->elaborar_html_detalle_seccion_mapa()) {
+            $a[] = $seccion;
         }
         // Entregar
         return implode("\n", $a);
@@ -357,22 +397,6 @@ FINAL;
 
 FINAL;
     } // php
-
-/**
- * CUANDO ES PADRE y un hijo tiene imágenes
-
-        // Pasar la última imagen
-        $imagen = new \ExpPersonasFotos\ImagenWebUltima($this->sesion);
-        $imagen->configurar_para_detalle();
-        try {
-            $imagen->consultar($this->id);
-            $imagen->usar_tamano('middle');
-            $imagen->vincular('big');
-            $this->detalle->imagen($imagen);
-        } catch (\Base2\ListadoExceptionVacio $e) {
-        }
-
- */
 
 } // Clase HTML
 

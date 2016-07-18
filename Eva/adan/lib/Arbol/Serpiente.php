@@ -30,7 +30,7 @@ class Serpiente {
     /**
      * Un valor de reptil es contenido, para validar se enlistan aquí los permitidos
      */
-    static public $contenido_validos = array('datos', 'fotografías', 'impresiones', 'gráficas');
+    static public $contenido_validos = array('datos', 'imagenes', 'impresiones', 'gráficas');
 
     /**
      * Nombre del sistema

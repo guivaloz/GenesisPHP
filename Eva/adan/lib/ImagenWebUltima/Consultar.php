@@ -33,7 +33,50 @@ class Consultar extends \Base\Plantilla {
      * @return string Código PHP
      */
     public function php() {
+        // Tomar solo el primer padre
+        $padre         = reset($this->padre);
+        $padre_clase   = $padre['clase_plural'];
+        $padre_columna = $padre['instancia_singular'];
+        // TODO: Se espera que tenga las columnas id, caracteres_azar, creado, estatus
+        // Entregar
         return <<<FINAL
+    /**
+     * Consultar
+     *
+     * @param integer NOTE que requiere el ID del padre
+     */
+    public function consultar(\$in_padre_id) {
+        // Validar padre
+        \$padre = new \\{$padre_clase}\\Registro(\$this->sesion);
+        \$padre->consultar(\$in_padre_id);
+        // Consultar imágenes de ese padre, ordenadas cronológicamente a partir de la más reciente
+        \$base_datos = new \\Base2\\BaseDatosMotor();
+        try {
+            \$consulta = \$base_datos->comando(sprintf("
+                SELECT
+                    id,
+                    caracteres_azar
+                FROM
+                    {$this->tabla_nombre}
+                WHERE
+                    {$padre_columna} = %d
+                    AND estatus = 'A'
+                ORDER BY
+                    creado DESC",
+                \$padre->id));
+        } catch (\\Exception \$e) {
+            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar la última imagen. ', \$e->getMessage());
+        }
+        // Provoca excepción si no hay registros
+        if (\$consulta->cantidad_registros() == 0) {
+            throw new \\Base2\\ListadoExceptionVacio('Aviso: No se encontraron imágenes.');
+        }
+        // Obtener sólo la más reciente
+        \$resultado = \$consulta->obtener_registro();
+        // Definir los parámetros requeridos
+        \$this->id              = \$resultado['id'];
+        \$this->caracteres_azar = \$resultado['caracteres_azar'];
+    } // consultar
 
 FINAL;
     } // php

@@ -39,6 +39,15 @@ class ImagenWebUltima extends Plantilla {
         $metodo_consultar   = new \ImagenWebUltima\Consultar($this->adan);
         // Armar el contenido con las partes
         $contenido = <<<FINAL
+<?php
+/**
+ * SED_SISTEMA - SED_TITULO_SINGULAR ImagenWebUltima
+ *
+ * @package SED_PAQUETE
+ */
+
+namespace SED_CLASE_PLURAL;
+
 /**
  * Clase ImagenWebUltima
  */
@@ -48,6 +57,8 @@ class ImagenWebUltima extends \\Base2\\ImagenWeb {
 {$metodo_constructor->php()}
 {$metodo_consultar->php()}
 } // Clase TrenWeb
+
+?>
 
 FINAL;
         // Realizar sustituciones y entregar

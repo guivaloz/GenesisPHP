@@ -48,12 +48,12 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
 
     // Reptil es leido por Serpiente
     static public $reptil = array(
-        'etiqueta_singular'  => 'Foto',
-        'etiqueta_plural'    => 'Fotos',
-        'nom_corto_singular' => 'foto',
-        'nom_corto_plural'   => 'fotos',
-        'mensaje_singular'   => 'la foto',
-        'mensaje_plural'     => 'las fotos',
+        'etiqueta_singular'  => 'Fotografía de la persona',
+        'etiqueta_plural'    => 'Fotografías de las personas',
+        'nom_corto_singular' => 'fotografía de la persona',
+        'nom_corto_plural'   => 'fotografías de las personas',
+        'mensaje_singular'   => 'la fotografía de la persona',
+        'mensaje_plural'     => 'las fotografías de las personas',
         'clave'              => 'exp_personas_fotos',
         'clase_singular'     => 'ExpPersonaFoto',
         'clase_plural'       => 'ExpPersonasFotos',
@@ -63,7 +63,8 @@ class Adan0123ExpPersonasFotos extends \Arbol\Adan {
         'archivo_plural'     => 'exppersonasfotos',
         'tabla'              => 'exp_personas_fotos',
         'vip'                => 'fecha',
-        'listados'           => 'trenes'
+        'listados'           => 'trenes',
+        'contenido'          => 'imagenes'
     );
 
     /**
