@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# GenesisPHP - Crear Común
+# GenesisPHP - Demostración Crear Común
 #
 # Copyright 2016 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
 #
@@ -30,7 +30,7 @@ E_FATAL=99
 
 # Nombres de los directorios
 ORIGEN_DIR="Eva"
-DESTINO_DIR=""
+DESTINO_DIR="Demostracion"
 
 #
 # Debe configurar este script para su sistema
@@ -150,6 +150,20 @@ fi
 # Procesos para htdocs
 #
 
+#
+# Inica exclusivo para Demostración
+#
+
+# Respaldar fotos de expedientes personas
+if [ -d "htdocs/imagenes/exppersonasfotos" ]; then
+    echo "$SOY Resguardando imagenes/exppersonasfotos..."
+    mv htdocs/imagenes/exppersonasfotos .exppersonasfotos
+fi
+
+#
+# Termina exclusivo para Demostración
+#
+
 # Si existe htdocs será eliminado
 if [ -d "htdocs" ]; then
     echo "$SOY ELIMINANDO los directorios y archivos de htdocs..."
@@ -227,6 +241,9 @@ do
         fi
     fi
 done
+if [ -d imagenes/pruebas ]; then
+    rm -rf imagenes/pruebas
+fi
 
 # Crear el directorio htdocs/lib
 echo "$SOY Creando el directorio htdocs/lib..."
@@ -245,7 +262,7 @@ if [ "$?" -ne $EXITO ]; then
 fi
 
 # Copiar directorios de htdocs/lib
-for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base Configuracion Inicio Personalizar
+for DIR in AdmAutentificaciones AdmBitacora AdmDepartamentos AdmIntegrantes AdmModulos AdmRoles AdmSesiones AdmUsuarios Base2 Configuracion Inicio Personalizar
 do
     echo "$SOY Copiando $DIR..."
     cp -r ../../../$ORIGEN_DIR/htdocs/lib/$DIR .
@@ -268,17 +285,49 @@ if [ -d ../../htdocs-sobreescribir/lib ]; then
     done
 fi
 
-# Estar en el directorio htdocs
-cd ..
+# Cambiarse al directorio htdocs/bin
+echo "$SOY Cambiándose a htdocs/bin..."
+cd ../bin
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar a htdocs/bin"
+    exit $E_FATAL
+fi
 
-#
 # Crear enlaces en bin
-#
-cd bin
 echo "$SOY Creando enlace de lib en bin..."
 ln -s ../lib .
 echo "$SOY Creando enlace de imagenes en bin..."
 ln -s ../imagenes .
 
-echo "Script terminado."
+#
+# Inica exclusivo para Demostración
+#
+
+# Cambiarse al directorio htdocs/imagenes
+echo "$SOY Cambiándose a htdocs/imagenes..."
+cd ../imagenes
+if [ "$?" -ne $EXITO ]; then
+    echo "$SOY ERROR: No me pude cambiar a htdocs/imagenes"
+    exit $E_FATAL
+fi
+
+# Restaurar fotos de expedientes personas
+if [ -d "../../.exppersonasfotos" ]; then
+    echo "$SOY Restaurando imagenes/exppersonasfotos..."
+    mv ../../.exppersonasfotos exppersonasfotos
+else
+    echo "$SOY Creando directorios para las fotos de expedientes..."
+    mkdir -p exppersonasfotos/big
+    mkdir -p exppersonasfotos/middle
+    mkdir -p exppersonasfotos/small
+    echo "$SOY Por favor INGRESE SU CONTRASEÑA para ejecutar sudo y cambiar los permisos de los directorios..."
+    sudo chgrp -R apache exppersonasfotos
+    chmod -R g+w exppersonasfotos
+fi
+
+#
+# Termina exclusivo para Demostración
+#
+
+echo "$SOY Script terminado."
 exit $EXITO

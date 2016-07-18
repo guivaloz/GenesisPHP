@@ -21,6 +21,19 @@
 # MA 02110-1301, USA.
 #
 
+#
+# Para probar que tiene los permisos, haga una prueba de la creación
+# con estos comandos...
+#
+#   $ createuser -d -s genesisphp
+#   $ createdb -O genesisphp genesisphp_demostracion
+#   $ psql -l
+#
+# Si funciona, ejecute...
+#
+#   $ ./CrearBaseDatos.sh
+#
+
 # Yo soy
 SOY="[Crear Base de Datos]"
 
@@ -28,10 +41,10 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-# PONGA VALORES A ESTAS Constantes
-BD=""
-PROPIETARIO=""
-SISTEMA_DIR=""
+# Constantes
+BD="genesisphp_demostracion"
+PROPIETARIO="genesisphp"
+SISTEMA_DIR="Demostracion"
 
 #
 # Debe configurar este script para su sistema
@@ -120,4 +133,3 @@ done
 
 echo "$SOY Script terminado."
 exit $EXITO
-

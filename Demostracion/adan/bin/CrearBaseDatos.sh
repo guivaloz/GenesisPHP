@@ -123,6 +123,7 @@ createdb -O $PROPIETARIO $BD
 # Extensiones PostGIS para habilitar georreferenciación
 #psql -c "CREATE EXTENSION postgis;" $BD
 #psql -c "CREATE EXTENSION postgis_topology;" $BD
+#psql -f ../adan/bin/itrf92-inegi-spatial-ref-sys.sql $BD
 
 # Ejecutar cada archivo SQL
 for ARCH in `ls *.sql`
@@ -132,4 +133,3 @@ done
 
 echo "$SOY Script terminado."
 exit $EXITO
-
