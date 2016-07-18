@@ -254,7 +254,7 @@ class Registro extends \Base2\Registro {
                 \Base2\UtileriasParaSQL::sql_texto($this->estatus),
                 $this->id));
         } catch (\Exception $e) {
-            throw new \Base\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el departamento. ', $e->getMessage());
+            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el departamento. ', $e->getMessage());
         }
         // Agregar a la bitacora que se modifico el registro
         $bitacora = new \AdmBitacora\Registro($this->sesion);
