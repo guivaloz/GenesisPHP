@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * GenesisPHP
+ * GenesisPHP - Ejecutar Usuarios Rutina Diaria
  *
  * Copyright (C) 2015 Guillermo Valdés Lozano
  *
@@ -18,29 +18,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @package
+ * @package GenesisPHP
  */
 
 // Soy
-$soy = '[NOMBRE]';
+$soy = '[Usuarios Rutina Diaria]';
 
 // Valores de salida
 $EXITO=0;
 $E_FATAL=99;
 
-// Cargar funciones, éste conteniene el autocargador de clases
-require_once('lib/Base/Funciones.php');
+// Cambiarse al directorio donde se encuentra este programa
+chdir(realpath(dirname(__FILE__)));
 
-// Cargar la página
-$pagina = new \DIRECTORIO\Pagina();
-// Cargar el impresor
-$impresor            = new \Base\Imprenta();
-$impresor->plantilla = $pagina;
-// Imprimir
+// Cargar el autocargador de clases
+require_once('lib/Base2/AutocargadorClases.php');
+
+// Sesión de sistema
+$sesion = new \Inicio\Sesion('sistema');
+
+// Ejecutar las rutinas diarias
+$rutinas = new \AdmUsuarios\RutinasDiarias($sesion);
 try {
-    echo $impresor->imprimir()."\n";
+    echo $rutinas->ejecutar()."\n";
 } catch (\Exception $e) {
-    echo implode("\n", $impresor->mensajes)."\n";
     echo "$soy ".$e->getMessage()."\n";
     exit($E_FATAL);
 }
