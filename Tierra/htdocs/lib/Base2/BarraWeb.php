@@ -50,8 +50,8 @@ class BarraWeb implements SalidaWeb {
      */
     public function boton($in_url, $in_etiqueta, $in_clase) {
         $this->botones[$in_etiqueta] = array(
-            'url'      => $in_url,
-            'clase'    => $in_clase);
+            'url'   => $in_url,
+            'clase' => $in_clase);
     } // boton
 
     /**
