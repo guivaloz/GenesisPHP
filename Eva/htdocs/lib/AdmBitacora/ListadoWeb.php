@@ -59,6 +59,7 @@ class ListadoWeb extends Listado {
         $this->tipo        = $_GET[parent::$param_tipo];
         $this->fecha_desde = $_GET[parent::$param_fecha_desde];
         $this->fecha_hasta = $_GET[parent::$param_fecha_hasta];
+        // TODO: Al dar clic en una página/id nos lleve al detalle
         // Estructura
         $this->estructura = array(
             'fecha' => array(
@@ -70,9 +71,7 @@ class ListadoWeb extends Listado {
                 'pag'     => \AdmUsuarios\DetalleWeb::RAIZ_PHP_ARCHIVO,
                 'id'      => 'usuario'),
             'pagina' => array(
-                'enca'    => 'Página',
-                'pag'     => 'bitacora.php',
-                'param'   => array('pagina' => 'pagina', 'id' => 'pagina_id')),
+                'enca'    => 'Página'),
             'tipo' => array(
                 'enca'    => 'Tipo',
                 'cambiar' => Registro::$tipo_descripciones,
