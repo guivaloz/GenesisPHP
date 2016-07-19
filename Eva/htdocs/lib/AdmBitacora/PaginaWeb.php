@@ -65,8 +65,7 @@ class PaginaWeb extends \Base2\PaginaWeb {
             $lenguetas = new \Base2\LenguetasWeb('lenguetasBitacora');
             // Acciones para un registro
             if ($_GET['id'] != '') {
-                // Detalle
-                $detalle = new DetalleWeb($this->sesion);
+                $detalle     = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar_activa('bitacoraDetalle', 'Detalle', $detalle);
             }

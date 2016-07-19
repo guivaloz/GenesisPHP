@@ -65,35 +65,26 @@ class PaginaWeb extends \Base2\PaginaWeb {
             $lenguetas = new \Base2\LenguetasWeb('lenguetasUsuarios');
             // Acciones para un registro
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
-                // Modificar
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = $_GET['id'];
                 $lenguetas->agregar_activa('usuariosModificar', 'Modificar', $formulario);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_eliminar)) {
-                // Eliminar
-                $eliminar     = new DetalleWeb($this->sesion);
+                $eliminar     = new EliminarWeb($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosEliminar', 'Eliminar', $eliminar->eliminar_html());
-                $lenguetas->agregar_javascript($eliminar->javascript());
+                $lenguetas->agregar_activa('usuariosEliminar', 'Eliminar', $eliminar);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_recuperar)) {
-                // Recuperar
-                $recuperar     = new DetalleWeb($this->sesion);
+                $recuperar     = new RecuperarWeb($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosRecuperar', 'Recuperar', $recuperar->recuperar_html());
-                $lenguetas->agregar_javascript($recuperar->javascript());
+                $lenguetas->agregar_activa('usuariosRecuperar', 'Recuperar', $recuperar);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_desbloquear)) {
-                // Desbloquear
-                $desbloquear     = new DetalleWeb($this->sesion);
+                $desbloquear     = new DesbloquearWeb($this->sesion);
                 $desbloquear->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosDesbloquear', 'Desbloquear', $desbloquear->desbloquear_html());
-                $lenguetas->agregar_javascript($desbloquear->javascript());
+                $lenguetas->agregar_activa('usuariosDesbloquear', 'Desbloquear', $desbloquear);
             } elseif ($_GET['id'] != '') {
-                // Detalle
                 $detalle = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar_activa('usuariosDetalle', 'Detalle', $detalle);
             } elseif ($_POST['formulario'] == FormularioWeb::$form_name) {
-                // Viene el formulario
                 $formulario = new FormularioWeb($this->sesion);
                 $lenguetas->agregar_activa('usuariosFormulario', 'Formulario', $formulario);
             }

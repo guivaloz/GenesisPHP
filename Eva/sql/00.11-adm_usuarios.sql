@@ -13,7 +13,7 @@ CREATE TABLE adm_usuarios (
     contrasena              character varying(64),
     contrasena_encriptada   character varying,
     contrasena_fallas       smallint                DEFAULT 0,
-    contrasena_expira       date                    DEFAULT ((('now'::text)::date + '30 days'::interval))::date NOT NULL,
+    contrasena_expira       date                    DEFAULT ((('now'::text)::date + '90 days'::interval))::date NOT NULL,
     sesiones_maximas        smallint                DEFAULT 10 NOT NULL,
     sesiones_contador       smallint                DEFAULT 0,
     sesiones_ultima         timestamp,
@@ -29,4 +29,3 @@ INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena)                  
 
 -- Administradores
 INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena)                    VALUES ('administrador', 'Administrador',    'A', 'qwerty'); -- 3
-

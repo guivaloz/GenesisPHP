@@ -82,7 +82,8 @@ class Registro extends \Base2\Registro {
     static public $estatus_colores = array(
         'A' => 'blanco',
         'B' => 'gris');
-    static public $dias_expira_contrasena = 30;
+    static public $dias_expira_contrasena     = 90; // Cantidad de días para que expire una contraseña
+    static public $dias_desbloqueo_contrasena = 7;  // Cantidad de días que dura desbloqueada
 
     /**
      * Consultar
@@ -443,10 +444,11 @@ class Registro extends \Base2\Registro {
                         contrasena = %s,
                         contrasena_encriptada = NULL,
                         contrasena_fallas = 0,
-                        contrasena_expira = ((('now'::text)::date + '30 days'::interval))::date
+                        contrasena_expira = ((('now'::text)::date + '%d days'::interval))::date
                     WHERE
                         id = %d",
                     \Base2\UtileriasParaSQL::sql_texto($this->contrasena),
+                    self::$dias_expira_contrasena,
                     $this->id));
             } catch (\Exception $e) {
                 throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al actualizar el usuario. ', $e->getMessage());
@@ -546,7 +548,7 @@ class Registro extends \Base2\Registro {
         if ($this->bloqueada_porque_expiro) {
             // Cuando una contraseña esta expirada, viene con el numero de fallas al tope para que se bloquee
             // vamos a poner la cantidad de fallas en cero
-            // y agregarle tres dias a la fecha de expiracion
+            // y agregarle dias_desbloqueo_contrasena a la fecha de expiracion
             // debe aparecerle el mensaje al usuario para que cambie su contraseña
             list($y, $m, $d) = explode('-', date('Y-m-d'));
             $comando_sql = sprintf("
@@ -556,7 +558,7 @@ class Registro extends \Base2\Registro {
                     contrasena_expira = %s, contrasena_fallas = 0
                 WHERE
                     id = %d",
-                \Base2\UtileriasParaSQL::sql_tiempo(mktime(0, 0, 0, $m, $d+3, $y)),
+                \Base2\UtileriasParaSQL::sql_tiempo(mktime(0, 0, 0, $m, $d + self::$dias_desbloqueo_contrasena, $y)),
                 $this->id);
         }
         if ($this->bloqueada_porque_sesiones) {

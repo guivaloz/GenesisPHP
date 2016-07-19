@@ -57,8 +57,10 @@ class RutinasDiarias {
             throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al poner en cero los contadores de sesiones de los usuarios. ', $e->getMessage());
         }
         // Agregar a la bitácora
+        $msg      = 'Se pusieron los contadores de sesiones de los usuarios a cero.';
+        $m[]      = $msg;
         $bitacora = new \AdmBitacora\Registro($this->sesion);
-        $bitacora->agregar_sistema($m[] = 'Se pusieron los contadores de sesiones de los usuarios a cero.');
+        $bitacora->agregar_sistema($msg);
         // Bloquear las contraseñas caducas
         try {
             $base_datos->comando(sprintf("UPDATE adm_usuarios SET contrasena_fallas = 254 WHERE contrasena_expira <= '%s'", date('Y-m-d')));
@@ -66,7 +68,9 @@ class RutinasDiarias {
             throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error SQL: Al bloquear las contraseñas caducas. ', $e->getMessage());
         }
         // Agregar a la bitacora
-        $bitacora->agregar_sistema($m[] = 'Se bloquearon las contraseñas caducas.');
+        $msg = 'Se bloquearon las contraseñas caducas.';
+        $m[] = $msg;
+        $bitacora->agregar_sistema($msg);
         // Entregar mensajes
         return implode("\n", $m)."\n";
     } // ejecutar

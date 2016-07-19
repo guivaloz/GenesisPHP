@@ -65,29 +65,22 @@ class PaginaWeb extends \Base2\PaginaWeb {
             $lenguetas = new \Base2\LenguetasWeb('lenguetasroles');
             // Acciones para un registro
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
-                // Modificar
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = $_GET['id'];
                 $lenguetas->agregar_activa('rolesModificar', 'Modificar', $formulario);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_eliminar)) {
-                // Eliminar
-                $eliminar     = new DetalleWeb($this->sesion);
+                $eliminar     = new EliminarWeb($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('rolesEliminar', 'Eliminar', $eliminar->eliminar_html());
-                $lenguetas->agregar_javascript($eliminar->javascript());
+                $lenguetas->agregar_activa('rolesEliminar', 'Eliminar', $eliminar);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_recuperar)) {
-                // Recuperar
-                $recuperar     = new DetalleWeb($this->sesion);
+                $recuperar     = new RecuperarWeb($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('rolesRecuperar', 'Recuperar', $recuperar->recuperar_html());
-                $lenguetas->agregar_javascript($recuperar->javascript());
+                $lenguetas->agregar_activa('rolesRecuperar', 'Recuperar', $recuperar);
             } elseif ($_GET['id'] != '') {
-                // Detalle
                 $detalle     = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar_activa('rolesDetalle', 'Detalle', $detalle);
             } elseif ($_POST['formulario'] == FormularioWeb::$form_name) {
-                // Viene el formulario
                 $formulario = new FormularioWeb($this->sesion);
                 $lenguetas->agregar_activa('rolesFormulario', 'Formulario', $formulario);
             }
