@@ -32,12 +32,15 @@ class PaginaInicial extends \Base2\PlantillaWeb {
     // protected $descripcion;
     // protected $autor;
     // protected $css;
+    // protected $css_comun;
     // protected $favicon;
     // protected $modelo;
     // protected $menu_principal_logo;
     // protected $modelo_ingreso_logos;
     // protected $modelo_fluido_logos;
     // protected $pie;
+    // protected $css_comun;
+    // protected $javascript_comun;
     // public $clave;
     // public $menu;
     // public $contenido;
