@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Tierra PlantillaImpresoraConfig
+ * GenesisPHP - Tierra PlantillaImpresionConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,14 +23,14 @@
 namespace Configuracion;
 
 /*
- * Clase abstracta PlantillaImpresoraConfig
+ * Clase abstracta PlantillaImpresionConfig
  */
-abstract class PlantillaImpresoraConfig {
+abstract class PlantillaImpresionConfig {
 
     protected $sistema = 'GenesisPHP Tierra';
     protected $titulo  = '';
     protected $css     = 'css/tierra-impresora.css';
 
-} // Clase abstracta PlantillaImpresoraConfig
+} // Clase abstracta PlantillaImpresionConfig
 
 ?>

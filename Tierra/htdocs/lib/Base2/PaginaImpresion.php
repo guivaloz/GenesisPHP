@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - PaginaImpresora
+ * GenesisPHP - PaginaImpresion
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,13 +23,17 @@
 namespace Base2;
 
 /**
- * Clase abstracta PaginaImpresora
+ * Clase abstracta PaginaImpresion
  */
-abstract class PaginaImpresora extends PlantillaImpresora {
+abstract class PaginaImpresion extends PlantillaImpresion {
 
+    // protected $sistema;
+    // protected $titulo;
+    // protected $css;
+    // public $clave;
+    // public $menu;
     // public $contenido;
     // public $javascript;
-    protected $clave;              // Clave única de la página
     protected $sesion;          // Instancia de \Inicio\Sesion
     protected $sesion_exitosa;  // Boleano, verdadero si se cargó con éxito la sesión
     protected $usuario;         // Entero, ID del usuario
@@ -60,6 +64,30 @@ abstract class PaginaImpresora extends PlantillaImpresora {
         }
     } // constructor
 
-} // Clase abstracta PaginaImpresora
+    /**
+     * HTML
+     *
+     * @return string Código HTML
+     */
+    public function html() {
+        // Si la sesión es exitosa
+        if ($this->sesion_exitosa) {
+            // Definir el menu
+            $this->menu = new \Inicio\Menu($this->sesion);
+            // Pasar la clave de la página actual al menu
+            $this->menu->clave = $this->clave;
+            try {
+                $this->menu->consultar($this->usuario);
+            } catch (\Exception $e) {
+                $this->contenido = $e->getMessage();
+            }
+            // Título de la página
+            $this->titulo = $this->menu->titulo_en($this->clave);
+        }
+        // Se ejecuta el padre y se entrega su resultado
+        return parent::html();
+    } // html
+
+} // Clase abstracta PaginaImpresion
 
 ?>

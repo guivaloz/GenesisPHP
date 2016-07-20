@@ -93,7 +93,7 @@ class MensajeWeb implements SalidaWeb {
         } else  {
             $clase = self::$botones_clases[$in_clase];
         }
-        // Agrgar a pie
+        // Agregar a pie
         $this->pie[$identificador] = sprintf('<button class="%s" type="button" onclick="location.href=\'%s\'">%s</button>', $clase, $url, $etiqueta);
     } // boton_url
 
@@ -193,7 +193,7 @@ class MensajeWeb implements SalidaWeb {
                 }
             }
         }
-        // Twitter Bootstrap Alert termnina
+        // Twitter Bootstrap Alert termina
         $a[] = '</div>';
         // Entregar
         return implode("\n", $a);

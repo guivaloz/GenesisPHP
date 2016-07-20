@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - TemaImpresoraBlancoNegro
+ * GenesisPHP - TemaImpresionBlancoNegro
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Base2;
 
 /**
- * Clase TemaImpresoraBlancoNegro
+ * Clase TemaImpresionBlancoNegro
  */
-class TemaImpresoraBlancoNegro extends TemaImpresora {
+class TemaImpresionBlancoNegro extends TemaImpresion {
 
     // public $sistema;
     // public $titulo;
@@ -56,6 +56,7 @@ class TemaImpresoraBlancoNegro extends TemaImpresora {
         }
         // Acumular CSS propio
         if ($this->css != '') {
+            $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
             $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\" media=\"print\">";
         }
         $a[] = '</head>';
@@ -124,6 +125,6 @@ class TemaImpresoraBlancoNegro extends TemaImpresora {
         return implode("\n", $a)."\n";
     } // html
 
-} // Clase TemaImpresoraBlancoNegro
+} // Clase TemaImpresionBlancoNegro
 
 ?>

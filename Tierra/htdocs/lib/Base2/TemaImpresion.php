@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - TemaImpresora
+ * GenesisPHP - TemaImpresion
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 namespace Base2;
 
 /**
- * Clase abtracta TemaImpresora
+ * Clase abtracta TemaImpresion
  */
-abstract class TemaImpresora {
+abstract class TemaImpresion {
 
     public $sistema;               // Nombre del sistema
     public $titulo;                // Título de la página
@@ -48,6 +48,6 @@ abstract class TemaImpresora {
      */
     abstract public function html();
 
-} // Clase abtracta TemaImpresora
+} // Clase abtracta TemaImpresion
 
 ?>

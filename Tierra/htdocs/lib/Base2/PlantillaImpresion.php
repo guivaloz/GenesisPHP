@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - PlantillaImpresora
+ * GenesisPHP - PlantillaImpresion
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,13 +23,15 @@
 namespace Base2;
 
 /**
- * Clase abstracta PlantillaImpresora
+ * Clase abstracta PlantillaImpresion
  */
-abstract class PlantillaImpresora extends \Configuracion\PlantillaImpresoraConfig {
+abstract class PlantillaImpresion extends \Configuracion\PlantillaImpresionConfig {
 
     // protected $sistema;
     // protected $titulo;
     // protected $css;
+    public $clave;                 // Clave única de la página
+    public $menu;                  // Instancia de menú
     public $contenido  = array();  // Arreglo con el contenido
     public $javascript = array();  // Arreglo con el Javascript
 
@@ -40,7 +42,7 @@ abstract class PlantillaImpresora extends \Configuracion\PlantillaImpresoraConfi
      */
     public function html() {
         // La única plantilla
-        $plantilla             = new TemaImpresoraBlancoNegro();
+        $plantilla             = new TemaImpresionBlancoNegro();
         $plantilla->sistema    = $this->sistema;
         $plantilla->titulo     = $this->titulo;
         $plantilla->css        = $this->css;
@@ -53,6 +55,6 @@ abstract class PlantillaImpresora extends \Configuracion\PlantillaImpresoraConfi
         return $plantilla->html();
     } // html
 
-} // Clase abstracta PlantillaImpresora
+} // Clase abstracta PlantillaImpresion
 
 ?>
