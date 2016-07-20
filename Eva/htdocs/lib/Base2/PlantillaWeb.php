@@ -32,16 +32,19 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
     // protected $descripcion;
     // protected $autor;
     // protected $css;
+    // protected $css_comun;
     // protected $favicon;
     // protected $modelo;
     // protected $menu_principal_logo;
     // protected $modelo_ingreso_logos;
     // protected $modelo_fluido_logos;
     // protected $pie;
+    // protected $css_comun;
+    // protected $javascript_comun;
     public $clave;                 // Clave única de la página
     public $menu;                  // Instancia de menú
-    public $contenido  = array();  // Arreglo con el contenido
-    public $javascript = array();  // Arreglo con el Javascript
+    public $contenido  = array();  // Arreglo o texto con el contenido HTML
+    public $javascript = array();  // Arreglo o texto con el código Javascript
 
     /**
      * HTML
@@ -86,15 +89,56 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
                 $plantilla->icono               = $this->icono;
                 $plantilla->menu                = $this->menu;
         }
-        // Pasar parámetros a la plantilla
-        $plantilla->sistema     = $this->sistema;
-        $plantilla->descripcion = $this->descripcion;
-        $plantilla->autor       = $this->autor;
-        $plantilla->css         = $this->css;
-        $plantilla->favicon     = $this->favicon;
-        $plantilla->contenido   = $this->contenido;
-        $plantilla->javascript  = $this->javascript;
-        $plantilla->pie         = $this->pie;
+        // Pasar parámetros comunes a todas las plantillas
+        $plantilla->sistema         = $this->sistema;
+        $plantilla->descripcion      = $this->descripcion;
+        $plantilla->autor            = $this->autor;
+        $plantilla->css_comun        = $this->css_comun;
+        $plantilla->favicon          = $this->favicon;
+        $plantilla->pie              = $this->pie;
+        $plantilla->javascript_comun = $this->javascript_comun;
+        // Procesar CSS
+        if (is_array($this->css) && (count($this->css) > 0)) {
+            $a = array();
+            foreach ($this->css as $c) {
+                if ($c != '') {
+                    $a[] = $c;
+                }
+            }
+            $plantilla->css = implode("\n", $a);
+        } elseif (is_string($this->css) && ($this->css != '')) {
+            $plantilla->css = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
+        } else {
+            $plantilla->css = "  <!-- Pagina sin CSS adicional. -->";
+        }
+        // Procesar contenido
+        if (is_array($this->contenido) && (count($this->contenido) > 0)) {
+            $a = array();
+            foreach ($this->contenido as $c) {
+                if ($c != '') {
+                    $a[] = $c;
+                }
+            }
+            $plantilla->contenido = implode("\n", $a);
+        } elseif (is_string($this->contenido) && ($this->contenido != '')) {
+            $plantilla->contenido = $this->contenido;
+        } else {
+            $plantilla->contenido = "  <b>Pagina sin contenido.</b>";
+        }
+        // Procesar Javascript
+        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
+            $a = array();
+            foreach ($this->javascript as $js) {
+                if ($js != '') {
+                    $a[] = "  <script>$js</script>";
+                }
+            }
+            $plantilla->javascript = implode("\n", $a);
+        } elseif (is_string($this->javascript) && ($this->javascript != '')) {
+            $plantilla->javascript = $this->javascript;
+        } else {
+            $plantilla->javascript = '  <!-- Pagina sin Javascipt adicional. -->';
+        }
         // Evitar que se guarde en el cache del navegador
         header("Cache-Control: no-cache, must-revalidate");
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");

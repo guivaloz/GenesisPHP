@@ -32,11 +32,12 @@ class TemaWebSBAdmin2 extends TemaWeb {
     // public $descripcion;
     // public $autor;
     // public $css;
+    // public $css_comun;
     // public $favicon;
     // public $menu_principal_logo;
     // public $icono;
     // public $contenido;
-    // public $javascript;
+    // public $javascript_comun;
     // public $pie;
     // public $menu;
 
@@ -236,22 +237,18 @@ class TemaWebSBAdmin2 extends TemaWeb {
         } else {
             $a[] = '  <link rel="shortcut icon" href="favicon.ico">';
         }
-        // Acumular CSS Twitter Bootstrap
-        $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
-        // Acumular CSS selector de fechas
+        // Acumular CSS común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->css_comun) && (count($this->css_comun) > 0)) {
+            $a[] = implode("\n", $this->css_comun);
+        }
+        // Acumular CSS requerido por GenesisPHP
         $a[] = '  <link href="css/datepicker.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
-        // Acumular CSS graficador morris.js
-        $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
-        // Acumular FontAwesome
-        $a[] = '  <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">';
-        // Acumular CSS de StartBootstrap Admin v2
+        // Acumular CSS propio de SBAdmin2
         $a[] = '  <link href="css/metisMenu.min.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/sb-admin-2.css" rel="stylesheet" type="text/css">';
-        // Acumular CSS propio
-        if ($this->css != '') {
-            $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
-        }
+        // Acumular CSS de esta página
+        $a[] = $this->css;
         $a[] = '</head>';
         // Entregar
         return implode("\n", $a);
@@ -263,27 +260,28 @@ class TemaWebSBAdmin2 extends TemaWeb {
      * @return string Código HTML
      */
     protected function final_html() {
-        // En este arreglo acumularemos la entrega
+        // En este arreglo acumulamos
         $a = array();
         // Acumular pie
-        $a[] = $this->bloque_html($this->pie, 'footer');
-        // Acumular JQuery
-        $a[] = '  <script src="js/jquery.min.js"></script>';
-        // Acumular Twitter Bootstrap
-        $a[] = '  <script src="js/bootstrap.min.js"></script>';
-        // Acumular selector de fechas
+        if (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = "  <footer>{$this->pie}</footer>";
+        }
+        // Acumular Javascript común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->javascript_comun) && (count($this->javascript_comun) > 0)) {
+            $a[] = implode("\n", $this->javascript_comun);
+        }
+        // Acumular Javascript requerido por GenesisPHP
         $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
         $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        // Acumular graficador morris.js
-        $a[] = '  <script src="js/raphael-min.js"></script>';
-        $a[] = '  <script src="js/morris.min.js"></script>';
-        // Acumular StartBotttrap Admin v2
+        // Acumular Javascript propio de SBAdmin2
         $a[] = '  <script src="js/metisMenu.min.js"></script>';
         $a[] = '  <script src="js/sb-admin-2.js"></script>';
-        // Acumular Javascript que se haya agregado desde fuera
-        $a[] = $this->bloque_html($this->javascript, 'script');
+        // Acumular Javascript de esta página
+        if (is_string($this->javascript) && ($this->javascript != '')) {
+            $a[] = $this->javascript;
+        }
         // Entregar
         return implode("\n", $a);
     } // final_html
@@ -305,7 +303,7 @@ class TemaWebSBAdmin2 extends TemaWeb {
         $a[] = $this->navegacion_html();
         $a[] = '  <div id="page-wrapper">'; // page-wrapper
         $a[] = $this->titulo_html();
-        $a[] = $this->bloque_html($this->contenido);
+        $a[] = $this->contenido;
         $a[] = '  </div>';                  // page-wrapper
         $a[] = '</div>';                    // wrapper
         $a[] = $this->final_html();

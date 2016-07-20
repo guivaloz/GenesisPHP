@@ -32,11 +32,12 @@ class TemaWebDashboard extends TemaWeb {
     // public $descripcion;
     // public $autor;
     // public $css;
+    // public $css_comun;
     // public $favicon;
     // public $menu_principal_logo;
     // public $icono;
     // public $contenido;
-    // public $javascript;
+    // public $javascript_comun;
     // public $pie;
     // public $menu;
 
@@ -166,8 +167,6 @@ class TemaWebDashboard extends TemaWeb {
         // En este arreglo acumulamos
         $a = array();
         // Acumular
-        $a[] = '<!DOCTYPE html>';
-        $a[] = '<html lang="es">';
         $a[] = '<head>';
         $a[] = '  <meta charset="utf-8">';
         $a[] = '  <meta http-equiv="X-UA-Compatible" content="IE=edge">';
@@ -188,21 +187,18 @@ class TemaWebDashboard extends TemaWeb {
         } else {
             $a[] = "  <title>{$this->sistema}</title>";
         }
-        // Acumular Twitter Bootstrap
-        $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
-        // Acumular selector de fechas
+        // Acumular CSS común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->css_comun) && (count($this->css_comun) > 0)) {
+            $a[] = implode("\n", $this->css_comun);
+        }
+        // Acumular CSS requerido por GenesisPHP
         $a[] = '  <link href="css/datepicker.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
-        // Acumular graficador morris.js
-        $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
-        // Acumular archivo CSS propio de esta plantilla
+        // Acumular CSS propio de Dashboard
         $a[] = '  <link href="css/plantilla-dashboard.css" rel="stylesheet" type="text/css">';
-        if ($this->css != '') {
-            $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
-        }
+        // Acumular CSS de esta página
+        $a[] = $this->css;
         $a[] = '</head>';
-        // Acumular inicio de body
-        $a[] = '<body>';
         // Entregar
         return implode("\n", $a);
     } // cabecera_html
@@ -216,24 +212,23 @@ class TemaWebDashboard extends TemaWeb {
         // En este arreglo acumulamos
         $a = array();
         // Acumular pie
-        $a[] = $this->bloque_html($this->pie, 'footer');
-        // Acumular JQuery
-        $a[] = '  <script src="js/jquery.min.js"></script>';
-        // Acumular Twitter Bootstrap
-        $a[] = '  <script src="js/bootstrap.min.js"></script>';
-        // Acumular selector de fechas
+        if (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = "  <footer>{$this->pie}</footer>";
+        }
+        // Acumular Javascript común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->javascript_comun) && (count($this->javascript_comun) > 0)) {
+            $a[] = implode("\n", $this->javascript_comun);
+        }
+        // Acumular Javascript requerido por GenesisPHP
         $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
         $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        // Acumular graficador morris.js
-        $a[] = '  <script src="js/raphael-min.js"></script>';
-        $a[] = '  <script src="js/morris.min.js"></script>';
-        // Acumular Javascript que se haya agregado desde fuera
-        $a[] = $this->bloque_html($this->javascript, 'script');
-        // Acumular cierre de body y html
-        $a[] = '</body>';
-        $a[] = '</html>';
+        // Acumular Javascript propio de Dashboard
+        // Acumular Javascript de esta página
+        if (is_string($this->javascript) && ($this->javascript != '')) {
+            $a[] = $this->javascript;
+        }
         // Entregar
         return implode("\n", $a);
     } // final_html
@@ -256,7 +251,10 @@ class TemaWebDashboard extends TemaWeb {
         // En este arreglo acumularemos la salida
         $a = array();
         // Acumular
+        $a[] = '<!DOCTYPE html>';
+        $a[] = '<html lang="es">';
         $a[] = $this->cabecera_html();
+        $a[] = '<body>';
         $a[] = $this->menu_principal_html();
         $a[] = '  <div class="container-fluid">';
         $a[] = '    <div class="row">';
@@ -274,11 +272,13 @@ class TemaWebDashboard extends TemaWeb {
         } else {
             $a[] = "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
-        $a[] = $this->bloque_html($this->contenido);
+        $a[] = $this->contenido;
         $a[] = '      </div>';
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid
         $a[] = $this->final_html();
+        $a[] = '</body>';
+        $a[] = '</html>';
         // Entregar
         return implode("\n", $a);
     } // html

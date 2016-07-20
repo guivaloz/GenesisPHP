@@ -72,18 +72,23 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 
 /* Piezas de Tierra */
 
-.barra      { border:none; background-color:#FFF; }
+.barra            { border:none; background-color:#FFF; margin-bottom:4px; }
+.barra-encabezado { padding:15px 0; }
+.barra-icono      { margin-right:8px; }
+.navbar-right     { margin-right:0; }
+
 .listado,
 .tren,
 .detalle,
 .formulario,
 .mapa,
 .grafica,
-.mensaje    { padding:4px; border:1px solid #CCC; }
+.mensaje          { padding:0 8px; border:1px solid #CCC; }
 
 /* Piezas de Tierra dentro de collapse */
 
 .panel-default          { border-color:#CCC; }
+.panel-body             { padding:4px; }
 .panel-body .barra,
 .panel-body .detalle,
 .panel-body .formulario,

@@ -31,54 +31,16 @@ abstract class TemaWeb {
     public $titulo;                // Título de la página
     public $descripcion;
     public $autor;
-    public $css;
+    public $css;                   // Texto con la ruta a un archivo CSS
+    public $css_comun;             // Arreglo con códigos HTML que cargan archivos CSS
     public $favicon;
     public $menu_principal_logo;
     public $icono;                 // Texto, nombre del archivo con el icono de la página
-    public $contenido  = array();  // Arreglo o texto con el contenido
-    public $javascript = array();  // Arreglo o texto con Javascript
-    public $pie        = array();  // Arreglo o texto con el pie
+    public $contenido  = array();  // Texto con código HTML
+    public $javascript = array();  // Texto con código Javascript
+    public $javascript_comun;      // Arreglo con códigos Javascript
+    public $pie        = array();  // Texto con código HTML
     public $menu;                  // Instancia de \Inicio\Menu
-
-    /**
-     * Bloque HTML
-     *
-     * Procesar el contenido, javascript o pie; trabaja con textos o arreglos de textos y quita renglones en blanco
-     *
-     * @param  mixed  Arreglo o texto con el contenido
-     * @param  string Opcional, tag a poner antes y después del contenido; por ejemplo use 'script' con javascript
-     * @return string Código HTML
-     */
-    protected function bloque_html($in_contenido, $in_tag='') {
-        // Si es arreglo o es texto
-        if (is_array($in_contenido)) {
-            $a = array();
-            // Bucle para evitar los valores vacios
-            foreach ($in_contenido as $c) {
-                if (is_string($c) && ($c != '')) {
-                    $a[] = $c;
-                }
-            }
-            // Entregar
-            if (count($a)) {
-                if ($in_tag != '') {
-                    return "<$in_tag>\n".implode("\n", $a)."\n</$in_tag>";
-                } else {
-                    return implode("\n", $a);
-                }
-            } else {
-                return '<!-- Bloque sin contenido -->';
-            }
-        } elseif (is_string($in_contenido) && ($in_contenido != '')) {
-            if ($in_tag != '') {
-                return "<$in_tag>\n$in_contenido\n</$in_tag>";
-            } else {
-                return $in_contenido;
-            }
-        } else {
-            return '<!-- Bloque sin contenido -->';
-        }
-    } // bloque_html
 
     /**
      * Cabecera HTML

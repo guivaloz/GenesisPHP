@@ -200,11 +200,11 @@ class BarraWeb implements SalidaWeb {
             if (strpos($this->icono, 'glyphicon') === 0) {
                 $icono = "<span class=\"{$this->icono}\"></span>";
             } else {
-                $icono = "<img src=\"imagenes/24x24/{$this->icono}\">";
+                $icono = "<img class=\"pull-left barra-icono\" src=\"imagenes/24x24/{$this->icono}\">";
             }
-            $a[] = "      <a class=\"navbar-brand\" href=\"#\">$icono {$this->encabezado}</a>";
+            $a[] = "      <a class=\"navbar-brand barra-encabezado\" href=\"#\">$icono {$this->encabezado}</a>";
         } else {
-            $a[] = "      <a class=\"navbar-brand\" href=\"#\">{$this->encabezado}</a>";
+            $a[] = "      <a class=\"navbar-brand barra-encabezado\" href=\"#\">{$this->encabezado}</a>";
         }
         $a[] = '    </div>'; // navbar-header
         // Botones

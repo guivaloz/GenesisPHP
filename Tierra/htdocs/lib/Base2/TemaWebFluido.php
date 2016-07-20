@@ -32,11 +32,12 @@ class TemaWebFluido extends TemaWeb {
     // public $descripcion;
     // public $autor;
     // public $css;
+    // public $css_comun;
     // public $favicon;
     // public $menu_principal_logo;
     // public $icono;
     // public $contenido;
-    // public $javascript;
+    // public $javascript_comun;
     // public $pie;
     // public $menu;
     public $modelo_fluido_logos;
@@ -188,8 +189,6 @@ class TemaWebFluido extends TemaWeb {
         // En este arreglo acumulamos
         $a = array();
         // Acumular
-        $a[] = '<!DOCTYPE html>';
-        $a[] = '<html lang="es">';
         $a[] = '<head>';
         $a[] = '  <meta charset="utf-8">';
         $a[] = '  <meta http-equiv="X-UA-Compatible" content="IE=edge">';
@@ -210,21 +209,18 @@ class TemaWebFluido extends TemaWeb {
         } else {
             $a[] = "  <title>{$this->sistema}</title>";
         }
-        // Acumular Twitter Bootstrap
-        $a[] = '  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">';
-        // Acumular selector de fechas
+        // Acumular CSS común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->css_comun) && (count($this->css_comun) > 0)) {
+            $a[] = implode("\n", $this->css_comun);
+        }
+        // Acumular CSS requerido por GenesisPHP
         $a[] = '  <link href="css/datepicker.css" rel="stylesheet" type="text/css">';
         $a[] = '  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">';
-        // Acumular graficador morris.js
-        $a[] = '  <link href="css/morris.css" rel="stylesheet" type="text/css">';
-        // Acumular archivo CSS propio de esta plantilla
+        // Acumular CSS propio de Fluido
         $a[] = '  <link href="css/plantilla-fluida.css" rel="stylesheet" type="text/css">';
-        if ($this->css != '') {
-            $a[] = "  <link href=\"{$this->css}\" rel=\"stylesheet\" type=\"text/css\">";
-        }
+        // Acumular CSS de esta página
+        $a[] = $this->css;
         $a[] = '</head>';
-        // Acumular inicio de body
-        $a[] = '<body>';
         // Entregar
         return implode("\n", $a);
     } // cabecera_html
@@ -237,43 +233,24 @@ class TemaWebFluido extends TemaWeb {
     protected function final_html() {
         // En este arreglo acumulamos
         $a = array();
-        // Si el pie es un arreglo o un texto
-        if (is_array($this->pie) && (count($this->pie) > 0)) {
-            $a[] = '  <!-- PIE -->';
-            $a[] = '  <footer>';
-            $a[] = implode("\n", $this->pie);
-            $a[] = '  </footer>';
-        } elseif (is_string($this->pie) && ($this->pie != '')) {
-            $a[] = '  <!-- PIE -->';
-            $a[] = '  <footer>';
-            $a[] = $this->pie;
-            $a[] = '  </footer>';
+        // Acumular pie
+        if (is_string($this->pie) && ($this->pie != '')) {
+            $a[] = "  <footer>{$this->pie}</footer>";
         }
-        // Acumular JQuery
-        $a[] = '  <script src="js/jquery.min.js"></script>';
-        // Acumular Twitter Bootstrap
-        $a[] = '  <script src="js/bootstrap.min.js"></script>';
-        // Acumular selector de fechas
+        // Acumular Javascript común definido en /Configuracion/PlantillaWebConfig
+        if (is_array($this->javascript_comun) && (count($this->javascript_comun) > 0)) {
+            $a[] = implode("\n", $this->javascript_comun);
+        }
+        // Acumular Javascript requerido por GenesisPHP
         $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
         $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
         $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        // Acumular graficador morris.js
-        $a[] = '  <script src="js/raphael-min.js"></script>';
-        $a[] = '  <script src="js/morris.min.js"></script>';
-        // Acumular Javascript que se haya agregado desde fuera
-        if (is_array($this->javascript) && (count($this->javascript) > 0)) {
-            $a[] = '<script>';
-            $a[] = implode("\n", $this->javascript);
-            $a[] = '</script>';
-        } elseif (is_string($this->javascript) && ($this->javascript != '')) {
-            $a[] = '<script>';
+        // Acumular Javascript propio de Fluido
+        // Acumular Javascript de esta página
+        if (is_string($this->javascript) && ($this->javascript != '')) {
             $a[] = $this->javascript;
-            $a[] = '</script>';
         }
-        // Acumular cierre de body y html
-        $a[] = '</body>';
-        $a[] = '</html>';
         // Entregar
         return implode("\n", $a);
     } // final_html
@@ -296,7 +273,10 @@ class TemaWebFluido extends TemaWeb {
         // En este arreglo acumulamos
         $a = array();
         // Acumular
+        $a[] = '<!DOCTYPE html>';
+        $a[] = '<html lang="es">';
         $a[] = $this->cabecera_html();
+        $a[] = '<body>';
         $a[] = $this->menu_principal_html();
         $a[] = '  <div class="container-fluid">';
         $a[] = '    <div class="row">';
@@ -309,11 +289,13 @@ class TemaWebFluido extends TemaWeb {
         } else {
             $a[] = "        <h1 class=\"page-header titulo\">{$this->titulo}</h1>";
         }
-        $a[] = $this->bloque_html($this->contenido);
+        $a[] = $this->contenido;
         $a[] = '      </div>';
         $a[] = '    </div>'; // row
         $a[] = '  </div>'; // container-fluid
         $a[] = $this->final_html();
+        $a[] = '</body>';
+        $a[] = '</html>';
         // Entregar
         return implode("\n", $a);
     } // html
