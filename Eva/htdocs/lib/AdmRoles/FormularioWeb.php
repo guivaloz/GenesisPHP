@@ -106,9 +106,9 @@ class FormularioWeb extends DetalleWeb {
             $this->id = $_POST['id'];
         }
         // Seccion rol
-        $this->departamento   = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
-        $this->modulo         = \Base2\UtileriasParaSQL::post_select($_POST['modulo']);
-        $this->permiso_maximo = \Base2\UtileriasParaSQL::post_select($_POST['permiso_maximo']);
+        $this->departamento   = \Base2\UtileriasParaFormularios::post_select($_POST['departamento']);
+        $this->modulo         = \Base2\UtileriasParaFormularios::post_select($_POST['modulo']);
+        $this->permiso_maximo = \Base2\UtileriasParaFormularios::post_select($_POST['permiso_maximo']);
     } // recibir_formulario
 
     /**

@@ -10,7 +10,6 @@ a:link,
 a:visited { color:#04A; text-decoration:none; }
 a:hover,
 a:focus   { color:#06D; text-decoration:none; }
-table th  { background-color:#DDD; }
 
 /* Menus colores los vinculos */
 
@@ -97,6 +96,17 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .panel-body .mapa,
 .panel-body .grafica,
 .panel-body .tren       { margin:4px; border:none; }
+
+/* Tablas */
+
+.table th   { background-color:#DDD; }
+.cantidad,
+.decimal,
+.dinero,
+.entero,
+.flotante,
+.porcentaje { text-align:right; white-space:nowrap; }
+.nd         { text-align:center; background-color:#EEE; }
 
 /* Colores */
 

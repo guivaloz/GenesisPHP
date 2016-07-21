@@ -112,10 +112,10 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->usuario      = \Base2\UtileriasParaSQL::post_select($_POST['usuario']);
-            $this->departamento = \Base2\UtileriasParaSQL::post_select($_POST['departamento']);
+            $this->usuario      = \Base2\UtileriasParaFormularios::post_select($_POST['usuario']);
+            $this->departamento = \Base2\UtileriasParaFormularios::post_select($_POST['departamento']);
             if ($this->sesion->puede_recuperar('adm_integrantes')) {
-                $this->estatus  = \Base2\UtileriasParaSQL::post_select($_POST['estatus']);
+                $this->estatus  = \Base2\UtileriasParaFormularios::post_select($_POST['estatus']);
             }
             // Entregar verdadero
             return true;
