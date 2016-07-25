@@ -52,7 +52,7 @@ abstract class UtileriasParaValidar {
     public static function validar_frase($frase) {
         if (trim($frase) == '') {
             return false;
-        } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?()"“” .,;:\/\[\]*+_-]+$/', $frase)) {
+        } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?()<>"“” .,;:\'\/\[\]*+_-]+$/', $frase)) {
             return true;
         } else {
             return false;
