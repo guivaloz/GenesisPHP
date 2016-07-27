@@ -35,7 +35,7 @@ abstract class UtileriasParaFormatos {
      */
     public static function formato_entero($entero) {
         if (UtileriasParaValidar::validar_entero($entero)) {
-            return number_format($entero, 0, ".", ",");
+            return $entero; // number_format(, 0, ".", ",");
         } else {
             return '';
         }
