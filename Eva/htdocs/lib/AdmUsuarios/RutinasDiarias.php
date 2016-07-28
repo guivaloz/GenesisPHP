@@ -72,7 +72,7 @@ class RutinasDiarias {
         $m[] = $msg;
         $bitacora->agregar_sistema($msg);
         // Entregar mensajes
-        return implode("\n", $m)."\n";
+        return implode(" Y ", $m);
     } // ejecutar
 
 } // Clase RutinasDiarias

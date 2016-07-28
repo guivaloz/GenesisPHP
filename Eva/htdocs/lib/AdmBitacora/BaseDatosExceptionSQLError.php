@@ -38,7 +38,7 @@ class BaseDatosExceptionSQLError extends \Base2\BaseDatosExceptionSQLError {
      */
     public function __construct(\Inicio\Sesion $sesion, $mensaje_humano, $mensaje_motor) {
         // Agregar evento a la bitacora
-        $base_datos = new BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("INSERT INTO adm_bitacora (usuario, pagina, tipo, url, notas) VALUES (%s, %s, %s, %s, %s)",
                 $sesion->usuario,

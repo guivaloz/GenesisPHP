@@ -22,7 +22,7 @@
  */
 
 // Soy
-$soy = '[Usuarios Rutina Diaria]';
+$soy = '[Usuarios Rutinas Diarias]';
 
 // Valores de salida
 $EXITO=0;
@@ -40,7 +40,7 @@ $sesion = new \Inicio\Sesion('sistema');
 // Ejecutar las rutinas diarias
 $rutinas = new \AdmUsuarios\RutinasDiarias($sesion);
 try {
-    echo $rutinas->ejecutar()."\n";
+    echo "$soy ".$rutinas->ejecutar()."\n";
 } catch (\Exception $e) {
     echo "$soy ".$e->getMessage()."\n";
     exit($E_FATAL);
