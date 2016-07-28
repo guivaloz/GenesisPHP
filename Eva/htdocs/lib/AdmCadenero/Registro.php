@@ -65,7 +65,7 @@ class Registro extends \Base2\Registro {
                     clave = %s",
                 \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (\Exception $e) {
-            throw new \Base2\BaseDatosExceptionSQLError('Error en cadenero: Al consultar en cadenero.');
+            throw new \Exception('Error en cadenero: Al consultar en cadenero.');
         }
         // Si no se encuentra, provoca excepcion
         if ($consulta->cantidad_registros() < 1) {
@@ -112,7 +112,7 @@ class Registro extends \Base2\Registro {
         }
         // Tomar el usuario de la sesion
         $this->usuario = $this->sesion->usuario;
-        // Deffinir la clave unica
+        // Definir la clave unica
         $this->clave = uniqid(); // Generate a unique ID http://php.net/manual/en/function.uniqid.php
         // Agregar a la base de datos
         $base_datos = new \Base2\BaseDatosMotor();
@@ -126,7 +126,7 @@ class Registro extends \Base2\Registro {
                 \Base2\UtileriasParaSQL::sql_texto($this->form_name),
                 \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (\Exception $e) {
-            throw new \Base2\BaseDatosExceptionSQLError($this->sesion, 'Error en cadenero: Al insertar registro en cadenero. ', $e->getMessage());
+            throw new \Exception('Error en cadenero: Al insertar registro en cadenero.');
         }
         // Ponemos como verdadero el flag de consultado
         $this->consultado = true;
@@ -186,7 +186,7 @@ class Registro extends \Base2\Registro {
                     clave = %s",
                 \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (Exception $e) {
-            throw new \Base2\BaseDatosExceptionSQLError('Error en cadenero: Al actualizar registro para cambiar recibido a verdadero.');
+            throw new \Exception('Error en cadenero: Al actualizar registro para cambiar recibido a verdadero.');
         }
         // Entregar verdadero
         return true;
