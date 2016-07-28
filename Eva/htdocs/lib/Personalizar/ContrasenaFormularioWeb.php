@@ -64,7 +64,7 @@ class ContrasenaFormularioWeb extends DetalleWeb {
         $this->formulario          = new \Base2\FormularioWeb(self::$form_name);
         $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Formulario campos ocultos
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Formulario sección principal
         $this->formulario->password('actual',    'Contraseña actual');
@@ -87,7 +87,7 @@ class ContrasenaFormularioWeb extends DetalleWeb {
      */
     protected function recibir_formulario() {
         // Cadenero
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir los valores del formulario
         $this->contrasena_actual    = \Base2\UtileriasParaFormularios::post_texto($_POST['actual']);

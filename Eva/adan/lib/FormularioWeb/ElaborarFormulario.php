@@ -409,7 +409,7 @@ FINAL;
         \$form = new \\Base2\\FormularioWeb(self::\$form_name);
         \$form->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
-        \$cadenero = new \\Base2\\Cadenero(\$this->sesion);
+        \$cadenero = new \\AdmCadenero\\Registro(\$this->sesion);
         \$form->oculto('cadenero', \$cadenero->crear_clave(self::\$form_name));
         if (\$this->es_nuevo) {
             \$form->oculto('accion', 'agregar');

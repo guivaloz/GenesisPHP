@@ -137,7 +137,7 @@ FINAL;
      */
     protected function recibir_formulario() {
         // Cadenero
-        \$cadenero = new \\Base2\\Cadenero(\$this->sesion);
+        \$cadenero = new \\AdmCadenero\\Registro(\$this->sesion);
         \$cadenero->validar_recepcion(self::\$form_name, \$_POST['cadenero']);
         // Si es nuevo el estatus es en uso, de lo contrario es modificacion y debe venir el id
         if (\$_POST['accion'] == 'agregar') {

@@ -56,7 +56,7 @@ class FormularioWeb extends DetalleWeb {
         $this->formulario = new \Base2\FormularioWeb(self::$form_name);
         $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Campos ocultos
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         if ($this->es_nuevo) {
             $this->formulario->oculto('accion', 'agregar');
@@ -91,7 +91,7 @@ class FormularioWeb extends DetalleWeb {
      */
     protected function recibir_formulario() {
         // Cadenero
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Si la accion es agregar el estatus es "en uso" (a)
         if ($_POST['accion'] == 'agregar') {

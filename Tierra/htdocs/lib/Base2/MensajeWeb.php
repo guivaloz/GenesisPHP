@@ -128,19 +128,26 @@ class MensajeWeb implements SalidaWeb {
         }
         // Si NO se definió el tipo
         if ($this->tipo == '') {
-            // Se va a definir por su contenido
-            if (is_array($this->contenido)) {
-                $muestra = current($this->contenido);
-            } else {
-                $muestra = $this->contenido;
-            }
-            // Si el contenido empieza con error o con aviso
-            if (stripos($muestra, 'Error') === 0) {
+            // Si el encabezado empieza con error o con aviso
+            if (stripos($this->encabezado, 'Error') === 0) {
                 $this->tipo = 'error';
-            } elseif (stripos($muestra, 'Aviso') === 0) {
+            } elseif (stripos($this->encabezado, 'Aviso') === 0) {
                 $this->tipo = 'aviso';
             } else {
-                $this->tipo = 'info';
+                // Se va a definir por su contenido
+                if (is_array($this->contenido)) {
+                    $muestra = current($this->contenido);
+                } else {
+                    $muestra = $this->contenido;
+                }
+                // Si el contenido empieza con error o con aviso
+                if (stripos($muestra, 'Error') === 0) {
+                    $this->tipo = 'error';
+                } elseif (stripos($muestra, 'Aviso') === 0) {
+                    $this->tipo = 'aviso';
+                } else {
+                    $this->tipo = 'info';
+                }
             }
         }
         // Definir icono

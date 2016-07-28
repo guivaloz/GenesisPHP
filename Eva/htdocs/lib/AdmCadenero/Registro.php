@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Cadenero
+ * GenesisPHP - AdmCadenero Registro
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -20,12 +20,12 @@
  * @package GenesisPHP
  */
 
-namespace Base2;
+namespace AdmCadenero;
 
 /**
- * Clase Cadenero
+ * Clase Registro
  */
-class Cadenero extends Registro {
+class Registro extends \Base2\Registro {
 
     // public $consultado;
     // protected $sesion;
@@ -53,7 +53,7 @@ class Cadenero extends Registro {
             throw new \Exception('Error en cadenero: Clave incorrecta.');
         }
         // Consultar
-        $base_datos = new BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
@@ -63,9 +63,9 @@ class Cadenero extends Registro {
                     adm_cadenero
                 WHERE
                     clave = %s",
-                UtileriasParaSQL::sql_texto($this->clave)));
+                \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (\Exception $e) {
-            throw new BaseDatosExceptionSQLError('Error en cadenero: Al consultar en cadenero.');
+            throw new \Base2\BaseDatosExceptionSQLError('Error en cadenero: Al consultar en cadenero.');
         }
         // Si no se encuentra, provoca excepcion
         if ($consulta->cantidad_registros() < 1) {
@@ -112,21 +112,21 @@ class Cadenero extends Registro {
         }
         // Tomar el usuario de la sesion
         $this->usuario = $this->sesion->usuario;
-        // Determinar la clave unica
-        $this->clave = uniqid();
+        // Deffinir la clave unica
+        $this->clave = uniqid(); // Generate a unique ID http://php.net/manual/en/function.uniqid.php
         // Agregar a la base de datos
-        $base_datos = new BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 INSERT INTO
                     adm_cadenero (usuario, form_name, clave)
                 VALUES
                     (%s, %s, %s)",
-                UtileriasParaSQL::sql_entero($this->usuario),
-                UtileriasParaSQL::sql_texto($this->form_name),
-                UtileriasParaSQL::sql_texto($this->clave)));
+                \Base2\UtileriasParaSQL::sql_entero($this->usuario),
+                \Base2\UtileriasParaSQL::sql_texto($this->form_name),
+                \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (\Exception $e) {
-            throw new BaseDatosExceptionSQLError($this->sesion, 'Error en cadenero: Al insertar registro en cadenero. ', $e->getMessage());
+            throw new \Base2\BaseDatosExceptionSQLError($this->sesion, 'Error en cadenero: Al insertar registro en cadenero. ', $e->getMessage());
         }
         // Ponemos como verdadero el flag de consultado
         $this->consultado = true;
@@ -175,7 +175,7 @@ class Cadenero extends Registro {
             throw new \Exception('Ya fue recibido este formulario.');
         }
         // Actualizar cambiando recibido a verdadero
-        $base_datos = new BaseDatosMotor();
+        $base_datos = new \Base2\BaseDatosMotor();
         try {
             $base_datos->comando(sprintf("
                 UPDATE
@@ -184,14 +184,14 @@ class Cadenero extends Registro {
                     recibido = TRUE
                 WHERE
                     clave = %s",
-                UtileriasParaSQL::sql_texto($this->clave)));
+                \Base2\UtileriasParaSQL::sql_texto($this->clave)));
         } catch (Exception $e) {
-            throw new BaseDatosExceptionSQLError('Error en cadenero: Al actualizar registro para cambiar recibido a verdadero.');
+            throw new \Base2\BaseDatosExceptionSQLError('Error en cadenero: Al actualizar registro para cambiar recibido a verdadero.');
         }
         // Entregar verdadero
         return true;
     } // validar_recepcion
 
-} // Clase Cadenero
+} // Clase Registro
 
 ?>

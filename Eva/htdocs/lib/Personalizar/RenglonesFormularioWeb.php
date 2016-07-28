@@ -61,7 +61,7 @@ class RenglonesFormularioWeb extends DetalleWeb {
         $this->formulario          = new \Base2\FormularioWeb(self::$form_name);
         $this->formulario->mensaje = '(*) Campos obligatorios.';
         // Formulario campos ocultos
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $this->formulario->oculto('cadenero', $cadenero->crear_clave(self::$form_name));
         // Formulario sección principal
         $this->formulario->texto_entero('listado_renglones', 'Cantidad de renglones', $this->listado_renglones);
@@ -82,7 +82,7 @@ class RenglonesFormularioWeb extends DetalleWeb {
      */
     protected function recibir_formulario() {
         // Cadenero
-        $cadenero = new \Base2\Cadenero($this->sesion);
+        $cadenero = new \AdmCadenero\Registro($this->sesion);
         $cadenero->validar_recepcion(self::$form_name, $_POST['cadenero']);
         // Recibir el unico valor del formulario
         $this->listado_renglones = \Base2\UtileriasParaFormularios::post_texto($_POST['listado_renglones']);
