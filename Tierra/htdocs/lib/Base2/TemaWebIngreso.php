@@ -152,14 +152,15 @@ class TemaWebIngreso extends TemaWeb {
             $a[] = implode("\n", $this->javascript_comun);
         }
         // Acumular Javascript requerido por GenesisPHP
-        $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
-        $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
-        $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
-        $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
-        // Acumular Javascript propio de Ingreso
+    //~ $a[] = '  <script src="js/bootstrap-datepicker.js"></script>';
+    //~ $a[] = '  <script src="js/locales/bootstrap-datepicker.es.js"></script>';
+    //~ $a[] = '  <script src="js/bootstrap-datetimepicker.min.js"></script>';
+    //~ $a[] = '  <script src="js/locales/bootstrap-datetimepicker.es.js"></script>';
         // Acumular Javascript de esta página
         if (is_string($this->javascript) && ($this->javascript != '')) {
+            $a[] = '  <script>';
             $a[] = $this->javascript;
+            $a[] = '  </script>';
         }
         // Entregar
         return implode("\n", $a);
