@@ -338,10 +338,11 @@ class Constructor extends \Base\Plantilla {
             }
         }
         // Validar que haya por lo menos un filtro
-        if (count($b) == 0) {
-            die('Error en ListadoWeb: Es necesario que haya por lo menos una columna como filtro.');
+        if (count($b) > 0) {
+            $a[] = '            $this->viene_listado = '.implode(' || ', $b).';';
+        } else {
+            $a[] = "            \$this->viene_listado = (\$this->limit != '') || (\$this->offset != '');"; // die('Error en ListadoWeb: Es necesario que haya por lo menos una columna como filtro.');
         }
-        $a[] = '            $this->viene_listado = '.implode(' || ', $b).';';
         $a[] = '        }';
         // Entregar
         return implode("\n", $a);

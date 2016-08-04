@@ -368,7 +368,7 @@ class Validar extends \Base\Plantilla {
         if (count($v) > 0) {
             return implode("\n", $v);
         } else {
-            die("Error en Listado, Validar, elaborar_validaciones: No hay columnas para validar.");
+            return "// Sin columnas que validar"; // die("Error en Listado, Validar, elaborar_validaciones: No hay columnas para validar.");
         }
     } // elaborar_validaciones
 
