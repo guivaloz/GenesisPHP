@@ -154,7 +154,7 @@ class HTML extends \Base\Plantilla {
                 }
                 // Si el vip es mayor a uno, elaborar un vinculo al detalle
                 if ($datos['vip'] > 1) {
-                    $valor = sprintf('"<a href=\"SED_ARCHIVO_PLURAL.php?id={%s}\">{%s}</a>"', '$this->id', $valor);
+                    $valor = 'sprintf(\'<a href="SED_ARCHIVO_PLURAL.php?id=%s">%s</a>\', $this->id, '.$valor.')';
                 }
             }
             // Agregar al arreglo
