@@ -33,6 +33,7 @@ class Constructor extends \Base\Plantilla {
      * De acuerdo al tipo definido en la semilla se declara este formato en la estructura
      */
     static public $formatos = array(
+        'boleano'    => 'boleano',
         'fecha'      => 'fecha',
         'entero'     => 'entero',
         'dinero'     => 'dinero',

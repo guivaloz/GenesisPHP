@@ -61,6 +61,9 @@ class Celda {
     public function formatear() {
         // De acuerdo al formato
         switch ($this->formato) {
+            case 'boleano':
+                $formateado = UtileriasParaFormatos::formato_boleano($this->valor);
+                break;
             case 'cantidad':
             case 'entero':
                 $formateado = UtileriasParaFormatos::formato_entero($this->valor);
@@ -129,6 +132,17 @@ class Celda {
         // Entregar
         return $alineado;
     } // formatear
+
+    /**
+     * Formatear Boleano
+     *
+     * @return string Boleano con formato
+     */
+    public function formatear_cantidad() {
+        $this->formato    = 'boleano';
+        $this->alineacion = 'centrado';
+        return $this->formatear();
+    } // formatear_cantidad
 
     /**
      * Formatear Cantidad

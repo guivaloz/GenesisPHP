@@ -28,6 +28,24 @@ namespace Base2;
 abstract class UtileriasParaValidar {
 
     /**
+     * Validar boleano
+     *
+     * @param  boolean Boleano a validar
+     * @return boolean Verdadero si es boleano
+     */
+    public static function validar_boleano($boleano) {
+        if (is_bool($boleano)) {
+            return true;
+        } elseif (is_int($boleano)) {
+            return true;
+        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtolower(trim($boleano)) == 'true') || (strtolower(trim($boleano)) == 'f') || (strtolower(trim($boleano)) == 'false'))) {
+            return true;
+        } else {
+            return false;
+        }
+    } // validar_boleano
+
+    /**
      * Validar nombre
      *
      * @param  string  Nombre a validar
