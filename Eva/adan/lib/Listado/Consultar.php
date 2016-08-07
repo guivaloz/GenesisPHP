@@ -220,6 +220,10 @@ class Consultar extends \Base\Plantilla {
     protected function elaborar_consultar_filtros_logica($tipo, $c, $columna, $filtro) {
         // Funcion de validacion
         switch ($tipo) {
+            case 'boleano':
+            case 'relacion':
+                $logica = sprintf('%s = {$this->%s}', $c, $columna);
+                break;
             case 'caracter':
                 $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
                 break;
@@ -247,8 +251,8 @@ class Consultar extends \Base\Plantilla {
                     $logica = sprintf('%s = {$this->%s}', $c, $columna);
                 }
                 break;
-            case 'flotante':
             case 'dinero':
+            case 'flotante':
             case 'porcentaje':
                     case 'peso':
                     case 'estatura':
@@ -277,9 +281,6 @@ class Consultar extends \Base\Plantilla {
                 } else {
                     $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
                 }
-                break;
-            case 'relacion':
-                $logica = sprintf('%s = {$this->%s}', $c, $columna);
                 break;
             default:
                 die("Error en Listado, Consultar, elaborar_consultar_filtros_logica: El tipo $tipo para $columna no tiene programada una lógica para elaborar el filtro .");

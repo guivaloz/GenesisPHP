@@ -34,7 +34,11 @@ abstract class UtileriasParaFormatos {
      * @return string  Texto 'Verdadero' o 'Falso'
      */
     public static function formato_boleano($boleano) {
-        if ($boleano == true) {
+        if (is_bool($boleano) && ($boleano == true)) {
+            return 'Verdadero';
+        } elseif (is_int($boleano) && ($boleano !== 0)) {
+            return 'Verdadero';
+        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtolower(trim($boleano)) == 'true'))) {
             return 'Verdadero';
         } else {
             return 'Falso';

@@ -197,6 +197,9 @@ class Validar extends \Base\Plantilla {
         // Si filtro es mayor a uno es un rango desde-hasta
         if ($datos['filtro'] > 1) {
             switch ($datos['tipo']) {
+                case 'boleano':
+                    die("Error en Listado, validar, elaborar_validar_declaracion: El tipo boleano en $columna no puede validarse como rango.");
+                    break;
                 case 'entero':
                 case 'serial':
                     $funcion = array(
@@ -245,6 +248,9 @@ class Validar extends \Base\Plantilla {
         // Si hay filtro
         } elseif ($datos['filtro'] > 0) {
             switch ($datos['tipo']) {
+                case 'boleano':
+                    $funcion = "!\\Base2\\UtileriasParaValidar::validar_boleano(\$this->{$columna})";
+                    break;
                 case 'caracter':
                     if (is_array($relacion) && ($relacion['clase_plural'] != '')) {
                         $funcion = "!array_key_exists(\$this->{$columna}, \\{$relacion['clase_plural']}\\Registro::\${$relacion_columna}_descripciones)";
