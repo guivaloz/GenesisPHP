@@ -180,12 +180,12 @@ class TemaWebIngreso extends TemaWeb {
         $a[] = $this->imagenes_izquierda_html();
         $a[] = '      </div>';
         $a[] = '      <div class="col-md-4">';
-        $a[] = '        <form name="form" class="form-signin" method="post" action="index.php">';
+        $a[] = '        <form name="form" id="form_ingreso" class="form-signin" method="post" action="index.php">';
         $a[] = "          <h2 class=\"form-signin-heading\">{$this->sistema}</h2>";
-        $a[] = '          <input name="nom_corto" type="text" class="input-block-level" placeholder="nombre de usuario">';
-        $a[] = '          <input name="contrasena" type="password" class="input-block-level" placeholder="contraseña">';
+        $a[] = '          <input name="nom_corto"  id="input_nom_corto"  type="text"     class="input-block-level" placeholder="nombre de usuario">';
+        $a[] = '          <input name="contrasena" id="input_contrasena" type="password" class="input-block-level" placeholder="contraseña">';
         $a[] = $this->contenido;
-        $a[] = '          <button class="btn btn-large btn-primary" type="submit">Iniciar sesión</button>';
+        $a[] = '          <button id="btn_ingresar" class="btn btn-large btn-primary" type="submit">Ingresar</button>';
         $a[] = '        </form>';
         $a[] = '      </div>';
         $a[] = '      <div class="col-md-4">';
@@ -193,6 +193,25 @@ class TemaWebIngreso extends TemaWeb {
         $a[] = '      </div>';
         $a[] = '    </div>';
         $a[] = '  </div>';
+        // Acumular Javascript
+        $this->javascript = <<<FINAL
+    // Validar formulario de ingreso, si le falta algo NO se envía
+    $('#form_ingreso').bind('submit', function (e) {
+        var btn_ingresar = $('#btn_ingresar');
+        btn_ingresar.prop('disabled', true);
+        var valid        = true;
+        if ($('#input_nom_corto').val().length == 0) {
+            valid = false;
+        }
+        if ($('#input_contrasena').val().length == 0) {
+            valid = false;
+        }
+        if (!valid) {
+            e.preventDefault();
+            btn_ingresar.prop('disabled', false);
+        }
+    });
+FINAL;
         $a[] = $this->final_html();
         $a[] = '</body>';
         $a[] = '</html>';
