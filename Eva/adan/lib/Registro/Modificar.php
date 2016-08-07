@@ -102,6 +102,9 @@ class Modificar extends \Base\Plantilla {
             if ((is_int($datos['modificar']) && ($datos['modificar'] > 0)) || (is_string($datos['modificar']) && ($datos['modificar'] != ''))) {
                 // Según el tipo
                 switch ($datos['tipo']) {
+                    case 'boleano':
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_boleano(\$this->{$columna})";
+                        break;
                     case 'caracter':
                     case 'clave':
                     case 'contraseña':

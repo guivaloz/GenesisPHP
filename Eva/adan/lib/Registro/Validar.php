@@ -47,6 +47,9 @@ class Validar extends \Base\Plantilla {
                 } else {
                     // Para todo lo demás
                     switch ($datos['tipo']) {
+                        case 'boleano':
+                            $funcion = "!is_bool(\$this->{$columna})";
+                            break;
                         case 'caracter':
                             $funcion = "!array_key_exists(\$this->{$columna}, self::\${$columna}_descripciones)";
                             break;

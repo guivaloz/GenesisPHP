@@ -134,6 +134,9 @@ class HTML extends \Base\Plantilla {
             } else {
                 // De acuerdo al tipo
                 switch ($datos['tipo']) {
+                    case 'boleano':
+                        $valor = "\\Base2\\UtileriasParaFormatos::formato_boleano(\$this->{$columna})";
+                        break;
                     case 'caracter':
                         $valor = "\$this->{$columna}_descrito";
                         break;

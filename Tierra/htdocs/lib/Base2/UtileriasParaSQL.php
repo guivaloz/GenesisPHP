@@ -28,6 +28,20 @@ namespace Base2;
 abstract class UtileriasParaSQL {
 
     /**
+     * SQL Boleano
+     *
+     * @param  boolean Boleano
+     * @return string  Texto fragmento de SQL
+     */
+    public static function sql_boleano($boleano) {
+        if ($boleano == true) {
+            return 'TRUE';
+        } else {
+            return 'FALSE';
+        }
+    } // sql_boleano
+
+    /**
      * SQL Texto
      *
      * @param  string Texto

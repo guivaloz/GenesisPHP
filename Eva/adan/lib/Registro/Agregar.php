@@ -68,21 +68,24 @@ class Agregar extends \Base\Plantilla {
             if ((is_int($datos['agregar']) && ($datos['agregar'] > 0)) || (is_string($datos['agregar']) && ($datos['agregar'] != ''))) {
                 // Segun el tipo
                 switch ($datos['tipo']) {
+                    case 'boleano':
+                        $parametro = "                \\Base2\\UtileriasParaSQL::sql_boleano(\$this->{$columna})";
+                        break;
                     case 'caracter':
+                    case 'clave':
+                    case 'contraseña':
+                    case 'email':
+                    case 'frase':
                     case 'nombre':
                     case 'notas':
                     case 'nom_corto':
-                    case 'contraseña':
-                    case 'email':
-                    case 'clave':
                     case 'telefono':
-                    case 'frase':
                     case 'variable':
                         $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto(\$this->{$columna})";
                         break;
-                    case 'mayusculas':
                     case 'cuip':
                     case 'curp':
+                    case 'mayusculas':
                     case 'rfc':
                         $parametro = "                \\Base2\\UtileriasParaSQL::sql_texto_mayusculas(\$this->{$columna})";
                         break;
@@ -90,11 +93,11 @@ class Agregar extends \Base\Plantilla {
                     case 'relacion':
                         $parametro = "                \\Base2\\UtileriasParaSQL::sql_entero(\$this->{$columna})";
                         break;
-                    case 'flotante':
+                    case 'estatura':
                     case 'dinero':
+                    case 'flotante':
                     case 'porcentaje':
                     case 'peso':
-                    case 'estatura':
                         $parametro = "                \\Base2\\UtileriasParaSQL::sql_flotante(\$this->{$columna})";
                         break;
                     case 'fecha':

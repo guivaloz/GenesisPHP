@@ -267,6 +267,8 @@ class Nuevo extends \Base\Plantilla {
                     $a[] = "        \$this->$columna = '-';";
                     $a[] = "        \$this->{$columna}_descrito = '';";
                 }
+            } elseif ($datos['tipo'] == 'boleano') {
+                $a[] = "        \$this->$columna = false;";
             } else {
                 // Cualquier otro tipo
                 if (is_string($datos['nuevo']) && ($datos['nuevo'] != '')) {

@@ -28,6 +28,20 @@ namespace Base2;
 abstract class UtileriasParaFormatos {
 
     /**
+     * Formato boleano
+     *
+     * @param  boolean Boleano
+     * @return string  Texto 'Verdadero' o 'Falso'
+     */
+    public static function formato_boleano($boleano) {
+        if ($boleano == true) {
+            return 'Verdadero';
+        } else {
+            return 'Falso';
+        }
+    } // formato_boleano
+
+    /**
      * Formato entero
      *
      * @param  mixed  Entero

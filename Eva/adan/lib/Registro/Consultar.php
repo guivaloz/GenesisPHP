@@ -174,14 +174,17 @@ FIN;
                 $a[] = "        \$this->{$columna}_longitud = \$resultados[1];";
                 $a[] = "        \$this->{$columna}_latitud  = \$resultados[2];";
                 $a[] = "        \$this->{$columna}_geojson  = \$a['{$columna}_geojson'];";
+            } elseif ($datos['tipo'] == 'boleano') {
+                // Es boleano
+                $a[] = "        \$this->$columna = (\$a['$columna'] == 't'); // Tipo boleano: TRUE o FALSE";
             } else {
                 // Es de cualquier otro tipo
                 $a[] = "        \$this->$columna = \$a['$columna'];";
-                // Si es de tipo caracter
-                if (($datos['tipo'] == 'caracter') || ($datos['tipo'] == 'nivel')) {
-                    // Se agrega el descrito
-                    $a[] = "        \$this->{$columna}_descrito = self::\${$columna}_descripciones[\$this->{$columna}];";
-                }
+            }
+            // Si es de tipo caracter
+            if (($datos['tipo'] == 'caracter') || ($datos['tipo'] == 'nivel')) {
+                // Se agrega el descrito
+                $a[] = "        \$this->{$columna}_descrito = self::\${$columna}_descripciones[\$this->{$columna}];";
             }
         }
         // Entregar
