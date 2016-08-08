@@ -65,7 +65,7 @@ class Consultar extends \Base\Plantilla {
                     creado DESC",
                 \$padre->id));
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar la última imagen. ', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar la última imagen. ', \$e->getMessage());
         }
         // Provoca excepción si no hay registros
         if (\$consulta->cantidad_registros() == 0) {

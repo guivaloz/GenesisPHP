@@ -151,8 +151,16 @@ class Encabezado extends \Base\Plantilla {
         }
         // Lo que se va a entregar se juntara en este arreglo
         $a = array();
-        // Segun el tipo y el filtro es la forma de armar el encabezado
-        if ($datos['filtro'] > 1) {
+        // De acuerdo al tipo y al filtro
+        if ($datos['tipo'] == 'boleano') {
+            $a[] = "$espacios    if (is_bool(\$this->{$columna})) {";
+            $a[] = "$espacios        if (\$this->{$columna} == true) {";
+            $a[] = "$espacios            \$e[] = \"{$datos['etiqueta']} es Verdadero\";";
+            $a[] = "$espacios        } else {";
+            $a[] = "$espacios            \$e[] = \"{$datos['etiqueta']} es Falso\";";
+            $a[] = "$espacios        }";
+            $a[] = "$espacios    }";
+        } elseif ($datos['filtro'] > 1) {
             // Es un rango, desde-hasta
             $a[] = "$espacios    if (\$this->{$columna}_desde != '') {";
             $a[] = "$espacios        \$e[] = \"{$datos['etiqueta']} desde {\$this->{$columna}_desde}\";";

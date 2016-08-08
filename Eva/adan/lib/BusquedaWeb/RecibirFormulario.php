@@ -41,6 +41,9 @@ class RecibirFormulario extends \Base\Plantilla {
         $a = array();
         // De acuerdo al tipo
         switch ($datos['tipo']) {
+            case 'boleano':
+                $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_boleano(\$_POST['{$columna}']);";
+                break;
             case 'caracter':
                 $a[] = "            \$this->{$columna} = \\Base2\\UtileriasParaFormularios::post_select(\$_POST['{$columna}']);";
                 break;

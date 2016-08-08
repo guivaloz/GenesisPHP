@@ -71,7 +71,7 @@ class Recuperar extends \Base\Plantilla {
                 \$this->estatus,
                 \$this->id));
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al recuperar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Recuperó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()}";

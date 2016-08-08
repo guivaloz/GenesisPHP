@@ -37,6 +37,9 @@ class RecibirFormulario extends \Base\Plantilla {
     protected function elaborar_recibir_formulario_campos($columna, $datos) {
         // Si la columna se agrega o se modifica
         switch ($datos['tipo']) {
+            case 'boleano':
+                $campo = "\$this->$columna = \\Base2\\UtileriasParaFormularios::post_boleano(\$_POST['{$columna}']);";
+                break;
             case 'caracter':
             case 'relacion':
                 $campo = "\$this->$columna = \\Base2\\UtileriasParaFormularios::post_select(\$_POST['{$columna}']);";

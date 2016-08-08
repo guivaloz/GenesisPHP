@@ -401,7 +401,7 @@ FIN;
         try {
 {$this->elaborar_consultar_select()}
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al consultar SED_MENSAJE_SINGULAR.', \$e->getMessage());
         }
         // Si la consulta no entrego nada
         if (\$consulta->cantidad_registros() < 1) {

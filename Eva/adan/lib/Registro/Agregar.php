@@ -163,13 +163,13 @@ FIN;
         try {
             \$base_datos->comando({$this->elaborar_insert_sql()});
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Obtener el id de lo recién insertado
         try {
             \$consulta = \$base_datos->comando("SELECT last_value AS id FROM {$this->tabla_nombre}_id_seq");
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         \$a        = \$consulta->obtener_registro();
         \$this->id = intval(\$a['id']);

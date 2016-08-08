@@ -41,6 +41,9 @@ class ElaborarFormulario extends \Base\Plantilla {
     protected function elaborar_formulario_campo($columna, $datos, $relacion=null, $relacion_columna=null) {
         // Campo del formulario
         switch ($datos['tipo']) {
+            case 'boleano':
+                $campo = "        \$f->select_con_nulo('$columna', '{$datos['etiqueta']}', array('t' => 'Verdadero', 'f' => 'Falso'), \$this->$columna);";
+                break;
             case 'caracter':
                 if (is_array($relacion)) {
                     $campo = "        \$f->select_con_nulo('$columna', '{$datos['etiqueta']}', \\{$relacion['clase_plural']}\\Registro::\${$relacion_columna}_descripciones, \$this->$columna);";
@@ -56,10 +59,10 @@ class ElaborarFormulario extends \Base\Plantilla {
                     $campo = "        \$f->texto_entero('$columna', '{$datos['etiqueta']}', \$this->$columna, 8);";
                 }
                 break;
-            case 'flotante':
             case 'dinero':
-            case 'peso':
+            case 'flotante':
             case 'estatura':
+            case 'peso':
                 if ($datos['filtro'] > 1) {
                     $campo = "        \$f->rango_flotantes('$columna', '{$datos['etiqueta']}', \$this->{$columna}_desde, \$this->{$columna}_hasta);";
                 } else {

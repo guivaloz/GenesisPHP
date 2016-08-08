@@ -52,6 +52,17 @@ class Consultar extends \Base\Plantilla {
         $a = array();
         // De acuerdo al tipo agregar filtro sql y mensaje
         switch ($datos['tipo']) {
+            case 'boleano':
+                $a[] = "        if (is_bool(\$this->$filtro)) {";
+                $a[] = "            if (\$this->$filtro == true) {";
+                $a[] = "                \$f[] = \"$tc = TRUE\";";
+                $a[] = "                \$m[] = \"{$datos['etiqueta']} es Verdadero\";";
+                $a[] = "            } else {";
+                $a[] = "                \$f[] = \"$tc = FALSE\";";
+                $a[] = "                \$m[] = \"{$datos['etiqueta']} es Falso\";";
+                $a[] = "            }";
+                $a[] = "        }";
+                break;
             case 'clave':
             case 'curp':
             case 'email':
@@ -582,7 +593,7 @@ class Consultar extends \Base\Plantilla {
             \$consulta = \$base_datos->comando("
 {$this->elaborar_consultar_tablas()}");
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al buscar SED_SUBTITULO_PLURAL.', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error SQL: Al buscar SED_SUBTITULO_PLURAL.', \$e->getMessage());
         }
         // Se considera consultado
         \$this->consultado = true;

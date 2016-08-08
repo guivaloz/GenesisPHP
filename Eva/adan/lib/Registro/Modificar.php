@@ -65,20 +65,26 @@ class Modificar extends \Base\Plantilla {
         foreach ($this->tabla as $columna => $datos) {
             // Si la orden de la semilla es modificar
             if ((is_int($datos['modificar']) && ($datos['modificar'] > 0)) || (is_string($datos['modificar']) && ($datos['modificar'] != ''))) {
-                // Si el tipo es geopunto
-                if ($datos['tipo'] == 'geopunto') {
-                    // Es geopunto
+                // De acuerdo al tipo
+                if ($datos['tipo'] == 'boleano') {
+                    $a[] = "        if (\$this->{$columna} != \$original->{$columna}) {";
+                    $a[] = "            if (\$this->{$columna} == true) {";
+                    $a[] = "                \$a[] = \"{$datos['etiqueta']} es Verdadero\";";
+                    $a[] = "            } else {";
+                    $a[] = "                \$a[] = \"{$datos['etiqueta']} es Falso\";";
+                    $a[] = "            }";
+                    $a[] = "        }";
+                } elseif ($datos['tipo'] == 'caracter') {
+                    $a[] = "        if (\$this->{$columna} != \$original->{$columna}) {";
+                    $a[] = "            \$a[] = \"{$datos['etiqueta']} {\$this->{$columna}_descrito}\";";
+                    $a[] = "        }";
+                } elseif ($datos['tipo'] == 'geopunto') {
                     $a[] = "        if ((\$this->{$columna}_longitud != \$original->{$columna}_longitud) || (\$this->{$columna}_latitud != \$original->{$columna}_latitud)) {";
                     $a[] = "            \$a[] = \"{$datos['etiqueta']} ({\$this->{$columna}_longitud}, {\$this->{$columna}_latitud})\";";
                     $a[] = "        }";
                 } else {
-                    // Cualquier otro tipo
                     $a[] = "        if (\$this->{$columna} != \$original->{$columna}) {";
-                    if ($datos['tipo'] == 'caracter') {
-                        $a[] = "            \$a[] = \"{$datos['etiqueta']} {\$this->{$columna}_descrito}\";";
-                    } else {
-                        $a[] = "            \$a[] = \"{$datos['etiqueta']} {\$this->{$columna}}\";"; // CUALQUIER OTRO TIPO
-                    }
+                    $a[] = "            \$a[] = \"{$datos['etiqueta']} {\$this->{$columna}}\";";
                     $a[] = "        }";
                 }
             }
@@ -209,7 +215,7 @@ FIN;
         try {
             \$base_datos->comando({$this->elaborar_update_sql()});
         } catch (\\Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al actualizar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Elaborar mensaje
         \$msg = "Modificó SED_SUBTITULO_SINGULAR {$this->columnas_vip_para_mensaje()} con ".implode(', ', \$a);

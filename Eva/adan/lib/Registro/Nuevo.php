@@ -241,6 +241,13 @@ class Nuevo extends \Base\Plantilla {
             } elseif (is_int($datos['nuevo'])) {
                 // Tiene como nuevo un entero
                 $a[] = "        \$this->$columna = {$datos['nuevo']};";
+            } elseif (is_bool($datos['nuevo'])) {
+                // Tiene como nuevo un boleano
+                if ($datos['nuevo']) {
+                    $a[] = "        \$this->$columna = true;";
+                } else {
+                    $a[] = "        \$this->$columna = false;";
+                }
             } elseif ($datos['agregar'] == 0) {
                 // No se va agregar, se salta
                 continue;

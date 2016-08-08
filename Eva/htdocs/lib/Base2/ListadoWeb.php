@@ -172,6 +172,9 @@ class ListadoWeb implements SalidaWeb {
                 } elseif ($parametros['formato'] != '') {
                     // Si usa un formato
                     switch ($parametros['formato']) {
+                        case 'boleano':
+                            $valor = UtileriasParaFormatos::formato_boleano($fila[$columna]);
+                            break;
                         case 'fecha':
                             $valor = UtileriasParaFormatos::formato_fecha($fila[$columna]);
                             break;
@@ -277,6 +280,9 @@ class ListadoWeb implements SalidaWeb {
                     // Convertir a instancia de Celda
                     $celda = new Celda($fila[$clave]);
                     switch ($parametros['formato']) {
+                        case 'boleano':
+                            $celda->formatear_boleano();
+                            break;
                         case 'cantidad':
                         case 'entero':
                             $celda->formatear_cantidad();

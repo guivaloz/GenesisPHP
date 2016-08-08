@@ -142,7 +142,7 @@ class Opciones extends \Base\Plantilla {
         try {
             \$consulta = \$base_datos->comando("\$columnas_sql \$tablas_sql \$filtros_sql \$orden_sql");
         } catch (Exception \$e) {
-            throw new \\Base2\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para hacer opciones.', \$e->getMessage());
+            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al consultar SED_MENSAJE_PLURAL para hacer opciones.', \$e->getMessage());
         }
         // Provoca excepcion si no hay registros
         if (\$consulta->cantidad_registros() == 0) {

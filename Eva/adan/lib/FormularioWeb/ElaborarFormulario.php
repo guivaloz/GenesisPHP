@@ -154,6 +154,13 @@ class ElaborarFormulario extends \Base\Plantilla {
         }
         // Si la columna se agrega o se modifica
         switch ($datos['tipo']) {
+            case 'boleano':
+                if ($datos['validacion'] > 1) {
+                    $campo = "\$form->select('$columna', '$etiqueta', array('t' => 'Verdadero', 'f' => 'Falso'), \$this->$columna);";
+                } else {
+                    $campo = "\$form->select_con_nulo('$columna', '$etiqueta', array('t' => 'Verdadero', 'f' => 'Falso'), \$this->$columna);";
+                }
+                break;
             case 'caracter':
                 if ($datos['validacion'] > 1) {
                     $campo = "\$form->select('$columna', '$etiqueta', parent::\${$columna}_descripciones, \$this->$columna);";
@@ -322,8 +329,6 @@ class ElaborarFormulario extends \Base\Plantilla {
                 continue; // Las columnas id y estatus nunca aparecen en los formularios
             } elseif ((is_int($datos['agregar']) && ($datos['agregar'] > 0)) || (is_int($datos['modificar']) && ($datos['modificar'] > 0))) {
                 $a[] = $this->elaborar_formulario_campos_modificables($columna, $datos);
-        //~ } elseif ($datos['etiqueta'] != '') {
-            //~ $a[] = $this->elaborar_formulario_campos_fijos($columna, $datos);
             } else {
                 continue; // No tiene agregar o modificar, ni tiene etiqueta, asi que no aparece en el formulario
             }

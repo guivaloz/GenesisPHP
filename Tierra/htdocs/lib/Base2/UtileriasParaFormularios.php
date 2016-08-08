@@ -28,6 +28,32 @@ namespace Base2;
 abstract class UtileriasParaFormularios {
 
     /**
+     * Post Boleano
+     *
+     * @param  string
+     * @return string
+     */
+    public static function post_boleano($dato) {
+        if ($dato === '-') {
+            return null;
+        } elseif ($dato === 't') {
+            return true;
+        } elseif ($dato === 'f') {
+            return false;
+        }
+    } // post_boleano
+
+    /**
+     * Post Celular
+     *
+     * @param  string
+     * @return string
+     */
+    public static function post_celular($celular) {
+        return preg_replace('/[()\.\- ]/', '', $celular); // Quitar paréntesis, puntos y guiones
+    } // post_celular
+
+    /**
      * Post Select
      *
      * @param  string
@@ -52,42 +78,6 @@ abstract class UtileriasParaFormularios {
         $comilla_doble  = str_replace('\"', '"', strval($comilla_simple));
         return preg_replace('/\h+/', ' ', trim($comilla_doble)); // Reeplazar dos o mas espacios horizontales por uno solo
     } // post_texto
-
-    /**
-     * Post texto minúsculas
-     *
-     * @param  string
-     * @return string
-     */
-    public static function post_texto_minusculas($dato) {
-        $normalizar = array(
-            'à' => 'á', 'è' => 'é', 'ì' => 'í', 'ò' => 'ó', 'ù' => 'ú',
-            'À' => 'á', 'È' => 'é', 'Ì' => 'í', 'Ò' => 'ó', 'Ù' => 'ú',
-            'á' => 'á', 'é' => 'é', 'í' => 'í', 'ó' => 'ó', 'ú' => 'ú',
-            'Á' => 'á', 'É' => 'é', 'Í' => 'í', 'Ó' => 'ó', 'Ú' => 'ú',
-            'Ñ' => 'ñ',
-            'Ü' => 'ü');
-        $normalizado = strtr($dato, $normalizar);
-        return self::post_texto(strtolower($normalizado));
-    } // post_texto_minusculas
-
-    /**
-     * Post texto minúsculas sin acentos
-     *
-     * @param  string
-     * @return string
-     */
-    public static function post_texto_minusculas_sin_acentos($dato) {
-        $normalizar = array(
-            'à' => 'a', 'è' => 'e', 'ì' => 'i', 'ò' => 'o', 'ù' => 'u',
-            'À' => 'a', 'È' => 'e', 'Ì' => 'i', 'Ò' => 'o', 'Ù' => 'u',
-            'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
-            'Á' => 'a', 'É' => 'e', 'Í' => 'i', 'Ó' => 'o', 'Ú' => 'u',
-            'Ñ' => 'ñ',
-            'Ü' => 'ü');
-        $normalizado = strtr($dato, $normalizar);
-        return self::post_texto(strtolower($normalizado));
-    } // post_texto_minusculas_sin_acentos
 
     /**
      * Post texto mayúsculas
@@ -126,14 +116,40 @@ abstract class UtileriasParaFormularios {
     } // post_texto_mayusculas_sin_acentos
 
     /**
-     * Post Celular
+     * Post texto minúsculas
      *
      * @param  string
      * @return string
      */
-    public static function post_celular($celular) {
-        return preg_replace('/[()\.\- ]/', '', $celular); // Quitar paréntesis, puntos y guiones
-    } // post_celular
+    public static function post_texto_minusculas($dato) {
+        $normalizar = array(
+            'à' => 'á', 'è' => 'é', 'ì' => 'í', 'ò' => 'ó', 'ù' => 'ú',
+            'À' => 'á', 'È' => 'é', 'Ì' => 'í', 'Ò' => 'ó', 'Ù' => 'ú',
+            'á' => 'á', 'é' => 'é', 'í' => 'í', 'ó' => 'ó', 'ú' => 'ú',
+            'Á' => 'á', 'É' => 'é', 'Í' => 'í', 'Ó' => 'ó', 'Ú' => 'ú',
+            'Ñ' => 'ñ',
+            'Ü' => 'ü');
+        $normalizado = strtr($dato, $normalizar);
+        return self::post_texto(strtolower($normalizado));
+    } // post_texto_minusculas
+
+    /**
+     * Post texto minúsculas sin acentos
+     *
+     * @param  string
+     * @return string
+     */
+    public static function post_texto_minusculas_sin_acentos($dato) {
+        $normalizar = array(
+            'à' => 'a', 'è' => 'e', 'ì' => 'i', 'ò' => 'o', 'ù' => 'u',
+            'À' => 'a', 'È' => 'e', 'Ì' => 'i', 'Ò' => 'o', 'Ù' => 'u',
+            'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+            'Á' => 'a', 'É' => 'e', 'Í' => 'i', 'Ó' => 'o', 'Ú' => 'u',
+            'Ñ' => 'ñ',
+            'Ü' => 'ü');
+        $normalizado = strtr($dato, $normalizar);
+        return self::post_texto(strtolower($normalizado));
+    } // post_texto_minusculas_sin_acentos
 
 } // Clase abtracta UtileriasParaFormularios
 

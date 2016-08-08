@@ -246,6 +246,14 @@ class Constructor extends \Base\Plantilla {
                     } else {
                         die("Error en ListadoWeb, Constructor: Falta el 'vip' en Serpiente para la relación $columna.");
                     }
+                } elseif ($datos['tipo'] == 'boleano') {
+                    // La columna es un boleno, se pondrá 'Verdedero' o 'Falso'
+                    $elementos[$datos['listado']] = array(
+                        'columna' => $columna,
+                        'enca'    => $datos['etiqueta'],
+                        'cambiar' => "array('t' => 'Verdadero', 'f' => 'Falso')",
+                        'color'   => $columna,
+                        'colores' => "array('t' => 'Blanco', 'f' => 'Gris')");
                 } elseif ($datos['tipo'] == 'caracter') {
                     // La columna es un caracter, sera sustituido por su descripcion
                     $e            = array();

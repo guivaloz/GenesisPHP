@@ -41,6 +41,9 @@ class Validar extends \Base\Plantilla {
     protected function elaborar_validar_campo($columna, $datos, $relacion=null, $relacion_columna=null) {
         // De acuerdo al tipo se elije la funcion de validacion
         switch ($datos['tipo']) {
+            case 'boleano':
+                $funcion = "!\\Base2\\UtileriasParaValidar::validar_boleano(\$this->{$columna})";
+                break;
             case 'caracter':
                 if (is_array($relacion)) {
                     $funcion = "!array_key_exists(\$this->{$columna}, \\{$relacion['clase_plural']}\\Registro::\${$relacion_columna}_descripciones)";
@@ -287,7 +290,7 @@ class Validar extends \Base\Plantilla {
         if (count($a) > 0) {
             $validaciones = implode("\n", $a);
         } else {
-            die('Error en BusquedaWeb, Validar, php: No hay columnas para crear el método validar.');
+            die('Error en BusquedaWeb, Validar: No hay columnas con el parámetro filtro.');
         }
         // Entregar
         return <<<FINAL
