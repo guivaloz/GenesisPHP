@@ -121,7 +121,7 @@ class Listado extends \Base2\Listado {
             $consulta = $base_datos->comando(sprintf("
                 SELECT
                     usuario,
-                    to_char(ingreso, 'YYYY-MM-DD, HH24:MI') as ingreso,
+                    to_char(ingreso, 'YYYY-MM-DD HH24:MI:SS') as ingreso,
                     nombre, nom_corto, tipo, listado_renglones
                 FROM
                     adm_sesiones

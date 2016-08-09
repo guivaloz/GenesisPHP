@@ -101,7 +101,7 @@ class Consultar extends \Base\Plantilla {
                     }
                 } elseif ($datos['tipo'] == 'fecha_hora') {
                     // Columna de tipo fecha-hora
-                    $a[] = "        \$c[] = 'to_char({$this->tabla_nombre}.{$columna}, \'YYYY-MM-DD HH24:MI\') AS {$columna}';";
+                    $a[] = "        \$c[] = 'to_char({$this->tabla_nombre}.{$columna}, \'YYYY-MM-DD HH24:MI:SS\') AS {$columna}';";
                 } elseif ($datos['tipo'] == 'geopunto') {
                     // Columna de tipo geopunto
                     $a[] = "        \$c[] = 'ST_AsText({$this->tabla_nombre}.{$columna}) as $columna';";
@@ -116,7 +116,7 @@ class Consultar extends \Base\Plantilla {
             foreach ($this->tabla as $columna => $datos) {
                 if ($datos['tipo'] == 'fecha_hora') {
                     // Columna de tipo fecha-hora
-                    $a[] = "        \$c[] = 'to_char($columna, \'YYYY-MM-DD HH24:MI\') AS $columna';";
+                    $a[] = "        \$c[] = 'to_char($columna, \'YYYY-MM-DD HH24:MI:SS\') AS $columna';";
                 } elseif ($datos['tipo'] == 'geopunto') {
                     // Columna de tipo geopunto
                     $a[] = "        \$c[] = 'ST_AsText($columna) as $columna';";

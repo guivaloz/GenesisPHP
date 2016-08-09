@@ -152,7 +152,7 @@ class Listado extends \Base2\Listado {
                     id, nom_corto, nombre,
                     contrasena, contrasena_encriptada, contrasena_expira, contrasena_fallas,
                     tipo, sesiones_contador, sesiones_maximas,
-                    to_char(sesiones_ultima, 'YYYY-MM-DD, HH24:MI') as sesiones_ultima,
+                    to_char(sesiones_ultima, 'YYYY-MM-DD HH24:MI:SS') as sesiones_ultima,
                     estatus
                 FROM
                     adm_usuarios

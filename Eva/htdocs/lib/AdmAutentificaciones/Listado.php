@@ -133,7 +133,7 @@ class Listado extends \Base2\Listado {
                 SELECT
                     a.usuario,
                     u.nom_corto AS usuario_nom_corto,
-                    to_char(a.fecha, 'YYYY-MM-DD, HH24:MI') as fecha,
+                    to_char(a.fecha, 'YYYY-MM-DD HH24:MI:SS') as fecha,
                     a.nom_corto,
                     a.tipo,
                     a.ip
