@@ -116,6 +116,45 @@ abstract class UtileriasParaFormatos {
     } // formato_fecha
 
     /**
+     * Formato Fecha Hora
+     *
+     * @param  string Fecha Hora
+     * @param  string Opcional, separador 'T'
+     * @return string Fecha en el formato DD/MM/YYYY hh:mm:ss o YYYY-MM-DDThh:mm:ss
+     */
+    public static function formato_fecha_hora($in_fecha_hora, $in_separador='') {
+        $t = strtotime($in_fecha_hora);
+        if ($t === false) {
+            return ''; // Fecha mal escrita, no se entrega nada
+        } else {
+            $a        = getdate($t);
+            $ano      = $a['year'];
+            $mes      = $a['mon'];
+            $dia      = $a['mday'];
+            $hora     = $a['hours'];
+            $minuto   = $a['minutes'];
+            $segundos = $a['seconds'];
+            if (($hora > 0) || ($minuto > 00) || ($segundos > 00)) {
+                if ($segundos > 00) {
+                    if ($in_separador == 'T') {
+                        return sprintf('%04d-%02d-%02dT%02d:%02d:%02d', $ano, $mes, $dia, $hora, $minuto, $segundos);
+                    } else {
+                        return sprintf('%02d/%02d/%04d %02d:%02d:%02d', $dia, $mes, $ano, $hora, $minuto, $segundos);
+                    }
+                } else {
+                    if ($in_separador == 'T') {
+                        return sprintf('%04d-%02d-%02dT%02d:%02d', $ano, $mes, $dia, $hora, $minuto);
+                    } else {
+                        return sprintf('%02d/%02d/%04d %02d:%02d', $dia, $mes, $ano, $hora, $minuto);
+                    }
+                }
+            } else {
+                return sprintf('%02d/%02d/%04d', $dia, $mes, $ano);
+            }
+        }
+    } // formato_fecha_hora
+
+    /**
      * Formato contenido
      *
      * Para el contenido que va entre tags HTML, cambia los menor que, mayor que y comilla doble
