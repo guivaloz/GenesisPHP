@@ -76,7 +76,7 @@ class Consultar extends \Base\Plantilla {
             // De acuerdo al tipo
             if ($datos['tipo'] == 'fecha_hora') {
                 // Es fecha
-                $columnas[] = "to_char($origen, 'YYYY-MM-DD HH24:MI') AS $columna";
+                $columnas[] = "to_char($origen, 'YYYY-MM-DD HH24:MI:SS') AS $columna";
             } elseif ($datos['tipo'] == 'geopunto') {
                 // Es geopunto
                 $columnas[] = "ST_AsText($origen) AS $columna";
