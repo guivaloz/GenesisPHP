@@ -52,7 +52,7 @@ class Creador {
         if (!($soga = fopen($pagina_arch, 'w'))) {
             throw new \Exception("ERROR en Creador: No es posible crear o escribir el archivo $pagina_arch");
         }
-        if (fwrite($soga, $contenido) === FALSE) {
+        if (fwrite($soga, $contenido) === false) {
             throw new \Exception("ERROR en Creador: Al escribir contenido en $pagina_arch");
         }
         return $archivo;
@@ -61,9 +61,9 @@ class Creador {
     /**
      * Crear archivo libreria
      *
-     * @param string Nombre del modulo, será el nombre del directorio
-     * @param string Nombre del archivo
-     * @param string Codigo PHP a escribir
+     * @param  string Nombre del modulo, será el nombre del directorio
+     * @param  string Nombre del archivo
+     * @param  string Codigo PHP a escribir
      * @return string Nombre del archivo creado
      */
     protected function crear_archivo_libreria($modulo, $archivo, $contenido) {
@@ -84,7 +84,7 @@ class Creador {
         if (!($soga = fopen($libreria_arch, 'w'))) {
             throw new \Exception("ERROR en Creador: No es posible crear o escribir el archivo $libreria_arch");
         }
-        if (fwrite($soga, $contenido) === FALSE) {
+        if (fwrite($soga, $contenido) === false) {
             throw new \Exception("ERROR en Creador: Al escribir contenido en $libreria_arch");
         }
         return $archivo;
