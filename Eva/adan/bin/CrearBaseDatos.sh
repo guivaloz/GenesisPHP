@@ -41,16 +41,15 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-# Constantes
+# CONFIGURE estas constantes para el sistema
 BD="genesisphp_demostracion"
 PROPIETARIO="genesisphp"
-SISTEMA_DIR="Demostracion"
 
 #
 # Debe configurar este script para su sistema
 # Si no lo ha hecho, mostrará este mensaje
 #
-if [ -z "$BD" ] || [ -z "$PROPIETARIO" ] || [ -z "$SISTEMA_DIR" ]; then
+if [ -z "$BD" ] || [ -z "$PROPIETARIO" ]; then
     echo "GenesisPHP"
     echo "  AVISO: No ha configurado este script."
     echo
@@ -84,22 +83,6 @@ export PGPORT=5432
 #    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
 #    exit $E_FATAL
 #fi
-
-# Este script puede ejecutarse en la base del sistema o en el mismo directorio donde esté.
-if [ -d ../$SISTEMA_DIR ]; then
-    echo "$SOY Estoy en el directorio $SISTEMA_DIR"
-elif [ -d ./$SISTEMA_DIR ]; then
-    cd ./$SISTEMA_DIR
-    echo "$SOY Me cambié al directorio $SISTEMA_DIR"
-else
-    cd ../../
-    if [ -d "../$SISTEMA_DIR" ]; then
-        echo "$SOY Me cambié al directorio $SISTEMA_DIR"
-    else
-        echo "$SOY ERROR: No existe el directorio $SISTEMA_DIR"
-        exit $E_FATAL
-    fi
-fi
 
 # Cambiarse al directorio sql
 if [ -d sql ]; then

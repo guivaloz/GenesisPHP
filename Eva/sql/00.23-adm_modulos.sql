@@ -19,7 +19,7 @@ CREATE TABLE adm_modulos (
 
 -- Menú Usuarios
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
-    VALUES (950, 'sistema',               '-Sistema',          'preferences-desktop.png',   'admusuarios.php',       NULL,       6); -- 1
+    VALUES (950, 'adm_sistema',           '-Sistema',          'preferences-desktop.png',   'admusuarios.php',       NULL,       6); -- 1
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, poder_minimo)
     VALUES (951, 'adm_usuarios',          'Usuarios',          'address-book-new.png',      'admusuarios.php',          1,       6); -- 2
 INSERT INTO adm_modulos (orden, clave, nombre, icono, pagina, padre, permiso_maximo, poder_minimo)

@@ -29,3 +29,4 @@ INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena)                  
 
 -- Administradores
 INSERT INTO adm_usuarios (nom_corto, nombre, tipo, contrasena)                    VALUES ('administrador', 'Administrador',    'A', 'qwerty'); -- 3
+
