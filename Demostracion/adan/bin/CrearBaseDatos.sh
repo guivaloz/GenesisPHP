@@ -87,14 +87,16 @@ export PGPORT=5432
 # Cambiarse al directorio sql
 if [ -d sql ]; then
     cd sql
-    if [ "$?" -ne $EXITO ]; then
-        echo "$SOY ERROR: No pude cambiarme al directorio sql"
-        exit $E_FATAL
-    fi
     echo "$SOY Me cambié al directorio sql"
 else
-    echo "$SOY ERROR: No existe el directorio sql"
-    exit $E_FATAL
+    cd ../../
+    if [ -d sql ]; then
+        cd sql
+        echo "$SOY Me cambié al directorio sql"
+    else
+        echo "$SOY ERROR: No se encuentra el directorio sql"
+        exit $E_FATAL
+    fi
 fi
 
 # Eliminar la base de datos
