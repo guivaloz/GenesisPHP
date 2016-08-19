@@ -256,8 +256,8 @@ FIN;
         // Si hay estatus, mostrar listados para cada letra
         if (is_array($this->estatus)) {
             // Si es lo convencional con a y b
-            if (($this->estatus['enuso'] = 'A') && ($this->estatus['eliminado'] == 'B')) {
-                $l[] = "            // Listados";
+            if ((count($this->estatus) == 2) && ($this->estatus['enuso'] = 'A') && ($this->estatus['eliminado'] == 'B')) {
+                $l[] = "            // Listados de en uso y eliminados";
                 $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
                 $l[] = "            if (\$listado->viene_listado) {";
                 $l[] = "                // Viene un listado previo";
