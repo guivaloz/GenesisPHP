@@ -52,7 +52,7 @@ abstract class UtileriasParaSQL {
      * @return string Texto fragmento de SQL
      */
     public static function sql_texto($texto) {
-        if (trim($texto) == '') {
+        if (trim($texto) === '') {
             return 'NULL';
         } else {
             return "'".pg_escape_string(trim($texto))."'";
@@ -87,7 +87,7 @@ abstract class UtileriasParaSQL {
         if (is_string($dato)) {
             if (trim($dato) === '') {
                 return 'NULL';
-            } elseif (trim($dato) == '0') {
+            } elseif (trim($dato) === '0') {
                 return '0';
             } else {
                 return $dato;
@@ -110,7 +110,6 @@ abstract class UtileriasParaSQL {
      * @return mixed
      */
     public static function sql_flotante($dato) {
-        //(($dato === '') || ($dato == '0') || ($dato == '0.') || ($dato == '.0') || ($dato == '0.0'))
         if (is_string($dato)) {
             if (trim($dato) === '') {
                 return 'NULL';
@@ -138,7 +137,7 @@ abstract class UtileriasParaSQL {
      */
     public static function sql_tiempo($dato) {
         if (is_string($dato)) {
-            if ($dato == '') {
+            if ($dato === '') {
                 return 'NULL';
             } elseif (preg_match('/^[0-9]+$/', $dato)) {
                 return "'".date('Y-m-d H:i:s', $dato)."'";
