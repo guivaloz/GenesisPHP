@@ -271,11 +271,12 @@ class Registro extends \Base2\Registro {
         // Insertar registro en la base de datos
         $base_datos = new \Base2\BaseDatosMotor();
         try {
-            $base_datos->comando(sprintf("
+            $consulta = $base_datos->comando(sprintf("
                 INSERT INTO adm_modulos
                     (orden, clave, nombre, pagina, icono, padre, permiso_maximo, poder_minimo)
                 VALUES
-                    (%s, %s, %s, %s, %s, %s, %s, %s)",
+                    (%s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id",
                 \Base2\UtileriasParaSQL::sql_entero($this->orden),
                 \Base2\UtileriasParaSQL::sql_texto($this->clave),
                 \Base2\UtileriasParaSQL::sql_texto($this->nombre),
@@ -288,15 +289,6 @@ class Registro extends \Base2\Registro {
             throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al insertar el módulo. ', $e->getMessage());
         }
         // Obtener el id del registro recién insertado
-        try {
-            $consulta = $base_datos->comando("
-                SELECT
-                    last_value AS id
-                FROM
-                    adm_modulos_id_seq");
-        } catch (\Exception $e) {
-            throw new \AdmBitacora\BaseDatosExceptionSQLError($this->sesion, 'Error: Al obtener el ID del módulo. ', $e->getMessage());
-        }
         $a        = $consulta->obtener_registro();
         $this->id = intval($a['id']);
         // Despues de insertar se considera como consultado
