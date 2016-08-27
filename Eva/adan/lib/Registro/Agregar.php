@@ -129,7 +129,9 @@ sprintf("
                     {$this->tabla_nombre}
                     ($columnas)
                 VALUES
-                    ($valores)",
+                    ($valores)
+                RETURNING
+                    id",
 $parametros)
 FIN;
     } // elaborar_insert_sql
@@ -161,16 +163,11 @@ FIN;
         // Insertar en la base de datos
         \$base_datos = new \\Base2\\BaseDatosMotor();
         try {
-            \$base_datos->comando({$this->elaborar_insert_sql()});
+            \$consulta = \$base_datos->comando({$this->elaborar_insert_sql()});
         } catch (\\Exception \$e) {
             throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al insertar SED_MENSAJE_SINGULAR. ', \$e->getMessage());
         }
         // Obtener el id de lo recién insertado
-        try {
-            \$consulta = \$base_datos->comando("SELECT last_value AS id FROM {$this->tabla_nombre}_id_seq");
-        } catch (\\Exception \$e) {
-            throw new \\AdmBitacora\\BaseDatosExceptionSQLError(\$this->sesion, 'Error: Al obtener el ID de SED_MENSAJE_SINGULAR. ', \$e->getMessage());
-        }
         \$a        = \$consulta->obtener_registro();
         \$this->id = intval(\$a['id']);
         // Elaborar mensaje
