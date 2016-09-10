@@ -112,7 +112,7 @@ abstract class BusquedaWeb implements SalidaWeb {
             } catch (BusquedaExceptionVacio $e) {
                 // La búsqueda no arrojó resultados, mostrar mensaje y el formulario de nuevo
                 $this->hay_mensaje = true;
-                $mensaje = new MensajeWeb('Aviso: La búsqueda no encontró resultados.');
+                $mensaje = new MensajeWeb($e->getMessage());
                 return $mensaje->html('Sin resultados').$this->elaborar_formulario();
             } catch (\Exception $e) {
                 // Error fatal, mostrar mensaje

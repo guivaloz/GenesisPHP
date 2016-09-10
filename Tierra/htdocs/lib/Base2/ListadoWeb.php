@@ -214,9 +214,15 @@ class ListadoWeb implements SalidaWeb {
                             // Vínculo con muchos parametros, ejemplo pagina.php?param=123&var=567
                             $b = array();
                             foreach ($parametros['param'] as $param_var => $param_col) {
-                                $b[] = sprintf('%s=%s', $param_var, urlencode($fila[$param_col]));
+                                if (isset($fila[$param_col])) {
+                                    $b[] = sprintf('%s=%s', $param_var, urlencode($fila[$param_col]));
+                                }
                             }
-                            $a[] = sprintf('      <td%s><a href="%s?%s">VACIO</a></td>', $celda_clase, $parametros['pag'], implode('&', $b));
+                            if (count($b) > 0) {
+                                $a[] = sprintf('      <td%s><a href="%s?%s">VACIO</a></td>', $celda_clase, $parametros['pag'], implode('&', $b));
+                            } else {
+                                $a[] = "      <td{$celda_clase}>&nbsp;</td>";
+                            }
                         } elseif (($parametros['id'] != '') && array_key_exists($parametros['id'], $fila)) {
                             // Vínculo con un id, ejemplo pagina.php?usuario=123
                             $a[] = sprintf('      <td%s><a href="%s?id=%s">VACIO</a></td>', $celda_clase, $parametros['pag'], $fila[$parametros['id']]);
