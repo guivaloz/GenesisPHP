@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase EntidadesListadoWeb
  */
-class EntidadesListadoWeb extends EntidadesListado {
+class EntidadesListadoWeb extends EntidadesListado implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // public $listado;

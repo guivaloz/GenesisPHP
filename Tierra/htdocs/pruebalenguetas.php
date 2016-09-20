@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - PaginaPruebas
+ * GenesisPHP - Prueba Lenguetas
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,9 +23,9 @@
 require_once('lib/Base2/AutocargadorClases.php');
 
 /**
- * Clase PaginaPruebas
+ * Clase PaginaPruebaLenguetas
  */
-class PaginaPruebas extends \Base2\PlantillaWeb {
+class PaginaPruebaLenguetas extends \Base2\PlantillaWeb {
 
     // protected $sistema;
     // protected $titulo;
@@ -42,37 +42,44 @@ class PaginaPruebas extends \Base2\PlantillaWeb {
     // public $menu;
     // public $contenido;
     // public $javascript;
+    protected $sesion; // Instancia de \Inicio\Sesion
 
     /**
      * Constructor
      */
     public function __construct() {
         // Definir la clave de esta página
-        $this->clave = 'tierra_prueba';
+        $this->clave = 'tierra_prueba_lenguetas';
         // Definir el menú
         $this->menu  = new \Inicio\Menu();
         $this->menu->consultar();
         $this->menu->clave = $this->clave;
+        // Definir la sesión
+        $this->sesion = new \Inicio\Sesion('sistema', $this->menu);
     } // constructor
 
     /**
      * HTML
      *
-     * @return string HTML
+     * @return string Código HTML
      */
     public function html() {
-        // Mensaje de bienvenida
-        $mensaje           = new \Base2\MensajeWeb('Es una serie de pruebas a las librerías básicas de GenesisPHP.');
-        $mensaje->tipo     = 'info';
-        $this->contenido[] = $mensaje->html('Acerca de estas páginas');
+        // Lenguetas
+        $lenguetas = new \Base2\LenguetasWeb('pruebaLenguetas');
+        $lenguetas->agregar('Detalle',    new \Pruebas\CactusDetalleWeb($this->sesion), TRUE);
+        $lenguetas->agregar('Con Foto',   new \Pruebas\CelebridadDetalleWeb($this->sesion));
+        $lenguetas->agregar('Listado',    new \Pruebas\EntidadesListadoWeb($this->sesion));
+        $lenguetas->agregar('Formulario', new \Pruebas\DiscoFormularioWeb($this->sesion));
+        $this->contenido[]  = $lenguetas->html();
+        $this->javascript[] = $lenguetas->javascript();
         // Ejecutar el padre y entregar su resultado
         return parent::html();
     } // html
 
-} // Clase PaginaPruebas
+} // Clase PaginaPruebaLenguetas
 
 // Ejecutar y mostrar
-$pagina_web = new PaginaPruebas();
+$pagina_web = new PaginaPruebaLenguetas();
 echo $pagina_web->html();
 
 ?>

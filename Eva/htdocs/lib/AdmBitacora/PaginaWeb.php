@@ -27,25 +27,6 @@ namespace AdmBitacora;
  */
 class PaginaWeb extends \Base2\PaginaWeb {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // protected $menu;
-    // protected $contenido;
-    // protected $javascript;
-    // protected $clave;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
-
     /**
      * Constructor
      */
@@ -67,32 +48,23 @@ class PaginaWeb extends \Base2\PaginaWeb {
             if ($_GET['id'] != '') {
                 $detalle     = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
-                $lenguetas->agregar_activa('bitacoraDetalle', 'Detalle', $detalle);
+                $lenguetas->agregar('Detalle', $detalle, TRUE);
             }
             // Busqueda, crea dos lenguetas si hay resultados
-            $busqueda        = new BusquedaWeb($this->sesion);
-            $resultados_html = $busqueda->html();
+            $busqueda = new BusquedaWeb($this->sesion);
             if ($busqueda->hay_resultados) {
-                $lenguetas->agregar('bitacoraBuscar', 'Buscar', $busqueda->formulario_html());
-                $lenguetas->agregar_activa('bitacoraResultado',  'Resultado',  $resultados_html);
+                $lenguetas->agregar('Resultados', $busqueda, TRUE);
             } elseif ($busqueda->hay_mensaje) {
-                $lenguetas->agregar_activa('bitacoraBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda, TRUE);
             } else {
-                $lenguetas->agregar('bitacoraBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda);
             }
-            $lenguetas->agregar_javascript($busqueda->javascript());
             // Listados
             $listado = new ListadoWeb($this->sesion);
             if ($listado->viene_listado) {
-                // Viene un listado previo
-                $lenguetas->agregar_activa('bitacoraListado', 'Listado', $listado);
+                $lenguetas->agregar('Listado', $listado, TRUE);
             } else {
-                // Listado bitacora
-                $bitacora = new ListadoWeb($this->sesion);
-                $lenguetas->agregar('bitacoraListado', 'Listado', $bitacora);
-                if ($lenguetas->activa == '') {
-                    $lenguetas->definir_activa();
-                }
+                $lenguetas->agregar('Listado', $listado);
             }
             // Pasar el html y el javascript de las lenguetas al contenido
             $this->contenido[]  = $lenguetas->html();

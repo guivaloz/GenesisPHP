@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase CactusDetalleWeb
  */
-class CactusDetalleWeb extends CactusRegistro {
+class CactusDetalleWeb extends CactusRegistro implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

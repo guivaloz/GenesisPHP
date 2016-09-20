@@ -43,6 +43,7 @@ class Menu extends \Base2\Menu {
         $this->agregar('tierra_prueba_detalle_foto', 'Detalle con foto', 'pruebadetallefoto.php', 'user-info.png');
         $this->agregar('tierra_prueba_listado',      'Listado',          'pruebalistado.php',     'accessories-dictionary.png');
         $this->agregar('tierra_prueba_formulario',   'Formulario',       'pruebaformulario.php',  'menu-editor.png');
+        $this->agregar('tierra_prueba_lenguetas',    'Lengüetas',        'pruebalenguetas.php',   'folder.png');
         // Arriba a la derecha
         $this->agregar_principal_derecha('tierra_inicio', '', 'index.php', 'glyphicon glyphicon-off');
     } // consultar

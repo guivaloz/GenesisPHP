@@ -62,7 +62,7 @@ class PaginaWeb extends \Base2\PaginaWeb {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
             // Lenguetas
-            $lenguetas = new \Base2\LenguetasWeb('lenguetasroles');
+            $lenguetas = new \Base2\LenguetasWeb('lenguetasRoles');
             // Acciones para un registro
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
                 $formulario     = new FormularioWeb($this->sesion);

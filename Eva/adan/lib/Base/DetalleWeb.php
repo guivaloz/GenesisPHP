@@ -52,7 +52,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase DetalleWeb
  */
-class DetalleWeb extends Registro {
+class DetalleWeb extends Registro implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_barra->php()}

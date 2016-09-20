@@ -129,8 +129,8 @@ abstract class PlantillaWeb extends \Configuracion\PlantillaWebConfig {
         if (is_array($this->javascript) && (count($this->javascript) > 0)) {
             $a = array();
             foreach ($this->javascript as $js) {
-                if ($js != '') {
-                    $a[] = "  <script>$js</script>";
+                if (is_string($js) && !empty(trim($js))) {
+                    $a[] = "  <script>\n$js\n</script>";
                 }
             }
             $plantilla->javascript = implode("\n", $a);

@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase DiscoDetalleWeb
  */
-class DiscoDetalleWeb extends DiscoRegistro {
+class DiscoDetalleWeb extends DiscoRegistro implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

@@ -793,48 +793,22 @@ RANGO;
         } else  {
             $clase = self::$botones_clases[$in_clase];
         }
-        $this->pie[$in_identificador] = sprintf('<button class="%s" type="submit">%s</button>', $clase, $in_etiqueta);
+        $this->pie[$in_identificador] = sprintf('<button id="%s" class="%s" type="submit">%s</button>', $in_identificador, $clase, $in_etiqueta);
     } // boton_submit
 
     /**
      * Boton buscar
      */
     public function boton_buscar() {
-        $this->boton_submit('submit', 'Buscar', 'info');
+        $this->boton_submit('botonBuscar', 'Buscar', 'info');
     } // boton_buscar
 
     /**
      * Boton guardar
      */
     public function boton_guardar() {
-        $this->boton_submit('submit', 'Guardar', 'success');
+        $this->boton_submit('botonGuardar', 'Guardar', 'success');
     } // boton_guardar
-
-    /**
-     * Boton submit icono
-     *
-     * @param string Identificador
-     * @param string Etiqueta
-     * @param string Icono
-     * @param string Opcional, clase CSS con el color del botón
-     */
-    public function boton_submit_icono($in_identificador, $in_etiqueta, $in_icono, $in_clase='') {
-        $this->boton_submit($in_identificador, $in_etiqueta, $in_clase); // PENDIENTE HACER QUE SE MUESTRE EL ICONO
-    } // boton_submit_icono
-
-    /**
-     * Boton buscar icono
-     */
-    public function boton_buscar_icono() {
-        $this->boton_submit_icono('submit', 'Guardar', '', 'info');
-    } // boton_buscar_icono
-
-    /**
-     * Boton guardar icono
-     */
-    public function boton_guardar_icono() {
-        $this->boton_submit_icono('submit', 'Guardar', '', 'success');
-    } // boton_guardar_icono
 
     /**
      * Boton URL
@@ -863,29 +837,8 @@ RANGO;
      * @param string Opcional, URL de destino, por defecto se hace atrás en la historia del navegador
      */
     public function boton_cancelar($in_url='') {
-        $this->boton_url('cancelar', 'Cancelar', $in_url, 'inverse');
+        $this->boton_url('botonCancelar', 'Cancelar', $in_url, 'inverse');
     } // boton_cancelar
-
-    /**
-     * Boton URL icono
-     *
-     * @param string Identificador
-     * @param string Etiqueta
-     * @param string URL
-     * @param string Icono
-     */
-    public function boton_url_icono($in_identificador, $in_etiqueta, $in_url, $in_icono) {
-        $this->boton_url($in_identificador, $in_etiqueta, $in_url);
-    } // boton_submit
-
-    /**
-     * Boton cancelar icono
-     *
-     * @param string URL de destino, por defecto '' lo que hace atrás en la historia del navegador
-     */
-    public function boton_cancelar_icono($in_url='') {
-        $this->boton_url_icono('cancelar', 'Cancelar', $in_url, 'inverse');
-    } // boton_cancelar_icono
 
     /**
      * Elaborar form inicial

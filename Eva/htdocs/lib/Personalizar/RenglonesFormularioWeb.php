@@ -25,7 +25,7 @@ namespace Personalizar;
 /**
  * Clase RenglonesFormularioWeb
  */
-class RenglonesFormularioWeb extends DetalleWeb {
+class RenglonesFormularioWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

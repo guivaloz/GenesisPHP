@@ -107,7 +107,7 @@ class CollapsePadreEHijos extends \Base\Plantilla {
         // Si fue consultado
         if (\$detalle->consultado == true) {
             // Elaborar collapse
-            \$collapse = new \\Base2\\CollapseWeb('pinpon');
+            \$collapse = new \\Base2\\CollapseWeb('acordeon');
             \$collapse->hay_resultados = (\$in_instancia->hay_resultados == true);
             \$collapse->agregar('detalle', 'Detalle', \$html);
             \$collapse->agregar_javascript(\$detalle->javascript());

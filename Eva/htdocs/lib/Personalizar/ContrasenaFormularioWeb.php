@@ -25,7 +25,7 @@ namespace Personalizar;
 /**
  * Clase ContrasenaFormularioWeb
  */
-class ContrasenaFormularioWeb extends DetalleWeb {
+class ContrasenaFormularioWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

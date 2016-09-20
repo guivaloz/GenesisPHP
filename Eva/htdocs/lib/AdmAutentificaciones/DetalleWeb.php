@@ -27,7 +27,7 @@ namespace AdmAutentificaciones;
  *
  * AdmAutentificaciones NO tiene consulta por registro, la tabla carece de ID o de forma de identificar un solo registro
  */
-class DetalleWeb extends Registro {
+class DetalleWeb extends Registro implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

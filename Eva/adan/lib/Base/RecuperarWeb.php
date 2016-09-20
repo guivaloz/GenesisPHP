@@ -50,7 +50,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase RecuperarWeb
  */
-class RecuperarWeb extends DetalleWeb {
+class RecuperarWeb extends DetalleWeb implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_html->php()}

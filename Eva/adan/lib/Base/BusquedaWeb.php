@@ -53,7 +53,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase BusquedaWeb
  */
-class BusquedaWeb extends \\Base2\\BusquedaWeb {
+class BusquedaWeb extends \\Base2\\BusquedaWeb implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_validar->php()}

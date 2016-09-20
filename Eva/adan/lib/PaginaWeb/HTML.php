@@ -48,7 +48,7 @@ class HTML extends \Base\Plantilla {
 if ((\$_GET['{$padre['instancia_singular']}'] != '') && (\$_GET['caracteresazar'] != '')) {
                 // Impresion
                 \$impresion = new ImpresionWeb(\$this->sesion);
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULARImprimir', 'Impresión', \$impresion); // html(\$_GET['{$padre['instancia_singular']}'], \$_GET['caracteresazar'])
+                \$lenguetas->agregar('Impresión', \$impresion, TRUE);
             }
 FIN;
     } // elaborar_html_accion_imprimir
@@ -73,7 +73,7 @@ if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\
                 // Modificar
                 \$formulario     = new FormularioWeb(\$this->sesion);
                 \$formulario->id = \$_GET['id'];
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULARModificar', 'Modificar', \$formulario);
+                \$lenguetas->agregar('Modificar', \$formulario, TRUE);
             }
 FIN;
     } // elaborar_html_accion_modificar
@@ -98,7 +98,7 @@ if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\
                 // Eliminar
                 \$eliminar     = new EliminarWeb(\$this->sesion);
                 \$eliminar->id = \$_GET['id'];
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULAREliminar', 'Eliminar', \$eliminar);
+                \$lenguetas->agregar('Eliminar', \$eliminar, TRUE);
             }
 FIN;
     } // elaborar_html_accion_eliminar
@@ -123,7 +123,7 @@ if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\
                 // Recuperar
                 \$recuperar     = new RecuperarWeb(\$this->sesion);
                 \$recuperar->id = \$_GET['id'];
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULARRecuperar', 'Recuperar', \$recuperar);
+                \$lenguetas->agregar('Recuperar', \$recuperar, TRUE);
             }
 FIN;
     } // elaborar_html_accion_recuperar
@@ -145,16 +145,16 @@ FIN;
         if (is_array($this->hijos) && (count($this->hijos) > 0)) {
             // Tiene hijos, se usara collapse para mostrar el detalle y sus hijos
             $d[] = "                // Detalle e hijos";
-            $d[] = "                \$detalle = new DetalleWeb(\$this->sesion);";
+            $d[] = "                \$detalle  = new DetalleWeb(\$this->sesion);";
             $d[] = "                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];";
-            $d[] = "                \$regalo = \$this->crear_collapse_padre_hijos(\$detalle);";
-            $d[] = "                \$lenguetas->agregar_activa('SED_CLASE_SINGULARDetalle', 'Detalle', \$regalo);";
+            $d[] = "                \$acordeon = \$this->crear_collapse_padre_hijos(\$detalle);";
+            $d[] = "                \$lenguetas->agregar('Detalle', \$acordeon, TRUE);";
         } else {
             // No hay hijos, mostrar solo el detalle
             $d[] = "                // Detalle";
             $d[] = "                \$detalle = new DetalleWeb(\$this->sesion);";
             $d[] = "                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];";
-            $d[] = "                \$lenguetas->agregar_activa('SED_CLASE_SINGULARDetalle', 'Detalle', \$detalle);";
+            $d[] = "                \$lenguetas->agregar('Detalle', \$detalle, TRUE);";
         }
         $d[] = "            }";
         // Entregar
@@ -179,11 +179,11 @@ FIN;
         // Si tiene hijos
         if (is_array($this->hijos) && (count($this->hijos) > 0)) {
             // Tiene hijos
-            $a[] = "                \$regalo = \$this->crear_collapse_padre_hijos(\$formulario);";
-            $a[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALFormulario', 'Formulario', \$regalo);";
+            $a[] = "                \$acordeon = \$this->crear_collapse_padre_hijos(\$formulario);";
+            $a[] = "                \$lenguetas->agregar('Formulario', \$acordeon);";
         } else {
             // No hay hijos
-            $a[] = "                \$lenguetas->agregar_activa('SED_CLASE_SINGULARFormulario', 'Formulario', \$formulario);";
+            $a[] = "                \$lenguetas->agregar('Formulario', \$formulario);";
         }
         $a[] = "            }";
         // Entregar
@@ -206,37 +206,31 @@ FIN;
             return <<<FIN
             // Búsqueda, crea dos lengüetas si hay resultados
             \$busqueda = new BusquedaWeb(\$this->sesion);
-            \$regalo   = \$this->crear_collapse_padre_hijos(\$busqueda);
-            if (\$regalo->hay_resultados) {
-                \$lenguetas->agregar('SED_CLASE_SINGULARBuscar', 'Buscar', \$busqueda->formulario_html());
-                \$lenguetas->agregar('SED_CLASE_SINGULARResultado', 'Resultado', \$regalo->html());
-                \$lenguetas->definir_activa();
+            if (\$busqueda->hay_resultados && \$busqueda->entrego_detalle) {
+                \$acordeon = \$this->crear_collapse_padre_hijos(\$busqueda);
+                \$lenguetas->agregar('Resultado', \$acordeon, TRUE);
+            } elseif (\$busqueda->hay_resultados) {
+                \$lenguetas->agregar('Resultados', \$busqueda, TRUE);
             } elseif (\$busqueda->hay_mensaje) {
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULARBuscar', 'Buscar', \$regalo->html());
+                \$lenguetas->agregar('Buscar', \$busqueda, TRUE);
             } else {
-                \$lenguetas->agregar('SED_CLASE_SINGULARBuscar', 'Buscar', \$regalo->html());
+                \$lenguetas->agregar('Buscar', \$busqueda);
             }
-            \$lenguetas->agregar_javascript(\$regalo->javascript());
 FIN;
         } else {
             // No hay hijos
             return <<<FIN
             // Búsqueda, crea dos lengüetas si hay resultados
-            \$busqueda        = new BusquedaWeb(\$this->sesion);
-            \$resultados_html = \$busqueda->html();
-            if (\$busqueda->hay_resultados) {
-                if (\$busqueda->entrego_detalle) {
-                    \$lenguetas->agregar_activa('SED_CLASE_SINGULARResultado',  'Resultado',  \$resultados_html);
-                } else {
-                    \$lenguetas->agregar_activa('SED_CLASE_SINGULARResultados', 'Resultados', \$resultados_html);
-                }
-                \$lenguetas->agregar('SED_CLASE_SINGULARBuscar', 'Buscar', \$busqueda->formulario_html());
+            \$busqueda = new BusquedaWeb(\$this->sesion);
+            if (\$busqueda->hay_resultados && \$busqueda->entrego_detalle) {
+                \$lenguetas->agregar('Resultado', \$busqueda, TRUE);
+            } elseif (\$busqueda->hay_resultados) {
+                \$lenguetas->agregar('Resultados', \$busqueda, TRUE);
             } elseif (\$busqueda->hay_mensaje) {
-                \$lenguetas->agregar_activa('SED_CLASE_SINGULARBuscar', 'Buscar', \$resultados_html);
+                \$lenguetas->agregar('Buscar', \$busqueda, TRUE);
             } else {
-                \$lenguetas->agregar('SED_CLASE_SINGULARBuscar', 'Buscar', \$resultados_html);
+                \$lenguetas->agregar('Buscar', \$busqueda);
             }
-            \$lenguetas->agregar_javascript(\$busqueda->javascript());
 FIN;
         }
     } // elaborar_html_accion_busqueda
@@ -261,19 +255,20 @@ FIN;
                 $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
                 $l[] = "            if (\$listado->viene_listado) {";
                 $l[] = "                // Viene un listado previo";
-                $l[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALListado', 'Listado', \$listado);";
+                $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
                 $l[] = "            } else {";
                 $l[] = "                // En uso";
                 $l[] = "                \$listado->estatus = 'A';";
-                $l[] = "                \$lenguetas->agregar('SED_CLASE_PLURALEnUso', 'En uso', \$listado);";
-                $l[] = "                if (\$lenguetas->activa == '') {";
-                $l[] = "                    \$lenguetas->definir_activa();";
+                $l[] = "                if (FALSE) {";
+                $l[] = "                    \$lenguetas->agregar('En uso', \$listado, TRUE);";
+                $l[] = "                } else {";
+                $l[] = "                    \$lenguetas->agregar('En uso', \$listado);";
                 $l[] = "                }";
                 $l[] = "                // Eliminados";
                 $l[] = "                if (\$this->sesion->puede_recuperar()) {";
                 $l[] = "                    \$listado = new ListadoWeb(\$this->sesion);";
                 $l[] = "                    \$listado->estatus = 'B';";
-                $l[] = "                    \$lenguetas->agregar('SED_CLASE_PLURALEliminados', 'Eliminados', \$listado);";
+                $l[] = "                    \$lenguetas->agregar('Eliminados', \$listado);";
                 $l[] = "                }";
                 $l[] = "            }";
             } else {
@@ -282,7 +277,7 @@ FIN;
                 $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
                 $l[] = "            if (\$listado->viene_listado) {";
                 $l[] = "                // Viene un listado previo";
-                $l[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALListado', 'Listado', \$listado);";
+                $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
                 $l[] = "            } else {";
                 $e = $this->tabla['estatus'];
                 $c = 0;
@@ -291,13 +286,13 @@ FIN;
                     $l[] = "                // {$e['descripciones'][$caracter]}";
                     $l[] = "                \$listado = new ListadoWeb(\$this->sesion);";
                     $l[] = "                \$listado->estatus = '{$caracter}';";
-                    $l[] = "                \$lenguetas->agregar('SED_CLASE_PLURAL{$e['acciones'][$caracter]}', '{$etiqueta}', \$listado);";
+                    $l[] = "                \$lenguetas->agregar('{$etiqueta}', \$listado);";
                     // La primer letra puede ser la lengüeta activa
-                    if ($c == 1) {
-                        $l[] = "                if (\$lenguetas->activa == '') {";
-                        $l[] = "                    \$lenguetas->definir_activa();";
-                        $l[] = "                }";
-                    }
+                    //~ if ($c == 1) {
+                        //~ $l[] = "                if (\$lenguetas->activa == '') {";
+                        //~ $l[] = "                    \$lenguetas->definir_activa();";
+                        //~ $l[] = "                }";
+                    //~ }
                 }
                 $l[] = "            }";
             }
@@ -307,14 +302,14 @@ FIN;
             $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
             $l[] = "            if (\$listado->viene_listado) {";
             $l[] = "                // Viene un listado previo";
-            $l[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALListado', 'Listado', \$listado);";
+            $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
             $l[] = "            } else {";
             $l[] = "                // Listado sin filtros";
             $l[] = "                \$listado = new ListadoWeb(\$this->sesion);";
-            $l[] = "                \$lenguetas->agregar('SED_CLASE_PLURALListado', 'Listado', \$listado);";
-            $l[] = "                if (\$lenguetas->activa == '') {";
-            $l[] = "                    \$lenguetas->definir_activa();";
-            $l[] = "                }";
+            $l[] = "                \$lenguetas->agregar('Listado', \$listado);";
+            //~ $l[] = "                if (\$lenguetas->activa == '') {";
+            //~ $l[] = "                    \$lenguetas->definir_activa();";
+            //~ $l[] = "                }";
             $l[] = "            }";
         }
         // Entregar
@@ -341,19 +336,19 @@ FIN;
                 $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
                 $t[] = "            if (\$tren->viene_tren) {";
                 $t[] = "                // Viene un tren previo";
-                $t[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALTren', 'Imágenes', \$tren);";
+                $t[] = "                \$lenguetas->agregar('Imágenes', \$tren);";
                 $t[] = "            } else {";
                 $t[] = "                // En uso";
                 $t[] = "                \$tren->estatus = 'A';";
-                $t[] = "                \$lenguetas->agregar('SED_CLASE_PLURALEnUso', 'En uso', \$tren);";
-                $l[] = "                if (\$lenguetas->activa == '') {";
-                $l[] = "                    \$lenguetas->definir_activa();";
-                $l[] = "                }";
+                $t[] = "                \$lenguetas->agregar('En uso', \$tren);";
+                //~ $l[] = "                if (\$lenguetas->activa == '') {";
+                //~ $l[] = "                    \$lenguetas->definir_activa();";
+                //~ $l[] = "                }";
                 $t[] = "                // Eliminados";
                 $t[] = "                if (\$this->sesion->puede_recuperar()) {";
                 $t[] = "                    \$tren          = new TrenWeb(\$this->sesion);";
                 $t[] = "                    \$tren->estatus = 'B';";
-                $t[] = "                    \$lenguetas->agregar('SED_CLASE_PLURALEliminados', 'Eliminados', \$tren);";
+                $t[] = "                    \$lenguetas->agregar('Eliminados', \$tren);";
                 $t[] = "                }";
                 $t[] = "            }";
             } else {
@@ -362,14 +357,14 @@ FIN;
                 $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
                 $t[] = "            if (\$tren->viene_tren) {";
                 $t[] = "                // Viene un tren previo";
-                $t[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALTren', 'Imágenes', \$tren);";
+                $t[] = "                \$lenguetas->agregar('Imágenes', \$tren, TRUE);";
                 $t[] = "            } else {";
                 $e = $this->tabla['estatus'];
                 foreach ($e['etiquetas'] as $caracter => $etiqueta) {
                     $t[] = "                // {$e['descripciones'][$caracter]}";
                     $t[] = "                \$tren          = new TrenWeb(\$this->sesion);";
                     $t[] = "                \$tren->estatus = '{$caracter}';";
-                    $t[] = "                \$lenguetas->agregar('SED_CLASE_PLURAL{$e['acciones'][$caracter]}', '{$etiqueta}', \$tren);";
+                    $t[] = "                \$lenguetas->agregar('{$etiqueta}', \$tren);";
                 }
                 $t[] = "            }";
             }
@@ -379,11 +374,11 @@ FIN;
             $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
             $t[] = "            if (\$tren->viene_tren) {";
             $t[] = "                // Viene un listado previo";
-            $t[] = "                \$lenguetas->agregar_activa('SED_CLASE_PLURALTren', 'Imágenes', \$tren);";
+            $t[] = "                \$lenguetas->agregar('Imágenes', \$tren, TRUE);";
             $t[] = "            } else {";
             $t[] = "                // Tren sin filtros";
             $t[] = "                \$tren = new TrenWeb(\$this->sesion);";
-            $t[] = "                \$lenguetas->agregar('SED_CLASE_PLURALTren', 'Imágenes', \$tren);";
+            $t[] = "                \$lenguetas->agregar('Imágenes', \$tren);";
             $t[] = "            }";
         }
         // Entregar
@@ -400,12 +395,9 @@ FIN;
             return <<<FIN
             // Nuevo
             if (\$this->sesion->puede_agregar()) {
-                \$formulario     = new FormularioWeb(\$this->sesion);
+                \$formulario = new FormularioWeb(\$this->sesion);
                 \$formulario->{$this->primary_key} = 'agregar';
-                \$lenguetas->agregar('SED_CLASE_PLURALNuevo', 'Nuevo', \$formulario);
-                if (\$_GET['accion'] == 'agregar') {
-                    \$lenguetas->definir_activa();
-                }
+                \$lenguetas->agregar('Nuevo', \$formulario);
             }
 FIN;
         } else {
@@ -459,7 +451,7 @@ FIN;
         // Solo si se carga con éxito la sesión
         if (\$this->sesion_exitosa) {
             // Lengüetas
-            \$lenguetas = new \Base2\LenguetasWeb();
+            \$lenguetas = new \Base2\LenguetasWeb('lenguetas');
 {$this->elaborar_html_acciones()}
             // Pasar el html y el javascript de las lengüetas al contenido
             \$this->contenido[]  = \$lenguetas->html();

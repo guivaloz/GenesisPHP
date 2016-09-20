@@ -53,7 +53,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase TrenWeb
  */
-class TrenWeb extends Listado {
+class TrenWeb extends Listado implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_constructor->php()}

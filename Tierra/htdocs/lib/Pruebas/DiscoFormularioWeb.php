@@ -135,9 +135,16 @@ class DiscoFormularioWeb extends DiscoDetalleWeb {
      * @return string Javascript
      */
     public function javascript() {
-        return implode("\n", array(
-            $this->detalle->javascript(),
-            $this->formulario->javascript()));
+        $a  = array();
+        $js = $this->detalle->javascript();
+        if (!empty(trim($js))) {
+            $a[] = $js;
+        }
+        $js = $this->formulario->javascript();
+        if (!empty(trim($js))) {
+            $a[] = $js;
+        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase DiscoFormularioWeb

@@ -43,26 +43,23 @@ class PaginaWeb extends \Base2\PaginaWeb {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
             // Iniciar lengüetas
-            $lenguetas = new \Base2\LenguetasWeb();
-            // Iniciar instancias para cada lengüeta
-            $contrasena_form = new ContrasenaFormularioWeb($this->sesion);
-            $renglones_form  = new RenglonesFormularioWeb($this->sesion);
-            $informacion     = new DetalleWeb($this->sesion);
-            // Agregar instancias a lengüetas, note que la última es información, porque puede cambiar según las otras
-            $lenguetas->agregar('personalizarContrasena',  'Contraseña',  $contrasena_form);
-            $lenguetas->agregar('personalizarRenglones',   'Renglones',   $renglones_form);
-            $lenguetas->agregar('personalizarInformacion', 'Información', $informacion);
+            $lenguetas = new \Base2\LenguetasWeb('personalizar');
             // Si viene cada formulario, activará su lengüeta correspondiente
             if ($_POST['formulario'] == ContrasenaFormularioWeb::$form_name) {
-                $lenguetas->definir_activa('personalizarContrasena');
-            } elseif ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
-                $lenguetas->definir_activa('personalizarRenglones');
+                $lenguetas->agregar('Contraseña', new ContrasenaFormularioWeb($this->sesion), TRUE);
             } else {
-                $lenguetas->definir_activa('personalizarInformacion');
+                $lenguetas->agregar('Contraseña', new ContrasenaFormularioWeb($this->sesion));
             }
+            if ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
+                $lenguetas->agregar('Renglones', new RenglonesFormularioWeb($this->sesion), TRUE);
+            } else {
+                $lenguetas->agregar('Renglones', new RenglonesFormularioWeb($this->sesion));
+            }
+            $lenguetas->agregar('Información', new DetalleWeb($this->sesion));
             // Pasar el html y el javascript de las lenguetas al contenido
             $this->contenido[]  = $lenguetas->html();
             $this->javascript[] = $lenguetas->javascript();
+            $this->titulo       = 'Personalizar';
         }
         // Ejecutar el padre y entregar su resultado
         return parent::html();

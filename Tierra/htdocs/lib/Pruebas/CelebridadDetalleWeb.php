@@ -25,7 +25,7 @@ namespace Pruebas;
 /**
  * Clase CelebridadDetalleWeb
  */
-class CelebridadDetalleWeb extends CelebridadRegistro {
+class CelebridadDetalleWeb extends CelebridadRegistro implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

@@ -53,7 +53,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase ListadoWeb
  */
-class ListadoWeb extends Listado {
+class ListadoWeb extends Listado implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_constructor->php()}

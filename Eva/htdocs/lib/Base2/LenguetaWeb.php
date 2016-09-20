@@ -25,77 +25,75 @@ namespace Base2;
 /**
  * Clase LenguetaWeb
  */
-class LenguetaWeb {
+class LenguetaWeb implements SalidaWeb {
 
-    public $clave;                      // Texto que identifica a la lengüeta
-    public $padre_identificador;        // Texto, es el identificador único del juego de lengüetas, desde LenguetasWeb se define
-    public $etiqueta;                   // Texto que va a aparecer en la lengüeta
-    public $contenido;                  // Mixto, puede ser texto, un objeto o un arreglo de objetos
-    public $javascript;                 // Texto, Javascript
-    public $es_activa        = false;   // Booleano, verdadero si es la lengüeta activa
-    protected $digerido_di   = array(); // Si contenido es o son objetos, acumularemos los identificadores
-    protected $digerido_html = array(); // Si contenido es o son objetos, acumularemos el HTML
-    protected $digerido_js   = array(); // Si contenido es o son objetos, acumularemos el Javascript
-    protected $he_digerido   = false;   // Bandera
+    protected $identificador;       // Texto único que lo identifica
+    protected $padre_identificador; // Texto único que identica al padre
+    protected $etiqueta;            // Texto que va a aparecer en la lengüeta
+    protected $contenido;           // Instancia con el contenido, debe implementar SalidaWeb
+    public $es_activa = FALSE;      // Booleano, verdadero si es la lengüeta activa
 
     /**
      * Constructor
      *
-     * @param string Clave
-     * @param string Etiqueta
-     * @param mixed  Opcional, contenido como texto, objeto o arreglo de objetos
-     * @param string Opcional, Javascript
+     * @param string Texto único que identica al padre
+     * @param string Texto que va a aparecer en la lengüeta
+     * @param mixed  Instancia con el contenido, debe implementar SalidaWeb
      */
-    public function __construct($in_clave, $in_etiqueta, $in_contenido='', $in_javascript='') {
-        $this->clave      = $in_clave;
-        $this->etiqueta   = $in_etiqueta;
-        $this->contenido  = $in_contenido;
-        $this->javascript = $in_js;
+    public function __construct($padre_identificador, $etiqueta, $contenido) {
+        $this->padre_identificador = $padre_identificador;
+        $this->etiqueta            = $etiqueta;
+        $this->identificador       = $this->padre_identificador.UtileriasParaFormatos::caracteres_para_clase($this->etiqueta);
+        $this->contenido           = $contenido;
     } // constructor
 
     /**
-     * Digerir
+     * Definir como lengüeta activa
      */
-    protected function digerir() {
-        // Si ya ha digerido, no hace nada
-        if ($this->he_digerido) {
-            return;
+    public function definir_activa() {
+        $this->es_activa = TRUE;
+    } // definir_activa
+
+    /**
+     * Definir como lengüeta inactiva
+     */
+    public function definir_inactiva() {
+        $this->es_activa = FALSE;
+    } // definir_inactiva
+
+    /**
+     * Validar
+     */
+    protected function validar() {
+        if ($this->padre_identificador == NULL) {
+            throw new \Exception("Error en LenguetaWeb: Falta el padre identificador.");
         }
-        // Si es un arreglo
-        if (is_array($this->contenido) && (count($this->contenido) > 0)) {
-            // Es un arreglo de instancias
-            foreach ($this->contenido as $item) {
-                if (is_object($item)) {
-                    if (method_exists($item, 'html')) {
-                        $this->digerido_html[] = $item->html();
-                    }
-                    if (method_exists($item, 'javascript')) {
-                        $this->digerido_js[]   = $item->javascript();
-                    }
-                } elseif (is_string($item)) {
-                    $this->digerido_html[] = $item;
-                }
-                if ($item->identificador != '') {
-                    $this->digerido_di[]   = $item->identificador;
-                }
-            }
-        } elseif (is_object($this->contenido)) {
-            // Es una instancia
-            if (method_exists($this->contenido, 'html')) {
-                $this->digerido_html[] = $this->contenido->html();
-            }
-            if (method_exists($this->contenido, 'javascript')) {
-                $this->digerido_js[]   = $this->contenido->javascript();
-            }
-            if ($this->contenido->identificador != '') {
-                $this->digerido_di[]   = $this->contenido->identificador;
-            }
-        } elseif (is_string($this->contenido)) {
-            $this->digerido_html[] = $this->contenido;
+        if ($this->identificador == NULL) {
+            throw new \Exception("Error en LenguetaWeb: Falta el identificador.");
         }
-        // Cambiar bandera
-        $this->he_digerido = true;
-    } // digerir
+        if ($this->etiqueta == NULL) {
+            throw new \Exception("Error en LenguetaWeb: Falta la etiqueta.");
+        }
+        if ($this->contenido == NULL) {
+            throw new \Exception("Error en LenguetaWeb: Falta el contenido.");
+        }
+        if (!($this->contenido instanceof SalidaWeb)) {
+            throw new \Exception("Error en LenguetaWeb: Contenido en {$this->identificador} no implementa SalidaWeb.");
+        }
+        if (!is_bool($this->es_activa)) {
+            throw new \Exception("Error en LenguetaWeb: Bandera es_activa NO es boleano.");
+        }
+    } // validar
+
+    /**
+     * Obtener identificador
+     *
+     * @return string Identificador
+     */
+    public function obtener_identificador() {
+        $this->validar();
+        return $this->identificador;
+    } // obtener_identificador
 
     /**
      * Pestaña HTML
@@ -103,52 +101,33 @@ class LenguetaWeb {
      * @return string HTML
      */
     public function pestana_html() {
-        // Digerir
-        $this->digerir();
-        // Validar clave
-        if (!is_string($this->clave) || ($this->clave == '')) {
-            throw new \Exception("Error en LenguetaWeb: La clave es incorrecta.");
-        }
-        // Validar etiqueta
-        if (!is_string($this->etiqueta) || ($this->etiqueta == '')) {
-            throw new \Exception("Error en LenguetaWeb: La etiqueta es incorrecta.");
-        }
-        // Inicia pestaña (no se usa class="active" por que es el Javascript en LenguetasHTML quien la activa)
-        $li_tag = '<li>';
-        // Si hay identificadores
-        if (count($this->digerido_di) > 0) {
-            $data_identifier = sprintf(' data-identifier="%s"', implode(',', $this->digerido_di));
+        $this->validar();
+        if ($this->es_activa) {
+            return "    <li role=\"presentation\" class=\"active\"><a href=\"#{$this->identificador}\" aria-controls=\"{$this->identificador}\" role=\"tab\" data-toggle=\"tab\">{$this->etiqueta}</a></li>";
         } else {
-            $data_identifier = '';
+            return "    <li role=\"presentation\"><a href=\"#{$this->identificador}\" aria-controls=\"{$this->identificador}\" role=\"tab\" data-toggle=\"tab\">{$this->etiqueta}</a></li>";
         }
-        // Entregar
-        return "    $li_tag<a href=\"#{$this->clave}\" data-toggle=\"tab\"{$data_identifier}>{$this->etiqueta}</a></li>";
     } // pestana_html
 
     /**
-     * Interior HTML
+     * HTML
      *
-     * @return string HTML
+     * @return string Código HTML
      */
-    public function interior_html() {
-        // Digerir
-        $this->digerir();
-        // En este arreglo acumularemos la entrega
+    public function html() {
+        $this->validar();
+        // Acumular
         $a = array();
-        // Inicia div
-        $a[] = sprintf('    <div class="tab-pane" id="%s">', $this->clave);
-        // Si hay contenido digerido, contenido o nada
-        if (count($this->digerido_html) > 0) {
-            $a[] = '      '.implode("\n      ", $this->digerido_html);
-        } elseif (is_string($this->contenido) && ($this->contenido != '')) {
-            $a[] = $this->contenido;
+        if ($this->es_activa) {
+            $a[] = "  <div role=\"tabpanel\" class=\"tab-pane active\" id=\"{$this->identificador}\">";
         } else {
-            $a[] = '      <p><b>Aviso:</b> Esta lengüeta NO tiene contenido.</p>';
+            $a[] = "  <div role=\"tabpanel\" class=\"tab-pane\" id=\"{$this->identificador}\">";
         }
-        $a[] = '    </div>';
+        $a[] = $this->contenido->html();
+        $a[] = "  </div>";
         // Entregar
         return implode("\n", $a);
-    } // interior_html
+    } // html
 
     /**
      * Javascript
@@ -156,30 +135,26 @@ class LenguetaWeb {
      * @return string Javascript
      */
     public function javascript() {
-        // Acumularemos el javascript en este arreglo
+        $this->validar();
+        // Acumular
         $a = array();
-        // Si hay Javascript en el arreglo digerido
-        foreach ($this->digerido_js as $js) {
-            if ($js !== false) {
+        if ($this->es_activa) {
+            $js = $this->contenido->javascript();
+            if (is_string($js) && !empty(trim($js))) {
+                $a[] = "  // LenguetaWeb {$this->identificador}";
                 $a[] = $js;
             }
-        }
-        // Si hay Javascript
-        if (is_string($this->javascript) && ($this->javascript != '')) {
-            $a[] = $this->javascript;
+        } else {
+            $js = $this->contenido->javascript();
+            if (is_string($js) && !empty(trim($js))) {
+                $a[] = "  // LenguetaWeb {$this->identificador} ejecuta lo siguiente al mostrar";
+                $a[] = "  $('#{$this->padre_identificador} a[href=\"#{$this->identificador}\"]').on('shown.bs.tab', function(e){";
+                $a[] = $js;
+                $a[] = "  })";
+            }
         }
         // Entregar
-        if (count($a) > 0) {
-            $todo = implode("\n", $a);
-            return <<<FINAL
-// LENGUETA {$this->clave}
-$('#{$this->padre_identificador} a[href="#{$this->clave}"]').on('shown.bs.tab', function(e){
-$todo
-});
-FINAL;
-        } else {
-            return '';
-        }
+        return implode("\n", $a);
     } // javascript
 
 } // Clase LenguetaWeb

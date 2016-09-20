@@ -25,7 +25,7 @@ namespace Personalizar;
 /**
  * Clase SituacionWeb
  */
-class SituacionWeb extends Registro {
+class SituacionWeb extends Registro implements \Base2\SalidaWeb {
 
     protected $mensaje; // Instancia de \Base2\MensajeWeb
 

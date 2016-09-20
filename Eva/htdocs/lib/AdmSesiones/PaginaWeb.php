@@ -61,14 +61,11 @@ class PaginaWeb extends \Base2\PaginaWeb {
     public function html() {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
-            // Lenguetas
-            $lenguetas = new \Base2\LenguetasWeb('lenguetassesiones');
             // Listado sesiones
             $sesiones = new ListadoWeb($this->sesion);
-            $lenguetas->agregar_activa('sesionesListado', 'Sesiones', $sesiones);
             // Pasar el html y el javascript de las lenguetas al contenido
-            $this->contenido[]  = $lenguetas->html();
-            $this->javascript[] = $lenguetas->javascript();
+            $this->contenido[]  = $sesiones->html();
+            $this->javascript[] = $sesiones->javascript();
         }
         // Ejecutar el padre y entregar su resultado
         return parent::html();

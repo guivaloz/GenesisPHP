@@ -27,25 +27,6 @@ namespace AdmAutentificaciones;
  */
 class PaginaWeb extends \Base2\PaginaWeb {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // protected $menu;
-    // protected $contenido;
-    // protected $javascript;
-    // protected $clave;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
-
     /**
      * Constructor
      */
@@ -61,14 +42,11 @@ class PaginaWeb extends \Base2\PaginaWeb {
     public function html() {
         // Solo si se carga con éxito la sesión
         if ($this->sesion_exitosa) {
-            // Lenguetas
-            $lenguetas = new \Base2\LenguetasWeb('lenguetasautentificaciones');
             // Listado autentificaciones
             $autentificaciones = new ListadoWeb($this->sesion);
-            $lenguetas->agregar_activa('autentificacionesListado', 'Listado', $autentificaciones);
             // Pasar el html y el javascript de las lenguetas al contenido
-            $this->contenido[]  = $lenguetas->html();
-            $this->javascript[] = $lenguetas->javascript();
+            $this->contenido[]  = $autentificaciones->html();
+            $this->javascript[] = $autentificaciones->javascript();
         }
         // Ejecutar el padre y entregar su resultado
         return parent::html();

@@ -27,99 +27,58 @@ namespace Base2;
  */
 class LenguetasWeb implements SalidaWeb {
 
-    public $identificador;             // Texto identificador a cada grupo de lengüetas
-    public $activa          = false;   // Texto, clave de la lengüeta activa
-    protected $lenguetas    = array(); // Arreglo con los contenidos
-    protected $clave_ultima = false;   // Última clave agregada, le sirve a agregar_javascript
+    protected $identificador;       // Texto único que lo identifica
+    protected $elementos = array(); // Arreglo asociativo con instancias de LenguetaWeb
+    protected $elemento_activo;     // Etiqueta de la lengüeta activa
 
     /**
      * Constructor
      *
-     * @param string Opcional, identificador único para este juego de lengüetas en la página web, por defecto caracteres al azar
+     * @param string Texto único que lo identifica
      */
-    public function __construct($in_id=false) {
-        if (is_string($in_id) && (trim($in_id) != '')) {
-            $this->identificador = $in_id;
-        } else {
-            $this->identificador = "lenguetas-".strtoupper($this->caracteres_azar());
-        }
+    public function __construct($identificador) {
+        $this->identificador = $identificador;
     } // constructor
-
-    /**
-     * Caracteres al azar
-     *
-     * @param  integer Cantidad de caracteres, por defecto 8
-     * @return string  Caracteres al azar
-     */
-    protected function caracteres_azar($in_cantidad=8) {
-        $primera = ord('a');
-        $ultima  = ord('z');
-        $c       = array();
-        for ($i=0; $i<$in_cantidad; $i++) {
-            $c[] = chr(rand($primera, $ultima));
-        }
-        return implode('', $c);
-    } // caracteres_azar
 
     /**
      * Agregar
      *
-     * @param string Clave. Si contiene el texto 'Mapa' se agregará javascript para tal.
-     * @param string Etiqueta
-     * @param mixed  Contenido, puede ser texto HTML, una instancia con métodos html y javascript o un arreglo de instancias
+     * @param string  Texto que va a aparecer en la etiqueta
+     * @param mixed   Instancia con el contenido, debe implementar SalidaWeb
+     * @param boolean Opcional, Verdadero si es la pestaña activa, falso si no
      */
-    public function agregar($in_clave, $in_etiqueta, $in_contenido) {
-        // Definir la última clave como la dada
-        $this->clave_ultima = $in_clave;
-        // Agregar la lengüeta
-        $this->lenguetas[$in_clave] = new LenguetaWeb($in_clave, $in_etiqueta, $in_contenido);
-        // Se pasa el identificador a la lengüeta
-        $this->lenguetas[$in_clave]->padre_identificador = $this->identificador;
+    public function agregar($etiqueta, $contenido, $es_activa=FALSE) {
+        $this->elementos[$etiqueta] = new LenguetaWeb($this->identificador, $etiqueta, $contenido);
+        if ($es_activa) {
+            $this->elemento_activo = $etiqueta; // Conserva sólo la última lengüeta agregada como activa
+        }
     } // agregar
 
     /**
-     * Agregar Javascript
-     *
-     * @param string Javascript
+     * Validar
      */
-    public function agregar_javascript($in_js) {
-        // A la última lengüeta se le pasa el Javascript
-        if (is_string($in_js) && ($in_js != '')) {
-            $this->lenguetas[$this->clave_ultima]->js = $in_js;
+    protected function validar() {
+        // Validar
+        if ($this->identificador == NULL) {
+            throw new \Exception("Error en LenguetasWeb: Falta el identificador.");
         }
-    } // agregar_javascript
-
-    /**
-     * Definir activa
-     *
-     * @param string Clave de la lengüeta activa. Si es nulo, se establece como la última lengüeta agregada.
-     */
-    public function definir_activa($in_clave=false) {
-        // Si no se dio clave
-        if (($in_clave === false) && ($this->clave_ultima !== false)) {
-            // Se toma la ultima que se haya agregado
-            $this->activa = $this->clave_ultima;
-        } elseif (is_string($in_clave) && array_key_exists($in_clave, $this->lenguetas)) {
-            // Se cambia sólo si ha sido agregada
-            $this->activa = $in_clave;
-        } else {
-            return;
+        if (!is_array($this->elementos) || (count($this->elementos) == 0)) {
+            throw new \Exception("Error en LenguetasWeb: No tiene elementos.");
         }
-        // Luego poner todas las lengüetas como inactivas
-        foreach ($this->lenguetas as $lengueta) {
-            $lengueta->es_activa = false;
+        // Si NO está definida la lengüeta activa, entonces la primera lo será
+        if ($this->elemento_activo == NULL) {
+            $etiquetas             = array_keys($this->elementos);
+            $this->elemento_activo = $etiquetas[0];
         }
-        // Después poner como activa a la lengüeta que le corresponde
-        $this->lenguetas[$this->activa]->es_activa = true;
-    } // definir_activa
-
-    /**
-     * Agregar activa
-     */
-    public function agregar_activa($in_clave, $in_etiqueta, $in_contenido) {
-        $this->agregar($in_clave, $in_etiqueta, $in_contenido);
-        $this->definir_activa();
-    } // agregar_activa
+        // Asegurarse que sólo debe haber una lengüeta activa
+        foreach ($this->elementos as $etiqueta => $elemento) {
+            if ($etiqueta == $this->elemento_activo) {
+                $elemento->definir_activa();
+            } else {
+                $elemento->definir_inactiva();
+            }
+        }
+    } // validar
 
     /**
      * HTML
@@ -127,33 +86,21 @@ class LenguetasWeb implements SalidaWeb {
      * @return string Código HTML
      */
     public function html() {
-        // Si no hay lengüetas, no entrega nada
-        if (count($this->lenguetas) == 0) {
-            return '';
+        $this->validar();
+        // Acumular
+        $a   = array();
+        $a[] = "<div>";
+        $a[] = "  <ul class=\"nav nav-tabs lenguetas\" role=\"tablist\" id=\"{$this->identificador}\">";
+        foreach ($this->elementos as $elemento) {
+            $a[] = $elemento->pestana_html();
         }
-        // Si viene en el URL accion y es una lengüeta, se define como activa
-        if (($_GET['accion'] != '') && array_key_exists($_GET['accion'], $this->lenguetas)) {
-            $this->definir_activa($_GET['accion']);
+        $a[] = "  </ul>";
+        $a[] = "  <div class=\"tab-content lengueta-contenido\">";
+        foreach ($this->elementos as $elemento) {
+            $a[] = $elemento->html();
         }
-        // Si no hay lengüeta activa, se define como activa la primera
-        if ($this->activa === false) {
-            $claves       = array_keys($this->lenguetas);
-            $this->definir_activa($claves[0]);
-        }
-        // En este arreglo juntaremos el HTML
-        $a = array();
-        // Acumular pestañas
-        $a[] = "  <ul class=\"nav nav-tabs lenguetas\" id=\"{$this->identificador}\">";
-        foreach ($this->lenguetas as $lengueta) {
-            $a[] = $lengueta->pestana_html();
-        }
-        $a[] = '  </ul>';
-        // Acumular interiores
-        $a[] = '  <div class="tab-content lengueta-contenido">';
-        foreach ($this->lenguetas as $lengueta) {
-            $a[] = $lengueta->interior_html();
-        }
-        $a[] = '  </div>';
+        $a[] = "  </div>";
+        $a[] = "</div>";
         // Entregar
         return implode("\n", $a);
     } // html
@@ -161,46 +108,25 @@ class LenguetasWeb implements SalidaWeb {
     /**
      * Javascript
      *
-     * Entregar el javascript. Si no lo hay, entrega falso.
-     *
      * @return string Javascript
      */
     public function javascript() {
-        // Si no hay lengüetas, no entrega nada
-        if (count($this->lenguetas) == 0) {
-            return '';
-        }
-        // En este arreglo juntaremos el javascript
+        $this->validar();
+        // Obtener el identificador del elemento activo
+        $identificador = $this->elementos[$this->elemento_activo]->obtener_identificador();
+        // Acumular
         $a = array();
-        // Acumular el Javascript de cada lengüeta
-        foreach ($this->lenguetas as $lengueta) {
-            $js = $lengueta->javascript();
-            if (is_string($js) && (trim($js) != '')) {
+        foreach ($this->elementos as $elemento) {
+            $js = $elemento->javascript();
+            if (is_string($js) && !empty(trim($js))) {
                 $a[] = $js;
-            } elseif (is_array($js) && (count($js) > 0)) {
-                foreach ($js as $j) {
-                    if (trim($js) != '') {
-                        $a[] = $j;
-                    }
-                }
             }
         }
-        // Acumular Javascript de Twitter Bootstrap para que lengüeta activa sea la que aparezca
-        if ($this->activa === false) {
-            $a[] = <<<FINAL
-// TWITTER BOOTSTRAP TABS, ESTABLECER QUE LA PRIMER LENGÜETA ES LA ACTIVA
-$(document).ready(function(){
-  $('#{$this->identificador} a:first').tab('show')
-});
-FINAL;
-        } else {
-            $a[] = <<<FINAL
-// TWITTER BOOTSTRAP TABS, ESTABLECER QUE LA LENGÜETA ACTIVA ES {$this->activa}
-$(document).ready(function(){
-  $('#{$this->identificador} a[href="#{$this->activa}"]').tab('show')
-});
-FINAL;
-        }
+        // Acumular javascript propio de Twitter Bootstrap
+        $a[] = "  // LenguetasWeb {$this->identificador} ordenar que {$this->elemento_activo} es la que se mostrará";
+        $a[] = "  $(document).ready(function(){";
+        $a[] = "    $('#{$this->identificador} a[href=\"#{$identificador}\"]').tab('show')";
+        $a[] = "  });";
         // Entregar
         return implode("\n", $a);
     } // javascript

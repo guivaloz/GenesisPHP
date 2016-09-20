@@ -89,9 +89,13 @@ abstract class PaginaWeb extends PlantillaWeb {
             } catch (\Exception $e) {
                 $this->contenido = $e->getMessage();
             }
-            // Título e ícono de la página
-            $this->titulo = $this->menu->titulo_en($this->clave);
-            $this->icono  = $this->menu->icono_en($this->clave);
+            // Título e ícono
+            if ($this->titulo == '') {
+                $this->titulo = $this->menu->titulo_en($this->clave);
+            }
+            if ($this->icono == '') {
+                $this->icono  = $this->menu->icono_en($this->clave);
+            }
         }
         // Se ejecuta el padre y se entrega su resultado
         return parent::html();

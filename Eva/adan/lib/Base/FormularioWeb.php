@@ -53,7 +53,7 @@ namespace SED_CLASE_PLURAL;
 /**
  * Clase FormularioWeb
  */
-class FormularioWeb extends DetalleWeb {
+class FormularioWeb extends DetalleWeb implements \\Base2\\SalidaWeb {
 
 {$propiedades->php()}
 {$metodo_elaborar_formulario->php()}
