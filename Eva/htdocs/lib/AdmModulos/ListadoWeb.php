@@ -25,7 +25,7 @@ namespace AdmModulos;
 /**
  * Clase ListadoWeb
  */
-class ListadoWeb extends Listado {
+class ListadoWeb extends Listado implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // public $listado;

@@ -33,12 +33,19 @@ class PaginaWeb extends Plantilla {
      * @return string Código PHP
      */
     public function php() {
-        // Definir instancias con las partes
-        $propiedades                   = new \PaginaWeb\Propiedades($this->adan);
-        $metodo_constructor            = new \PaginaWeb\Constructor($this->adan);
-        $metodo_collapse_padre_e_hijos = new \PaginaWeb\CollapsePadreEHijos($this->adan);
-        $metodo_html                   = new \PaginaWeb\HTML($this->adan);
-        // Armar el contenido con las partes
+        // Definir instancias con los fragmentos
+        $propiedades                     = new \PaginaWeb\Propiedades($this->adan);
+        $metodo_constructor              = new \PaginaWeb\Constructor($this->adan);
+        $metodo_acordeones_padre_e_hijos = new \PaginaWeb\AcordeonesPadreEHijos($this->adan);
+        $metodo_html                     = new \PaginaWeb\HTML($this->adan);
+        // Acumular fragmentos
+        $f = array();
+        if ($p = $propiedades->php())                     $f[] = $p;
+        if ($m = $metodo_constructor->php())              $f[] = $m;
+        if ($m = $metodo_acordeones_padre_e_hijos->php()) $f[] = $m;
+        if ($m = $metodo_html->php())                     $f[] = $m;
+        $todo = implode("\n", $f);
+        // Armar el contenido
         $contenido = <<<FINAL
 <?php
 /**
@@ -54,10 +61,7 @@ namespace SED_CLASE_PLURAL;
  */
 class PaginaWeb extends \\Base2\\PaginaWeb {
 
-{$propiedades->php()}
-{$metodo_constructor->php()}
-{$metodo_collapse_padre_e_hijos->php()}
-{$metodo_html->php()}
+$todo
 } // Clase PaginaWeb
 
 ?>

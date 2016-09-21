@@ -55,8 +55,8 @@ abstract class Plantilla {
         // El nombre de la columna primary key
         if (is_string($this->adan->primary_key) && ($this->adan->primary_key != '')) {
             $this->primary_key = $this->adan->primary_key;
-        } elseif (is_bool($this->adan->primary_key) && ($this->adan->primary_key === false)) {
-            $this->primary_key = false;
+        } elseif (is_bool($this->adan->primary_key) && ($this->adan->primary_key === FALSE)) {
+            $this->primary_key = FALSE;
         } else {
             $this->primary_key = 'id';
         }
@@ -91,13 +91,13 @@ abstract class Plantilla {
         if (is_array($this->adan->hijos) && (count($this->adan->hijos) > 0)) {
             $this->hijos = $this->adan->hijos;
         } else {
-            $this->hijos = false;
+            $this->hijos = FALSE;
         }
         // Copiar de adan el padre
         if (is_array($this->adan->padre) && (count($this->adan->padre) > 0)) {
             $this->padre = $this->adan->padre;
         } else {
-            $this->padre = false;
+            $this->padre = FALSE;
         }
         // Copiar de Adan las sustituciones
         if (is_array($this->adan->sustituciones) && (count($this->adan->sustituciones) > 0)) {
@@ -115,19 +115,19 @@ abstract class Plantilla {
         if (is_array($this->adan->imagen) && (count($this->adan->imagen) > 0)) {
             $this->imagen = $this->adan->imagen;
         } else {
-            $this->imagen = false;
+            $this->imagen = FALSE;
         }
         // Copiar de Adan el mapa
         if (is_array($this->adan->mapa) && (count($this->adan->mapa) > 0)) {
             $this->mapa = $this->adan->mapa;
         } else {
-            $this->mapa = false;
+            $this->mapa = FALSE;
         }
         // Copiar de Adan la impresion
         if (is_array($this->adan->impresion) && (count($this->adan->impresion) > 0)) {
             $this->impresion = $this->adan->impresion;
         } else {
-            $this->impresion = false;
+            $this->impresion = FALSE;
         }
         // Si en la tabla existe el estatus
         if (is_array($this->tabla['estatus']) && (count($this->tabla['estatus']) > 0)) {
@@ -155,7 +155,7 @@ abstract class Plantilla {
             }
         } else {
             // No hay columna estatus, no habra listados separados para en uso y eliminados
-            $this->estatus = false;
+            $this->estatus = FALSE;
         }
         // Determinar la cantidad de caracteres de las columnas
         $this->columnas_caracteres_maximo = 0;

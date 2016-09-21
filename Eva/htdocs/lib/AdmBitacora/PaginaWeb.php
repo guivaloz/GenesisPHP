@@ -50,8 +50,9 @@ class PaginaWeb extends \Base2\PaginaWeb {
                 $detalle->id = $_GET['id'];
                 $lenguetas->agregar('Detalle', $detalle, TRUE);
             }
-            // Busqueda, crea dos lenguetas si hay resultados
-            $busqueda = new BusquedaWeb($this->sesion);
+            // Busqueda
+            $busqueda  = new BusquedaWeb($this->sesion);
+            $resultado = $busqueda->html(); // TODO: Ejecuto el método para consultar las banderas, mejorar
             if ($busqueda->hay_resultados) {
                 $lenguetas->agregar('Resultados', $busqueda, TRUE);
             } elseif ($busqueda->hay_mensaje) {
@@ -64,7 +65,7 @@ class PaginaWeb extends \Base2\PaginaWeb {
             if ($listado->viene_listado) {
                 $lenguetas->agregar('Listado', $listado, TRUE);
             } else {
-                $lenguetas->agregar('Listado', $listado);
+                $lenguetas->agregar('Listado', $listado, FALSE, TRUE); // Lengüeta activa por defecto
             }
             // Pasar el html y el javascript de las lenguetas al contenido
             $this->contenido[]  = $lenguetas->html();

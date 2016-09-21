@@ -25,7 +25,7 @@ namespace AdmRoles;
 /**
  * Clase BusquedaWeb
  */
-class BusquedaWeb extends \Base2\BusquedaWeb {
+class BusquedaWeb extends \Base2\BusquedaWeb implements \Base2\SalidaWeb {
 
     // public $hay_resultados;
     // public $entrego_detalle;

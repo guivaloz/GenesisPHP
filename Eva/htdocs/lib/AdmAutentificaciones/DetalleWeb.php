@@ -35,6 +35,23 @@ class DetalleWeb extends Registro implements \Base2\SalidaWeb {
     // static public $tipo_colores;
     const RAIZ_PHP_ARCHIVO = 'admautentificaciones.php';
 
+    /**
+     * HTML
+     *
+     * @param  string Encabezado opcional
+     * @return string HTML
+     */
+    public function html($in_encabezado='') {
+    } // html
+
+    /**
+     * Javascript
+     *
+     * @return string Javascript
+     */
+    public function javascript() {
+    } // javascript
+
 } // Clase DetalleWeb
 
 ?>

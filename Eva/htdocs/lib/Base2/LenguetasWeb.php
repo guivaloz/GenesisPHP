@@ -45,12 +45,16 @@ class LenguetasWeb implements SalidaWeb {
      *
      * @param string  Texto que va a aparecer en la etiqueta
      * @param mixed   Instancia con el contenido, debe implementar SalidaWeb
-     * @param boolean Opcional, Verdadero si es la pestaña activa, falso si no
+     * @param boolean Opcional, use TRUE para definir como pestaña activa, sobreescribe a lo anterior
+     * @param boolean Opcional, use TRUE para definir como pestaña activa SI NO HAY pestaña activa aun
      */
-    public function agregar($etiqueta, $contenido, $es_activa=FALSE) {
+    public function agregar($etiqueta, $contenido, $es_activa = FALSE, $es_por_defecto = FALSE) {
         $this->elementos[$etiqueta] = new LenguetaWeb($this->identificador, $etiqueta, $contenido);
         if ($es_activa) {
-            $this->elemento_activo = $etiqueta; // Conserva sólo la última lengüeta agregada como activa
+            $this->elemento_activo = $etiqueta;
+        }
+        if ($es_por_defecto && ($this->elemento_activo == NULL)) {
+            $this->elemento_activo = $etiqueta;
         }
     } // agregar
 
@@ -112,8 +116,6 @@ class LenguetasWeb implements SalidaWeb {
      */
     public function javascript() {
         $this->validar();
-        // Obtener el identificador del elemento activo
-        $identificador = $this->elementos[$this->elemento_activo]->obtener_identificador();
         // Acumular
         $a = array();
         foreach ($this->elementos as $elemento) {
@@ -122,10 +124,12 @@ class LenguetasWeb implements SalidaWeb {
                 $a[] = $js;
             }
         }
-        // Acumular javascript propio de Twitter Bootstrap
+        // Obtener el identificador de la lengüeta activa
+        $lengueta_activa_id = $this->elementos[$this->elemento_activo]->obtener_identificador();
+        // Acumular código para lengüeta activa
         $a[] = "  // LenguetasWeb {$this->identificador} ordenar que {$this->elemento_activo} es la que se mostrará";
         $a[] = "  $(document).ready(function(){";
-        $a[] = "    $('#{$this->identificador} a[href=\"#{$identificador}\"]').tab('show')";
+        $a[] = "    $('#{$this->identificador} a[href=\"#{$lengueta_activa_id}\"]').tab('show')";
         $a[] = "  });";
         // Entregar
         return implode("\n", $a);

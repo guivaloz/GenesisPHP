@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase DesbloquearWeb
  */
-class DesbloquearWeb extends DetalleWeb {
+class DesbloquearWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     /**
      * HTML

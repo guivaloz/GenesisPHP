@@ -67,69 +67,60 @@ class PaginaWeb extends \Base2\PaginaWeb {
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosModificar', 'Modificar', $formulario);
+                $lenguetas->agregar('Modificar', $formulario, TRUE);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_eliminar)) {
                 $eliminar     = new EliminarWeb($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosEliminar', 'Eliminar', $eliminar);
+                $lenguetas->agregar('Eliminar', $eliminar, TRUE);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_recuperar)) {
                 $recuperar     = new RecuperarWeb($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosRecuperar', 'Recuperar', $recuperar);
+                $lenguetas->agregar('Recuperar', $recuperar, TRUE);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_desbloquear)) {
                 $desbloquear     = new DesbloquearWeb($this->sesion);
                 $desbloquear->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosDesbloquear', 'Desbloquear', $desbloquear);
+                $lenguetas->agregar('Desbloquear', $desbloquear, TRUE);
             } elseif ($_GET['id'] != '') {
                 $detalle = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
-                $lenguetas->agregar_activa('usuariosDetalle', 'Detalle', $detalle);
+                $lenguetas->agregar('Detalle', $detalle, TRUE);
             } elseif ($_POST['formulario'] == FormularioWeb::$form_name) {
                 $formulario = new FormularioWeb($this->sesion);
-                $lenguetas->agregar_activa('usuariosFormulario', 'Formulario', $formulario);
+                $lenguetas->agregar('Formulario', $formulario, TRUE);
             }
-            // Busqueda, crea dos lenguetas si hay resultados
-            $busqueda        = new BusquedaWeb($this->sesion);
-            $resultados_html = $busqueda->html();
+            // Busqueda
+            $busqueda  = new BusquedaWeb($this->sesion);
+            $resultado = $busqueda->html(); // TODO: Ejecuto el método para consultar las banderas, mejorar
             if ($busqueda->hay_resultados) {
-                if ($busqueda->entrego_detalle) {
-                    $lenguetas->agregar_activa('usuariosResultado',  'Resultado',  $resultados_html);
-                } else {
-                    $lenguetas->agregar_activa('usuariosResultados', 'Resultados', $resultados_html);
-                }
-                $lenguetas->agregar('usuariosBuscar', 'Buscar', $busqueda->formulario_html());
+                $lenguetas->agregar('Resultados', $busqueda, TRUE);
             } elseif ($busqueda->hay_mensaje) {
-                $lenguetas->agregar_activa('usuariosBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda, TRUE);
             } else {
-                $lenguetas->agregar('usuariosBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda);
             }
-            $lenguetas->agregar_javascript($busqueda->javascript());
             // Listados
             $listado = new ListadoWeb($this->sesion);
             if ($listado->viene_listado) {
-                // Viene un listado previo
-                $lenguetas->agregar_activa('usuariosListado', 'Listado', $listado);
+                $lenguetas->agregar('Listado', $listado, TRUE);
             } else {
                 // En uso
                 $listado->estatus = 'A';
-                $lenguetas->agregar('usuariosEnUso', 'En uso', $listado);
-                if ($lenguetas->activa == '') {
-                    $lenguetas->definir_activa();
-                }
+                $lenguetas->agregar('En uso', $listado, FALSE, TRUE); // Lengüeta activa por defecto
                 // Eliminados
                 if ($this->sesion->puede_recuperar()) {
                     $listado = new ListadoWeb($this->sesion);
                     $listado->estatus = 'B';
-                    $lenguetas->agregar('usuariosEliminados', 'Eliminados', $listado);
+                    $lenguetas->agregar('Eliminados', $listado);
                 }
             }
             // Nuevo
             if ($this->sesion->puede_agregar()) {
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = 'agregar';
-                $lenguetas->agregar('usuariosNuevo', 'Nuevo', $formulario);
                 if ($_GET['accion'] == 'agregar') {
-                    $lenguetas->definir_activa();
+                    $lenguetas->agregar('Nuevo', $formulario, TRUE);
+                } else {
+                    $lenguetas->agregar('Nuevo', $formulario);
                 }
             }
             // Pasar el html y el javascript de las lenguetas al contenido

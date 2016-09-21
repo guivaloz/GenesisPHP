@@ -25,7 +25,7 @@ namespace AdmSesiones;
 /**
  * Clase DetalleWeb
  */
-class DetalleWeb extends Registro {
+class DetalleWeb extends Registro implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

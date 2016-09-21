@@ -25,7 +25,7 @@ namespace AdmDepartamentos;
 /**
  * Clase FormularioWeb
  */
-class FormularioWeb extends DetalleWeb {
+class FormularioWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     // protected $sesion;
     // protected $consultado;

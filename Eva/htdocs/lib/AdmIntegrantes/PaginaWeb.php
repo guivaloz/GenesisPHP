@@ -27,25 +27,6 @@ namespace AdmIntegrantes;
  */
 class PaginaWeb extends \Base2\PaginaWeb {
 
-    // protected $sistema;
-    // protected $titulo;
-    // protected $descripcion;
-    // protected $autor;
-    // protected $favicon;
-    // protected $modelo;
-    // protected $menu_principal_logo;
-    // protected $modelo_ingreso_logos;
-    // protected $modelo_fluido_logos;
-    // protected $pie;
-    // protected $menu;
-    // protected $contenido;
-    // protected $javascript;
-    // protected $clave;
-    // protected $sesion;
-    // protected $sesion_exitosa;
-    // protected $usuario;
-    // protected $usuario_nombre;
-
     /**
      * Constructor
      */
@@ -67,65 +48,56 @@ class PaginaWeb extends \Base2\PaginaWeb {
             if (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_modificar)) {
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesModificar', 'Modificar', $formulario);
+                $lenguetas->agregar('Modificar', $formulario, TRUE);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_eliminar)) {
                 $eliminar     = new EliminarWeb($this->sesion);
                 $eliminar->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesEliminar', 'Eliminar', $eliminar);
+                $lenguetas->agregar('Eliminar', $eliminar, TRUE);
             } elseif (($_GET['id'] != '') && ($_GET['accion'] == DetalleWeb::$accion_recuperar)) {
                 $recuperar     = new RecuperarWeb($this->sesion);
                 $recuperar->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesRecuperar', 'Recuperar', $recuperar);
+                $lenguetas->agregar('Recuperar', $recuperar, TRUE);
             } elseif ($_GET['id'] != '') {
                 $detalle     = new DetalleWeb($this->sesion);
                 $detalle->id = $_GET['id'];
-                $lenguetas->agregar_activa('integrantesDetalle', 'Detalle', $detalle);
+                $lenguetas->agregar('Detalle', $detalle, TRUE);
             } elseif ($_POST['formulario'] == FormularioWeb::$form_name) {
                 $formulario = new FormularioWeb($this->sesion);
-                $lenguetas->agregar_activa('integrantesFormulario', 'Formulario', $formulario);
+                $lenguetas->agregar('Formulario', $formulario, TRUE);
             }
-            // Busqueda, crea dos lenguetas si hay resultados
-            $busqueda        = new BusquedaWeb($this->sesion);
-            $resultados_html = $busqueda->html();
+            // Busqueda
+            $busqueda  = new BusquedaWeb($this->sesion);
+            $resultado = $busqueda->html(); // TODO: Ejecuto el método para consultar las banderas, mejorar
             if ($busqueda->hay_resultados) {
-                if ($busqueda->entrego_detalle) {
-                    $lenguetas->agregar_activa('integrantesResultado',  'Resultado',  $resultados_html);
-                } else {
-                    $lenguetas->agregar_activa('integrantesResultados', 'Resultados', $resultados_html);
-                }
-                $lenguetas->agregar('integrantesBuscar', 'Buscar', $busqueda->formulario_html());
+                $lenguetas->agregar('Resultados', $busqueda, TRUE);
             } elseif ($busqueda->hay_mensaje) {
-                $lenguetas->agregar_activa('integrantesBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda, TRUE);
             } else {
-                $lenguetas->agregar('integrantesBuscar', 'Buscar', $resultados_html);
+                $lenguetas->agregar('Buscar', $busqueda);
             }
-            $lenguetas->agregar_javascript($busqueda->javascript());
             // Listados
             $listado = new ListadoWeb($this->sesion);
             if ($listado->viene_listado) {
-                // Viene un listado previo
-                $lenguetas->agregar_activa('integrantesListado', 'Listado', $listado);
+                $lenguetas->agregar('Listado', $listado, TRUE);
             } else {
                 // En uso
                 $listado->estatus = 'A';
-                $lenguetas->agregar('integrantesEnUso', 'En uso', $listado);
-                if ($lenguetas->activa == '') {
-                    $lenguetas->definir_activa();
-                }
+                $lenguetas->agregar('En uso', $listado, FALSE, TRUE); // Lengüeta activa por defecto
                 // Eliminados
                 if ($this->sesion->puede_recuperar()) {
                     $listado = new ListadoWeb($this->sesion);
                     $listado->estatus = 'B';
-                    $lenguetas->agregar('integrantesEliminados', 'Eliminados', $listado);
+                    $lenguetas->agregar('Eliminados', $listado);
                 }
             }
             // Nuevo
             if ($this->sesion->puede_agregar()) {
                 $formulario     = new FormularioWeb($this->sesion);
                 $formulario->id = 'agregar';
-                $lenguetas->agregar('integrantesNuevo', 'Nuevo', $formulario);
                 if ($_GET['accion'] == 'agregar') {
-                    $lenguetas->definir_activa();
+                    $lenguetas->agregar('Nuevo', $formulario, TRUE);
+                } else {
+                    $lenguetas->agregar('Nuevo', $formulario);
                 }
             }
             // Pasar el html y el javascript de las lenguetas al contenido

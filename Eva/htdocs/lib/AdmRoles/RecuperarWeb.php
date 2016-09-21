@@ -25,7 +25,7 @@ namespace AdmRoles;
 /**
  * Clase RecuperarWeb
  */
-class RecuperarWeb extends DetalleWeb {
+class RecuperarWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     /**
      * HTML

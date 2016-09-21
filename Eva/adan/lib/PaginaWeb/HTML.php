@@ -30,15 +30,15 @@ class HTML extends \Base\Plantilla {
     /**
      * Elaborar HTML Acción Imprimir
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_imprimir() {
-        // Condicion
+        // No entregar nada si NO hay que crear impresiones
         if ($this->reptil['contenido'] != 'impresiones') {
-            return false;
+            return FALSE;
         }
         // Validar que se haya definido el padre
-        if ($this->padre === false) {
+        if ($this->padre === FALSE) {
             die('Error en PaginaWeb: Este módulo con contenido impresiones no tiene padre. Debe tener uno por lo menos.');
         }
         // Tomar solo el primer padre
@@ -56,23 +56,22 @@ FIN;
     /**
      * Elaborar HTML Acción Modificar
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_modificar() {
-        // Si no hay columna primary key, no hay modificar
-        if ($this->primary_key === false) {
-            return false;
+        // No entregar nada si NO hay primary key
+        if ($this->primary_key === FALSE) {
+            return FALSE;
         }
-        // Condicion
+        // No entregar nada si NO hay que crear formulario
         if (!$this->adan->si_hay_que_crear('formulario')) {
-            return false;
+            return FALSE;
         }
         // Entregar
         return <<<FIN
 if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\$accion_modificar)) {
-                // Modificar
-                \$formulario     = new FormularioWeb(\$this->sesion);
-                \$formulario->id = \$_GET['id'];
+                \$formulario = new FormularioWeb(\$this->sesion);
+                \$formulario->{$this->primary_key} = \$_GET['id'];
                 \$lenguetas->agregar('Modificar', \$formulario, TRUE);
             }
 FIN;
@@ -81,23 +80,22 @@ FIN;
     /**
      * Elaborar HTML Acción Eliminar
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_eliminar() {
-        // Si no hay columna primary key, no hay eliminar
-        if ($this->primary_key === false) {
-            return false;
+        // // No entregar nada si NO hay primary key
+        if ($this->primary_key === FALSE) {
+            return FALSE;
         }
-        // Condicion
+        // No entregar nada si NO hay que crear eliminar
         if (!$this->adan->si_hay_que_crear('eliminar')) {
-            return false;
+            return FALSE;
         }
         // Entregar
         return <<<FIN
 if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\$accion_eliminar)) {
-                // Eliminar
-                \$eliminar     = new EliminarWeb(\$this->sesion);
-                \$eliminar->id = \$_GET['id'];
+                \$eliminar = new EliminarWeb(\$this->sesion);
+                \$eliminar->{$this->primary_key} = \$_GET['id'];
                 \$lenguetas->agregar('Eliminar', \$eliminar, TRUE);
             }
 FIN;
@@ -106,23 +104,22 @@ FIN;
     /**
      * Elaborar HTML Acción Recuperar
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_recuperar() {
-        // Si no hay columna primary key, no hay recuperar
-        if ($this->primary_key === false) {
-            return false;
+        // No entregar nada si NO hay primary key
+        if ($this->primary_key === FALSE) {
+            return FALSE;
         }
-        // Condicion
+        // No entregar nada si NO hay que crear recuperar
         if (!$this->adan->si_hay_que_crear('recuperar')) {
-            return false;
+            return FALSE;
         }
         // Entregar
         return <<<FIN
 if ((\$_GET['{$this->primary_key}'] != '') && (\$_GET['accion'] == DetalleWeb::\$accion_recuperar)) {
-                // Recuperar
-                \$recuperar     = new RecuperarWeb(\$this->sesion);
-                \$recuperar->id = \$_GET['id'];
+                \$recuperar = new RecuperarWeb(\$this->sesion);
+                \$recuperar->{$this->primary_key} = \$_GET['id'];
                 \$lenguetas->agregar('Recuperar', \$recuperar, TRUE);
             }
 FIN;
@@ -131,86 +128,84 @@ FIN;
     /**
      * Elaborar HTML Acción Detalle
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_detalle() {
-        // Si no hay columna primary key, no hay detalle
-        if ($this->primary_key === false) {
-            return false;
+        // No entregar nada si NO hay primary key
+        if ($this->primary_key === FALSE) {
+            return FALSE;
         }
-        // Juntaremos el codigo en este arreglo
-        $d   = array();
-        $d[] = "if (\$_GET['{$this->primary_key}'] != '') {";
         // Si tiene hijos
         if (is_array($this->hijos) && (count($this->hijos) > 0)) {
-            // Tiene hijos, se usara collapse para mostrar el detalle y sus hijos
-            $d[] = "                // Detalle e hijos";
-            $d[] = "                \$detalle  = new DetalleWeb(\$this->sesion);";
-            $d[] = "                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];";
-            $d[] = "                \$acordeon = \$this->crear_collapse_padre_hijos(\$detalle);";
-            $d[] = "                \$lenguetas->agregar('Detalle', \$acordeon, TRUE);";
+            // Tiene hijos, se usará el acordeón padres e hijos
+            return <<<FIN
+if (\$_GET['{$this->primary_key}'] != '') {
+                \$detalle = new DetalleWeb(\$this->sesion);
+                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];
+                \$lenguetas->agregar('Detalle', \$this->crear_acordeones_padre_e_hijos(\$detalle), TRUE);
+            }
+FIN;
         } else {
             // No hay hijos, mostrar solo el detalle
-            $d[] = "                // Detalle";
-            $d[] = "                \$detalle = new DetalleWeb(\$this->sesion);";
-            $d[] = "                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];";
-            $d[] = "                \$lenguetas->agregar('Detalle', \$detalle, TRUE);";
+            return <<<FIN
+if (\$_GET['{$this->primary_key}'] != '') {
+                \$detalle = new DetalleWeb(\$this->sesion);
+                \$detalle->{$this->primary_key} = \$_GET['{$this->primary_key}'];
+                \$lenguetas->agregar('Detalle', \$detalle, TRUE);
+            }
+FIN;
         }
-        $d[] = "            }";
-        // Entregar
-        return implode("\n", $d);
     } // elaborar_html_accion_detalle
 
     /**
      * Elaborar HTML Acción Formulario Recibir
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_formulario_recibir() {
-        // Condicion
+        // No entregar nada si NO hay que crear formulario
         if (!$this->adan->si_hay_que_crear('formulario')) {
-            return false;
+            return FALSE;
         }
-        // Juntaremos el codigo en este arreglo
-        $a = array();
-        $a[] = "if (\$_POST['formulario'] == FormularioWeb::\$form_name) {";
-        $a[] = "                // Viene el formulario";
-        $a[] = "                \$formulario = new FormularioWeb(\$this->sesion);";
         // Si tiene hijos
         if (is_array($this->hijos) && (count($this->hijos) > 0)) {
-            // Tiene hijos
-            $a[] = "                \$acordeon = \$this->crear_collapse_padre_hijos(\$formulario);";
-            $a[] = "                \$lenguetas->agregar('Formulario', \$acordeon);";
+            // Tiene hijos, se usará el acordeón padres e hijos
+            return <<<FIN
+if (\$_POST['formulario'] == FormularioWeb::\$form_name) {
+                \$formulario = new FormularioWeb(\$this->sesion);
+                \$lenguetas->agregar('Formulario', \$this->crear_acordeones_padre_e_hijos(\$formulario), TRUE);
+            }
+FIN;
         } else {
             // No hay hijos
-            $a[] = "                \$lenguetas->agregar('Formulario', \$formulario);";
+            return <<<FIN
+if (\$_POST['formulario'] == FormularioWeb::\$form_name) {
+                \$formulario = new FormularioWeb(\$this->sesion);
+                \$lenguetas->agregar('Formulario', \$formulario, TRUE);
+            }
+FIN;
         }
-        $a[] = "            }";
-        // Entregar
-        return implode("\n", $a);
     } // elaborar_html_accion_formulario_recibir
 
     /**
      * Elaborar HTML Acción Búsqueda
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_busqueda() {
-        // Condicion
+        // No entregar nada si NO hay que crear búsqueda
         if (!$this->adan->si_hay_que_crear('busqueda')) {
-            return false;
+            return FALSE;
         }
         // Si tiene hijos
         if (is_array($this->hijos) && (count($this->hijos) > 0)) {
-            // Tiene hijos
+            // Tiene hijos, se usará el acordeón padres e hijos
             return <<<FIN
-            // Búsqueda, crea dos lengüetas si hay resultados
-            \$busqueda = new BusquedaWeb(\$this->sesion);
-            if (\$busqueda->hay_resultados && \$busqueda->entrego_detalle) {
-                \$acordeon = \$this->crear_collapse_padre_hijos(\$busqueda);
-                \$lenguetas->agregar('Resultado', \$acordeon, TRUE);
-            } elseif (\$busqueda->hay_resultados) {
-                \$lenguetas->agregar('Resultados', \$busqueda, TRUE);
+            // Búsqueda
+            \$busqueda  = new BusquedaWeb(\$this->sesion);
+            \$resultado = \$busqueda->html(); // TODO: Ejecuto el método para consultar las banderas, mejorar
+            if (\$busqueda->hay_resultados) {
+                \$lenguetas->agregar('Resultados', \$this->crear_acordeones_padre_e_hijos(\$busqueda), TRUE);
             } elseif (\$busqueda->hay_mensaje) {
                 \$lenguetas->agregar('Buscar', \$busqueda, TRUE);
             } else {
@@ -220,11 +215,10 @@ FIN;
         } else {
             // No hay hijos
             return <<<FIN
-            // Búsqueda, crea dos lengüetas si hay resultados
-            \$busqueda = new BusquedaWeb(\$this->sesion);
-            if (\$busqueda->hay_resultados && \$busqueda->entrego_detalle) {
-                \$lenguetas->agregar('Resultado', \$busqueda, TRUE);
-            } elseif (\$busqueda->hay_resultados) {
+            // Búsqueda
+            \$busqueda  = new BusquedaWeb(\$this->sesion);
+            \$resultado = \$busqueda->html(); // TODO: Ejecuto el método para consultar las banderas, mejorar
+            if (\$busqueda->hay_resultados) {
                 \$lenguetas->agregar('Resultados', \$busqueda, TRUE);
             } elseif (\$busqueda->hay_mensaje) {
                 \$lenguetas->agregar('Buscar', \$busqueda, TRUE);
@@ -238,182 +232,179 @@ FIN;
     /**
      * Elaborar HTML Acción Listados
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_listados() {
-        // No entregar nada si no hay que hacer los listados
+        // No entregar nada si NO hay que crear listados
         if (!$this->adan->si_hay_que_crear('listado')) {
-            return false;
+            return FALSE;
         }
-        // Juntaremos en este arreglo
-        $l = array();
         // Si hay estatus, mostrar listados para cada letra
         if (is_array($this->estatus)) {
-            // Si es lo convencional con a y b
+            // Si es lo convencional con EN USO y ELIMINADO
             if ((count($this->estatus) == 2) && ($this->estatus['enuso'] = 'A') && ($this->estatus['eliminado'] == 'B')) {
-                $l[] = "            // Listados de en uso y eliminados";
-                $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
-                $l[] = "            if (\$listado->viene_listado) {";
-                $l[] = "                // Viene un listado previo";
-                $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
-                $l[] = "            } else {";
-                $l[] = "                // En uso";
-                $l[] = "                \$listado->estatus = 'A';";
-                $l[] = "                if (FALSE) {";
-                $l[] = "                    \$lenguetas->agregar('En uso', \$listado, TRUE);";
-                $l[] = "                } else {";
-                $l[] = "                    \$lenguetas->agregar('En uso', \$listado);";
-                $l[] = "                }";
-                $l[] = "                // Eliminados";
-                $l[] = "                if (\$this->sesion->puede_recuperar()) {";
-                $l[] = "                    \$listado = new ListadoWeb(\$this->sesion);";
-                $l[] = "                    \$listado->estatus = 'B';";
-                $l[] = "                    \$lenguetas->agregar('Eliminados', \$listado);";
-                $l[] = "                }";
-                $l[] = "            }";
+                return <<<FIN
+            // Listados de en uso y eliminados
+            \$listado = new ListadoWeb(\$this->sesion);
+            if (\$listado->viene_listado) {
+                \$lenguetas->agregar('Listado', \$listado, TRUE);
+            } else {
+                // En uso
+                \$listado->estatus = 'A';
+                \$lenguetas->agregar('En uso', \$listado, FALSE, TRUE); // Lengüeta activa por defecto
+                // Eliminados
+                if (\$this->sesion->puede_recuperar()) {
+                    \$listado = new ListadoWeb(\$this->sesion);
+                    \$listado->estatus = 'B';
+                    \$lenguetas->agregar('Eliminados', \$listado);
+                }
+            }
+FIN;
             } else {
                 // No es convencional, estatus tiene otras letras
-                $l[] = "            // Listados";
-                $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
-                $l[] = "            if (\$listado->viene_listado) {";
-                $l[] = "                // Viene un listado previo";
-                $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
-                $l[] = "            } else {";
                 $e = $this->tabla['estatus'];
-                $c = 0;
+                $a = array();
                 foreach ($e['etiquetas'] as $caracter => $etiqueta) {
-                    $c++;
-                    $l[] = "                // {$e['descripciones'][$caracter]}";
-                    $l[] = "                \$listado = new ListadoWeb(\$this->sesion);";
-                    $l[] = "                \$listado->estatus = '{$caracter}';";
-                    $l[] = "                \$lenguetas->agregar('{$etiqueta}', \$listado);";
-                    // La primer letra puede ser la lengüeta activa
-                    //~ if ($c == 1) {
-                        //~ $l[] = "                if (\$lenguetas->activa == '') {";
-                        //~ $l[] = "                    \$lenguetas->definir_activa();";
-                        //~ $l[] = "                }";
-                    //~ }
+                    $a[] = <<<FIN
+                // {$e['descripciones'][$caracter]}
+                \$listado = new ListadoWeb(\$this->sesion);
+                \$listado->estatus = '{$caracter}';
+                \$lenguetas->agregar('{$etiqueta}', \$listado);
+FIN;
                 }
-                $l[] = "            }";
+                $listados_para_estatus = implode("\n", $a);
+                return <<<FIN
+            // Listados
+            \$listado = new ListadoWeb(\$this->sesion);
+            if (\$listado->viene_listado) {
+                \$lenguetas->agregar('Listado', \$listado, TRUE);
+            } else {
+$listados_para_estatus
+            }
+FIN;
             }
         } else {
             // No hay estatus, el listado va sin filtros
-            $l[] = "            // Listado";
-            $l[] = "            \$listado = new ListadoWeb(\$this->sesion);";
-            $l[] = "            if (\$listado->viene_listado) {";
-            $l[] = "                // Viene un listado previo";
-            $l[] = "                \$lenguetas->agregar('Listado', \$listado, TRUE);";
-            $l[] = "            } else {";
-            $l[] = "                // Listado sin filtros";
-            $l[] = "                \$listado = new ListadoWeb(\$this->sesion);";
-            $l[] = "                \$lenguetas->agregar('Listado', \$listado);";
-            //~ $l[] = "                if (\$lenguetas->activa == '') {";
-            //~ $l[] = "                    \$lenguetas->definir_activa();";
-            //~ $l[] = "                }";
-            $l[] = "            }";
+            return <<<FIN
+            // Listado
+            \$listado = new ListadoWeb(\$this->sesion);
+            if (\$listado->viene_listado) {
+                \$lenguetas->agregar('Listado', \$listado, TRUE);
+            } else {
+                // Listado sin filtros
+                \$listado = new ListadoWeb(\$this->sesion);
+                \$lenguetas->agregar('Listado', \$listado);
+            }
+FIN;
         }
-        // Entregar
-        return implode("\n", $l);
     } // elaborar_html_accion_listados
 
     /**
      * Elaborar HTML Acción Trenes
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_trenes() {
-        // No entregar nada si no hay que hacer los trenes
+        // No entregar nada si NO hay que crear tren
         if (!$this->adan->si_hay_que_crear('tren')) {
-            return false;
+            return FALSE;
         }
-        // Juntaremos en este arreglo
-        $t = array();
         // Si hay estatus, mostrar listados para cada letra
         if (is_array($this->estatus)) {
             // Si es lo convencional con a y b
             if (($this->estatus['enuso'] = 'A') && ($this->estatus['eliminado'] == 'B')) {
-                $t[] = "            // Trenes";
-                $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
-                $t[] = "            if (\$tren->viene_tren) {";
-                $t[] = "                // Viene un tren previo";
-                $t[] = "                \$lenguetas->agregar('Imágenes', \$tren);";
-                $t[] = "            } else {";
-                $t[] = "                // En uso";
-                $t[] = "                \$tren->estatus = 'A';";
-                $t[] = "                \$lenguetas->agregar('En uso', \$tren);";
-                //~ $l[] = "                if (\$lenguetas->activa == '') {";
-                //~ $l[] = "                    \$lenguetas->definir_activa();";
-                //~ $l[] = "                }";
-                $t[] = "                // Eliminados";
-                $t[] = "                if (\$this->sesion->puede_recuperar()) {";
-                $t[] = "                    \$tren          = new TrenWeb(\$this->sesion);";
-                $t[] = "                    \$tren->estatus = 'B';";
-                $t[] = "                    \$lenguetas->agregar('Eliminados', \$tren);";
-                $t[] = "                }";
-                $t[] = "            }";
+                return <<<FIN
+            // Trenes
+            \$tren = new TrenWeb(\$this->sesion);
+            if (\$tren->viene_tren) {
+                \$lenguetas->agregar('Imágenes', \$tren, TRUE);
+            } else {
+                // En uso
+                \$tren->estatus = 'A';
+                \$lenguetas->agregar('En uso', \$tren, FALSE, TRUE); // Lengüeta activa por defecto
+                // Eliminados
+                if (\$this->sesion->puede_recuperar()) {
+                    \$tren = new TrenWeb(\$this->sesion);
+                    \$tren->estatus = 'B';
+                    \$lenguetas->agregar('Eliminados', \$tren);
+                }
+            }
+FIN;
             } else {
                 // No es convencional, estatus tiene otras letras
-                $t[] = "            // Trenes";
-                $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
-                $t[] = "            if (\$tren->viene_tren) {";
-                $t[] = "                // Viene un tren previo";
-                $t[] = "                \$lenguetas->agregar('Imágenes', \$tren, TRUE);";
-                $t[] = "            } else {";
+                $a = array();
                 $e = $this->tabla['estatus'];
                 foreach ($e['etiquetas'] as $caracter => $etiqueta) {
-                    $t[] = "                // {$e['descripciones'][$caracter]}";
-                    $t[] = "                \$tren          = new TrenWeb(\$this->sesion);";
-                    $t[] = "                \$tren->estatus = '{$caracter}';";
-                    $t[] = "                \$lenguetas->agregar('{$etiqueta}', \$tren);";
+                    $a[] = <<<FIN
+                // {$e['descripciones'][$caracter]}
+                \$tren = new TrenWeb(\$this->sesion);
+                \$tren->estatus = '{$caracter}';
+                \$lenguetas->agregar('{$etiqueta}', \$tren);
+FIN;
                 }
-                $t[] = "            }";
+                $listados_para_estatus = implode("\n", $a);
+                return <<<FIN
+            // Trenes
+            \$tren = new TrenWeb(\$this->sesion);
+            if (\$tren->viene_tren) {
+                // Viene un tren previo
+                \$lenguetas->agregar('Imágenes', \$tren, TRUE);
+            } else {
+$listados_para_estatus
+            }
+FIN;
             }
         } else {
             // No hay estatus, el listado va sin filtros
-            $t[] = "            // Tren";
-            $t[] = "            \$tren = new TrenWeb(\$this->sesion);";
-            $t[] = "            if (\$tren->viene_tren) {";
-            $t[] = "                // Viene un listado previo";
-            $t[] = "                \$lenguetas->agregar('Imágenes', \$tren, TRUE);";
-            $t[] = "            } else {";
-            $t[] = "                // Tren sin filtros";
-            $t[] = "                \$tren = new TrenWeb(\$this->sesion);";
-            $t[] = "                \$lenguetas->agregar('Imágenes', \$tren);";
-            $t[] = "            }";
+                return <<<FIN
+            // Tren
+            \$tren = new TrenWeb(\$this->sesion);
+            if (\$tren->viene_tren) {
+                // Viene un tren previo
+                \$lenguetas->agregar('Imágenes', \$tren, TRUE);
+            } else {
+                // Tren sin filtros
+                \$tren = new TrenWeb(\$this->sesion);
+                \$lenguetas->agregar('Imágenes', \$tren);
+            }
+FIN;
         }
-        // Entregar
-        return implode("\n", $t);
     } // elaborar_html_accion_trenes
 
     /**
      * Elaborar HTML Acción Nuevo
      *
-     * @return string Código PHP
+     * @return mixed Código PHP o falso
      */
     protected function elaborar_html_accion_nuevo() {
-        if ($this->adan->si_hay_que_crear('formulario')) {
-            return <<<FIN
+        // No entregar nada si NO hay que crear formulario
+        if (!$this->adan->si_hay_que_crear('formulario')) {
+            return FALSE;
+        }
+        // Entregar
+        return <<<FIN
             // Nuevo
             if (\$this->sesion->puede_agregar()) {
                 \$formulario = new FormularioWeb(\$this->sesion);
                 \$formulario->{$this->primary_key} = 'agregar';
-                \$lenguetas->agregar('Nuevo', \$formulario);
+                if (\$_GET['accion'] == 'agregar') {
+                    \$lenguetas->agregar('Nuevo', \$formulario, TRUE);
+                } else {
+                    \$lenguetas->agregar('Nuevo', \$formulario);
+                }
             }
 FIN;
-        } else {
-            return false;
-        }
     } // elaborar_html_accion_nuevo
 
     /**
-     * Elaborar HTML Acciones
+     * PHP
      *
      * @return string Código PHP
      */
-    protected function elaborar_html_acciones() {
-        // En este arreglo juntaremos el html
+    public function php() {
+        // Iniciar arreglo para juntar todo
         $a = array();
-        // Los siguientes fragmentos, guardados en r, se uniran con else
+        // Iniciar arreglo para las acciones a un registro, que se unirán con else
         $r = array();
         if ($imprimir  = $this->elaborar_html_accion_imprimir())           $r[] = $imprimir;
         if ($modificar = $this->elaborar_html_accion_modificar())          $r[] = $modificar;
@@ -431,16 +422,9 @@ FIN;
         elseif ($trenes = $this->elaborar_html_accion_trenes()) $a[] = $trenes;
         // Nuevo
         if ($nuevo = $this->elaborar_html_accion_nuevo())       $a[] = $nuevo;
+        // Juntar todo
+        $todo = implode("\n", $a);
         // Entregar
-        return implode("\n", $a);
-    } // elaborar_html_acciones
-
-    /**
-     * PHP
-     *
-     * @return string Código PHP
-     */
-    public function php() {
         return <<<FINAL
     /**
      * HTML
@@ -452,7 +436,7 @@ FIN;
         if (\$this->sesion_exitosa) {
             // Lengüetas
             \$lenguetas = new \Base2\LenguetasWeb('lenguetas');
-{$this->elaborar_html_acciones()}
+$todo
             // Pasar el html y el javascript de las lengüetas al contenido
             \$this->contenido[]  = \$lenguetas->html();
             \$this->javascript[] = \$lenguetas->javascript();

@@ -1,15 +1,25 @@
 /*
- * GenesisPHP - Tierra
+ * GenesisPHP - tierra.css
  */
 
 /* Global */
 
-body      { font-family:'Liberation Sans',Verdana,Helvetica,Arial,sans-serif; font-size:10pt; background-color:#DDD; }
+body {
+    font-family:'Liberation Sans',Verdana,Helvetica,Arial,sans-serif;
+    font-size:10pt;
+    background-color:#DDD; }
 a,
 a:link,
 a:visited { color:#04A; text-decoration:none; }
 a:hover,
 a:focus   { color:#06D; text-decoration:none; }
+table th  { background-color:#DDD; }
+h1        { font-size:24px; }
+h2        { font-size:20px; }
+h3        { font-size:16px; }
+h4        { font-size:14px; }
+h5        { font-size:12px; }
+h6        { font-size:10px; }
 
 /* Menus colores los vinculos */
 
@@ -53,7 +63,11 @@ a:focus   { color:#06D; text-decoration:none; }
 
 #contenido { background-color:#FFF; }
 
-.page-header { margin-top:0; margin-bottom:20px; padding-top:12px; border-bottom:none; }
+.page-header {
+    margin-top:0;
+    margin-bottom:20px;
+    padding-top:12px;
+    border-bottom:none; }
 
 /* Lenguetas */
 
@@ -81,8 +95,8 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .detalle,
 .formulario,
 .mapa,
-.grafica,
-.mensaje          { padding:0 8px; border:1px solid #CCC; }
+.grafica          { padding:0 8px;   border:1px solid #CCC; }
+.mensaje          { padding:8px 8px; border:1px solid #CCC; }
 
 /* Piezas de Tierra dentro de collapse */
 
@@ -105,7 +119,7 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .dinero,
 .entero,
 .flotante,
-.porcentaje { text-align:right; white-space:nowrap; }
+.porcentaje { text-align:right;  white-space:nowrap; }
 .nd         { text-align:center; background-color:#EEE; }
 
 /* Colores */

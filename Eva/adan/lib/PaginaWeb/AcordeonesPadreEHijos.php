@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - PaginaWeb CollapsePadreEHijos
+ * GenesisPHP - PaginaWeb AcordeonesPadreEHijos
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -23,25 +23,25 @@
 namespace PaginaWeb;
 
 /**
- * Clase CollapsePadreEHijos
+ * Clase AcordeonesPadreEHijos
  */
-class CollapsePadreEHijos extends \Base\Plantilla {
+class AcordeonesPadreEHijos extends \Base\Plantilla {
 
     /**
-     * Elaborar
+     * PHP
      *
-     * @return string Código PHP
+     * @return string Código PHP o falso
      */
-    protected function elaborar_html_hijos() {
-        // Si no tiene hijos, no entrega nada
+    public function php() {
+        // No entregar nada si NO hay primary key
+        if ($this->primary_key === FALSE) {
+            return FALSE;
+        }
+        // No entregar nada si NO tiene hijos
         if (!is_array($this->hijos) || (count($this->hijos) == 0)) {
-            return '';
+            return FALSE;
         }
-        // Si no hay columna primary key, no hay detalle
-        if ($this->primary_key === false) {
-            return '';
-        }
-        // En este arreglo juntaremos las lineas de los hijos
+        // Iniciar arreglo donde juntar código PHP sobre los hijos
         $h = array();
         // Bucle para cada hijo
         foreach ($this->hijos as $hijo) {
@@ -52,7 +52,7 @@ class CollapsePadreEHijos extends \Base\Plantilla {
             $filtro    = $this->instancia_singular;
             $etiqueta  = $hijo['etiqueta_plural'];
             $enuso     = $hijo['estatus']['enuso'];
-            // Agregar enseguida del detalle
+            // Acumular
             $h[] = "            if (\$this->sesion->permisos['$clave']) {";
             if ($hijo['listados'] == 'trenes') {
                 $h[] = "                {$instancia} = new \\{$clase}\\TrenWeb(\$this->sesion);";
@@ -62,67 +62,59 @@ class CollapsePadreEHijos extends \Base\Plantilla {
             $h[] = "                {$instancia}->$filtro = \$detalle->{$this->primary_key};";
             $h[] = "                {$instancia}->estatus = '$enuso';";
             $h[] = "                {$instancia}->limit = 0;";
-            $h[] = "                \$collapse->agregar('$clase', '$etiqueta', {$instancia}->html());";
-            $h[] = "                \$collapse->agregar_javascript({$instancia}->javascript());";
+            $h[] = "                \$acordeones->agregar('$etiqueta', {$instancia});";
             $h[] = "            }";
         }
+        // Juntar todo
+        $todo = implode("\n", $h);
         // Entregar
-        return implode("\n", $h);
-    } // elaborar_html_hijos
-
-    /**
-     * PHP
-     *
-     * @return string Código PHP
-     */
-    public function php() {
         return <<<FINAL
     /**
-     * Elaborar Detalle Padre Listados Hijos
+     * Crear acordeones padre e hijos
+     *
+     * Elabora un conjunto de acordeones, el primero con el detalle, luego los listados o trenes de sus relaciones
      *
      * @param  mixed Instancia de DetalleWeb, BusquedaWeb con el ID cargado
      * @return mixed Instancia de collapse o el detalle/formulario fallido
      */
-    protected function crear_collapse_padre_hijos(\$in_instancia) {
+    protected function crear_acordeones_padre_e_hijos(\$in_instancia) {
         // Si es una busqueda
         if (\$in_instancia instanceof \\Base2\\BusquedaWeb) {
-            // Ejecutar metodo html de la busqueda
+            // Ejecutar su método HTML
             \$html = \$in_instancia->html();
             if (\$in_instancia->hay_resultados && (\$in_instancia->resultado instanceof DetalleWeb)) {
-                // Tiene un DetalleWeb que procesaremos
+                // El resultado de la búsqueda es un detalle que usaremos más adelante
                 \$detalle = \$in_instancia->resultado;
             } else {
-                // Es un listado o formulario, se regresa
+                // Es un listado o formulario, se entrega
                 return \$in_instancia;
             }
         } elseif (\$in_instancia instanceof DetalleWeb) {
-            // Es un DetalleWeb
+            // Es un detalle que usaremos más adelante
             \$detalle = \$in_instancia;
         } else {
-            // No es ni busqueda ni detalle, se regresa
+            // No hay detalle, se entrega
             return \$in_instancia;
         }
-        // A partir de aqui se tiene DetalleWeb, ejecutar su metodo html
+        // Ya tenemos el detalle, ejecutar su método HTML
         \$html = \$detalle->html();
-        // Si fue consultado
+        // Si se levantó la bandera consultado
         if (\$detalle->consultado == true) {
-            // Elaborar collapse
-            \$collapse = new \\Base2\\CollapseWeb('acordeon');
-            \$collapse->hay_resultados = (\$in_instancia->hay_resultados == true);
-            \$collapse->agregar('detalle', 'Detalle', \$html);
-            \$collapse->agregar_javascript(\$detalle->javascript());
-{$this->elaborar_html_hijos()}
+            // Elaborar acordeones, primero el detalle, luego los listados o trenes de los hijos
+            \$acordeones = new \\Base2\\AcordeonesWeb('acordeones');
+            \$acordeones->agregar('Detalle', \$detalle, TRUE);
+$todo
             // Entregar
-            return \$collapse;
+            return \$acordeones;
         } else {
-            // No se levantó la bandera consultado, tal vez tenga un mensaje
+            // No se levantó la bandera consultado, tal vez tenga un mensaje que mostrar, se entrega
             return \$in_instancia;
         }
-    } // crear_collapse_padre_hijos
+    } // crear_acordeones_padre_e_hijos
 
 FINAL;
     } // php
 
-} // Clase CollapsePadreEHijos
+} // Clase AcordeonesPadreEHijos
 
 ?>

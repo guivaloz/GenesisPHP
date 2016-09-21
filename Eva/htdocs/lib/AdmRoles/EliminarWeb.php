@@ -25,7 +25,7 @@ namespace AdmRoles;
 /**
  * Clase EliminarWeb
  */
-class EliminarWeb extends DetalleWeb {
+class EliminarWeb extends DetalleWeb implements \Base2\SalidaWeb {
 
     /**
      * HTML

@@ -25,7 +25,7 @@ namespace AdmUsuarios;
 /**
  * Clase BusquedaWeb
  */
-class BusquedaWeb extends \Base2\BusquedaWeb {
+class BusquedaWeb extends \Base2\BusquedaWeb implements \Base2\SalidaWeb {
 
     // public $hay_resultados;
     // public $entrego_detalle;
@@ -94,8 +94,9 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
         // Si viene el formulario
         if ($_POST['formulario'] == self::$form_name) {
             // Cargar propiedades
-            $this->nombre = \Base2\UtileriasParaFormularios::post_texto($_POST['nombre']);
-            $this->puesto = \Base2\UtileriasParaFormularios::post_texto($_POST['puesto']);
+            $this->nom_corto = \Base2\UtileriasParaFormularios::post_texto($_POST['nom_corto']);
+            $this->nombre    = \Base2\UtileriasParaFormularios::post_texto($_POST['nombre']);
+            $this->puesto    = \Base2\UtileriasParaFormularios::post_texto($_POST['puesto']);
             if ($this->sesion->puede_recuperar('adm_usuarios')) {
                 $this->estatus = \Base2\UtileriasParaFormularios::post_select($_POST['estatus']);
             }
@@ -119,6 +120,10 @@ class BusquedaWeb extends \Base2\BusquedaWeb {
         $f = array();
         $m = array();
         // Elaborar los filtros sql y el mensaje
+        if ($this->nom_corto != '') {
+            $f[] = "nom_corto ILIKE '%{$this->nom_corto}%'";
+            $m[] = "nombre corto {$this->nom_corto}";
+        }
         if ($this->nombre != '') {
             $f[] = "nombre ILIKE '%{$this->nombre}%'";
             $m[] = "nombre {$this->nombre}";

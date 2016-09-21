@@ -48,7 +48,7 @@ class PaginaWeb extends \Base2\PaginaWeb {
             if ($_POST['formulario'] == ContrasenaFormularioWeb::$form_name) {
                 $lenguetas->agregar('Contraseña', new ContrasenaFormularioWeb($this->sesion), TRUE);
             } else {
-                $lenguetas->agregar('Contraseña', new ContrasenaFormularioWeb($this->sesion));
+                $lenguetas->agregar('Contraseña', new ContrasenaFormularioWeb($this->sesion), FALSE, TRUE); // Lengüeta activa por defecto
             }
             if ($_POST['formulario'] == RenglonesFormularioWeb::$form_name) {
                 $lenguetas->agregar('Renglones', new RenglonesFormularioWeb($this->sesion), TRUE);
