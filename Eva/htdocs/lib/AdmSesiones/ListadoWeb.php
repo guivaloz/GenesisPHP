@@ -60,7 +60,10 @@ class ListadoWeb extends Listado implements \Base2\SalidaWeb {
             'ingreso' => array(
                 'enca' => 'Ingreso'),
             'tipo' => array(
-                'enca' => 'Tipo'),
+                'enca'    => 'Tipo',
+                'cambiar' => \AdmUsuarios\Registro::$tipo_descripciones,
+                'color'   => 'tipo',
+                'colores' => \AdmUsuarios\Registro::$tipo_colores),
             'listado_renglones' => array(
                 'enca' => 'Renglones'));
         // Iniciar listado controlado html

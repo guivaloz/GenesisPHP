@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Eva BaseDatosConfig
+ * GenesisPHP - BaseDatosConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -24,12 +24,14 @@ namespace Configuracion;
 
 /**
  * Clase abstracta BaseDatosConfig
+ *
+ * Configuración de la base de datos
  */
 abstract class BaseDatosConfig {
 
-    protected $bd_nombre  = 'genesisphp_demostracion';
+    protected $bd_nombre  = 'base_de_datos';    // DEBE DEFINIR el nombre de la base de datos PostgreSQL
     protected $servidor   = 'localhost';
-    protected $usuario    = 'genesisphp';
+    protected $usuario    = 'usuario_postgres'; // DEBE DEFINIR el usuario con privilegios a la base de datos
     protected $password   = '';
 
 } // Clase abstracta BaseDatosConfig

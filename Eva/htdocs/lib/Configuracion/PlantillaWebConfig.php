@@ -24,11 +24,13 @@ namespace Configuracion;
 
 /*
  * Clase abstracta PlantillaWebConfig
+ *
+ * Valores por defecto usados para todas las páginas web
  */
 abstract class PlantillaWebConfig {
 
     protected $sistema              = 'GenesisPHP Eva';
-    protected $titulo               = '';
+    protected $titulo               = ''; // Mantenga como texto vacío para que cada página lo defina
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
     protected $autor                = 'guivaloz';
     protected $css                  = 'css/tierra.css';

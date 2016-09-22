@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Configuración Base Datos
+ * GenesisPHP - BaseDatosConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -24,6 +24,8 @@ namespace Configuracion;
 
 /**
  * Clase abstracta BaseDatosConfig
+ *
+ * Configuración de la base de datos
  */
 abstract class BaseDatosConfig {
 

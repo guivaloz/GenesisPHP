@@ -24,6 +24,8 @@ namespace Configuracion;
 
 /*
  * Clase abstracta PlantillaCSVConfig
+ *
+ * Valores por defecto usados para la elaboración de archivos CSV
  */
 abstract class PlantillaCSVConfig {
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Configuración PlantillaCSV
+ * GenesisPHP - PlantillaCSVConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -24,6 +24,8 @@ namespace Configuracion;
 
 /*
  * Clase abstracta PlantillaCSVConfig
+ *
+ * Valores por defecto usados para la elaboración de archivos CSV
  */
 abstract class PlantillaCSVConfig {
 

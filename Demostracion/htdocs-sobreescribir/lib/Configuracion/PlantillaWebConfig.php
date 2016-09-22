@@ -1,6 +1,6 @@
 <?php
 /**
- * GenesisPHP - Configuración PlantillaWeb
+ * GenesisPHP - PlantillaWebConfig
  *
  * Copyright (C) 2016 Guillermo Valdés Lozano
  *
@@ -24,11 +24,13 @@ namespace Configuracion;
 
 /*
  * Clase abstracta PlantillaWebConfig
+ *
+ * Valores por defecto usados para todas las páginas web
  */
 abstract class PlantillaWebConfig {
 
     protected $sistema              = 'GenesisPHP Demostración';
-    protected $titulo               = '';
+    protected $titulo               = ''; // Mantenga como texto vacío para que cada página lo defina
     protected $descripcion          = 'GenesisPHP es un framework hecho con PHP';
     protected $autor                = 'guivaloz';
     protected $css                  = 'css/demostracion.css';
