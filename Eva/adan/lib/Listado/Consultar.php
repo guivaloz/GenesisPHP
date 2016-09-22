@@ -569,23 +569,9 @@ class Consultar extends \Base\Plantilla {
                 }
             }
         }
-        // Mostrar
-        if (is_array($ascendente) && count($ascendente) > 0) {
-            foreach ($ascendente as $orden => $columna) {
-                echo "$orden => $columna, ";
-            }
-            echo "\n";
-        }
         // Ordenarlos
         ksort($ascendente);
         ksort($descendente);
-        // Mostrar
-        if (is_array($ascendente) && count($ascendente) > 0) {
-            foreach ($ascendente as $orden => $columna) {
-                echo "$orden => $columna, ";
-            }
-            echo "\n";
-        }
         // Iniciar arreglo para lo que se va a entregar
         $a   = array();
         $a[] = "        // Orden";
