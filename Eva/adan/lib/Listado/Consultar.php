@@ -495,27 +495,97 @@ class Consultar extends \Base\Plantilla {
      * @return string Código PHP
      */
     protected function elaborar_consultar_orden() {
+        // Bandera hay relaciones
+        $hay_relaciones = false;
+        // Bucle cada columna en la tabla
+        foreach ($this->tabla as $columna => $datos) {
+            // Solo las columnas que sean relaciones
+            if ($datos['tipo'] == 'relacion') {
+                $hay_relaciones = true;
+            }
+        }
         // Recolectar de cada dato las columnas en orden ascendente (positivas) y descendente (negativas)
         $ascendente  = array();
         $descendente = array();
+        // Bucle cada columna en la tabla
         foreach ($this->tabla as $columna => $datos) {
             if ($datos['orden'] > 0) {
-                if (is_array($this->relaciones) && (count($this->relaciones) > 0)) {
-                    $ascendente[$datos['orden']] = $this->tabla_nombre.'.'.$columna;
+                $orden = $datos['orden'].'.0';
+                if ($hay_relaciones) {
+                    if ($datos['tipo'] == 'relacion') {
+                        $relacion = $this->relaciones[$columna];
+                        if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
+                            $ascendente[$orden] = "{$relacion['tabla']}.{$relacion['vip']}";
+                        } elseif (is_array($relacion['vip']) && (count($relacion['vip']) > 0)) {
+                            $c = 0;
+                            foreach ($relacion['vip'] as $vip => $vip_datos) {
+                                $c++;
+                                $orden = $datos['orden'].'.'.$c;
+                                if (is_array($vip_datos)) {
+                                    if ($vip_datos['tipo'] == 'relacion') {
+                                        // TODO: Tercel nivel de relaciones
+                                    } else {
+                                        $ascendente[$orden] = "{$relacion['tabla']}.{$vip}";
+                                    }
+                                } elseif (is_string($vip_datos) && ($vip_datos != '')) {
+                                    $ascendente[$orden] = "{$relacion['tabla']}.{$vip_datos}";
+                                }
+                            }
+                        }
+                    } else {
+                        $ascendente[$orden] = $this->tabla_nombre.'.'.$columna;
+                    }
                 } else {
-                    $ascendente[$datos['orden']] = $columna;
+                    $ascendente[$orden] = $columna;
                 }
             } elseif ($datos['orden'] < 0) {
-                if (is_array($this->relaciones) && (count($this->relaciones) > 0)) {
-                    $descendente[$datos['orden']] = $this->tabla_nombre.'.'.$columna;
+                $orden = $datos['orden'].'.0';
+                if ($hay_relaciones) {
+                    if ($datos['tipo'] == 'relacion') {
+                        $relacion = $this->relaciones[$columna];
+                        if (is_string($relacion['vip']) && ($relacion['vip'] != '')) {
+                            $descendente[$orden] = "{$relacion['tabla']}.{$relacion['vip']}";
+                        } elseif (is_array($relacion['vip']) && (count($relacion['vip']) > 0)) {
+                            $c = 0;
+                            foreach ($relacion['vip'] as $vip => $vip_datos) {
+                                $c++;
+                                $orden -= $datos['orden'].'.'.$c;
+                                if (is_array($vip_datos)) {
+                                    if ($vip_datos['tipo'] == 'relacion') {
+                                        // TODO: Tercel nivel de relaciones
+                                    } else {
+                                        $descendente[$orden] = "{$relacion['tabla']}.{$vip}";
+                                    }
+                                } elseif (is_string($vip_datos) && ($vip_datos != '')) {
+                                    $descendente[$orden] = "{$relacion['tabla']}.{$vip_datos}";
+                                }
+                            }
+                        }
+                    } else {
+                        $descendente[$orden] = $this->tabla_nombre.'.'.$columna;
+                    }
                 } else {
-                    $descendente[$datos['orden']] = $columna;
+                    $descendente[$orden] = $columna;
                 }
             }
+        }
+        // Mostrar
+        if (is_array($ascendente) && count($ascendente) > 0) {
+            foreach ($ascendente as $orden => $columna) {
+                echo "$orden => $columna, ";
+            }
+            echo "\n";
         }
         // Ordenarlos
         ksort($ascendente);
         ksort($descendente);
+        // Mostrar
+        if (is_array($ascendente) && count($ascendente) > 0) {
+            foreach ($ascendente as $orden => $columna) {
+                echo "$orden => $columna, ";
+            }
+            echo "\n";
+        }
         // Iniciar arreglo para lo que se va a entregar
         $a   = array();
         $a[] = "        // Orden";
