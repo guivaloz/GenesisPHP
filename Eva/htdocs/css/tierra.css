@@ -120,10 +120,10 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .azul        { background-color:#DADAFF; }
 
 /* Colores para los niveles, use http://meyerweb.com/eric/tools/color-blend/ */
-.nivel1 { background-color:#99FFCC; }
-.nivel2 { background-color:#AAF7BB; }
-.nivel3 { background-color:#BBEEAA; }
-.nivel4 { background-color:#CCE699; }
-.nivel5 { background-color:#DDDD88; }
-.nivel6 { background-color:#EED577; }
-.nivel7 { background-color:#FFCC66; }
+.nivel1 { background-color:#CCFFCC; }
+.nivel2 { background-color:#D5F7CC; }
+.nivel3 { background-color:#DDEECC; }
+.nivel4 { background-color:#E6E6CC; }
+.nivel5 { background-color:#EEDDCC; }
+.nivel6 { background-color:#F7D5CC; }
+.nivel7 { background-color:#FFCCCC; }

@@ -47,9 +47,9 @@ class FormularioWeb extends DetalleWeb implements \Base2\SalidaWeb {
     // static public $accion_modificar;
     // static public $accion_eliminar;
     // static public $accion_recuperar;
-    protected $es_nuevo;
-    protected $formulario;   // Instancia de \Base2\FormularioWeb
-    static public $form_name = 'admintegrante';
+    protected $es_nuevo;                        // Bandera, si es verdadero se trata de agregar un registro, falso es modificarlo
+    protected $formulario;                      // Instancia de \Base2\FormularioWeb
+    static public $form_name = 'admintegrante'; // Nombre del formulario
 
     /**
      * Elaborar formulario

@@ -17,7 +17,7 @@ CREATE TABLE exp_personas (
     nacimiento_fecha     date,
     sexo                 character(1)            NOT NULL,
     estado_civil         character(1)            NOT NULL,
-    curp                 character(18),
+    curp                 character varying(18),
 
     nomina               integer                 NOT NULL UNIQUE,
     ingreso_fecha        date,

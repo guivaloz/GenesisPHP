@@ -122,7 +122,8 @@ class HTML extends \Base\Plantilla {
                 // Y el mensaje
                 \$mensaje = new \\Base2\\MensajeWeb(\$msg);
                 \$a[]     = \$mensaje->html('Acción exitosa');
-                // Entregar detalle y mensaje
+                // Conservar el HTML y entregarlo
+                \$this->html_elaborado = implode("\\n", \$a);
                 return implode("\\n", \$a);
             } catch (\\Base2\\RegistroExceptionValidacion \$e) {
                 // Fallo la validacion, se muestra mensaje y, más adelante, el formulario de nuevo
@@ -160,9 +161,8 @@ class HTML extends \Base\Plantilla {
             \$mensaje = new \\Base2\\MensajeWeb(\$e->getMessage());
             \$a[]     = \$mensaje->html('Formulario');
         }
-        // Guardar el html elaborado
+        // Conservar el HTML y entregarlo
         \$this->html_elaborado = implode("\\n", \$a);
-        // Entregar
         return \$this->html_elaborado;
     } // html
 
