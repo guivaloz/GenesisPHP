@@ -3,7 +3,6 @@
  */
 
 /* Global */
-
 body {
     font-family:'Liberation Sans',Verdana,Helvetica,Arial,sans-serif;
     font-size:10pt;
@@ -22,19 +21,16 @@ h5        { font-size:12px; }
 h6        { font-size:10px; }
 
 /* Menus colores los vinculos */
-
 .nav > li > a,
 .nav > li > a:link,
 .nav > li > a:visited { color:#444; }
 .nav > li > a:hover,
 .nav > li > a:focus   { color:#000; }
-
 .navbar-top-links li a,
 .navbar-top-links li a:link,
 .navbar-top-links li a:visited { color:#CCC; }
 .navbar-top-links li a:hover,
 .navbar-top-links li a:focus   { color:#FFF; }
-
 .navbar-static-top .navbar-header .navbar-brand,
 .navbar-static-top .navbar-header .navbar-brand:link,
 .navbar-static-top .navbar-header .navbar-brand:visited { color:#CCC; }
@@ -42,16 +38,13 @@ h6        { font-size:10px; }
 .navbar-static-top .navbar-header .navbar-brand:focus   { color:#FFF; }
 
 /* Menus fondos */
-
 .navbar { background-color:#DDD; }
-
 .navbar-static-top                                    { background-color:#444; }
 .navbar-static-top .navbar-header .navbar-brand:hover,
 .navbar-static-top .navbar-header .navbar-brand:focus { background-color:#666; }
 .navbar-top-links li a:hover,
 .navbar-top-links li a:focus                          { background-color:#666; }
 .navbar-top-links li a.active                         { background-color:#222; }
-
 .sidebar ul li a,
 .sidebar ul li a:link,
 .sidebar ul li a:visited { background-color:#DDD; }
@@ -60,9 +53,7 @@ h6        { font-size:10px; }
 .sidebar ul li a.active  { background-color:#BBB; }
 
 /* Contenido */
-
 #contenido { background-color:#FFF; }
-
 .page-header {
     margin-top:0;
     margin-bottom:20px;
@@ -70,26 +61,21 @@ h6        { font-size:10px; }
     border-bottom:none; }
 
 /* Lenguetas */
-
 .nav-tabs { border-bottom:none; }
-
 ul.lenguetas > li > a,
 ul.lenguetas > li > a:link,
-ul.lenguetas > li > a:visited { color:#888; background-color:#DDD; border-color:#CCC; border-bottom:none; }
+ul.lenguetas > li > a:visited      { color:#888; background-color:#DDD; border-color:#CCC; border-bottom:none; }
 ul.lenguetas > li > a:hover,
-ul.lenguetas > li > a:focus   { color:#000; background-color:#CCC; border-color:#444; border-bottom:none; }
-
+ul.lenguetas > li > a:focus        { color:#000; background-color:#CCC; border-color:#444; border-bottom:none; }
 ul.lenguetas > li.active > a,
 ul.lenguetas > li.active > a:hover,
 ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-color:#CCC; border-bottom:none; }
 
 /* Piezas de Tierra */
-
 .barra            { border:none; background-color:#FFF; margin-bottom:4px; }
 .barra-encabezado { padding:15px 0; }
 .barra-icono      { margin-right:8px; }
 .navbar-right     { margin-right:0; }
-
 .listado,
 .tren,
 .detalle,
@@ -99,7 +85,6 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .mensaje          { padding:8px 8px; border:1px solid #CCC; }
 
 /* Piezas de Tierra dentro de collapse */
-
 .panel-default          { border-color:#CCC; }
 .panel-body             { padding:4px; }
 .panel-body .barra,
@@ -112,7 +97,6 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .panel-body .tren       { margin:4px; border:none; }
 
 /* Tablas */
-
 .table th   { background-color:#DDD; }
 .cantidad,
 .decimal,
@@ -123,7 +107,6 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .nd         { text-align:center; background-color:#EEE; }
 
 /* Colores */
-
 .blanco      { background-color:#FFFFFF; }
 .gris        { background-color:#E5E5E5; }
 .oscuro      { background-color:#BFBFBF; }
@@ -135,3 +118,12 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .verde       { background-color:#D9FFD9; }
 .verdeoscuro { background-color:#95BC95; }
 .azul        { background-color:#DADAFF; }
+
+/* Colores para los niveles, use http://meyerweb.com/eric/tools/color-blend/ */
+.nivel1 { background-color:#99FFCC; }
+.nivel2 { background-color:#AAF7BB; }
+.nivel3 { background-color:#BBEEAA; }
+.nivel4 { background-color:#CCE699; }
+.nivel5 { background-color:#DDDD88; }
+.nivel6 { background-color:#EED577; }
+.nivel7 { background-color:#FFCC66; }

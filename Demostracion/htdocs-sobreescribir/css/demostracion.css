@@ -135,3 +135,12 @@ ul.lenguetas > li.active > a:focus { color:#222; background-color:#FFF; border-c
 .verde       { background-color:#D9FFD9; }
 .verdeoscuro { background-color:#95BC95; }
 .azul        { background-color:#DADAFF; }
+
+/* Colores para los niveles, use http://meyerweb.com/eric/tools/color-blend/ */
+.nivel1 { background-color:#CCFFCC; }
+.nivel2 { background-color:#D5F7CC; }
+.nivel3 { background-color:#DDEECC; }
+.nivel4 { background-color:#E6E6CC; }
+.nivel5 { background-color:#EEDDCC; }
+.nivel6 { background-color:#F7D5CC; }
+.nivel7 { background-color:#FFCCCC; }
