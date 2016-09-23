@@ -1,0 +1,21 @@
+#
+# genesisphp_tierra.include
+#
+# Ejemplo de configuración. Cambie el USUARIO o las rutas completas.
+#
+
+Alias /genesisphp_tierra /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Tierra/htdocs
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Tierra/htdocs>
+    Options -Indexes -FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Tierra/htdocs/bin>
+    Require all denied
+</Directory>
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Tierra/htdocs/lib>
+    Require all denied
+</Directory>

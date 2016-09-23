@@ -1,0 +1,24 @@
+#
+# genesisphp_demostracion.include
+#
+# Ejemplo de configuración. Cambie el USUARIO o las rutas completas.
+#
+
+Alias /genesisphp_demostracion /home/USUARIO/Documentos/GitHub/guivaloz/GenesisPHP/Demostracion/htdocs
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Demostracion/htdocs>
+    Options -Indexes -FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Demostracion/htdocs/bin>
+    Require all denied
+</Directory>
+
+<Directory /home/USUARIO/Documentos/GitHub/USUARIO/GenesisPHP/Demostracion/htdocs/lib>
+    Require all denied
+</Directory>
+
+# Descargar CSV
+RewriteRule ^/genesisphp_demostracion/([a-z]+)\.csv$ /home/USUARIO/Documentos/GitHub/guivaloz/GenesisPHP/Demostracion/htdocs/$1.php?csv=descargar [QSA]

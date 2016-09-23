@@ -1,0 +1,13 @@
+#
+# blackbox_manuales.include
+#
+# Ejemplo de configuración. Cambie la ruta /var/www/localhost/htdocs a donde quiera que sea la raíz.
+#
+
+### Sitio web por defecto para el puerto 80
+
+<Directory /var/www/localhost/htdocs>
+    Options +Indexes -FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>

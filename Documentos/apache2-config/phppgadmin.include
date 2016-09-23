@@ -1,0 +1,13 @@
+#
+# phppgadmin.include
+#
+# Ejemplo de configuración. Cambie la ruta /var/www/localhost/htdocs/phpPgAdmin-5.1 a donde se encuentre PhpPgAdmin
+#
+
+Alias /phppgadmin /var/www/localhost/htdocs/phpPgAdmin-5.1
+
+<Directory /var/www/localhost/htdocs/phpPgAdmin-5.1>
+    Options -Indexes -FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
