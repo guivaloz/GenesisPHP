@@ -186,7 +186,7 @@ abstract class UtileriasParaValidar {
     /**
      * Validar serial
      *
-     * Entero positivo mayor a cero
+     * Entero positivo mayor a cero, NI CERO, NI NEGATIVO
      *
      * @param  string  Número serial a validar
      * @return boolean Verdadero si es válido
@@ -208,19 +208,19 @@ abstract class UtileriasParaValidar {
     /**
      * Validar cantidad
      *
-     * Entero positivo mayor o igual a cero
+     * Entero positivo mayor o igual a cero, NO NEGATIVO
      *
      * @param  string  Número serial a validar
      * @return boolean Verdadero si es válido
      */
     public static function validar_cantidad($cantidad) {
         if (is_string($cantidad)) {
-            if (preg_match('/^[0-9]+$/', $cantidad) && (intval($cantidad) > 0)) {
+            if (preg_match('/^[0-9]+$/', $cantidad) && (intval($cantidad) >= 0)) {
                 return true;
             } else {
                 return false;
             }
-        } elseif (is_int($cantidad) && ($cantidad > 0)) {
+        } elseif (is_int($cantidad) && ($cantidad >= 0)) {
             return true;
         } else {
             return false;

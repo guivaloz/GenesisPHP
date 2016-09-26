@@ -58,7 +58,7 @@ class Constructor extends \Base\Plantilla {
         if ($datos['filtro'] > 1) {
             // Rango (desde-hasta)
             $a[] = "        \$this->{$columna}_desde = \$_GET[parent::\$param_{$columna}_desde];";
-            $a[] = "        \$this->{$columna}_hasta = \$_GET[parent::\$param_{$columna}_desde];";
+            $a[] = "        \$this->{$columna}_hasta = \$_GET[parent::\$param_{$columna}_hasta];";
         } elseif ($datos['filtro'] > 0) {
             // Normal
             $a[] = "        \$this->{$columna} = \$_GET[parent::\$param_{$columna}];";

@@ -613,7 +613,7 @@ class Consultar extends \Base\Plantilla {
             return \$detalle;
         } else {
             // No se encontró nada
-            throw new \\Base2\\BusquedaExceptionVacio('Aviso: La búsqueda no encontró módulos con esos parámetros.');
+            throw new \\Base2\\BusquedaExceptionVacio('Aviso: La búsqueda no encontró SED_SUBTITULO_PLURAL con esos parámetros.');
         }
     } // consultar
 
