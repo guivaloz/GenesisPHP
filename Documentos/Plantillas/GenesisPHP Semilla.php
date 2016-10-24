@@ -10,7 +10,7 @@ namespace Semillas;
 /**
  * Clase Adan0000ModuloNombre
  */
-class Adan0000ModuloNombre extends \Arbol\Adan {
+class Adan0000ModuloNombre extends \Arbol\Adan {ob}
 
     // Nombre de este modulo
     public $nombre = 'XxxModuloNombre';
@@ -228,7 +228,7 @@ class Adan0000ModuloNombre extends \Arbol\Adan {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct() {ob}
         // Programas a escribir
         $this->modulo_completo();
         // Obtener de serpiente
@@ -243,8 +243,8 @@ class Adan0000ModuloNombre extends \Arbol\Adan {
         $this->sustituciones          = $serpiente->obtener_sustituciones($this->nombre);
         $this->instancia_singular     = $serpiente->obtener_instancia_singular($this->nombre);
         $this->estatus                = $serpiente->obtener_estatus($this->nombre);
-    } // constructor
+    {cb} // constructor
 
-} // Clase Adan0000ModuloNombre
+{cb} // Clase Adan0000ModuloNombre
 
 ?>
