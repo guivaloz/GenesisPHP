@@ -219,8 +219,9 @@ class Consultar extends \Base\Plantilla {
      */
     protected function elaborar_consultar_filtros_logica($tipo, $c, $columna, $filtro) {
         $a = array();
-        // Si el tipo es boleano
+        // Si el tipo es boleano, entonces la lógica se arma de otro modo
         if ($tipo == 'boleano') {
+            // Es boleano
             $a[] = "        if (is_bool(\$this->{$columna})) {";
             $a[] = "            if (\$this->{$columna} == true) {";
             $a[] = "                \$f[] = \"$c = TRUE\";";
@@ -228,84 +229,85 @@ class Consultar extends \Base\Plantilla {
             $a[] = "                \$f[] = \"$c = FALSE\";";
             $a[] = "            }";
             $a[] = "        }";
-        } else {
-            // De acuerdo al tipo
-            switch ($tipo) {
-                case 'relacion':
+            // Y se entrega
+            return implode("\n", $a);
+        }
+        // De acuerdo al tipo se define logica
+        switch ($tipo) {
+            case 'relacion':
+                $logica = sprintf('%s = {$this->%s}', $c, $columna);
+                break;
+            case 'caracter':
+                $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
+                break;
+            case 'clave':
+            case 'cuip':
+            case 'curp':
+            case 'nombre':
+            case 'mayusculas':
+            case 'notas':
+            case 'nom_corto':
+            case 'frase':
+            case 'telefono':
+            case 'variable':
+            case 'email':
+            case 'rfc':
+                $logica = sprintf('%s ILIKE \'%%{$this->%s}%%\'', $c, $columna);
+                break;
+            case 'entero':
+            case 'serial':
+                if ($filtro > 1) {
+                    $logica = array(
+                        'desde' => sprintf('%s >= {$this->%s_desde}', $c, $columna),
+                        'hasta' => sprintf('%s <= {$this->%s_hasta}', $c, $columna));
+                } else {
                     $logica = sprintf('%s = {$this->%s}', $c, $columna);
-                    break;
-                case 'caracter':
-                    $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
-                    break;
-                case 'clave':
-                case 'cuip':
-                case 'curp':
-                case 'nombre':
-                case 'mayusculas':
-                case 'notas':
-                case 'nom_corto':
-                case 'frase':
-                case 'telefono':
-                case 'variable':
-                case 'email':
-                case 'rfc':
-                    $logica = sprintf('%s ILIKE \'%%{$this->%s}%%\'', $c, $columna);
-                    break;
-                case 'entero':
-                case 'serial':
-                    if ($filtro > 1) {
-                        $logica = array(
-                            'desde' => sprintf('%s >= {$this->%s_desde}', $c, $columna),
-                            'hasta' => sprintf('%s <= {$this->%s_hasta}', $c, $columna));
-                    } else {
-                        $logica = sprintf('%s = {$this->%s}', $c, $columna);
-                    }
-                    break;
-                case 'dinero':
-                case 'flotante':
-                case 'porcentaje':
-                        case 'peso':
-                        case 'estatura':
-                            if ($datos['filtro'] > 1) {
-                        $logica = array(
-                            'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
-                            'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
-                    } else {
-                        $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
-                    }
-                    break;
-                case 'fecha':
-                    if ($filtro > 1) {
-                        $logica = array(
-                            'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
-                            'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
-                    } else {
-                        $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
-                    }
-                    break;
-                case 'fecha_hora':
-                    if ($filtro > 1) {
-                        $logica = array(
-                            'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
-                            'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
-                    } else {
-                        $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
-                    }
-                    break;
-                default:
-                    die("Error en Listado, Consultar, elaborar_consultar_filtros_logica: El tipo $tipo para $columna no tiene programada una lógica para elaborar el filtro .");
-            }
-            // Si hay funcion
-            if (is_string($logica) && ($logica != '')) {
-                $a[] = "        if (\$this->{$columna} != '') {";
-                $a[] = "            \$f[] = \"{$logica}\";";
-                $a[] = "        }";
-            } elseif (is_array($logica)) {
-                foreach ($logica as $etiqueta => $f) {
-                    $a[] = "        if (\$this->{$columna}_{$etiqueta} != '') {";
-                    $a[] = "            \$f[] = \"{$f}\";";
-                    $a[] = "        }";
                 }
+                break;
+            case 'dinero':
+            case 'flotante':
+            case 'porcentaje':
+            case 'peso':
+            case 'estatura':
+                if ($filtro > 1) {
+                    $logica = array(
+                        'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
+                        'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
+                } else {
+                    $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
+                }
+                break;
+            case 'fecha':
+                if ($filtro > 1) {
+                    $logica = array(
+                        'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
+                        'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
+                } else {
+                    $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
+                }
+                break;
+            case 'fecha_hora':
+                if ($filtro > 1) {
+                    $logica = array(
+                        'desde' => sprintf('%s >= \'{$this->%s_desde}\'', $c, $columna),
+                        'hasta' => sprintf('%s <= \'{$this->%s_hasta}\'', $c, $columna));
+                } else {
+                    $logica = sprintf('%s = \'{$this->%s}\'', $c, $columna);
+                }
+                break;
+            default:
+                die("Error en Listado, Consultar, elaborar_consultar_filtros_logica: El tipo $tipo para $columna no tiene programada una lógica para elaborar el filtro .");
+        }
+        // Si hay logica
+        if (is_string($logica) && ($logica != '')) {
+            $a[] = "        if (\$this->{$columna} != '') {";
+            $a[] = "            \$f[] = \"{$logica}\";";
+            $a[] = "        }";
+        } elseif (is_array($logica)) {
+            foreach ($logica as $etiqueta => $f) {
+                $a[] = "        if (\$this->{$columna}_{$etiqueta} != '') {";
+                $a[] = "            \$f[] = \"{$f}\";";
+                $a[] = "        }";
             }
         }
         // Entregar
