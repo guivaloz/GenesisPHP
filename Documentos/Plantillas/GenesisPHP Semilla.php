@@ -2,7 +2,7 @@
 /**
  * GenesisPHP - Semilla
  *
- * @package Adan
+ * @package GenesisPHP
  */
 
 namespace Semillas;
