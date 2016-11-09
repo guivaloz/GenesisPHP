@@ -40,7 +40,7 @@ class Adan0000ModuloNombre extends \Arbol\Adan {ob}
 
         'nombre'     => array('tipo' => 'nombre',     'etiqueta' => 'Nombre',        'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 11, 'orden' => 1, 'vip' => 2),
         'sexo'       => array('tipo' => 'caracter',   'etiqueta' => 'Sexo',          'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 43,
-            'descripciones' => array('M' => 'HOMBRE',  'F' => 'MUJER'),
+            'descripciones' => array('M' => 'Hombre',  'F' => 'Mujer'),
             'etiquetas'     => array('M' => 'Hombres', 'F' => 'Mujeres'),
             'colores'       => array('M' => 'azul',    'F' => 'rosa')),
         'nacimiento' => array('tipo' => 'fecha',      'etiqueta' => 'Nacimiento',    'validacion' => 1, 'agregar' => 1, 'modificar' => 1, 'filtro' => 2
@@ -50,11 +50,10 @@ class Adan0000ModuloNombre extends \Arbol\Adan {ob}
         'creado'     => array('tipo' => 'fecha_hora', 'etiqueta' => 'Creado'),
         'notas'      => array('tipo' => 'notas',      'etiqueta' => 'Notas',         'validacion' => 1, 'agregar' => 1, 'modificar' => 1),
         'estatus'    => array('tipo' => 'caracter',   'etiqueta' => 'Estatus',       'validacion' => 2, 'agregar' => 1, 'modificar' => 1, 'filtro' => 1, 'listado' => 99,
-            'descripciones' => array('A' => 'EN USO',                'B' => 'ELIMINADO'),
-            'etiquetas'     => array('A' => 'En Uso',                'B' => 'Eliminado'),
-            'iconos'        => array('A' => 'x-office-document.png', 'B' => 'user-trash.png'),
-            'colores'       => array('A' => 'blanco',                'B' => 'gris'),
-            'acciones'      => array('A' => 'listadoenuso',          'B' => 'listadoeliminados'))
+            'descripciones' => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'etiquetas'     => array('A' => 'En Uso',       'B' => 'Eliminado'),
+            'colores'       => array('A' => 'blanco',       'B' => 'gris'),
+            'acciones'      => array('A' => 'listadoenuso', 'B' => 'listadoeliminados'))
     );
 
     // Reptil es leido por Serpiente
