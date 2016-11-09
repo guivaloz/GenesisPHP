@@ -20,31 +20,22 @@
  * @package {project}
  */
 
-namespace Semillas;
+namespace DIRECTORIO;
 
 /**
- * Clase Serpiente
+ * Clase CLASE
  */
-class Serpiente extends \Arbol\Serpiente {ob}
+class CLASE {ob}
 
-    // protected $sistema_nombre;
-    // protected $sistema_siglas;
-    // protected $reptil;
+    protected $sesion;
 
     /**
      * Constructor
      */
-    public function __construct() {ob}
-        // Definir nombre y siglas del sistema
-        $this->sistema_nombre = '';
-        $this->sistema_siglas = '';
-        // Cargar reptiles de las semillas
-    //  $this->reptil['XxxModulo'] = Adan0000XxxModulo::$reptil;
-    //  $this->reptil['XxxModulo'] = Adan0000XxxModulo::$reptil;
-    //  $this->reptil['XxxModulo'] = Adan0000XxxModulo::$reptil;
-    //  $this->reptil['XxxModulo'] = Adan0000XxxModulo::$reptil;
+    public function __construct(\Inicio\Sesion $in_sesion) {ob}
+        $this->sesion = $in_sesion;
     {cb} // constructor
 
-{cb} // Clase Serpiente
+{cb} // Clase CLASE
 
 ?>

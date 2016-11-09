@@ -3,11 +3,11 @@
 #
 # GenesisPHP - Crear Nuevo Sistema
 #
-# Copyright 2016 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
+# Copyright (C) 2016 Guillermo Valdes Lozano guillermo@movimientolibre.com
 #
-# This program is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,16 +16,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-# MA 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 #
 # Este bash script sirve para crear la estructura básica de un nuevo sistema
-# Debe estar en un lugar de sus rutas PATH para ejecutarlo con comodidad
-# Cambie GENESISPHP_DIR a la ruta local donde tenga GenesisPHP
-# Ejecútelo en un directorio vacío
+# 1. Debe estar en un lugar de sus rutas PATH para ejecutarlo con comodidad
+# 2. Cambie GENESISPHP_DIR a la ruta local donde tenga GenesisPHP
+# 3. Ejecútelo en un directorio vacío
 #
 
 # Yo soy
@@ -36,10 +34,15 @@ EXITO=0
 E_FATAL=99
 
 # Nombres de los directorios
-GENESISPHP_DIR="$HOME/Documentos/GitHub/guivaloz/GenesisPHP"
+#GENESISPHP_DIR="$HOME/Documentos/GitHub/guivaloz/GenesisPHP"
 EVA_DIR="$GENESISPHP_DIR/Eva"
 
 # Si no se ha configurado este bash script
+if [ -z "$GENESISPHP_DIR" ]; then
+    echo "$SOY ERROR: No está definido el directorio GenesisPHP. Revise los nombres de los directorios configurados en este script."
+    echo
+    exit $E_FATAL
+fi
 if [ ! -d "$GENESISPHP_DIR" ]; then
     echo "$SOY ERROR: No se encuentra el directorio GenesisPHP. Revise los nombres de los directorios configurados en este script."
     echo
