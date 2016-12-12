@@ -5,9 +5,9 @@
 #
 # Copyright 2016 Guillermo Valdés Lozano <guivaloz@movimientolibre.com>
 #
-# This program is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -16,20 +16,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-# MA 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 #
-# Para probar que tiene los permisos, haga una prueba de la creación
-# con estos comandos...
+# Previamiente debe crear el usuario sin privilegios ser superusuario
 #
-#   $ createuser -d -s genesisphp
+#   $ createuser -D -S genesisphp
+#
+# Luego crear la base de datos con su propiedad
+#
 #   $ createdb -O genesisphp genesisphp_demostracion
 #   $ psql -l
 #
-# Si funciona, ejecute...
+# Si tiene éxito en los comandos anteriores, ejecute...
 #
 #   $ ./CrearBaseDatos.sh
 #
@@ -41,7 +41,7 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-# CONFIGURE estas constantes para el sistema
+# CONFIGURE estas constantes
 BD="genesisphp_demostracion"
 PROPIETARIO="genesisphp"
 
@@ -57,7 +57,7 @@ if [ -z "$BD" ] || [ -z "$PROPIETARIO" ]; then
     echo "1 Verifique que PostgreSQL esté funcionando y"
     echo "  y que su cuenta de usuario tenga permisos para"
     echo "  crear y eliminar bases de datos"
-    echo "    $ createuser -d -s genesisphp"
+    echo "    $ createuser -D -S genesisphp"
     echo "    $ createdb -O genesisphp genesisphp_demostracion"
     echo "    $ psql -l"
     echo
@@ -79,8 +79,8 @@ export PGPORT=5432
 #export PGUSER=superusuario
 
 # Si estoy en servidor, cancelo la ejecución de este script
-#if [ $HOSTNAME == 'servidor' ]; then
-#    echo "DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
+#if [ $HOSTNAME == 'servidora' ]; then
+#    echo "$SOY DENEGADO: Se ha prohibido la ejecución de este script en el servidor."
 #    exit $E_FATAL
 #fi
 

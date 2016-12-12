@@ -20,12 +20,18 @@
 #
 
 #
-# Para probar que tiene los permisos, haga una prueba de la creación
-# con estos comandos...
+# Previamiente debe crear el usuario sin privilegios ser superusuario
 #
-#   $ createuser -d -s genesisphp
+#   $ createuser -D -S genesisphp
+#
+# Luego crear la base de datos con su propiedad
+#
 #   $ createdb -O genesisphp genesisphp_demostracion
 #   $ psql -l
+#
+# Si tiene éxito en los comandos anteriores, ejecute...
+#
+#   $ ./CrearBaseDatos.sh
 #
 
 # Yo soy
@@ -35,13 +41,35 @@ SOY="[Crear Base de Datos]"
 EXITO=0
 E_FATAL=99
 
-# CONFIGURE estas constantes para el sistema
-BD="genesisphp_demostracion"
-PROPIETARIO="genesisphp"
+# CONFIGURE estas constantes
+#BD="genesisphp_demostracion"
+#PROPIETARIO="genesisphp"
 
+#
 # Debe configurar este script para su sistema
+# Si no lo ha hecho, mostrará este mensaje
+#
 if [ -z "$BD" ] || [ -z "$PROPIETARIO" ]; then
-    echo "$SOY ERROR: No pude cambiarme al directorio sql"
+    echo "GenesisPHP"
+    echo "  AVISO: No ha configurado este script."
+    echo
+    echo "Pasos a seguir:"
+    echo "1 Verifique que PostgreSQL esté funcionando y"
+    echo "  y que su cuenta de usuario tenga permisos para"
+    echo "  crear y eliminar bases de datos"
+    echo "    $ createuser -D -S genesisphp"
+    echo "    $ createdb -O genesisphp genesisphp_demostracion"
+    echo "    $ psql -l"
+    echo
+    echo "2 Cree archivos sql en el directorio sql con los"
+    echo "  CREATE TABLE e INSERT necesarios para la"
+    echo "  base de datos inicial de su sistema"
+    echo
+    echo "3 Edite CrearBaseDatos.sh"
+    echo "  Cambie las constantes BD y PROPIETARIO"
+    echo
+    echo "4 Ejecute este script y verifique que haya trabajado bien"
+    echo
     exit $E_FATAL
 fi
 
