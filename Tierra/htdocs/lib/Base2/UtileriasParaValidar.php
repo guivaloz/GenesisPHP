@@ -100,7 +100,7 @@ abstract class UtileriasParaValidar {
      * @return boolean Verdadero si es válido
      */
     public static function validar_nom_corto($nom_corto) {
-        if (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ_.]{4,48}$/', $nom_corto)) {
+        if (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ_.]{2,48}$/', $nom_corto)) {
             return true;
         } else {
             return false;
