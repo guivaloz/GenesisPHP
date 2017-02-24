@@ -34,11 +34,11 @@ abstract class UtileriasParaSQL {
      * @return string  Texto fragmento de SQL
      */
     public static function sql_boleano($boleano) {
-        if (is_bool($boleano) && ($boleano == true)) {
+        if (is_bool($boleano) && ($boleano == TRUE)) {
             return 'TRUE';
         } elseif (is_int($boleano) && ($boleano !== 0)) {
             return 'TRUE';
-        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtolower(trim($boleano)) == 'true'))) {
+        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtoupper(trim($boleano)) == 'TRUE'))) {
             return 'TRUE';
         } else {
             return 'FALSE';

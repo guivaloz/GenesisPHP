@@ -34,11 +34,11 @@ abstract class UtileriasParaFormatos {
      * @return string  Texto 'Verdadero' o 'Falso'
      */
     public static function formato_boleano($boleano) {
-        if (is_bool($boleano) && ($boleano == true)) {
+        if (is_bool($boleano) && ($boleano == TRUE)) {
             return 'Verdadero';
         } elseif (is_int($boleano) && ($boleano !== 0)) {
             return 'Verdadero';
-        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtolower(trim($boleano)) == 'true'))) {
+        } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtoupper(trim($boleano)) == 'TRUE'))) {
             return 'Verdadero';
         } else {
             return 'Falso';
@@ -124,7 +124,7 @@ abstract class UtileriasParaFormatos {
      */
     public static function formato_fecha_hora($in_fecha_hora, $in_separador='') {
         $t = strtotime($in_fecha_hora);
-        if ($t === false) {
+        if ($t === FALSE) {
             return ''; // Fecha mal escrita, no se entrega nada
         } else {
             $a        = getdate($t);
@@ -189,22 +189,23 @@ abstract class UtileriasParaFormatos {
     /**
      * Caracteres para web
      *
-     * @param  string  Nombre a convertir, puede tener a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ() .,_-
+     * @param  string  Nombre a convertir
      * @param  boolean Por defecto es falso, si es verdadero se omiten 'y', 'a', 'el', etc.
+     * @param  string  Caracter para separar palabras, por defecto es un guion
      * @return string  Texto convertido a caracteres para web
      */
-    public static function caracteres_para_web($in_nombre, $in_omitir_bandera=false) {
+    public static function caracteres_para_web($in_nombre, $in_omitir_bandera=FALSE, $in_separador='-') {
         // Omitir estas palabras
         $palabras_omitir = array('y', 'a', 'el', 'la', 'los', 'las', 'de', 'del');
         // Cambiar caracteres
         $buscados        = array('ñ', 'Ñ', 'ü', 'Ü', 'á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú');
         $cambios         = array('n', 'n', 'u', 'u', 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u');
         $sin_acentos     = str_replace($buscados, $cambios, $in_nombre);
-        $especiales      = array(' ', '(', ')', '.', ',', '_');
-        $minusculas      = strtolower(str_replace($especiales, '-', $sin_acentos));
+        $especiales      = array('(', ')', '.', ',', ';', '_', '-');
+        $minusculas      = strtolower(str_replace($especiales, ' ', $sin_acentos));
         // Revisar cada palabra
         $palabras = array();
-        foreach (explode('-', $minusculas) as $p) {
+        foreach (explode(' ', $minusculas) as $p) {
             if ($p !== '') {
                 if ($in_omitir_bandera && in_array($p, $palabras_omitir)) {
                     continue;
@@ -214,24 +215,34 @@ abstract class UtileriasParaFormatos {
             }
         }
         // Entregar
-        return implode('-', $palabras); // Pone guiones medios entre las palabras
+        return implode($in_separador, $palabras);
     } // caracteres_para_web
+
+    /**
+     * Caracteres para método
+     *
+     * @param  string  Nombre a convertir
+     * @return string  Texto convertido a caracteres para web
+     */
+    public static function caracteres_para_metodo($in_nombre) {
+        return self::caracteres_para_web($in_nombre, FALSE, '_');
+    } // caracteres_para_metodo
 
     /**
      * Caracteres para clase
      *
-     * @param  string  Nombre a convertir, puede tener a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ() .,_-
+     * @param  string  Nombre a convertir
      * @param  boolean Por defecto es falso, si es verdadero se omiten 'y', 'a', 'el', etc.
      * @return string  Texto convertido a caracteres para web
      */
-    public static function caracteres_para_clase($in_texto, $in_omitir_bandera=false) {
+    public static function caracteres_para_clase($in_texto, $in_omitir_bandera=FALSE) {
         // Omitir estas palabras
         $palabras_omitir = array('y', 'a', 'el', 'la', 'los', 'las', 'de', 'del');
         // Cambiar caracteres
         $buscados        = array('ñ', 'Ñ', 'ü', 'Ü', 'á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú');
         $cambios         = array('n', 'n', 'u', 'u', 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u');
         $sin_acentos     = str_replace($buscados, $cambios, $in_texto);
-        $especiales      = array('(', ')', '.', ',', '_', '-');
+        $especiales      = array('(', ')', '.', ',', ';', '_', '-');
         $minusculas      = strtolower(str_replace($especiales, ' ', $sin_acentos));
         // Poner en mayusculas la primer letra de cada palabra
         $palabras_camel_case = array();

@@ -35,13 +35,13 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_boleano($boleano) {
         if (is_bool($boleano)) {
-            return true;
+            return TRUE;
         } elseif (is_int($boleano)) {
-            return true;
+            return TRUE;
         } elseif (is_string($boleano) && ((strtolower(trim($boleano)) == 't') || (strtolower(trim($boleano)) == 'true') || (strtolower(trim($boleano)) == 'f') || (strtolower(trim($boleano)) == 'false'))) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_boleano
 
@@ -53,11 +53,11 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_nombre($nombre) {
         if (trim($nombre) == '') {
-            return false;
+            return FALSE;
         } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ() .,_-]+$/', $nombre)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_nombre
 
@@ -69,11 +69,11 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_frase($frase) {
         if (trim($frase) == '') {
-            return false;
+            return FALSE;
         } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?()<>"“” .,;:\'\/\[\]*+_-]+$/', $frase)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_frase
 
@@ -85,11 +85,11 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_notas($notas) {
         if (trim($notas) == '') {
-            return false;
+            return FALSE;
         } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?()<>{}|="“” .,:;\'\/\n\r\[\]\\\\_+*-]+$/', $notas)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_notas
 
@@ -101,9 +101,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_nom_corto($nom_corto) {
         if (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ_.]{2,48}$/', $nom_corto)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_nom_corto
 
@@ -115,9 +115,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_curp($curp) {
         if (preg_match('/^[a-zA-Z0-9]{18}$/', $curp)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_curp
 
@@ -129,9 +129,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_rfc($rfc) {
         if (preg_match('/^[a-zA-Z0-9]{10,13}$/', $rfc)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_rfc
 
@@ -143,9 +143,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_cuip($cuip) {
         if (preg_match('/^[a-zA-Z0-9]{1,20}$/', $cuip)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_cuip
 
@@ -157,9 +157,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_contrasena($contrasena) {
         if (preg_match('/^[a-zA-Z0-9.,:_-]{6,24}$/', $contrasena)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_contrasena
 
@@ -172,14 +172,14 @@ abstract class UtileriasParaValidar {
     public static function validar_entero($entero) {
         if (is_string($entero)) {
             if (preg_match('/^\-?[0-9]+$/', $entero)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_int($entero)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_entero
 
@@ -194,14 +194,14 @@ abstract class UtileriasParaValidar {
     public static function validar_serial($serial) {
         if (is_string($serial)) {
             if (preg_match('/^[0-9]+$/', $serial) && (intval($serial) > 0)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_int($serial) && (intval($serial) > 0)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_serial
 
@@ -216,14 +216,14 @@ abstract class UtileriasParaValidar {
     public static function validar_cantidad($cantidad) {
         if (is_string($cantidad)) {
             if (preg_match('/^[0-9]+$/', $cantidad) && (intval($cantidad) >= 0)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_int($cantidad) && ($cantidad >= 0)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_cantidad
 
@@ -236,14 +236,14 @@ abstract class UtileriasParaValidar {
     public static function validar_flotante($flotante) {
         if (is_string($flotante)) {
             if (preg_match('/^\-?[0-9]*\.?[0-9]+$/', $flotante)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_float($flotante) || is_integer($flotante)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_flotante
 
@@ -258,21 +258,21 @@ abstract class UtileriasParaValidar {
             if (preg_match('/^(100|\d{1,4}(\.\d{1,4})?)$/', $porcentaje)) {
                 $flotante = floatval($porcentaje);
                 if (($flotante >= 0) && ($flotante <= 100)) {
-                    return true;
+                    return TRUE;
                 } else {
-                    return false;
+                    return FALSE;
                 }
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_float($porcentaje) || is_integer($porcentaje)) {
             if (($porcentaje >= 0) && ($porcentaje <= 100)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_porcentaje
 
@@ -287,17 +287,17 @@ abstract class UtileriasParaValidar {
             if (preg_match('/^\d{1,3}(\.\d{1,2})?$/', $peso)) {
                 $flotante = floatval($peso);
                if (($flotante >= 0) && ($flotante <= 400)) {
-                return true;
+                return TRUE;
             }
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_float($peso) || is_integer($peso)) {
            if (($peso >= 0) && ($peso <= 400)) {
-                return true;
+                return TRUE;
             }
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_peso
 
@@ -312,21 +312,21 @@ abstract class UtileriasParaValidar {
             if (preg_match('/^\d{1,2}(\.\d{1,2})?$/', $estatura)) {
                 $flotante = floatval($estatura);
                 if (($flotante >= 0.2) && ($flotante <= 2.5)) {
-                    return true;
+                    return TRUE;
                 } else {
-                    return false;
+                    return FALSE;
                 }
             } else {
-                return false;
+                return FALSE;
             }
         } elseif (is_float($estatura) || is_integer($estatura)) {
             if (($estatura >= 0.2) && ($estatura <= 2.5)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_estatura
 
@@ -338,9 +338,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_fecha($fecha) {
         if (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2}$/', $fecha)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_fecha
 
@@ -352,9 +352,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_hora($hora) {
         if ((preg_match('/^\d{1,2}:\d{1,2}:\d{1,2}$/', $hora)) || (preg_match('/^\d{1,2}:\d{1,2}$/', $hora))) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_hora
 
@@ -366,17 +366,17 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_fecha_hora($fecha_hora) {
         if (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}$/', $fecha_hora)) {
-            return true; // AAAA-MM-DD HH:MM:SS
+            return TRUE; // AAAA-MM-DD HH:MM:SS
         } elseif (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2}T\d{1,2}:\d{1,2}:\d{1,2}$/', $fecha_hora)) {
-            return true; // AAAA-MM-DDTHH:MM:SS
+            return TRUE; // AAAA-MM-DDTHH:MM:SS
         } elseif (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2} \d{1,2}:\d{1,2}$/', $fecha_hora)) {
-            return true; // AAAA-MM-DD HH:MM
+            return TRUE; // AAAA-MM-DD HH:MM
         } elseif (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2}T\d{1,2}:\d{1,2}$/', $fecha_hora)) {
-            return true; // AAAA-MM-DDTHH:MM
+            return TRUE; // AAAA-MM-DDTHH:MM
         } elseif (preg_match('/^\d{4}\-\d{1,2}\-\d{1,2}$/', $fecha_hora)) {
-            return true; // AAAA-MM-DD
+            return TRUE; // AAAA-MM-DD
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_fecha_hora
 
@@ -388,9 +388,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_email($email) {
         if (preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@+([_a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]{2,200}\.[a-zA-Z]{2,6}$/', $email)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_email
 
@@ -402,9 +402,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_clave($clave) {
         if (preg_match('/^[A-Z0-9 -]+$/', $clave)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_clave
 
@@ -416,9 +416,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_telefono($telefono) {
         if (preg_match('/^[0-9()\- ]+$/', $telefono)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_telefono
 
@@ -430,9 +430,9 @@ abstract class UtileriasParaValidar {
      */
     public static function validar_celular($celular) {
         if (preg_match('/^[0-9]{10}$/', $celular)) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_telefono
 
@@ -446,21 +446,21 @@ abstract class UtileriasParaValidar {
     public static function validar_geopunto($longitud, $latitud) {
         if (self::validar_flotante($longitud)) {
             if (($longitud >= -180) && ($longitud <= 180)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } else {
-            return false;
+            return FALSE;
         }
         if (self::validar_flotante($latitud)) {
             if (($latitud >= 0) && ($latitud <= 90)) {
-                return true;
+                return TRUE;
             } else {
-                return false;
+                return FALSE;
             }
         } else {
-            return false;
+            return FALSE;
         }
     } // validar_geopunto
 

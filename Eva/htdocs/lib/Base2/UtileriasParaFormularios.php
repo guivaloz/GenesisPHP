@@ -35,11 +35,11 @@ abstract class UtileriasParaFormularios {
      */
     public static function post_boleano($dato) {
         if ($dato === '-') {
-            return null;
+            return NULL;
         } elseif ($dato === 't') {
-            return true;
+            return TRUE;
         } elseif ($dato === 'f') {
-            return false;
+            return FALSE;
         }
     } // post_boleano
 
