@@ -329,6 +329,8 @@ class ElaborarFormulario extends \Base\Plantilla {
                 continue; // Las columnas id y estatus nunca aparecen en los formularios
             } elseif ((is_int($datos['agregar']) && ($datos['agregar'] > 0)) || (is_int($datos['modificar']) && ($datos['modificar'] > 0))) {
                 $a[] = $this->elaborar_formulario_campos_modificables($columna, $datos);
+            } elseif ((is_int($datos['agregar']) && ($datos['agregar'] === 0)) || (is_int($datos['modificar']) && ($datos['modificar'] === 0))) {
+                $a[] = $this->elaborar_formulario_campos_fijos($columna, $datos);
             } else {
                 continue; // No tiene agregar o modificar, ni tiene etiqueta, asi que no aparece en el formulario
             }
