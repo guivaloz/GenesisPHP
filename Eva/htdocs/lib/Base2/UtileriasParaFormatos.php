@@ -201,7 +201,7 @@ abstract class UtileriasParaFormatos {
         $buscados        = array('ñ', 'Ñ', 'ü', 'Ü', 'á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú');
         $cambios         = array('n', 'n', 'u', 'u', 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u');
         $sin_acentos     = str_replace($buscados, $cambios, $in_nombre);
-        $especiales      = array('(', ')', '.', ',', ';', '_', '-');
+        $especiales      = array('(', ')', '.', ',', ';', '_', '-', '°');
         $minusculas      = strtolower(str_replace($especiales, ' ', $sin_acentos));
         // Revisar cada palabra
         $palabras = array();
@@ -242,7 +242,7 @@ abstract class UtileriasParaFormatos {
         $buscados        = array('ñ', 'Ñ', 'ü', 'Ü', 'á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú');
         $cambios         = array('n', 'n', 'u', 'u', 'a', 'a', 'e', 'e', 'i', 'i', 'o', 'o', 'u', 'u');
         $sin_acentos     = str_replace($buscados, $cambios, $in_texto);
-        $especiales      = array('(', ')', '.', ',', ';', '_', '-');
+        $especiales      = array('(', ')', '.', ',', ';', '_', '-', '°');
         $minusculas      = strtolower(str_replace($especiales, ' ', $sin_acentos));
         // Poner en mayusculas la primer letra de cada palabra
         $palabras_camel_case = array();

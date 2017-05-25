@@ -138,11 +138,11 @@ class Celda {
      *
      * @return string Boleano con formato
      */
-    public function formatear_boleano() {
+    public function formatear_cantidad() {
         $this->formato    = 'boleano';
         $this->alineacion = 'centrado';
         return $this->formatear();
-    } // formatear_boleano
+    } // formatear_cantidad
 
     /**
      * Formatear Cantidad

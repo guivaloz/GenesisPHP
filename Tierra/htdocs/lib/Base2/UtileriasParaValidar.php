@@ -108,6 +108,20 @@ abstract class UtileriasParaValidar {
     } // validar_nom_corto
 
     /**
+     * Validar clase
+     *
+     * @param  string  Clase a validar
+     * @return boolean Verdadero si es válido
+     */
+    public static function validar_clase($clase) {
+        if (preg_match('/^[A-Z][a-zA-Z0-9]*$/', $clase)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    } // validar_clase
+
+    /**
      * Validar CURP
      *
      * @param  string  CURP a validar
