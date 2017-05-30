@@ -86,7 +86,7 @@ abstract class UtileriasParaValidar {
     public static function validar_notas($notas) {
         if (trim($notas) == '') {
             return FALSE;
-        } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?()<>{}|="“” .,:;\'\/\n\r\[\]\\\\_+*-]+$/', $notas)) {
+        } elseif (preg_match('/^[a-zA-Z0-9áÁéÉíÍóÓúÚüÜñÑ#&%$@¿?¡!()<>{}|="“” .,:;\'\/\n\r\[\]\\\\_+*-]+$/', $notas)) {
             return TRUE;
         } else {
             return FALSE;
