@@ -1,6 +1,44 @@
+
 # GenesisPHP
 
-PHP code generator to make complete systems /  Generador de código PHP para hacer sistemas completos
+PHP code generator to make complete systems / Generador de código PHP para hacer sistemas completos
+
+### Contenedores Docker
+
+Construya la imagen
+
+    $ cd ~/Documentos/Docker/GenesisPHP/
+    $ docker image build -t guivaloz/genesisphp:latest .
+    $ docker image ls
+    REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
+    guivaloz/genesisphp        latest              bb9c2b665558        1 minutes ago       450 MB
+
+EN CALIENTE: Corra e ingrese a la terminal, compruebe que exitan los directorios
+
+    $ docker container run -it --name genesisphp --rm guivaloz/genesisphp /bin/bash
+    # ls
+    Demostracion  Eva  Tierra
+    # exit
+
+Para construir nuevas imágenes basándose en ésta, cree un Dockerfile para su "Sistema"...
+
+    FROM guivaloz/genesisphp
+    MAINTAINER Guillermo Valdes Lozano <guillermo@movimientolibre.com>
+
+    # Cambiarse al directorio genesisphp
+    WORKDIR /genesisphp
+
+    # Copiar el archivo de configuracion de Bash
+    COPY .bashrc .
+
+    # Modificar en la configuración de Apache el directorio /var/www
+    ENV SISTEMA_DIR /genesisphp/Sistema
+    RUN sed -ri -e 's!/var/www/!${SISTEMA_DIR}!g' /etc/apache2/apache2.conf
+    RUN sed -ri -e 's!/var/www/!${SISTEMA_DIR}!g' /etc/apache2/conf-available/*.conf
+
+    # Modificar en la configuración de Apache el directorio raíz
+    ENV APACHE_DOCUMENT_ROOT /genesisphp/Sistema/htdocs
+    RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 
 ### Historia
 
